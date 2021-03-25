@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-03-25T18:26:32.386Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="me-zkXUZakaEMlBmFvVW" version="14.5.1" type="github">
+<mxfile host="app.diagrams.net" modified="2021-03-25T18:32:54.247Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36" etag="vbNn_jOgMvBlhawdJsAR" version="14.5.1" type="github">
   <diagram id="dYyYIR4Ugpj-6gh6JbMv" name="Page-1">
     <mxGraphModel dx="1290" dy="1740" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -7,7 +7,7 @@
         <mxCell id="c0Frbfkyd1XwwGwyiTW0-1" value="&lt;br&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="880" y="600" width="40" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="c0Frbfkyd1XwwGwyiTW0-2" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center ; text-decoration: underline&quot;&gt;&lt;b&gt;B:ByselfSupplier&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;field1 = value1&lt;br&gt;field2 = value2&lt;br&gt;field3 = value3&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;" vertex="1" parent="1">
+        <mxCell id="c0Frbfkyd1XwwGwyiTW0-2" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center ; text-decoration: underline&quot;&gt;&lt;b&gt;B:ByselfSupplier&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;" vertex="1" parent="1">
           <mxGeometry x="920" y="160" width="160" height="90" as="geometry" />
         </mxCell>
         <mxCell id="c0Frbfkyd1XwwGwyiTW0-7" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center ; text-decoration: underline&quot;&gt;&lt;b&gt;Rise:Item&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;Name = &quot;Rise&quot;&lt;br&gt;Area = &quot;Food&quot;&lt;br&gt;Catalog = 2&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;" vertex="1" parent="1">
@@ -22,7 +22,7 @@
         <mxCell id="c0Frbfkyd1XwwGwyiTW0-10" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center ; text-decoration: underline&quot;&gt;&lt;b&gt;ContractWithA:Contract&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;Conditions = {&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;&quot;No support for LGBT&quot;,&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;&quot;should leave security deposit&quot;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;}&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;ItemVsPrice = {&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;&amp;lt;Bamba, 10&amp;gt;,&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;&amp;lt;Rise, 10&amp;gt;,&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;&amp;lt;Spaghetti, 10&amp;gt;&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;&lt;span&gt;}&lt;/span&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;" vertex="1" parent="1">
           <mxGeometry x="1960" y="120" width="170" height="160" as="geometry" />
         </mxCell>
-        <mxCell id="c0Frbfkyd1XwwGwyiTW0-11" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center ; text-decoration: underline&quot;&gt;&lt;b&gt;A:ByOrderSupplier&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;field1 = value1&lt;br&gt;field2 = value2&lt;br&gt;field3 = value3&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;" vertex="1" parent="1">
+        <mxCell id="c0Frbfkyd1XwwGwyiTW0-11" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center ; text-decoration: underline&quot;&gt;&lt;b&gt;A:ByOrderSupplier&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;" vertex="1" parent="1">
           <mxGeometry x="920" y="40" width="160" height="90" as="geometry" />
         </mxCell>
         <mxCell id="c0Frbfkyd1XwwGwyiTW0-13" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center ; text-decoration: underline&quot;&gt;&lt;b&gt;Spaghetti:Item&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;Name = &quot;Spaghetti&quot;&lt;br&gt;Area = &quot;Food&quot;&lt;br&gt;Catalog = 3&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;" vertex="1" parent="1">
@@ -56,7 +56,7 @@
           <mxGeometry x="1360" y="-130" width="160" height="90" as="geometry" />
         </mxCell>
         <mxCell id="c0Frbfkyd1XwwGwyiTW0-29" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center ; text-decoration: underline&quot;&gt;&lt;b&gt;CardA:SupplierCard&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;field1 = value1&lt;br&gt;field2 = value2&lt;br&gt;field3 = value3&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;" vertex="1" parent="1">
-          <mxGeometry x="1350" width="160" height="90" as="geometry" />
+          <mxGeometry x="1360" width="160" height="90" as="geometry" />
         </mxCell>
         <mxCell id="c0Frbfkyd1XwwGwyiTW0-32" value="&lt;p style=&quot;margin: 0px ; margin-top: 4px ; text-align: center ; text-decoration: underline&quot;&gt;&lt;b&gt;orderFromA:Order&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;Date = 27/03/2021&lt;br&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;" vertex="1" parent="1">
           <mxGeometry x="1360" y="860" width="110" height="50" as="geometry" />
@@ -382,6 +382,39 @@
             <Array as="points">
               <mxPoint x="1950" y="560" />
               <mxPoint x="2045" y="560" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c0Frbfkyd1XwwGwyiTW0-82" value="" style="endArrow=diamondThin;endFill=1;endSize=24;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="c0Frbfkyd1XwwGwyiTW0-17" target="c0Frbfkyd1XwwGwyiTW0-9">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1880" y="900" as="sourcePoint" />
+            <mxPoint x="2220" y="-110" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="1950" y="950" />
+              <mxPoint x="2200" y="950" />
+              <mxPoint x="2200" y="-75" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c0Frbfkyd1XwwGwyiTW0-83" value="" style="endArrow=diamondThin;endFill=1;endSize=24;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="c0Frbfkyd1XwwGwyiTW0-10" target="c0Frbfkyd1XwwGwyiTW0-15">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="1920" y="300" as="sourcePoint" />
+            <mxPoint x="2080" y="300" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="2000" y="360" />
+              <mxPoint x="1550" y="360" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c0Frbfkyd1XwwGwyiTW0-84" value="" style="endArrow=diamondThin;endFill=1;endSize=24;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="c0Frbfkyd1XwwGwyiTW0-9" target="c0Frbfkyd1XwwGwyiTW0-49">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="2025" y="2" as="sourcePoint" />
+            <mxPoint x="2080" y="300" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="2008" y="80" />
+              <mxPoint x="1880" y="80" />
+              <mxPoint x="1880" y="280" />
+              <mxPoint x="1108" y="280" />
             </Array>
           </mxGeometry>
         </mxCell>
