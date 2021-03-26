@@ -1,5 +1,6 @@
 package Business_Layer.Objects;
 
-public class BySelfSupplier {
-
+public class BySelfSupplier extends Supplier {
+	private SupplierCard card;
+	private SupplierProtocol protocol;
 }
