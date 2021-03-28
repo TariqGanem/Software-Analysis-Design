@@ -7,7 +7,7 @@ public class Location {
     private String address;
     private String phoneNumber;
     private String contactName;
-    private Map<Integer,String> products;
+    private Map<Integer, String> products;
 
     public Location(String address, String phoneNumber, String contactName) {
         this.address = address;
