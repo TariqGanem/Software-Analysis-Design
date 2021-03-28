@@ -11,12 +11,13 @@ public class Shipment {
     private String driverId;
     private double shipmentWeight;
     private List<String> log;
+    private List<Document> documents;
     private Location source;
     private List<Location> destinations;
 
-    public Shipment(Date date, String departueHour, String truckPlateNumber, String driverId, double shipmentWeight, Location source) {
+    public Shipment(Date date, String departureHour, String truckPlateNumber, String driverId, double shipmentWeight, Location source) {
         this.date = date;
-        this.departureHour = departueHour;
+        this.departureHour = departureHour;
         this.truckPlateNumber = truckPlateNumber;
         this.driverId = driverId;
         this.shipmentWeight = shipmentWeight;
