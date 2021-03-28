@@ -1,6 +1,7 @@
 package PresentationLayer.Objects;
 
 import PresentationLayer.Menu.MenuItems.MenuItem;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,11 +34,42 @@ public class Printer {
                 "                                                                 |_|   |_|                              \n");
     }
 
+    /**
+     * Printing all menu options
+     */
     public void viewOptions(List<MenuItem> items) {
         System.out.println("\nPlease select an option from the Menu:\n");
         for (int i = 0; i < items.size(); i++) {
-            //TODO
+            System.out.println(i + 1 + ". " + items.get(i).getName());
         }
         System.out.println();
+    }
+
+    /**
+     * Printing formal error message
+     */
+    public void error(String msg) {
+        System.out.println("---ERROR---");
+        System.out.println(msg);
+    }
+
+    /**
+     * Confirmation request
+     *
+     * @return true if the user confirms an action, false otherwise
+     */
+    public boolean confirm() {
+        System.out.print("Continue? [y/n]: ");
+        String answer = scanner.nextLine();
+        System.out.printf("");
+        switch (answer) {
+            case "y":
+                return true;
+            case "n":
+                return false;
+            default:
+                confirm();
+        }
+        return false;
     }
 }
