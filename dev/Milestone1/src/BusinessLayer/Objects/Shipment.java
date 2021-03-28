@@ -6,27 +6,32 @@ import java.util.List;
 
 public class Shipment {
     private Date date;
-    private String departueHour;
+    private String departureHour;
     private String truckPlateNumber;
     private String driverId;
     private double shipmentWeight;
     private List<String> log;
+    private Location source;
+    private List<Location> destinations;
 
-    public Shipment(Date date, String departueHour, String truckPlateNumber, String driverId, double shipmentWeight) {
+    public Shipment(Date date, String departueHour, String truckPlateNumber, String driverId, double shipmentWeight, Location source) {
         this.date = date;
-        this.departueHour = departueHour;
+        this.departureHour = departueHour;
         this.truckPlateNumber = truckPlateNumber;
         this.driverId = driverId;
         this.shipmentWeight = shipmentWeight;
         this.log = new LinkedList<>();
+        this.source = source;
+        this.destinations = new LinkedList<>();
     }
+
 
     public Date getDate() {
         return date;
     }
 
-    public String getDepartueHour() {
-        return departueHour;
+    public String getDepartureHour() {
+        return departureHour;
     }
 
     public String getTruckPlateNumber() {
@@ -43,5 +48,13 @@ public class Shipment {
 
     public List<String> getLog() {
         return log;
+    }
+
+    public Location getSource() {
+        return source;
+    }
+
+    public List<Location> getDestinations() {
+        return destinations;
     }
 }
