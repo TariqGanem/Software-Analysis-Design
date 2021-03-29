@@ -4,6 +4,7 @@ import BusinessLayer.Controllers.DriverController;
 import BusinessLayer.Controllers.LocationController;
 import BusinessLayer.Controllers.ShipmentController;
 import BusinessLayer.Controllers.TruckController;
+import BusinessLayer.Objects.*;
 
 public class Facade {
     private static Facade instance = null;
