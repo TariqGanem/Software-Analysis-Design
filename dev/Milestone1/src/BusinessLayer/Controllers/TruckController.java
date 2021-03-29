@@ -53,6 +53,8 @@ public class TruckController {
         }
         if(maxWeight <= natoWeight)
             throw new Exception("Couldn't add new truck - Illegal truck weight");
+        if(truckPlateNumber == null || model == null)
+            throw new Exception("Couldn't add new truck - Invalid parameters");
         trucks.add(new Truck(truckPlateNumber, model, natoWeight, maxWeight));
     }
 }
