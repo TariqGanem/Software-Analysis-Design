@@ -1,34 +1,58 @@
 package BusinessLayer.Controllers;
 
-import BusinessLayer.Objects.Shipment;
 import BusinessLayer.Objects.Truck;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 public class TruckController {
-    private List<Truck> data;
+    private List<Truck> trucks;
 
     public TruckController() {
-        data = new LinkedList<>();
+        trucks = new LinkedList<>();
     }
 
 
     /***
      * Weighing truck before transportation
-     * @return truck's weight.
+     * @param truckID - Truck unique ID
+     * @return truck's weight
+     * @throws Exception in case of truck not found in the system
      */
     public double weighTruck(String truckID) throws Exception {
         Truck t = getTruck(truckID);
         return t.getNatoWeight() + t.getShipment().getShipmentWeight();
     }
 
+    /***
+     * Searching for the needed truck
+     * @param truckID - Truck unique ID
+     * @return Truck which has the given ID
+     * @throws Exception in case truck not found in the system
+     */
     public Truck getTruck(String truckID) throws Exception {
-        for (Truck t : data) {
+        for (Truck t : trucks) {
             if (t.getTruckPlateNumber().equals(truckID))
                 return t;
         }
-        throw new Exception("No such truck id.");
+        throw new Exception("No such truck id");
+    }
+
+    /***
+     * Adding a new truck of the system
+     * @param truckPlateNumber - Truck unique ID
+     * @param model - Truck's model
+     * @param natoWeight - Truck's weight without the shipment
+     * @param maxWeight - The maximum possible weight of the truck including shipment
+     * @throws Exception in case of invalid parameters
+     */
+    public void addTruck(String truckPlateNumber, String model, double natoWeight, double maxWeight) throws Exception{
+        for (Truck t: trucks) {
+            if(t.getTruckPlateNumber().equals(truckPlateNumber))
+                throw new Exception("Couldn't add new truck - truckPlateNumber already exists");
+        }
+        if(maxWeight <= natoWeight)
+            throw new Exception("Couldn't add new truck - Illegal truck weight");
+        trucks.add(new Truck(truckPlateNumber, model, natoWeight, maxWeight));
     }
 }

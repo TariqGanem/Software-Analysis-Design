@@ -61,7 +61,7 @@ public class Printer {
     public boolean confirm() {
         System.out.print("Continue? [y/n]: ");
         String answer = scanner.nextLine();
-        System.out.printf("");
+        System.out.println();
         switch (answer) {
             case "y":
                 return true;

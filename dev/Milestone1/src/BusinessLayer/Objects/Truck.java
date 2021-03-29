@@ -8,6 +8,7 @@ public class Truck {
     private double natoWeight;
     private double maxWeight;
     private Shipment shipment;
+    private boolean available;
 
     public Truck(String truckPlateNumber, String model, double natoWeight, double maxWeight) {
         this.truckPlateNumber = truckPlateNumber;
@@ -15,14 +16,17 @@ public class Truck {
         this.natoWeight = natoWeight;
         this.maxWeight = maxWeight;
         shipment = null;
+        available = true;
     }
 
     public void transport(Shipment shipment) {
-
+        //TODO
+        available = false;
     }
 
     public void depositShipment() {
         this.shipment = null;
+        available = true;
     }
 
     public String getTruckPlateNumber() {
