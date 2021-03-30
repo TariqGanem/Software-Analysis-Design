@@ -20,10 +20,19 @@ public class Facade {
             employeeController.login(ID);
             response = new Response();
         } catch (Exception e) {
-            response = new Response(e.getMessage());
+            response = new Response(e);
         }
         return response;
     }
 
-    
+    public ResponseT<String> viewProfile(String ID) {
+        ResponseT<String> response;
+        try{
+            String profile = employeeController.viewProfile(ID);
+            response = new ResponseT<String>(profile);
+        } catch (Exception e) {
+            response = new ResponseT<String>(e.getMessage());
+        }
+        return response;
+    }
 }
