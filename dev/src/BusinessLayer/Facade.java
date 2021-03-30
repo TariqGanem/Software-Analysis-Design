@@ -30,6 +30,8 @@ public class Facade {
 
     public Response AssignToShift(String id, Role skill) {
     	try {
+    		if(!employeeController.isValidID(id))
+				throw new IllegalArgumentException("invalid id.");
     		shiftController.AssignToShift(id, skill);
 		} catch (Exception e) {
 			return new Response(e);
@@ -38,15 +40,32 @@ public class Facade {
 	}
 	
 	public Response removeFromShift(String id) {
-		return shiftController.removeFromShift(id);
+		try {
+			if(!employeeController.isValidID(id))
+				throw new IllegalArgumentException("invalid id.");
+			shiftController.removeFromShift(id);
+		} catch (Exception e) {
+			return new Response(e);
+		}
+		return new Response();
 	}
 	
 	public Response definePersonnelForShift(int day, boolean isMorning, Role skill, int qtty) {
-		return shiftController.definePersonnelForShift(day, isMorning, skill, qtty);
+		try {
+			shiftController.definePersonnelForShift(day, isMorning, skill, qtty);
+		} catch (Exception e) {
+			return new Response(e);
+		}
+		return new Response();
 	}
 	
-	public boolean addShift(Date date, boolean isMorning) {
-		
+	public Response addShift(Date date, boolean isMorning) {
+		try {
+			shiftController.addShift(date, isMorning);
+		} catch (Exception e) {
+			return new Response(e);
+		}
+		return new Response();
 	}
     
 
