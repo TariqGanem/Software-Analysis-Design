@@ -1,9 +1,10 @@
 package BusinessLayer;
 
 public enum Role {
-	UTIU,
-	JGI,
-	IUIUY,
-	IUGIUT,
-	KJH
+	StoreManager,
+	HRManager,
+	Cashier,
+	StoreKeeper,
+	StoreManagerAssistant,
+	Stocker
 }

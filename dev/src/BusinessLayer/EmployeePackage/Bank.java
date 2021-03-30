@@ -22,4 +22,8 @@ public class Bank {
     public int getAccountNumber() {
         return accountNumber;
     }
+
+    public String description(){
+        return "Bank id: " + bankId + "\nBranch id: " + branchId + "\nAccount number: " + accountNumber + "\n";
+    }
 }

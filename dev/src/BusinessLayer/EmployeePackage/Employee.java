@@ -1,12 +1,9 @@
 package BusinessLayer.EmployeePackage;
 
-import java.util.Date;
+import BusinessLayer.Role;
 
-enum preferences {
-    WANT,
-    CAN,
-    CANT
-}
+import java.util.Date;
+import java.util.List;
 
 public class Employee {
     private String name;
@@ -17,11 +14,11 @@ public class Employee {
     private String trustFund;
     private int freeDays;
     private int sickDays;
-    private String skills;
+    private List<Role> skills;
     private boolean isManager;
-    private preferences[][] timeFrames = new preferences[6][2];
+    private Preference[][] timeFrames = new Preference[6][2];
 
-    public Employee(String name, String ID, int bankId, int branchId, int accountNumber, float salary, Date startDate, String trustFund, int freeDays, int sickDays, String skills) {
+    public Employee(String name, String ID, int bankId, int branchId, int accountNumber, float salary, Date startDate, String trustFund, int freeDays, int sickDays, List<Role> skills) {
         this.name = name;
         this.ID = ID;
         this.bank = new Bank(bankId, branchId, accountNumber);
@@ -31,11 +28,15 @@ public class Employee {
         this.freeDays = freeDays;
         this.sickDays = sickDays;
         this.skills = skills;
-        isManager = skills.contains("HRManager") || skills.contains("StoreManager");
+        isManager = skills.contains(Role.StoreManager) || skills.contains(Role.HRManager);
     }
 
     public String getID() {
         return ID;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public boolean getIsManager() {
@@ -51,21 +52,55 @@ public class Employee {
             throw new Exception("The preference entered was out of bounds.");
 
         if (isMorning)
-            timeFrames[day][0] = preferences.values()[preference];
+            timeFrames[day][0] = Preference.values()[preference];
         else
-            timeFrames[day][1] = preferences.values()[preference];
+            timeFrames[day][1] = Preference.values()[preference];
 
         return true;
     }
 
-    public preferences getPreference(int day, boolean isMorning) {
+    public Preference getPreference(int day, boolean isMorning) {
         if (isMorning)
             return timeFrames[day][0];
         else
             return timeFrames[day][1];
     }
 
-    public boolean hasSkill(String skill) {
+    public boolean hasSkill(Role skill) {
         return skills.contains(skill);
+    }
+
+    private String describeRoles() {
+        String desc = "";
+        for (Role r : skills) {
+            desc = r.name() + ", ";
+        }
+        return desc.substring(0, desc.length() - 2);
+    }
+
+    private String describeTimePreferences() {
+        String desc = "";
+        desc = "Sunday: \n" + "Morning: " + timeFrames[0][0].name() + "| Evening: " + timeFrames[0][1].name() + "\n" +
+                "Monday: \n" + "Morning: " + timeFrames[1][0].name() + "| Evening: " + timeFrames[1][1].name() + "\n" +
+                "Tuesday: \n" + "Morning: " + timeFrames[2][0].name() + "| Evening: " + timeFrames[2][1].name() + "\n" +
+                "Wednesday: \n" + "Morning: " + timeFrames[3][0].name() + "| Evening: " + timeFrames[3][1].name() + "\n" +
+                "Thursday: \n" + "Morning: " + timeFrames[4][0].name() + "| Evening: " + timeFrames[4][1].name() + "\n" +
+                "Friday: \n" + "Morning: " + timeFrames[5][0].name();
+        return desc;
+    }
+
+    public String viewProfile() {
+        String profile = "";
+        profile = "Name: " + name + "\n" +
+                "ID: " + ID + "\n" +
+                "Bank information:\n" + bank.description() +
+                "Salary: " + salary + "\n" +
+                "Start date: " + startDate.toString() + "\n" +
+                "Trust fund: " + trustFund + "\n" +
+                "Free days: " + freeDays + "\n" +
+                "Sick days: " + sickDays + "\n" +
+                "Roles: " + describeRoles() + "\n" +
+                "Time preferences: \n" + describeRoles() + "\n";
+        return profile;
     }
 }

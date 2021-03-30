@@ -1,5 +1,7 @@
 package BusinessLayer.EmployeePackage;
 
+import BusinessLayer.Role;
+
 import java.util.*;
 
 public class EmployeeController {
@@ -22,7 +24,7 @@ public class EmployeeController {
     }
 
     public boolean addEmployee(String name, String ID, int bankId, int branchId, int accountNumber,
-                               float salary, Date startDate, String trustFund, int freeDays, int sickDays, String skills) throws Exception {
+                               float salary, Date startDate, String trustFund, int freeDays, int sickDays, List<Role> skills) throws Exception {
         for (String s : employees.keySet()) {
             if (s.equals(ID)) {
                 throw new Exception("There is already an employee with the ID: " + ID + " in the system.");
@@ -37,26 +39,28 @@ public class EmployeeController {
         return activeEmployee.changeShiftPreference(day, isMorning, preference);
     }
 
-    public Employee viewProfile(String ID) throws Exception {
+    public String viewProfile(String ID) throws Exception {
         if (activeEmployee.getID().equals(ID))
-            return activeEmployee;
+            return activeEmployee.viewProfile();
         else if (!activeEmployee.getIsManager())
             throw new Exception("The employee currently using the system doesn't have permission to view this content.");
         else
-            return employees.get(ID);
+            return employees.get(ID).viewProfile();
     }
 
     public boolean isValidID(String ID) {
         return employees.keySet().contains(ID);
     }
 
-    public List<Employee> viewAvailableEmployees(int day, boolean isMorning, String skill) {
-        List<Employee> toReturn = new ArrayList<>();
+    public List<String> viewAvailableEmployees(int day, boolean isMorning, Role skill) {
+        List<String> toReturn = new ArrayList<>();
         for (Employee e : employees.values()) {
             if (e.hasSkill(skill)) {
-                preferences p = e.getPreference(day, isMorning);
-                if (p.equals(preferences.WANT) || p.equals(preferences.CAN))
-                    toReturn.add(e);
+                Preference p = e.getPreference(day, isMorning);
+                if (p.equals(Preference.WANT))
+                    toReturn.add(e.getName() + " (" + e.getID() + ") WANTS to work at the specified date.");
+                else if(p.equals(Preference.CAN))
+                    toReturn.add(e.getName() + " (" + e.getID() + ") CAN work at the specified date.");
             }
         }
         return toReturn;

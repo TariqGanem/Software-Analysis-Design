@@ -1,0 +1,14 @@
++ => Addition          |
+- => Removal           |
+# => Change            |
+_______________________|
+
++ Public enum Role in BusinessLayer: Instead of using strings to describe the roles of each employee, we can use a list of Roles.
++ Public enum Preference in BusinessLayer: Instead of using the number 0, 1, 2 to describe whether an employee CAN/WANT/CANT at a certain shift, we will use this enum.
+# Field in Employee: List<String> skills ---> List<Role> skills
+# Field in Employee: int[][] timePreferences ---> Preference[][] timePreferences
+# Field in Shift: Map<String, List<String>> positions ---> Map<Role, List<String>> positions
++ Field in Employee: boolean isManager (describes if an employee is a StoreManager, HRManager or a regular Employee)
+	true -> Employee is a StoreManager or a HRManger
+	false -> otherwise
+# Field in Facade: isAdmin ---> isManager
