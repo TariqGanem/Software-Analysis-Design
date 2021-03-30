@@ -2,14 +2,25 @@ package BusinessLayer.ShiftPackage;
 
 import java.util.Map;
 
+import BusinessLayer.Role;;
+
 public class ShiftPersonnel {
-	private Map<String, Integer>[] empQtty;
+	private Map<Role, Integer>[] empQtty;
 	
 	public ShiftPersonnel() {
 		empQtty = new Map[11];
+		//insert default data
+		
+//		for (Map<Role, Integer> map : empQtty) {
+//			map.put(Role.IUGIUT, 1);
+//			map.put(Role.IUIUY, 1);
+//			map.put(Role.JGI, 1);
+//			map.put(Role.KJH, 1);
+//			map.put(Role.UTIU, 1);
+//		}
 	}
 	
-	public void setQtty(int day, boolean isMorning, String skill, Integer qtty) {
+	public void setQtty(int day, boolean isMorning, Role skill, Integer qtty) {
 		int index = isMorning ? day - 1 : day + 5;
 		if(index > 10 || index < 0)
 			throw new IndexOutOfBoundsException("no such shift.");
@@ -18,7 +29,7 @@ public class ShiftPersonnel {
 		else empQtty[index].put(skill, qtty);
 	}
 	
-	public Integer getQtty(int day, boolean isMorning, String skill) {
+	public Integer getQtty(int day, boolean isMorning, Role skill) {
 		int index = isMorning ? day - 1 : day + 5;
 		if(index > 10 || index < 0)
 			throw new IndexOutOfBoundsException("no such shift.");

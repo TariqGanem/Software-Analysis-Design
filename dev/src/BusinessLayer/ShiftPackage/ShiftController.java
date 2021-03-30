@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import BusinessLayer.Role;
+
 public class ShiftController {
 	private List<Shift> shifts;
 	private ShiftPersonnel sp;
@@ -16,7 +18,7 @@ public class ShiftController {
 		activeShift = null;
 	}
 	
-	public boolean AssignToShift(String id, String skill) {
+	public boolean AssignToShift(String id, Role skill) {
 		if(activeShift == null)
 			throw new NullPointerException("need a shift to assign this employee to.");
 		int amountPlanned = sp.getQtty(getDay(activeShift.getDate()), activeShift.isMorning(), skill);
@@ -34,7 +36,7 @@ public class ShiftController {
 		return true;
 	}
 	
-	public boolean definePersonnelForShift(int day, boolean isMorning, String skill, int qtty) {
+	public boolean definePersonnelForShift(int day, boolean isMorning, Role skill, int qtty) {
 		sp.setQtty(day, isMorning, skill, qtty);
 		return false;
 	}
