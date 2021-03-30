@@ -39,6 +39,15 @@ public class EmployeeController {
         return activeEmployee.changeShiftPreference(day, isMorning, preference);
     }
 
+    public String getSkills(String ID) throws Exception {
+        if (activeEmployee.getID().equals(ID))
+            return activeEmployee.describeRoles();
+        else if (!activeEmployee.getIsManager())
+            throw new Exception("The employee currently using the system doesn't have permission to view this content.");
+        else
+            return employees.get(ID).describeRoles();
+    }
+
     public String viewProfile(String ID) throws Exception {
         if (activeEmployee.getID().equals(ID))
             return activeEmployee.viewProfile();
@@ -51,6 +60,8 @@ public class EmployeeController {
     public boolean isValidID(String ID) {
         return employees.keySet().contains(ID);
     }
+
+    public boolean isManager() { return activeEmployee.getIsManager(); }
 
     public List<String> viewAvailableEmployees(int day, boolean isMorning, Role skill) {
         List<String> toReturn = new ArrayList<>();

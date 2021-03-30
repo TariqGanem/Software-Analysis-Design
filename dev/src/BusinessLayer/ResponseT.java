@@ -5,6 +5,7 @@ public class ResponseT<T> extends Response {
 
     public ResponseT(Exception ex) {
         super(ex);
+        this.value = null;
     }
 
     public ResponseT(T value) {
