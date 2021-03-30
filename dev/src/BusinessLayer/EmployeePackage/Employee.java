@@ -70,7 +70,7 @@ public class Employee {
         return skills.contains(skill);
     }
 
-    private String describeRoles() {
+    public String describeRoles() {
         String desc = "";
         for (Role r : skills) {
             desc = r.name() + ", ";

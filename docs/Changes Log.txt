@@ -11,4 +11,5 @@ _______________________|
 + Field in Employee: boolean isManager (describes if an employee is a StoreManager, HRManager or a regular Employee)
 	true -> Employee is a StoreManager or a HRManger
 	false -> otherwise
-# Field in Facade: isAdmin ---> isManager
+- Field in Facade: isAdmin removed
+- Field in BackendController: isManager removed
