@@ -1,4 +1,4 @@
-package BusinessLayer;
+package Resources;
 
 public enum Role {
 	StoreManager,

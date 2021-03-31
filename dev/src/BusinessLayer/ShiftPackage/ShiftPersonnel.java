@@ -2,7 +2,7 @@ package BusinessLayer.ShiftPackage;
 
 import java.util.Map;
 
-import BusinessLayer.Role;;
+import Resources.Role;;
 
 public class ShiftPersonnel {
 	private Map<Role, Integer>[] empQtty;

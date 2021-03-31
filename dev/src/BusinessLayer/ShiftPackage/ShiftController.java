@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import BusinessLayer.Role;
+import Resources.Role;
 
 public class ShiftController {
 	private List<Shift> shifts;

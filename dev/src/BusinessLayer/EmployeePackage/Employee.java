@@ -1,6 +1,7 @@
 package BusinessLayer.EmployeePackage;
 
-import BusinessLayer.Role;
+import Resources.Preference;
+import Resources.Role;
 
 import java.util.Date;
 import java.util.List;
