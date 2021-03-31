@@ -3,7 +3,9 @@ package BusinessLayer.ShiftPackage;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import BusinessLayer.Role;
 
@@ -53,6 +55,17 @@ public class ShiftController {
 		Calendar cal = Calendar.getInstance();
 	    cal.setTime(date);
 	    return cal.get(Calendar.DAY_OF_WEEK);
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	public Map<Role, Shift> getEmpShifts(String id){
+		Map<Role, Shift> empShifts = new HashMap<Role, Shift>();
+		for (Shift shift : shifts) {
+			Role role = shift.isAssignedToShift(id);
+			if(role != null)
+				empShifts.put(role, shift);
+		}
+		return empShifts;
 	}
 	
 }

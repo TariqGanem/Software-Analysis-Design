@@ -1,22 +1,21 @@
 package BusinessLayer;
 
-import java.util.Date;
-
 import BusinessLayer.EmployeePackage.*;
 import BusinessLayer.ShiftPackage.*;
-
 import java.util.Date;
 import java.util.List;
+
+import javax.naming.NoPermissionException;
 
 public class Facade {
     private EmployeeController employeeController;
     private ShiftController shiftController;
-    private boolean isManager;
+    //private boolean isManager;
 
     public Facade() {
         employeeController = new EmployeeController();
         shiftController = new ShiftController();
-        isManager = false;
+        //isManager = false;
     }
 
     public Response login(String ID) {
@@ -35,6 +34,8 @@ public class Facade {
     	try {
     		if(!employeeController.isValidID(id))
 				throw new IllegalArgumentException("invalid id.");
+    		if(!employeeController.isManager())
+    			throw new NoPermissionException("this act can be performed by managers only.");
     		shiftController.AssignToShift(id, skill);
 		} catch (Exception e) {
 			return new Response(e);
@@ -46,6 +47,8 @@ public class Facade {
 		try {
 			if(!employeeController.isValidID(id))
 				throw new IllegalArgumentException("invalid id.");
+			if(!employeeController.isManager())
+				throw new NoPermissionException("this act can be performed by managers only.");
 			shiftController.removeFromShift(id);
 		} catch (Exception e) {
 			return new Response(e);
@@ -55,6 +58,8 @@ public class Facade {
 	
 	public Response definePersonnelForShift(int day, boolean isMorning, Role skill, int qtty) {
 		try {
+			if(!employeeController.isManager())
+				throw new NoPermissionException("this act can be performed by managers only.");
 			shiftController.definePersonnelForShift(day, isMorning, skill, qtty);
 		} catch (Exception e) {
 			return new Response(e);
@@ -64,6 +69,8 @@ public class Facade {
 	
 	public Response addShift(Date date, boolean isMorning) {
 		try {
+			if(!employeeController.isManager())
+				throw new IllegalArgumentException("this act can be performed by managers only.");
 			shiftController.addShift(date, isMorning);
 		} catch (Exception e) {
 			return new Response(e);
