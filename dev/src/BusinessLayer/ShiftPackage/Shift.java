@@ -1,7 +1,7 @@
 package BusinessLayer.ShiftPackage;
 
 import java.util.*;
-import BusinessLayer.Role;
+import Resources.Role;
 
 public class Shift {
 	private Date date;

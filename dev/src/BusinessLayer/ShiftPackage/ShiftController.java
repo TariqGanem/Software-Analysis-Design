@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import BusinessLayer.Role;
+import Resources.Role;
 
 public class ShiftController {
 	private List<Shift> shifts;

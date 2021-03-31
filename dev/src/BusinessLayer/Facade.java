@@ -4,8 +4,10 @@ import java.util.Date;
 
 import BusinessLayer.EmployeePackage.*;
 import BusinessLayer.ShiftPackage.*;
+import DTOPackage.EmployeeDTO;
+import DTOPackage.ShiftDTO;
+import Resources.Role;
 
-import java.util.Date;
 import java.util.List;
 
 public class Facade {
@@ -17,6 +19,30 @@ public class Facade {
         employeeController = new EmployeeController();
         shiftController = new ShiftController();
         isManager = false;
+    }
+
+    public ResponseT<EmployeeDTO> getEmployee(String ID) {
+
+    }
+
+    public Response setEmployee(EmployeeDTO employee) {
+
+    }
+
+    private EmployeeDTO toEmployeeDTO(Employee employee) {
+
+    }
+
+    public ResponseT<ShiftDTO> getShift(Date date, boolean isMorning) {
+
+    }
+
+    public Response setShift(ShiftDTO shift) {
+
+    }
+
+    private ShiftDTO toShiftDTO(Shift shift) {
+
     }
 
     public Response login(String ID) {
@@ -31,7 +57,7 @@ public class Facade {
     }
 
 
-    public Response AssignToShift(String id, Role skill) {
+    /*public Response AssignToShift(String id, Role skill) {
     	try {
     		if(!employeeController.isValidID(id))
 				throw new IllegalArgumentException("invalid id.");
@@ -40,9 +66,9 @@ public class Facade {
 			return new Response(e);
 		}
 		return new Response();
-	}
+	}*/
 	
-	public Response removeFromShift(String id) {
+	/*public Response removeFromShift(String id) {
 		try {
 			if(!employeeController.isValidID(id))
 				throw new IllegalArgumentException("invalid id.");
@@ -51,28 +77,27 @@ public class Facade {
 			return new Response(e);
 		}
 		return new Response();
-	}
-	
-	public Response definePersonnelForShift(int day, boolean isMorning, Role skill, int qtty) {
-		try {
-			shiftController.definePersonnelForShift(day, isMorning, skill, qtty);
-		} catch (Exception e) {
-			return new Response(e);
-		}
-		return new Response();
-	}
-	
-	public Response addShift(Date date, boolean isMorning) {
-		try {
-			shiftController.addShift(date, isMorning);
-		} catch (Exception e) {
-			return new Response(e);
-		}
-		return new Response();
-	}
-    
+	}*/
 
-    public ResponseT<String> viewProfile(String ID) {
+    public Response definePersonnelForShift(int day, boolean isMorning, Role skill, int qtty) {
+        try {
+            shiftController.definePersonnelForShift(day, isMorning, skill, qtty);
+        } catch (Exception e) {
+            return new Response(e);
+        }
+        return new Response();
+    }
+
+    public Response addShift(Date date, boolean isMorning) {
+        try {
+            shiftController.addShift(date, isMorning);
+        } catch (Exception e) {
+            return new Response(e);
+        }
+        return new Response();
+    }
+
+    /*public ResponseT<String> viewProfile(String ID) {
         ResponseT<String> response;
         try {
             String profile = employeeController.viewProfile(ID);
@@ -81,9 +106,9 @@ public class Facade {
             response = new ResponseT<String>(e);
         }
         return response;
-    }
+    }*/
 
-    public Response changeShiftPreference(int day, boolean isMorning, int preference) {
+    /*public Response changeShiftPreference(int day, boolean isMorning, int preference) {
         Response response;
         try {
             employeeController.changeShiftPreference(day, isMorning, preference);
@@ -92,7 +117,7 @@ public class Facade {
             response = new Response(e);
         }
         return response;
-    }
+    }*/
 
     public Response addEmployee(String name, String ID, int bankId, int branchId, int accountNumber, float salary,
                                 Date startDate, String trustFund, int freeDays, int sickDays, List<Role> skills) {
@@ -106,7 +131,7 @@ public class Facade {
         return response;
     }
 
-    public ResponseT<String> getSkills(String ID) {
+    /*public ResponseT<String> getSkills(String ID) {
         ResponseT<String> response;
         try {
             String roles = employeeController.getSkills(ID);
@@ -115,7 +140,7 @@ public class Facade {
             response = new ResponseT<String>(e);
         }
         return response;
-    }
+    }*/
 
     public ResponseT<List<String>> viewAvailableEmployees(int day, boolean isMorning, Role skill) {
         ResponseT<List<String>> response;

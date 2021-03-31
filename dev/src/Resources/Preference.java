@@ -1,4 +1,4 @@
-package BusinessLayer.EmployeePackage;
+package Resources;
 
 public enum Preference {
     WANT,
