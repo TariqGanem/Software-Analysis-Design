@@ -6,6 +6,8 @@ import DTOPackage.EmployeeDTO;
 import DTOPackage.ShiftDTO;
 import Resources.Role;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.naming.NoPermissionException;
@@ -13,16 +15,16 @@ import javax.naming.NoPermissionException;
 public class Facade {
     private EmployeeController employeeController;
     private ShiftController shiftController;
-    //private boolean isManager;
+    private boolean isManager;
 
     public Facade() {
         employeeController = new EmployeeController();
         shiftController = new ShiftController();
-        //isManager = false;
+        isManager = false;
     }
 
     public ResponseT<EmployeeDTO> getEmployee(String ID) {
-
+    	
     }
 
     public Response setEmployee(EmployeeDTO employee) {
@@ -34,21 +36,18 @@ public class Facade {
     }
 
     public ResponseT<ShiftDTO> getShift(Date date, boolean isMorning) {
-
-    }
-
-    public Response setShift(ShiftDTO shift) {
-
+    	return new ResponseT<ShiftDTO>(toShiftDTO(shiftController.getShift(date, isMorning)));
     }
 
     private ShiftDTO toShiftDTO(Shift shift) {
-
+    	return new ShiftDTO(shift.getDate(), shift.isMorning(), shift.getPositions());
     }
 
     public Response login(String ID) {
         Response response;
         try {
             employeeController.login(ID);
+            isManager = employeeController.isManager();
             response = new Response();
         } catch (Exception e) {
             response = new Response(e);
@@ -57,7 +56,7 @@ public class Facade {
     }
 
 
-    /*public Response AssignToShift(String id, Role skill) {
+    public Response AssignToShift(String id, Role skill) {
     	try {
     		if(!employeeController.isValidID(id))
 				throw new IllegalArgumentException("invalid id.");
@@ -68,9 +67,9 @@ public class Facade {
 			return new Response(e);
 		}
 		return new Response();
-	}*/
+	}
 	
-	/*public Response removeFromShift(String id) {
+	public Response removeFromShift(String id) {
 		try {
 			if(!employeeController.isValidID(id))
 				throw new IllegalArgumentException("invalid id.");
@@ -81,10 +80,12 @@ public class Facade {
 			return new Response(e);
 		}
 		return new Response();
-	}*/
+	}
 
     public Response definePersonnelForShift(int day, boolean isMorning, Role skill, int qtty) {
         try {
+        	if(!employeeController.isManager())
+    			throw new NoPermissionException("this act can be performed by managers only.");
             shiftController.definePersonnelForShift(day, isMorning, skill, qtty);
         } catch (Exception e) {
             return new Response(e);
@@ -94,7 +95,20 @@ public class Facade {
 
     public Response addShift(Date date, boolean isMorning) {
         try {
+        	if(!employeeController.isManager())
+    			throw new NoPermissionException("this act can be performed by managers only.");
             shiftController.addShift(date, isMorning);
+        } catch (Exception e) {
+            return new Response(e);
+        }
+        return new Response();
+    }
+    
+    public Response removeShift(Date date, boolean isMorning) {
+        try {
+        	if(!employeeController.isManager())
+    			throw new NoPermissionException("this act can be performed by managers only.");
+            shiftController.removeShift(date, isMorning);
         } catch (Exception e) {
             return new Response(e);
         }

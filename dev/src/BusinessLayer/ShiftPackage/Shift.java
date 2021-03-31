@@ -37,23 +37,22 @@ public class Shift {
 		return isMorning;
 	}
 	
-	
-	/////////////////////////////////////////////////////////
-	public List<String> getAssignedEmployees(){
-		List<String> ans = new ArrayList<String>();
-		for (List<String> lst : positions.values())
-			ans.addAll(lst);
-		return ans;
+	public Map<Role, List<String>> getPositions(){
+		return new HashMap<Role, List<String>>(positions);
 	}
 	
-	public Role isAssignedToShift(String id) {
-		for (Role role : positions.keySet())
-			if(positions.get(role).contains(id))
-				return role;
-		return null;
+//	/////////////////////////////////////////////////////////
+//	public List<String> getAssignedEmployees(){
+//		List<String> ans = new ArrayList<String>();
 //		for (List<String> lst : positions.values())
-//			if(lst.contains(id))
-//				return true;
-//		return false;
-	}
+//			ans.addAll(lst);
+//		return ans;
+//	}
+//	
+//	public Role isAssignedToShift(String id) {
+//		for (Role role : positions.keySet())
+//			if(positions.get(role).contains(id))
+//				return role;
+//		return null;
+//	}
 }

@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+
+import com.sun.xml.internal.bind.v2.TODO;
 
 import Resources.Role;
 
@@ -20,6 +23,13 @@ public class ShiftController {
 		activeShift = null;
 	}
 	
+	public Shift getShift(Date date, boolean isMorning) {
+		for (Shift shift : shifts) 
+			if(shift.getDate().equals(date) && shift.isMorning()==isMorning)
+				return shift;
+		throw new NoSuchElementException("there is no shift at the time you want.");
+	}
+		
 	public boolean AssignToShift(String id, Role skill) {
 		if(activeShift == null)
 			throw new NullPointerException("need a shift to assign this employee to.");
@@ -51,21 +61,25 @@ public class ShiftController {
 		return shifts.add(new Shift(date, isMorning));
 	}
 	
+	public boolean removeShift(Date date, boolean isMorning) {
+		return shifts.remove(getShift(date, isMorning));
+	}
+	
 	private int getDay(Date date) {
 		Calendar cal = Calendar.getInstance();
 	    cal.setTime(date);
 	    return cal.get(Calendar.DAY_OF_WEEK);
 	}
 	
-	/////////////////////////////////////////////////////////////////
-	public Map<Role, Shift> getEmpShifts(String id){
-		Map<Role, Shift> empShifts = new HashMap<Role, Shift>();
-		for (Shift shift : shifts) {
-			Role role = shift.isAssignedToShift(id);
-			if(role != null)
-				empShifts.put(role, shift);
-		}
-		return empShifts;
-	}
+//	/////////////////////////////////////////////////////////////////
+//	public Map<Role, Shift> getEmpShifts(String id){
+//		Map<Role, Shift> empShifts = new HashMap<Role, Shift>();
+//		for (Shift shift : shifts) {
+//			Role role = shift.isAssignedToShift(id);
+//			if(role != null)
+//				empShifts.put(role, shift);
+//		}
+//		return empShifts;
+//	}
 	
 }
