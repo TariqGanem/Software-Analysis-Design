@@ -1,7 +1,5 @@
 package DTOPackage;
 
-import BusinessLayer.EmployeePackage.Bank;
-
 import Resources.Preference;
 import Resources.Role;
 
@@ -11,7 +9,9 @@ import java.util.List;
 public class EmployeeDTO {
     public String name;
     public String ID;
-    public Bank bank;
+    public int bankId;
+    public int branchId;
+    public int accountNumber;
     public float salary;
     public Date startDate;
     public String trustFund;

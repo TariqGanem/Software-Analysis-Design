@@ -11,5 +11,14 @@ _______________________|
 + Field in Employee: boolean isManager (describes if an employee is a StoreManager, HRManager or a regular Employee)
 	true -> Employee is a StoreManager or a HRManger
 	false -> otherwise
-- Field in Facade: isAdmin removed
 - Field in BackendController: isManager removed
+- Field in Employee: isManager removed
+- Removed Bank object to make it easier to use the DTO objects
++ Fields in Employee: bankId, branchId, accountNumber
++ public class EmployeeDTO: Represents an object that the presentation layer can mutate and then send back to the businessLayer.
++ public class ShiftDTO: Represents an object that the presentation layer can mutate and then send back to the businessLayer.
++ Added test class "EmployeeTest" to test the Employee logic
++ Added test class "EmployeeControllerTest" to test the EmployeeController logic
++ Added test class "ShiftTest" to test the Shift logic
++ Added test class "ShiftControllerTest" to test the ShiftController logic
++ Added test class "ShiftPersonnelTest" to test the ShiftPersonnel logic
