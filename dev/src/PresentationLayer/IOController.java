@@ -1,7 +1,5 @@
 package PresentationLayer;
 
-import org.omg.Messaging.SYNC_WITH_TRANSPORT;
-
 import java.util.Scanner;
 
 public class IOController {
