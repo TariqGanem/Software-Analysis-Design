@@ -2,6 +2,7 @@ package BusinessLayer.Controllers;
 
 import BusinessLayer.Objects.Location;
 import BusinessLayer.Objects.Shipment;
+
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,8 +23,8 @@ public class ShipmentController {
      * @throws Exception in case of invalid parameters
      */
     public Shipment getShipment(Date date, String departureHour, String driverId) throws Exception {
-        for (Shipment s: data) {
-            if(s.getDate().compareTo(date) == 0 && s.getDepartureHour().equals(departureHour) && s.getDriverId().equals(driverId))
+        for (Shipment s : data) {
+            if (s.getDate().compareTo(date) == 0 && s.getDepartureHour().equals(departureHour) && s.getDriverId().equals(driverId))
                 return s;
         }
         throw new Exception("No such shipment");
@@ -40,16 +41,16 @@ public class ShipmentController {
      * @throws Exception in case of invalid parameters
      */
     public void addShipment(Date date, String departureHour, String truckPlateNumber, String driverId, double shipmentWeight, Location source) throws Exception {
-        if(departureHour == null || departureHour.trim().isEmpty())
+        if (departureHour == null || departureHour.trim().isEmpty())
             throw new Exception("Couldn't add new shipment - Invalid parameters");
-        if(truckPlateNumber == null || truckPlateNumber.trim().isEmpty())
+        if (truckPlateNumber == null || truckPlateNumber.trim().isEmpty())
             throw new Exception("Couldn't add new shipment - Invalid parameters");
-        if(driverId == null || driverId.trim().isEmpty())
+        if (driverId == null || driverId.trim().isEmpty())
             throw new Exception("Couldn't add new shipment - Invalid parameters");
-        if(shipmentWeight <= 0 || source == null)
+        if (shipmentWeight <= 0 || source == null)
             throw new Exception("Couldn't add new shipment - Invalid parameters");
-        for (Shipment s: data) {
-            if(s.getDate().compareTo(date) == 0 && s.getDepartureHour().equals(departureHour) && s.getDriverId().equals(driverId))
+        for (Shipment s : data) {
+            if (s.getDate().compareTo(date) == 0 && s.getDepartureHour().equals(departureHour) && s.getDriverId().equals(driverId))
                 throw new Exception("Couldn't add new shipment - Shipment already exists");
         }
         data.add(new Shipment(date, departureHour, truckPlateNumber, driverId, shipmentWeight, source));

@@ -19,8 +19,8 @@ public class DriverController {
      * @throws Exception in case driver not found in the system
      */
     public Driver getDriver(String driverID) throws Exception {
-        for (Driver d: data) {
-            if(d.getId().equals(driverID))
+        for (Driver d : data) {
+            if (d.getId().equals(driverID))
                 return d;
         }
         throw new Exception("No such driver id");
@@ -34,11 +34,11 @@ public class DriverController {
      * @throws Exception in case of invalid parameters
      */
     public void addDriver(String id, String name, double allowedWeight) throws Exception {
-        for (Driver d: data) {
-            if(d.getId().equals(id))
+        for (Driver d : data) {
+            if (d.getId().equals(id))
                 throw new Exception("Couldn't add new driver - driverId already exists");
         }
-        if(name == null || id == null || allowedWeight <= 0)
+        if (name == null || id == null || allowedWeight <= 0)
             throw new Exception("Couldn't add new driver - Invalid parameters");
         data.add(new Driver(id, name, allowedWeight));
     }

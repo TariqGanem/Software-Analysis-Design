@@ -1,6 +1,6 @@
 package PresentationLayer.Menu.MenuItems;
 
-import BusinessLayer.Facade.Facade;
+import BusinessLayer.Facade;
 
 public class Exit extends MenuItem {
     public Exit(String name) {

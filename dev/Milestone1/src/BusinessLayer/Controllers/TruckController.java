@@ -46,14 +46,14 @@ public class TruckController {
      * @param maxWeight - The maximum possible weight of the truck including shipment
      * @throws Exception in case of invalid parameters
      */
-    public void addTruck(String truckPlateNumber, String model, double natoWeight, double maxWeight) throws Exception{
-        for (Truck t: trucks) {
-            if(t.getTruckPlateNumber().equals(truckPlateNumber))
+    public void addTruck(String truckPlateNumber, String model, double natoWeight, double maxWeight) throws Exception {
+        for (Truck t : trucks) {
+            if (t.getTruckPlateNumber().equals(truckPlateNumber))
                 throw new Exception("Couldn't add new truck - truckPlateNumber already exists");
         }
-        if(maxWeight <= natoWeight)
+        if (maxWeight <= natoWeight)
             throw new Exception("Couldn't add new truck - Illegal truck weight");
-        if(truckPlateNumber == null || model == null)
+        if (truckPlateNumber == null || model == null)
             throw new Exception("Couldn't add new truck - Invalid parameters");
         trucks.add(new Truck(truckPlateNumber, model, natoWeight, maxWeight));
     }

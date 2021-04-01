@@ -1,6 +1,7 @@
 package BusinessLayer.Controllers;
 
 import BusinessLayer.Objects.Location;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,8 +19,8 @@ public class LocationController {
      * @throws Exception in case of invalid parameters
      */
     public Location getLocation(String address) throws Exception {
-        for (Location location: data) {
-            if(location.getAddress().equals(address))
+        for (Location location : data) {
+            if (location.getAddress().equals(address))
                 return location;
         }
         throw new Exception("No such location");
@@ -33,11 +34,11 @@ public class LocationController {
      * @throws Exception in case of invalid parameters
      */
     public void addLocation(String address, String phoneNumber, String contactName) throws Exception {
-        for (Location location: data) {
-            if(location.getAddress().equals(address))
+        for (Location location : data) {
+            if (location.getAddress().equals(address))
                 throw new Exception("Couldn't add new location - address already exists");
         }
-        if(address == null || phoneNumber == null || contactName == null)
+        if (address == null || phoneNumber == null || contactName == null)
             throw new Exception("Couldn't add new location - Invalid parameters");
         data.add(new Location(address, phoneNumber, contactName));
     }

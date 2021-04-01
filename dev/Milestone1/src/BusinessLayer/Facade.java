@@ -1,13 +1,12 @@
-package BusinessLayer.Facade;
+package BusinessLayer;
 
 import BusinessLayer.Controllers.DriverController;
 import BusinessLayer.Controllers.LocationController;
 import BusinessLayer.Controllers.ShipmentController;
 import BusinessLayer.Controllers.TruckController;
-import BusinessLayer.Objects.*;
 
 public class Facade {
-    private static Facade instance = null;
+    private Facade instance = null;
     private DriverController driverController;
     private TruckController truckController;
     private LocationController locationController;
@@ -20,10 +19,9 @@ public class Facade {
         this.shipmentController = new ShipmentController();
     }
 
-    public static Facade getInstance() {
+    public Facade getInstance() {
         if (instance == null)
             instance = new Facade();
         return instance;
     }
-
 }
