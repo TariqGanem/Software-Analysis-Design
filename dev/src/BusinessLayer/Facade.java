@@ -1,7 +1,6 @@
 package BusinessLayer;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
 import BusinessLayer.EmployeePackage.*;
 import BusinessLayer.ShiftPackage.*;
@@ -11,8 +10,6 @@ import Resources.Preference;
 import Resources.Role;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 
 import javax.naming.NoPermissionException;
 
@@ -90,11 +87,11 @@ public class Facade {
     public ResponseT<ShiftDTO> getShift(Date date, boolean isMorning) {
     	return new ResponseT<ShiftDTO>(toShiftDTO(shiftController.getShift(date, isMorning)));
     }
-
+*/
     private ShiftDTO toShiftDTO(Shift shift) {
     	return new ShiftDTO(shift.getDate(), shift.isMorning(), shift.getPositions());
     }
-*/
+
     public Response login(String ID) {
         Response response;
         try {
@@ -106,7 +103,6 @@ public class Facade {
         }
         return response;
     }
-
 
     public Response AssignToShift(String id, Role skill) {
     	try {
@@ -188,6 +184,16 @@ public class Facade {
             response = new ResponseT<List<String>>(e);
         }
         return response;
+    }
+
+    public ResponseT<Map<ShiftDTO, Role>> getEmpShifts(String id){
+        Map<Shift, Role> shifts = shiftController.getEmpShifts(id);
+        Map<ShiftDTO, Role> ret = new HashMap<>();
+        for(Shift shift : shifts.keySet()){
+            ShiftDTO sDTO = toShiftDTO(shift);
+            ret.put(sDTO, shifts.get(shift));
+        }
+        return new ResponseT<>(ret);
     }
 
 }

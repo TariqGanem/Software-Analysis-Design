@@ -1,10 +1,6 @@
 package BusinessLayer.ShiftPackage;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import Resources.Role;
 
@@ -73,15 +69,15 @@ public class ShiftController {
 	    return cal.get(Calendar.DAY_OF_WEEK);
 	}
 	
-//	/////////////////////////////////////////////////////////////////
-//	public Map<Role, Shift> getEmpShifts(String id){
-//		Map<Role, Shift> empShifts = new HashMap<Role, Shift>();
-//		for (Shift shift : shifts) {
-//			Role role = shift.isAssignedToShift(id);
-//			if(role != null)
-//				empShifts.put(role, shift);
-//		}
-//		return empShifts;
-//	}
+	/////////////////////////////////////////////////////////////////
+	public Map<Shift, Role> getEmpShifts(String id){
+		Map<Shift, Role> empShifts = new HashMap();
+		for (Shift shift : shifts) {
+			Role role = shift.isAssignedToShift(id);
+			if(role != null)
+				empShifts.put(shift, role);
+		}
+		return empShifts;
+	}
 	
 }
