@@ -11,6 +11,7 @@ _______________________|
 + Field in Employee: boolean isManager (describes if an employee is a StoreManager, HRManager or a regular Employee)
 	true -> Employee is a StoreManager or a HRManger
 	false -> otherwise
+- Field in Facade: isAdmin removed
 - Field in BackendController: isManager removed
 - Field in Employee: isManager removed
 - Removed Bank object to make it easier to use the DTO objects
@@ -22,3 +23,5 @@ _______________________|
 + Added test class "ShiftTest" to test the Shift logic
 + Added test class "ShiftControllerTest" to test the ShiftController logic
 + Added test class "ShiftPersonnelTest" to test the ShiftPersonnel logic
++ Field in BackendController: String activeEmployee
++ public class EmployeeModule: contains main and responsible for displaying the menus and getting user input
