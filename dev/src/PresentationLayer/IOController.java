@@ -1,6 +1,5 @@
 package PresentationLayer;
 
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class IOController {
@@ -22,7 +21,17 @@ public class IOController {
     }
 
     public int getInt() {
-        return scanner.nextInt();
+        String value = "";
+        Integer ret = null;
+        do {
+            try {
+                value = scanner.next();
+                ret = Integer.parseInt(value);
+            } catch (Exception ignored) {
+                System.out.println("Please enter an integer.");
+            }
+        } while (ret == null);
+        return ret;
     }
 
     public void print(String str) {

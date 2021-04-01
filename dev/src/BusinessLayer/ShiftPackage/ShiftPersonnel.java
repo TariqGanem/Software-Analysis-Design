@@ -1,5 +1,6 @@
 package BusinessLayer.ShiftPackage;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import Resources.Role;;
@@ -9,6 +10,9 @@ public class ShiftPersonnel {
 	
 	public ShiftPersonnel() {
 		empQtty = new Map[11];
+		for (int i = 0; i < 11; i++) {
+			empQtty[i] = new HashMap<>();
+		}
 		//insert default data
 		
 		for (Map<Role, Integer> map : empQtty) {

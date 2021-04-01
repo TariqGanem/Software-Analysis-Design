@@ -17,4 +17,8 @@ public class ResponseT<T> extends Response {
         super(ex);
         this.value = value;
     }
+
+    public T getValue() {
+        return value;
+    }
 }

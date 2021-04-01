@@ -5,23 +5,25 @@ import java.util.*;
 import BusinessLayer.EmployeePackage.*;
 import BusinessLayer.ShiftPackage.*;
 import DTOPackage.EmployeeDTO;
-import DTOPackage.ShiftDTO;
 import Resources.Preference;
 import Resources.Role;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.naming.NoPermissionException;
 
 public class Facade {
     private EmployeeController employeeController;
     private ShiftController shiftController;
-    private boolean isManager;
 
     public Facade() {
         employeeController = new EmployeeController();
         shiftController = new ShiftController();
-        isManager = false;
+    }
+
+    public boolean getIsManager() {
+        return employeeController.isManager();
     }
 
     public ResponseT<EmployeeDTO> getEmployee(String ID) {
@@ -83,6 +85,7 @@ public class Facade {
         toReturn.timeFrames = newTimeFrames;
         return toReturn;
     }
+
 /*
     public ResponseT<ShiftDTO> getShift(Date date, boolean isMorning) {
     	return new ResponseT<ShiftDTO>(toShiftDTO(shiftController.getShift(date, isMorning)));
@@ -96,7 +99,6 @@ public class Facade {
         Response response;
         try {
             employeeController.login(ID);
-            isManager = employeeController.isManager();
             response = new Response();
         } catch (Exception e) {
             response = new Response(e);
@@ -105,35 +107,35 @@ public class Facade {
     }
 
     public Response AssignToShift(String id, Role skill) {
-    	try {
-    		if(!employeeController.isValidID(id))
-				throw new IllegalArgumentException("invalid id.");
-    		if(!employeeController.isManager())
-    			throw new NoPermissionException("this act can be performed by managers only.");
-    		shiftController.AssignToShift(id, skill);
-		} catch (Exception e) {
-			return new Response(e);
-		}
-		return new Response();
-	}
-	
-	public Response removeFromShift(String id) {
-		try {
-			if(!employeeController.isValidID(id))
-				throw new IllegalArgumentException("invalid id.");
-			if(!employeeController.isManager())
-				throw new NoPermissionException("this act can be performed by managers only.");
-			shiftController.removeFromShift(id);
-		} catch (Exception e) {
-			return new Response(e);
-		}
-		return new Response();
-	}
+        try {
+            if (!employeeController.isValidID(id))
+                throw new IllegalArgumentException("invalid id.");
+            if (!employeeController.isManager())
+                throw new NoPermissionException("this act can be performed by managers only.");
+            shiftController.AssignToShift(id, skill);
+        } catch (Exception e) {
+            return new Response(e);
+        }
+        return new Response();
+    }
+
+    public Response removeFromShift(String id) {
+        try {
+            if (!employeeController.isValidID(id))
+                throw new IllegalArgumentException("invalid id.");
+            if (!employeeController.isManager())
+                throw new NoPermissionException("this act can be performed by managers only.");
+            shiftController.removeFromShift(id);
+        } catch (Exception e) {
+            return new Response(e);
+        }
+        return new Response();
+    }
 
     public Response definePersonnelForShift(int day, boolean isMorning, Role skill, int qtty) {
         try {
-        	if(!employeeController.isManager())
-    			throw new NoPermissionException("this act can be performed by managers only.");
+            if (!employeeController.isManager())
+                throw new NoPermissionException("this act can be performed by managers only.");
             shiftController.definePersonnelForShift(day, isMorning, skill, qtty);
         } catch (Exception e) {
             return new Response(e);
@@ -143,19 +145,19 @@ public class Facade {
 
     public Response addShift(Date date, boolean isMorning) {
         try {
-        	if(!employeeController.isManager())
-    			throw new NoPermissionException("this act can be performed by managers only.");
+            if (!employeeController.isManager())
+                throw new NoPermissionException("this act can be performed by managers only.");
             shiftController.addShift(date, isMorning);
         } catch (Exception e) {
             return new Response(e);
         }
         return new Response();
     }
-    
+
     public Response removeShift(Date date, boolean isMorning) {
         try {
-        	if(!employeeController.isManager())
-    			throw new NoPermissionException("this act can be performed by managers only.");
+            if (!employeeController.isManager())
+                throw new NoPermissionException("this act can be performed by managers only.");
             shiftController.removeShift(date, isMorning);
         } catch (Exception e) {
             return new Response(e);
