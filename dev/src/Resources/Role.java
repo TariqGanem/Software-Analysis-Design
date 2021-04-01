@@ -6,5 +6,6 @@ public enum Role {
 	Cashier,
 	StoreKeeper,
 	StoreManagerAssistant,
-	Stocker
+	Stocker,
+	ShiftManager
 }

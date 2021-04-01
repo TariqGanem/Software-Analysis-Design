@@ -15,10 +15,16 @@ public class Shift {
 	}
 	
 	public int assignEmployee(Role skill, String id) {
+		List<String> lst = positions.get(Role.ShiftManager);
+		if((lst==null || lst.isEmpty()) && !skill.equals(Role.ShiftManager))
+			throw new IllegalArgumentException("no shift without shift manager.");
+		if(isAssignedToShift(id) != null)
+			throw new IllegalArgumentException("this employee already assigned to this shift");
 		List<String> ids = positions.get(skill);
 		if(ids == null)
-			ids = positions.put(skill, new ArrayList<String>());
+			ids = new ArrayList<String>();
 		ids.add(id);
+		positions.put(skill, ids);
 		return ids.size();
 	}
 	
@@ -49,10 +55,10 @@ public class Shift {
 //		return ans;
 //	}
 //	
-//	public Role isAssignedToShift(String id) {
-//		for (Role role : positions.keySet())
-//			if(positions.get(role).contains(id))
-//				return role;
-//		return null;
-//	}
+	public Role isAssignedToShift(String id) {
+		for (Role role : positions.keySet())
+			if(positions.get(role).contains(id))
+				return role;
+		return null;
+	}
 }

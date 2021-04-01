@@ -3,12 +3,8 @@ package BusinessLayer.ShiftPackage;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
-
-import com.sun.xml.internal.bind.v2.TODO;
 
 import Resources.Role;
 
@@ -24,9 +20,12 @@ public class ShiftController {
 	}
 	
 	public Shift getShift(Date date, boolean isMorning) {
-		for (Shift shift : shifts) 
-			if(shift.getDate().equals(date) && shift.isMorning()==isMorning)
+		for (Shift shift : shifts) {
+			if(shift.getDate().equals(date) && shift.isMorning()==isMorning){
+				activeShift = shift;
 				return shift;
+			}
+		}
 		throw new NoSuchElementException("there is no shift at the time you want.");
 	}
 		
@@ -48,9 +47,8 @@ public class ShiftController {
 		return true;
 	}
 	
-	public boolean definePersonnelForShift(int day, boolean isMorning, Role skill, int qtty) {
+	public void definePersonnelForShift(int day, boolean isMorning, Role skill, int qtty) {
 		sp.setQtty(day, isMorning, skill, qtty);
-		return false;
 	}
 	
 	public boolean addShift(Date date, boolean isMorning) {
@@ -58,11 +56,15 @@ public class ShiftController {
 		int index = isMorning ? day - 1 : day + 5;
 		if(index > 10)
 			throw new IllegalArgumentException("this shift is on rest day");
-		return shifts.add(new Shift(date, isMorning));
+		activeShift = new Shift(date, isMorning);
+		return shifts.add(activeShift);
 	}
 	
 	public boolean removeShift(Date date, boolean isMorning) {
-		return shifts.remove(getShift(date, isMorning));
+		boolean success = shifts.remove(getShift(date, isMorning));
+		if(success)
+			activeShift = null;
+		return success;
 	}
 	
 	private int getDay(Date date) {

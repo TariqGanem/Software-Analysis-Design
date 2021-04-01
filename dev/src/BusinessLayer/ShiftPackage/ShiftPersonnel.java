@@ -11,19 +11,22 @@ public class ShiftPersonnel {
 		empQtty = new Map[11];
 		//insert default data
 		
-//		for (Map<Role, Integer> map : empQtty) {
-//			map.put(Role.IUGIUT, 1);
-//			map.put(Role.IUIUY, 1);
-//			map.put(Role.JGI, 1);
-//			map.put(Role.KJH, 1);
-//			map.put(Role.UTIU, 1);
-//		}
+		for (Map<Role, Integer> map : empQtty) {
+			map.put(Role.StoreManager, 1);
+			map.put(Role.Cashier, 1);
+			map.put(Role.HRManager, 1);
+			map.put(Role.StoreManagerAssistant, 1);
+			map.put(Role.Stocker, 1);
+			map.put(Role.ShiftManager, 1);
+		}
 	}
 	
 	public void setQtty(int day, boolean isMorning, Role skill, Integer qtty) {
 		int index = isMorning ? day - 1 : day + 5;
 		if(index > 10 || index < 0)
 			throw new IndexOutOfBoundsException("no such shift.");
+		if(qtty < 0)
+			throw new IllegalArgumentException("quantity above or equal zero.");
 		if(!empQtty[index].containsKey(skill))
 			empQtty[index].replace(skill, qtty);
 		else empQtty[index].put(skill, qtty);
