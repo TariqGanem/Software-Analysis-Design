@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.NoSuchElementException;
 
 public class ShiftControllerTest {
     private ShiftController sc;
@@ -15,12 +14,12 @@ public class ShiftControllerTest {
     @Before
     public void setup(){
         sc = new ShiftController();
-        sc.addShift(Calendar.getInstance().getTime(),false );
     }
 
     @Test
     public void testGetShift() {
         Shift shift;
+        sc.addShift(Calendar.getInstance().getTime(),false );
         try{
             sc.getShift(Calendar.getInstance().getTime(), true);
             fail("there shoud not be such shift");
@@ -31,9 +30,10 @@ public class ShiftControllerTest {
 
     @Test
     public void testAssignToShift() {
+        sc.addShift(Calendar.getInstance().getTime(),false );
         try{
             sc.AssignToShift("1234", Role.ShiftManager);
-            fail("activate a shift first");///////////////////////////////////
+            fail("activate a shift first");
         }catch (Exception ignored){}
         Shift s = sc.getShift(Calendar.getInstance().getTime(), false);
         boolean ans = sc.AssignToShift("1234", Role.ShiftManager);
@@ -47,31 +47,50 @@ public class ShiftControllerTest {
     }
 
     @Test
-    public void testRemoveFromShift(String id) {
-//        if(activeShift == null)
-//            throw new NullPointerException("need a shift to remove this employee from.");
-//        if(!activeShift.removeFromShift(id))
-//            throw new IllegalArgumentException(id + " is not assigned to this shift.");
-//        return true;
+    public void testRemoveFromShift() {
+        sc.addShift(Calendar.getInstance().getTime(),false );
+        try{
+            sc.removeFromShift("1234");
+            fail("should'nt be able to remove from empty shift.");
+        }catch (Exception e){}
+        try{
+            sc.AssignToShift("1234", Role.ShiftManager);
+            sc.removeShift(Calendar.getInstance().getTime(), false);
+            sc.removeFromShift("1234");
+            fail("should'nt be able to remove with no active shift.");
+        }catch (Exception e){}
+        sc.addShift(Calendar.getInstance().getTime(), false);
+        sc.AssignToShift("1234", Role.ShiftManager);
+        assertTrue(sc.removeFromShift("1234"));
     }
 
     @Test
-    public void testDefinePersonnelForShift(int day, boolean isMorning, Role skill, int qtty) {
-//        sp.setQtty(day, isMorning, skill, qtty);
-//        return false;
-    }
-
-    @Test
-    public void testAddShift(Date date, boolean isMorning) {
-//        int day = getDay(date);
-//        int index = isMorning ? day - 1 : day + 5;
-//        if(index > 10)
-//            throw new IllegalArgumentException("this shift is on rest day");
-//        return shifts.add(new Shift(date, isMorning));
+    public void testAddShift() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(cal.getTime());
+        int day = cal.get(Calendar.DAY_OF_WEEK);
+        Date date = new Date(cal.getTime().getTime() + 7 - day);//saturday
+        try{
+            sc.addShift(date, false);
+            fail("day num 1-6.");
+        }catch (Exception ignored){}
+        date = new Date(cal.getTime().getTime() + 6 - day);
+        System.out.println(date);
+        try{
+            sc.addShift(date, false);
+            fail("no shift on friday night. should've fail.");
+        }catch (Exception ignored){}
+        assertTrue(sc.addShift(date, true));
     }
 
     @Test
     public void testRemoveShift() {
-//        return shifts.remove(getShift(date, isMorning));
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(cal.getTime());
+        int day = cal.get(Calendar.DAY_OF_WEEK);
+        Date date = new Date(cal.getTime().getTime() + 5 - day);
+        sc.addShift(date, true);
+        assertTrue(sc.removeShift(date, true));
+        assertFalse(sc.removeShift(date, true));
     }
 }
