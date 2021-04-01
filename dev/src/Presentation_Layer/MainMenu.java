@@ -1,16 +1,22 @@
 package Presentation_Layer;
 
 public class MainMenu implements Menu {
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	private static MainMenu instance = null;
+	private MainMenu() {
+		// TODO Auto-generated constructor stub
 	}
-
-	@Override
-	public void Print_Menu() {
-		throw new UnsupportedOperationException();
+	
+	public static MainMenu get_Instance() {
 		
+		if (instance == null) {
+			instance =  new MainMenu();
+		}
+		return instance;
+	}
+	
+	@Override
+	public void show() {
+
 	}
 
 }
