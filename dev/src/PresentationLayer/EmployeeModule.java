@@ -11,7 +11,7 @@ public class EmployeeModule {
 
         io.println("Hello And Welcome to Super-Lee!\n");
         while (true) {
-            if(ID == null)
+            if (ID == null)
                 ID = loginMenu(backendController);
 
             if (ID.equals("Q"))
@@ -42,7 +42,8 @@ public class EmployeeModule {
                     break;
 
                 case 2:
-                    //backendController.viewMyShifts();
+                    backendController.viewMyShifts();
+                    boolean goIntoDetail = displaySpecificEmployees();
                     break;
 
                 case 3:
@@ -75,14 +76,14 @@ public class EmployeeModule {
         }
     }
 
-    public static String loginMenu(BackendController backendController){
+    public static String loginMenu(BackendController backendController) {
         IOController io = IOController.getInstance();
         String ID = null;
         do {
             io.println("Type \"Q\" to quit.");
             io.print("Please enter your employee ID: ");
             ID = io.getString();
-            if(ID.equals("Q"))
+            if (ID.equals("Q"))
                 break;
         } while (backendController.login(ID));
         return ID;
@@ -102,6 +103,17 @@ public class EmployeeModule {
         io.println("6. View employee profile");
         io.println("7. View shift information");
         io.println("8. Define shift personnel");
+    }
+
+    public static boolean displaySpecificEmployees() {
+        IOController io = IOController.getInstance();
+        String YES_NO = null;
+        io.println("Would you like to view the employees in a specific shift?");
+        do {
+            io.println("Type \"y\" or \"n\":");
+            YES_NO = io.getString();
+        } while (!YES_NO.equals("y") && !YES_NO.equals("n"));
+        return YES_NO.equals("y");
     }
 
 }

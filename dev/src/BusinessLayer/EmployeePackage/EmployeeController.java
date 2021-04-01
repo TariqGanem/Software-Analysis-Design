@@ -4,6 +4,7 @@ import Resources.Preference;
 import Resources.Role;
 
 import javax.naming.NoPermissionException;
+import java.time.LocalDate;
 import java.util.*;
 
 public class EmployeeController {
@@ -33,7 +34,7 @@ public class EmployeeController {
         throw new IllegalArgumentException("No employee with the ID: " + ID + " was found in the system.");
     }
 
-    public void updateEmployee(String name, String ID, int bankId, int branchId, int accountNumber, float salary, Date startDate,
+    public void updateEmployee(String name, String ID, int bankId, int branchId, int accountNumber, float salary, LocalDate startDate,
                                String trustFund, int freeDays, int sickDays, List<Role> skills, Preference[][] timeFrames) throws Exception {
         Employee toUpdate = getEmployee(ID);
         if(!toUpdate.getID().equals(ID))
@@ -52,7 +53,7 @@ public class EmployeeController {
     }
 
     public void addEmployee(String name, String ID, int bankId, int branchId, int accountNumber,
-                            float salary, Date startDate, String trustFund, int freeDays, int sickDays, List<Role> skills, Preference[][] timeFrames) {
+                            float salary, LocalDate startDate, String trustFund, int freeDays, int sickDays, List<Role> skills, Preference[][] timeFrames) {
         for (String s : employees.keySet()) {
             if (s.equals(ID)) {
                 throw new IllegalArgumentException("There is already an employee with the ID: " + ID + " in the system.");

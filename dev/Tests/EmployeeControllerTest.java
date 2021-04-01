@@ -7,9 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import javax.naming.NoPermissionException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -42,7 +41,7 @@ public class EmployeeControllerTest {
         int branchId = 100;
         int accountNumber = 1000;
         float salary = 5000;
-        Date date = Calendar.getInstance().getTime();
+        LocalDate date = LocalDate.now();
         String trustFund = "Trust Fund";
         int freeDays = 10;
         int sickDays = 15;
@@ -71,7 +70,7 @@ public class EmployeeControllerTest {
         int branchId = 100;
         int accountNumber = 1000;
         float salary = 5000;
-        Date date = Calendar.getInstance().getTime();
+        LocalDate date = LocalDate.now();
         String trustFund = "Trust Fund";
         int freeDays = 10;
         int sickDays = 15;
@@ -112,7 +111,7 @@ public class EmployeeControllerTest {
         int branchId = 100;
         int accountNumber = 1000;
         float salary = 5000;
-        Date date = Calendar.getInstance().getTime();
+        LocalDate date = LocalDate.now();
         String trustFund = "Trust Fund";
         int freeDays = 10;
         int sickDays = 15;
@@ -140,7 +139,7 @@ public class EmployeeControllerTest {
         int branchId = 100;
         int accountNumber = 1000;
         float salary = 5000;
-        Date date = Calendar.getInstance().getTime();
+        LocalDate date = LocalDate.now();
         String trustFund = "Trust Fund";
         int freeDays = 10;
         int sickDays = 15;
@@ -170,7 +169,7 @@ public class EmployeeControllerTest {
         int branchId = 100;
         int accountNumber = 1000;
         float salary = 5000;
-        Date date = Calendar.getInstance().getTime();
+        LocalDate date = LocalDate.now();
         String trustFund = "Trust Fund";
         int freeDays = 10;
         int sickDays = 15;
@@ -199,7 +198,7 @@ public class EmployeeControllerTest {
         int branchId = 100;
         int accountNumber = 1000;
         float salary = 5000;
-        Date date = Calendar.getInstance().getTime();
+        LocalDate date = LocalDate.now();
         String trustFund = "Trust Fund";
         int freeDays = 10;
         int sickDays = 15;
@@ -229,7 +228,7 @@ public class EmployeeControllerTest {
         int branchId = 100;
         int accountNumber = 1000;
         float salary = 5000;
-        Date date = Calendar.getInstance().getTime();
+        LocalDate date = LocalDate.now();
         String trustFund = "Trust Fund";
         int freeDays = 10;
         int sickDays = 15;
@@ -259,7 +258,7 @@ public class EmployeeControllerTest {
         int branchId = 100;
         int accountNumber = 1000;
         float salary = 5000;
-        Date date = Calendar.getInstance().getTime();
+        LocalDate date = LocalDate.now();
         String trustFund = "Trust Fund";
         int freeDays = 10;
         int sickDays = 15;

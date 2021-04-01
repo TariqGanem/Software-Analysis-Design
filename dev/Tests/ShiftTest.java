@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import org.junit.Before;
@@ -14,7 +15,7 @@ public class ShiftTest {
 	
 	@Before
 	public void setup() {
-		shift = new Shift(Calendar.getInstance().getTime(), true);
+		shift = new Shift(LocalDate.now(), true);
 	}
 
 	@Test

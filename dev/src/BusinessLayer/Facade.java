@@ -1,5 +1,6 @@
 package BusinessLayer;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import BusinessLayer.EmployeePackage.*;
@@ -40,11 +41,11 @@ public class Facade {
         Response response;
         Employee rollback = null;
         List<Role> rollbackSkills = null;
-        Date rollbackDate = null;
+        LocalDate rollbackDate = null;
         Preference[][] rollbackTimeFrames = new Preference[6][2];
         try {
             rollbackSkills = new ArrayList<>(employeeController.getEmployee(employee.ID).getSkills());
-            rollbackDate = new Date(employeeController.getEmployee(employee.ID).getStartDate().getTime());
+            rollbackDate = employeeController.getEmployee(employee.ID).getStartDate();
             for (int i = 0; i < 6; i++)
                 for (int j = 0; j < 2; j++)
                     rollbackTimeFrames[i][j] = employeeController.getEmployee(employee.ID).getTimeFrames()[i][j];
@@ -72,7 +73,7 @@ public class Facade {
         toReturn.branchId = employee.getBranchId();
         toReturn.accountNumber = employee.getAccountNumber();
         toReturn.salary = employee.getSalary();
-        toReturn.startDate = new Date(employee.getStartDate().getTime());
+        toReturn.startDate = employee.getStartDate();
         toReturn.trustFund = employee.getTrustFund();
         toReturn.freeDays = employee.getFreeDays();
         toReturn.sickDays = employee.getSickDays();
@@ -87,7 +88,7 @@ public class Facade {
     }
 
 /*
-    public ResponseT<ShiftDTO> getShift(Date date, boolean isMorning) {
+    public ResponseT<ShiftDTO> getShift(LocalDate date, boolean isMorning) {
     	return new ResponseT<ShiftDTO>(toShiftDTO(shiftController.getShift(date, isMorning)));
     }
 */
@@ -143,7 +144,7 @@ public class Facade {
         return new Response();
     }
 
-    public Response addShift(Date date, boolean isMorning) {
+    public Response addShift(LocalDate date, boolean isMorning) {
         try {
             if (!employeeController.isManager())
                 throw new NoPermissionException("this act can be performed by managers only.");
@@ -154,7 +155,7 @@ public class Facade {
         return new Response();
     }
 
-    public Response removeShift(Date date, boolean isMorning) {
+    public Response removeShift(LocalDate date, boolean isMorning) {
         try {
             if (!employeeController.isManager())
                 throw new NoPermissionException("this act can be performed by managers only.");
@@ -166,7 +167,7 @@ public class Facade {
     }
 
     public Response addEmployee(String name, String ID, int bankId, int branchId, int accountNumber, float salary,
-                                Date startDate, String trustFund, int freeDays, int sickDays, List<Role> skills, Preference[][] timeFrames) {
+                                LocalDate startDate, String trustFund, int freeDays, int sickDays, List<Role> skills, Preference[][] timeFrames) {
         Response response;
         try {
             employeeController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, startDate, trustFund, freeDays, sickDays, skills, timeFrames);

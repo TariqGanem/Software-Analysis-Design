@@ -3,6 +3,7 @@ package DTOPackage;
 import Resources.Preference;
 import Resources.Role;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class EmployeeDTO {
     public int branchId;
     public int accountNumber;
     public float salary;
-    public Date startDate;
+    public LocalDate startDate;
     public String trustFund;
     public int freeDays;
     public int sickDays;

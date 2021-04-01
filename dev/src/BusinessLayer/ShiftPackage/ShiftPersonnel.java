@@ -2,7 +2,6 @@ package BusinessLayer.ShiftPackage;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import Resources.Role;;
 
 public class ShiftPersonnel {

@@ -5,9 +5,8 @@ import Resources.Role;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -17,9 +16,9 @@ public class EmployeeTest {
 
     @Before
     public void setUp() {
-        List roles = new ArrayList<Role>();
+        List<Role> roles = new ArrayList<>();
         roles.add(Role.Cashier);
-        employee = new Employee("Sponge Bob", "123456789", 10, 100, 1000, 5000, Calendar.getInstance().getTime(),
+        employee = new Employee("Sponge Bob", "123456789", 10, 100, 1000, 5000, LocalDate.now(),
                 "Trust Fund", 10, 15, roles, new Preference[6][2]);
     }
 
@@ -82,7 +81,7 @@ public class EmployeeTest {
     @Test
     public void testSetStartDay() {
         try {
-            employee.setStartDate(new Date(2100, 5, 5));
+            employee.setStartDate(LocalDate.of(2100, 5, 5));
             fail("Allowed startDate to be set to the future.");
         } catch (Exception e) {
             String expectedMessage = "The startDate can't be after today.";
@@ -142,7 +141,7 @@ public class EmployeeTest {
 
     @Test
     public void testHasSkillAfterChange(){
-        List roles = new ArrayList<Role>();
+        List<Role> roles = new ArrayList<>();
         roles.add(Role.StoreManager);
         employee.setSkills(roles);
 

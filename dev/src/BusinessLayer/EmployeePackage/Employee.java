@@ -3,6 +3,7 @@ package BusinessLayer.EmployeePackage;
 import Resources.Preference;
 import Resources.Role;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -14,14 +15,14 @@ public class Employee {
     private int branchId;
     private int accountNumber;
     private float salary;
-    private Date startDate;
+    private LocalDate startDate;
     private String trustFund;
     private int freeDays;
     private int sickDays;
     private List<Role> skills;
     private Preference[][] timeFrames = new Preference[6][2];
 
-    public Employee(String name, String ID, int bankId, int branchId, int accountNumber, float salary, Date startDate,
+    public Employee(String name, String ID, int bankId, int branchId, int accountNumber, float salary, LocalDate startDate,
                     String trustFund, int freeDays, int sickDays, List<Role> skills, Preference[][] timeFrames) {
         setName(name);
         this.ID = ID;
@@ -88,8 +89,8 @@ public class Employee {
         this.salary = salary;
     }
 
-    public void setStartDate(Date startDate) {
-        if(startDate.after(Calendar.getInstance().getTime())) throw new IllegalArgumentException("The startDate can't be after today.");
+    public void setStartDate(LocalDate startDate) {
+        if(startDate.isAfter(LocalDate.now())) throw new IllegalArgumentException("The startDate can't be after today.");
         this.startDate = startDate;
     }
 
@@ -140,7 +141,7 @@ public class Employee {
 
     public float getSalary() { return salary; }
 
-    public Date getStartDate() { return startDate; }
+    public LocalDate getStartDate() { return startDate; }
 
     public String getTrustFund() { return trustFund; }
 

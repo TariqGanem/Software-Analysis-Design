@@ -1,14 +1,15 @@
 package BusinessLayer.ShiftPackage;
 
+import java.time.LocalDate;
 import java.util.*;
 import Resources.Role;
 
 public class Shift {
-	private Date date;
+	private LocalDate date;
 	private boolean isMorning;
 	private Map<Role, List<String>> positions;
 	
-	public Shift(Date date, boolean isMorning) {
+	public Shift(LocalDate date, boolean isMorning) {
 		this.date = date;
 		this.isMorning = isMorning;
 		positions = new HashMap<Role, List<String>>();
@@ -35,7 +36,7 @@ public class Shift {
 		return false;
 	}
 	
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 	
