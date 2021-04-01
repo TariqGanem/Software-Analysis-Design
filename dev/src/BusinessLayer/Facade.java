@@ -4,7 +4,7 @@ import java.util.*;
 
 import BusinessLayer.EmployeePackage.*;
 import BusinessLayer.ShiftPackage.*;
-import DTOPackage.EmployeeDTO;
+import DTOPackage.*;
 import Resources.Preference;
 import Resources.Role;
 

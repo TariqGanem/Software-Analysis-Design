@@ -15,4 +15,11 @@ public class ShiftDTO {
     	this.isMorning = isMorning;
     	this.positions = positions;
     }
+
+    public String describeShift(){
+        String desc = "";
+        String isMorning = this.isMorning ? "Morning" : "Evening";
+        desc = date.toString() + " " + isMorning;
+        return desc;
+    }
 }
