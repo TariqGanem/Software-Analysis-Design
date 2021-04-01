@@ -2,7 +2,7 @@ package PresentationLayer.Menu;
 
 import PresentationLayer.Menu.MenuItems.Exit;
 import PresentationLayer.Menu.MenuItems.MenuItem;
-import PresentationLayer.Objects.Printer;
+import PresentationLayer.Printer;
 
 import java.util.LinkedList;
 import java.util.List;

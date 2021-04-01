@@ -3,6 +3,9 @@ package BusinessLayer;
 public class Response {
     private String errMsg;
 
+    public Response() {
+    }
+
     public Response(String msg) {
         errMsg = msg;
     }

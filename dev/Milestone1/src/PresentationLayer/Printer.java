@@ -1,4 +1,4 @@
-package PresentationLayer.Objects;
+package PresentationLayer;
 
 import PresentationLayer.Menu.MenuItems.MenuItem;
 

@@ -58,4 +58,8 @@ public class Shipment {
     public List<Location> getDestinations() {
         return destinations;
     }
+
+    public List<Document> getDocuments() {
+        return documents;
+    }
 }

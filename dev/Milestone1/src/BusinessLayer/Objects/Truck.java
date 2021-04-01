@@ -48,4 +48,9 @@ public class Truck {
     public Shipment getShipment() {
         return shipment;
     }
+
+
+    public boolean isAvailable() {
+        return available;
+    }
 }
