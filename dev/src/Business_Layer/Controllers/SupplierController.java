@@ -1,4 +1,4 @@
-package src.Business_Layer.Controllers;
+package Business_Layer.Controllers;
 
 public class SupplierController {
 	

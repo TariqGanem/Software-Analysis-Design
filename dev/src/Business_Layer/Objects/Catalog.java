@@ -1,4 +1,4 @@
-package src.Business_Layer.Objects;
+package Business_Layer.Objects;
 
 public class Catalog {
 
