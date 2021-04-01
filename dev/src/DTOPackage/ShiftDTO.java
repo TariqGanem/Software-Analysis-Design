@@ -15,4 +15,8 @@ public class ShiftDTO {
     	this.isMorning = isMorning;
     	this.positions = positions;
     }
+
+    public String describeShift() {
+
+    }
 }
