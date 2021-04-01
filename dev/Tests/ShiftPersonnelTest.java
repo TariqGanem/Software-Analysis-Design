@@ -1,7 +1,9 @@
+import static org.junit.Assert.*;
 import BusinessLayer.ShiftPackage.ShiftPersonnel;
 import Resources.Role;
 import org.junit.Before;
-import static org.junit.Assert.*;
+import org.junit.Test;
+
 
 public class ShiftPersonnelTest {
     private ShiftPersonnel sp;
@@ -10,6 +12,7 @@ public class ShiftPersonnelTest {
         sp = new ShiftPersonnel();
     }
 
+    @Test
     public void testSetQtty() {
         try{
             sp.setQtty(6,false, Role.Cashier, 2);
@@ -29,6 +32,7 @@ public class ShiftPersonnelTest {
         assertTrue(sp.getQtty(6,true, Role.Stocker)== 1);
     }
 
+    @Test
     public void testGetQtty() {
         try{
             sp.getQtty(6,false, Role.Stocker);
