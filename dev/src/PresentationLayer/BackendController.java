@@ -96,43 +96,16 @@ public class BackendController {
             io.println(responseOfSet.getErrorMessage());
     }
 
-    public void changeName(String name) {
-        ResponseT<EmployeeDTO> responseOfGet = facade.getEmployee(activeEmployee);
-        responseOfGet.getValue().name = name;
-        Response responseOfSet = facade.setEmployee(responseOfGet.getValue());
-        if (responseOfSet.getErrorOccurred())
-            io.println(responseOfSet.getErrorMessage());
+    public ResponseT<EmployeeDTO> getEmployeeDTO(String ID) {
+        ResponseT<EmployeeDTO> response = facade.getEmployee(ID);
+        if (response.getErrorOccurred())
+            io.println(response.getErrorMessage());
+        return response;
     }
 
-    public void changeBankId(int bankId) {
-        ResponseT<EmployeeDTO> responseOfGet = facade.getEmployee(activeEmployee);
-        responseOfGet.getValue().bankId = bankId;
-        Response responseOfSet = facade.setEmployee(responseOfGet.getValue());
-        if (responseOfSet.getErrorOccurred())
-            io.println(responseOfSet.getErrorMessage());
-    }
-
-    public void changeBranchId(int branchId) {
-        ResponseT<EmployeeDTO> responseOfGet = facade.getEmployee(activeEmployee);
-        responseOfGet.getValue().branchId = branchId;
-        Response responseOfSet = facade.setEmployee(responseOfGet.getValue());
-        if (responseOfSet.getErrorOccurred())
-            io.println(responseOfSet.getErrorMessage());
-    }
-
-    public void changeAccountNumber(int accountNumber) {
-        ResponseT<EmployeeDTO> responseOfGet = facade.getEmployee(activeEmployee);
-        responseOfGet.getValue().accountNumber = accountNumber;
-        Response responseOfSet = facade.setEmployee(responseOfGet.getValue());
-        if (responseOfSet.getErrorOccurred())
-            io.println(responseOfSet.getErrorMessage());
-    }
-
-    public void changeSalary(float salary) {
-        ResponseT<EmployeeDTO> responseOfGet = facade.getEmployee(activeEmployee);
-        responseOfGet.getValue().salary = salary;
-        Response responseOfSet = facade.setEmployee(responseOfGet.getValue());
-        if (responseOfSet.getErrorOccurred())
-            io.println(responseOfSet.getErrorMessage());
+    public void setEmployeeDTO(EmployeeDTO employee) {
+        Response response = facade.setEmployee(employee);
+        if (response.getErrorOccurred())
+            io.print(response.getErrorMessage());
     }
 }

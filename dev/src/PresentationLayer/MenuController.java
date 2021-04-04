@@ -1,8 +1,10 @@
 package PresentationLayer;
 
 import Resources.Preference;
+import Resources.Role;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class MenuController {
 
@@ -111,16 +113,16 @@ public class MenuController {
         io.println("2) Bank id");
         io.println("3) Branch id");
         io.println("4) Account Number");
-        io.println("6) Salary");
-        io.println("7) Start Date");
-        io.println("8) Trust Fund");
-        io.println("9) Free Days");
-        io.println("10) Sick Days");
-        io.println("11) Skills");
+        io.println("5) Salary");
+        io.println("6) Start Date");
+        io.println("7) Trust Fund");
+        io.println("8) Free Days");
+        io.println("9) Sick Days");
+        io.println("10) Skills");
 
         int answer;
         do {
-            io.print("Enter a number between 1 and 11: ");
+            io.print("Enter a number between 1 and 10: ");
             answer = io.getInt();
         } while (answer < 1 || answer > 11);
 
@@ -149,5 +151,18 @@ public class MenuController {
         io.print("Please enter a new " + whatToEnter + ": ");
 
         return io.getFloat();
+    }
+
+    public List<Role> showEnterRoleList() {
+        IOController io = IOController.getInstance();
+
+        int i = 0;
+        for (Role role: Role.values()) {
+
+        }
+        io.println("");
+        io.println("Please enter the new role list: ");
+
+        return null;
     }
 }
