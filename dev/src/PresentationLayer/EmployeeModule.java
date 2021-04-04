@@ -105,7 +105,37 @@ public class EmployeeModule {
                         break;
 
                     case 5:
-                        //backendController.addEmployee();
+                        String name, newID, trustFund;
+                        int bankId, branchId, accountNumber, freeDays, sickDays;
+                        float salary;
+                        List<Role> skills;
+                        LocalDate startDate;
+                        Preference[][] timeFrames;
+
+                        io.print("Please enter a name: ");
+                        name = io.getString();
+                        io.print("Please enter an ID: ");
+                        ID = io.getString();
+                        io.print("Please enter a bank id: ");
+                        bankId = io.getInt();
+                        io.print("Please enter a branch id: ");
+                        branchId = io.getInt();
+                        io.print("Please enter an account number: ");
+                        accountNumber = io.getInt();
+                        io.print("Please enter the salary: ");
+                        salary = io.getFloat();
+                        io.println("Please enter the start working date:");
+                        startDate = menu.showEnterDateMenu();
+                        io.print("Please enter a trust fund: ");
+                        trustFund = io.getString();
+                        io.print("Please enter the amount of free days: ");
+                        freeDays = io.getInt();
+                        io.print("Please enter the amount of sick days: ");
+                        sickDays = io.getInt();
+                        skills = menu.showEnterRoleList();
+                        timeFrames = menu.showEnterPreferenceArray();
+
+                        backendController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, startDate, trustFund, freeDays, sickDays, skills, timeFrames);
                         break;
 
                     case 6:
@@ -126,103 +156,94 @@ public class EmployeeModule {
                             ResponseT<EmployeeDTO> newEmployee;
                             do {
                                 updateIndex = menu.showUpdateEmployeeMenu();
+                                newEmployee = backendController.getEmployeeDTO(viewID);
                                 switch (updateIndex) {
                                     case 1:
-                                        String name = menu.showEnterStringMenu("name");
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
+                                        String updateName = menu.showEnterStringMenu("name");
                                         if (!newEmployee.getErrorOccurred()) {
                                             EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.name = name;
+                                            emp.name = updateName;
                                             backendController.setEmployeeDTO(emp);
                                         }
                                         break;
 
                                     case 2:
-                                        int bankId = menu.showEnterIntMenu("bank id");
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
+                                        int updateBankId = menu.showEnterIntMenu("bank id");
                                         if (!newEmployee.getErrorOccurred()) {
                                             EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.bankId = bankId;
+                                            emp.bankId = updateBankId;
                                             backendController.setEmployeeDTO(emp);
                                         }
                                         break;
 
                                     case 3:
-                                        int branchId = menu.showEnterIntMenu("branch id");
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
+                                        int updateBranchId = menu.showEnterIntMenu("branch id");
                                         if (!newEmployee.getErrorOccurred()) {
                                             EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.branchId = branchId;
+                                            emp.branchId = updateBranchId;
                                             backendController.setEmployeeDTO(emp);
                                         }
                                         break;
 
                                     case 4:
-                                        int accountNumber = menu.showEnterIntMenu("account number");
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
+                                        int updateAccountNumber = menu.showEnterIntMenu("account number");
                                         if (!newEmployee.getErrorOccurred()) {
                                             EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.accountNumber = accountNumber;
+                                            emp.accountNumber = updateAccountNumber;
                                             backendController.setEmployeeDTO(emp);
                                         }
                                         break;
 
                                     case 5:
-                                        float salary = menu.showEnterFloatMenu("salary");
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
+                                        float updateSalary = menu.showEnterFloatMenu("salary");
                                         if (!newEmployee.getErrorOccurred()) {
                                             EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.salary = salary;
+                                            emp.salary = updateSalary;
                                             backendController.setEmployeeDTO(emp);
                                         }
                                         break;
 
                                     case 6:
-                                        LocalDate startDate = menu.showEnterDateMenu();
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
+                                        LocalDate updateStartDate = menu.showEnterDateMenu();
                                         if (!newEmployee.getErrorOccurred()) {
                                             EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.startDate = startDate;
+                                            emp.startDate = updateStartDate;
                                             backendController.setEmployeeDTO(emp);
                                         }
                                         break;
 
                                     case 7:
-                                        String trustFund = menu.showEnterStringMenu("trust fund");
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
+                                        String updateTrustFund = menu.showEnterStringMenu("trust fund");
                                         if (!newEmployee.getErrorOccurred()) {
                                             EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.trustFund = trustFund;
+                                            emp.trustFund = updateTrustFund;
                                             backendController.setEmployeeDTO(emp);
                                         }
                                         break;
 
                                     case 8:
-                                        int freeDays = menu.showEnterIntMenu("free days amount");
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
+                                        int updateFreeDays = menu.showEnterIntMenu("free days amount");
                                         if (!newEmployee.getErrorOccurred()) {
                                             EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.freeDays = freeDays;
+                                            emp.freeDays = updateFreeDays;
                                             backendController.setEmployeeDTO(emp);
                                         }
                                         break;
 
                                     case 9:
-                                        int sickDays = menu.showEnterIntMenu("sick days amount");
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
+                                        int updateSickDays = menu.showEnterIntMenu("sick days amount");
                                         if (!newEmployee.getErrorOccurred()) {
                                             EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.sickDays = sickDays;
+                                            emp.sickDays = updateSickDays;
                                             backendController.setEmployeeDTO(emp);
                                         }
                                         break;
 
                                     case 10:
-                                        List<Role> skills = menu.showEnterRoleList();
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
+                                        List<Role> updateSkills = menu.showEnterRoleList();
                                         if (!newEmployee.getErrorOccurred()) {
                                             EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.skills = skills;
+                                            emp.skills = updateSkills;
                                             backendController.setEmployeeDTO(emp);
                                         }
                                         break;

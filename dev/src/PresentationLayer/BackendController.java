@@ -9,6 +9,7 @@ import Resources.Preference;
 import Resources.Role;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 public class BackendController {
@@ -127,5 +128,14 @@ public class BackendController {
         Response response = facade.setEmployee(employee);
         if (response.getErrorOccurred())
             io.println(response.getErrorMessage());
+    }
+
+    public void addEmployee(String name, String ID, int bankId, int branchId, int accountNumber, float salary,
+                            LocalDate startDate, String trustFund, int freeDays, int sickDays, List<Role> skills, Preference[][] timeFrames) {
+        Response response = facade.addEmployee(name, ID, bankId, branchId, accountNumber, salary, startDate, trustFund, freeDays, sickDays, skills, timeFrames);
+        if (response.getErrorOccurred())
+            io.println(response.getErrorMessage());
+        else
+            io.println("Employee added successfully.");
     }
 }

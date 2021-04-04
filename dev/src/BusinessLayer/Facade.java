@@ -43,7 +43,10 @@ public class Facade {
         for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames[i][j] = Preference.WANT;
+        List roles1 = new ArrayList<Role>();
+        roles1.add(Role.Cashier);
         employeeController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
+        employeeController.addEmployee(name, "987654321", bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles1, timeFrames);
 
     }
 
@@ -112,11 +115,11 @@ public class Facade {
     }
 
     public ResponseT<ShiftDTO> getShift(LocalDate date, boolean isMorning) {
-    	return new ResponseT<ShiftDTO>(toShiftDTO(shiftController.getShift(date, isMorning)));
+        return new ResponseT<ShiftDTO>(toShiftDTO(shiftController.getShift(date, isMorning)));
     }
 
     private ShiftDTO toShiftDTO(Shift shift) {
-    	return new ShiftDTO(shift.getDate(), shift.isMorning(), shift.getPositions());
+        return new ShiftDTO(shift.getDate(), shift.isMorning(), shift.getPositions());
     }
 
     public Response login(String ID) {
@@ -223,10 +226,10 @@ public class Facade {
         return response;
     }
 
-    public ResponseT<Map<ShiftDTO, Role>> getEmpShifts(String id){
+    public ResponseT<Map<ShiftDTO, Role>> getEmpShifts(String id) {
         Map<Shift, Role> shifts = shiftController.getEmpShifts(id);
         Map<ShiftDTO, Role> ret = new HashMap<>();
-        for(Shift shift : shifts.keySet()){
+        for (Shift shift : shifts.keySet()) {
             ShiftDTO sDTO = toShiftDTO(shift);
             ret.put(sDTO, shifts.get(shift));
         }

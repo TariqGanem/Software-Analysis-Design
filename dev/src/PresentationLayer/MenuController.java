@@ -5,6 +5,7 @@ import Resources.Role;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MenuController {
@@ -243,5 +244,62 @@ public class MenuController {
         } while (answer != 0);
 
         return skills;
+    }
+
+    public Preference[][] showEnterPreferenceArray() {
+        Preference[][] timeFrames = new Preference[7][2];
+        timeFrames[5][1] = null;
+        timeFrames[6][0] = null;
+        timeFrames[6][1] = null;
+        IOController io = IOController.getInstance();
+
+        io.println("Please pick one of the following preferences for each shift presented to you:");
+        int p = 1;
+        for (Preference preference : Preference.values()) {
+            io.println(p + ") " + preference.name());
+            p++;
+        }
+
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 2; j++) {
+                if ((i == 5 && j == 1) || i == 6)
+                    continue;
+                io.print("What is your preference for " + whatDayIsIt(i));
+                if (j == 0) {
+                    io.println(" morning? ");
+                } else {
+                    io.println(" evening?");
+                }
+                int index = 0;
+                do {
+                    io.print("Please enter a number between 1 and " + Preference.values().length + ": ");
+                    index = io.getInt();
+                } while (index <= 0 || index > Preference.values().length);
+                timeFrames[i][j] = Preference.values()[index - 1];
+            }
+        }
+
+        return timeFrames;
+    }
+
+    private String whatDayIsIt(int day) {
+        switch (day) {
+            case 0:
+                return "sunday";
+            case 1:
+                return "monday";
+            case 2:
+                return "tuesday";
+            case 3:
+                return "wednesday";
+            case 4:
+                return "thursday";
+            case 5:
+                return "friday";
+            case 6:
+                return "saturday";
+            default:
+                return "not a day of the week :(";
+        }
     }
 }
