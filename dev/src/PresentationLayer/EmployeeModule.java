@@ -2,6 +2,8 @@ package PresentationLayer;
 
 import Resources.Preference;
 
+import java.time.LocalDate;
+
 public class EmployeeModule {
 
     public static void main(String[] args) {
@@ -14,8 +16,15 @@ public class EmployeeModule {
 
         io.println("Hello And Welcome to Super-Lee!\n");
         while (true) {
-            if (ID == null)
-                ID = menu.loginMenu(backendController);
+            if (ID == null) {
+                boolean successfulLogin = false;
+                do {
+                    ID = menu.loginMenu();
+                    if(ID.equals("Q"))
+                        break;
+                    successfulLogin = backendController.login(ID);
+                } while (!successfulLogin);
+            }
 
             if (ID.equals("Q"))
                 break;
@@ -38,7 +47,7 @@ public class EmployeeModule {
                         break;
 
                     case 1:
-                        backendController.viewMyProfile();
+                        backendController.viewProfile("");
                         break;
 
                     case 2:
@@ -47,7 +56,12 @@ public class EmployeeModule {
                         boolean displayShiftDetails = menu.displaySpecificEmployees();
                         if (displayShiftDetails) {
                             do {
-                                menu.showSpecificShift(backendController);
+                                LocalDate date = null;
+                                do {
+                                    date = menu.showEnterDateMenu();
+                                } while (date == null);
+                                boolean isMorning = menu.showEnterMorningEvening();
+                                backendController.viewSpecificShift(date, isMorning);
                                 io.print("To find another shift type anything other than \"continue\": ");
                                 continueToViewShift = io.getString();
                             } while (!continueToViewShift.equals("continue"));
@@ -86,7 +100,24 @@ public class EmployeeModule {
                         break;
 
                     case 6:
-                        //backendController.viewEmployee();
+                        String viewID, updateEmployee;
+                        io.print("Please enter the ID of the employee: ");
+                        viewID = io.getString();
+                        backendController.viewProfile(viewID);
+
+                        do {
+                            io.print("Type \"y\" or \"n\": ");
+                            updateEmployee = io.getString();
+                        } while (!updateEmployee.equals("y") && !updateEmployee.equals("n"));
+
+                        if (updateEmployee.equals("y")) {
+                            int updateIndex = menu.showUpdateEmployeeMenu();
+                            switch (updateIndex){
+                                case 1:
+                                    String name = menu.showEnterStringMenu("name");
+                            }
+
+                        }
                         break;
 
                     case 7:

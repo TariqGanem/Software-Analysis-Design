@@ -11,7 +11,7 @@ import Resources.Role;
 import java.time.LocalDate;
 import java.util.Map;
 
-public class    BackendController {
+public class BackendController {
     private Facade facade;
     private IOController io;
     private String activeEmployee;
@@ -35,8 +35,8 @@ public class    BackendController {
         return facade.getIsManager();
     }
 
-    public void viewMyProfile() {
-        ResponseT<EmployeeDTO> response = facade.getEmployee(activeEmployee);
+    public void viewProfile(String ID) {
+        ResponseT<EmployeeDTO> response = ID.equals("") ? facade.getEmployee(activeEmployee) : facade.getEmployee(ID);
         if (response.getErrorOccurred())
             io.println(response.getErrorMessage());
         else
@@ -91,6 +91,46 @@ public class    BackendController {
             responseOfGet.getValue().timeFrames[day][0] = preference;
         else
             responseOfGet.getValue().timeFrames[day][1] = preference;
+        Response responseOfSet = facade.setEmployee(responseOfGet.getValue());
+        if (responseOfSet.getErrorOccurred())
+            io.println(responseOfSet.getErrorMessage());
+    }
+
+    public void changeName(String name) {
+        ResponseT<EmployeeDTO> responseOfGet = facade.getEmployee(activeEmployee);
+        responseOfGet.getValue().name = name;
+        Response responseOfSet = facade.setEmployee(responseOfGet.getValue());
+        if (responseOfSet.getErrorOccurred())
+            io.println(responseOfSet.getErrorMessage());
+    }
+
+    public void changeBankId(int bankId) {
+        ResponseT<EmployeeDTO> responseOfGet = facade.getEmployee(activeEmployee);
+        responseOfGet.getValue().bankId = bankId;
+        Response responseOfSet = facade.setEmployee(responseOfGet.getValue());
+        if (responseOfSet.getErrorOccurred())
+            io.println(responseOfSet.getErrorMessage());
+    }
+
+    public void changeBranchId(int branchId) {
+        ResponseT<EmployeeDTO> responseOfGet = facade.getEmployee(activeEmployee);
+        responseOfGet.getValue().branchId = branchId;
+        Response responseOfSet = facade.setEmployee(responseOfGet.getValue());
+        if (responseOfSet.getErrorOccurred())
+            io.println(responseOfSet.getErrorMessage());
+    }
+
+    public void changeAccountNumber(int accountNumber) {
+        ResponseT<EmployeeDTO> responseOfGet = facade.getEmployee(activeEmployee);
+        responseOfGet.getValue().accountNumber = accountNumber;
+        Response responseOfSet = facade.setEmployee(responseOfGet.getValue());
+        if (responseOfSet.getErrorOccurred())
+            io.println(responseOfSet.getErrorMessage());
+    }
+
+    public void changeSalary(float salary) {
+        ResponseT<EmployeeDTO> responseOfGet = facade.getEmployee(activeEmployee);
+        responseOfGet.getValue().salary = salary;
         Response responseOfSet = facade.setEmployee(responseOfGet.getValue());
         if (responseOfSet.getErrorOccurred())
             io.println(responseOfSet.getErrorMessage());

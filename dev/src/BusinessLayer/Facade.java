@@ -30,6 +30,7 @@ public class Facade {
         //TODO: REMOVE THIS
         List roles = new ArrayList<Role>();
         roles.add(Role.Cashier);
+        roles.add(Role.StoreManager);
         String name = "Sponge Bob";
         String ID1 = "123456789";
         int bankId = 10;
