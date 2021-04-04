@@ -17,7 +17,7 @@ public class IOController {
     }
 
     public String getString() {
-        return scanner.next();
+        return scanner.nextLine();
     }
 
     public int getInt() {
@@ -25,7 +25,7 @@ public class IOController {
         Integer ret = null;
         do {
             try {
-                value = scanner.next();
+                value = scanner.nextLine();
                 ret = Integer.parseInt(value);
             } catch (Exception ignored) {
                 System.out.println("Please enter an integer.");
@@ -39,7 +39,7 @@ public class IOController {
         Float ret = null;
         do {
             try {
-                value = scanner.next();
+                value = scanner.nextLine();
                 ret = Float.parseFloat(value);
             } catch (Exception ignored) {
                 System.out.println("Please enter an integer / float.");

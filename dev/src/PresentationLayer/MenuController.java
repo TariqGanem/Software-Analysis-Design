@@ -4,6 +4,7 @@ import Resources.Preference;
 import Resources.Role;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -115,7 +116,6 @@ public class MenuController {
         io.println("3) Delete shift");
         io.println("4) Display assigned employees");
 
-
         int answer;
         do {
             io.print("Enter a number between 1 and 4: ");
@@ -175,15 +175,26 @@ public class MenuController {
 
     public List<Role> showEnterRoleList() {
         IOController io = IOController.getInstance();
+        List<Role> skills = new ArrayList<>();
+        int answer = 0;
 
-        int i = 0;
-        for (Role role: Role.values()) {
-
+        int i = 1;
+        for (Role role : Role.values()) {
+            io.println(i + ") " + role.name());
+            i++;
         }
-        io.println("");
-        io.println("Please enter the new role list: ");
+        io.println("Please choose the roles of the employee:");
 
-        return null;
+        do {
+            io.print("Pick a number between 1 and " + Role.values().length + ": ");
+            answer = io.getInt();
+            if (answer >= 1 && answer < Role.values().length) {
+                skills.add(Role.values()[answer - 1]);
+            }
+            io.println("Type \"0\" to stop adding roles.");
+        } while (answer != 0);
+
+        return skills;
     }
 
     public Role showRoleMenu() {

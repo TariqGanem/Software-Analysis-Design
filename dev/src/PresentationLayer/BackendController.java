@@ -29,7 +29,7 @@ public class BackendController {
             io.println(response.getErrorMessage());
         else
             activeEmployee = ID;
-        return response.getErrorOccurred();
+        return !response.getErrorOccurred();
     }
 
     public boolean getIsManager() {
@@ -127,7 +127,7 @@ public class BackendController {
     public void setEmployeeDTO(EmployeeDTO employee) {
         Response response = facade.setEmployee(employee);
         if (response.getErrorOccurred())
-            io.print(response.getErrorMessage());
+            io.println(response.getErrorMessage());
     }
 
     public void defineShiftPersonnel(int day, boolean isMorning, Role role, int qtty) {

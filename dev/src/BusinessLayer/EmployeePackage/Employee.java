@@ -111,6 +111,16 @@ public class Employee {
     }
 
     public void setSkills(List<Role> skills) {
+        int i = 0, j = 0;
+        for (Role r1: skills) {
+            j = 0;
+            for (Role r2: skills) {
+                if(i != j &&r1.name().equals(r2.name()))
+                    throw new IllegalArgumentException("Can't add two of the same role to an employee.");
+                j++;
+            }
+            i++;
+        }
         this.skills = skills;
     }
 
