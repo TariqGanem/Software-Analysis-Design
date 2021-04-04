@@ -40,9 +40,9 @@ public class MenuController {
     public void showManagerMenu() {
         IOController io = IOController.getInstance();
         io.println("4. Add new shift");
-        io.println("5. Add new employee");
+        io.println("5. View shift information");
         io.println("6. View employee profile");
-        io.println("7. View shift information");
+        io.println("7. Add new employee");
         io.println("8. Define shift personnel");
     }
 
@@ -188,7 +188,7 @@ public class MenuController {
         do {
             io.print("Pick a number between 1 and " + Role.values().length + ": ");
             answer = io.getInt();
-            if (answer >= 1 && answer < Role.values().length) {
+            if (answer >= 1 && answer <= Role.values().length) {
                 skills.add(Role.values()[answer - 1]);
             }
             io.println("Type \"0\" to stop adding roles.");
