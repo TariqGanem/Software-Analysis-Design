@@ -1,8 +1,12 @@
 package PresentationLayer;
 
+import BusinessLayer.ResponseT;
+import DTOPackage.EmployeeDTO;
 import Resources.Preference;
+import Resources.Role;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class EmployeeModule {
 
@@ -20,7 +24,7 @@ public class EmployeeModule {
                 boolean successfulLogin = false;
                 do {
                     ID = menu.loginMenu();
-                    if(ID.equals("Q"))
+                    if (ID.equals("Q"))
                         break;
                     successfulLogin = backendController.login(ID);
                 } while (!successfulLogin);
@@ -123,9 +127,87 @@ public class EmployeeModule {
 
                         if (updateEmployee.equals("y")) {
                             int updateIndex = menu.showUpdateEmployeeMenu();
-                            switch (updateIndex){
+                            ResponseT<EmployeeDTO> newEmployee;
+                            switch (updateIndex) {
                                 case 1:
                                     String name = menu.showEnterStringMenu("name");
+                                    newEmployee = backendController.getEmployeeDTO(viewID);
+                                    if (!newEmployee.getErrorOccurred()) {
+                                        backendController.getEmployeeDTO(viewID).getValue().name = name;
+                                        backendController.setEmployeeDTO(newEmployee.getValue());
+                                    }
+
+                                case 2:
+                                    int bankId = menu.showEnterIntMenu("bank id");
+                                    newEmployee = backendController.getEmployeeDTO(viewID);
+                                    if (!newEmployee.getErrorOccurred()) {
+                                        backendController.getEmployeeDTO(viewID).getValue().bankId = bankId;
+                                        backendController.setEmployeeDTO(newEmployee.getValue());
+                                    }
+
+                                case 3:
+                                    int branchId = menu.showEnterIntMenu("branch id");
+                                    newEmployee = backendController.getEmployeeDTO(viewID);
+                                    if (!newEmployee.getErrorOccurred()) {
+                                        backendController.getEmployeeDTO(viewID).getValue().branchId = branchId;
+                                        backendController.setEmployeeDTO(newEmployee.getValue());
+                                    }
+
+                                case 4:
+                                    int accountNumber = menu.showEnterIntMenu("account number");
+                                    newEmployee = backendController.getEmployeeDTO(viewID);
+                                    if (!newEmployee.getErrorOccurred()) {
+                                        backendController.getEmployeeDTO(viewID).getValue().accountNumber = accountNumber;
+                                        backendController.setEmployeeDTO(newEmployee.getValue());
+                                    }
+
+                                case 5:
+                                    float salary = menu.showEnterFloatMenu("salary");
+                                    newEmployee = backendController.getEmployeeDTO(viewID);
+                                    if (!newEmployee.getErrorOccurred()) {
+                                        backendController.getEmployeeDTO(viewID).getValue().salary = salary;
+                                        backendController.setEmployeeDTO(newEmployee.getValue());
+                                    }
+
+                                case 6:
+                                    LocalDate startDate = menu.showEnterDateMenu();
+                                    newEmployee = backendController.getEmployeeDTO(viewID);
+                                    if (!newEmployee.getErrorOccurred()) {
+                                        backendController.getEmployeeDTO(viewID).getValue().startDate = startDate;
+                                        backendController.setEmployeeDTO(newEmployee.getValue());
+                                    }
+
+                                case 7:
+                                    String trustFund = menu.showEnterStringMenu("trust fund");
+                                    newEmployee = backendController.getEmployeeDTO(viewID);
+                                    if (!newEmployee.getErrorOccurred()) {
+                                        backendController.getEmployeeDTO(viewID).getValue().trustFund = trustFund;
+                                        backendController.setEmployeeDTO(newEmployee.getValue());
+                                    }
+
+                                case 8:
+                                    int freeDays = menu.showEnterIntMenu("free days amount");
+                                    newEmployee = backendController.getEmployeeDTO(viewID);
+                                    if (!newEmployee.getErrorOccurred()) {
+                                        backendController.getEmployeeDTO(viewID).getValue().freeDays = freeDays;
+                                        backendController.setEmployeeDTO(newEmployee.getValue());
+                                    }
+
+                                case 9:
+                                    int sickDays = menu.showEnterIntMenu("sick days amount");
+                                    newEmployee = backendController.getEmployeeDTO(viewID);
+                                    if (!newEmployee.getErrorOccurred()) {
+                                        backendController.getEmployeeDTO(viewID).getValue().sickDays = sickDays;
+                                        backendController.setEmployeeDTO(newEmployee.getValue());
+                                    }
+
+                                case 10:
+                                    List<Role> skills = menu.showEnterRoleList();
+                                    newEmployee = backendController.getEmployeeDTO(viewID);
+                                    if (!newEmployee.getErrorOccurred()) {
+                                        backendController.getEmployeeDTO(viewID).getValue().skills = skills;
+                                        backendController.setEmployeeDTO(newEmployee.getValue());
+                                    }
                             }
 
                         }
