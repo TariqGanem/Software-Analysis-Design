@@ -5,6 +5,7 @@ import Resources.Role;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class MenuController {
 
@@ -105,8 +106,23 @@ public class MenuController {
         return prefIndex - 1;
     }
 
-    private void showUpdateShiftMenu(BackendController backendController) {
+    public int showUpdateShiftMenu() {
+        IOController io = IOController.getInstance();
 
+        io.println("What action would you like to perform?");
+        io.println("1) Assign an employee");
+        io.println("2) Remove an employee");
+        io.println("3) Delete shift");
+        io.println("4) Display assigned employees");
+
+
+        int answer;
+        do {
+            io.print("Enter a number between 1 and 4: ");
+            answer = io.getInt();
+        } while (answer < 1 || answer > 4);
+
+        return answer;
     }
 
     public int showUpdateEmployeeMenu() {
@@ -168,5 +184,33 @@ public class MenuController {
         io.println("Please enter the new role list: ");
 
         return null;
+    }
+
+    public Role showRoleMenu() {
+        IOController io = IOController.getInstance();
+        int i = 1;
+        for (Role role : Role.values()) {
+            io.println(i + ") " + role.toString());
+            i++;
+        }
+        int index;
+        do {
+            io.print("Enter a number between 1 to " + Role.values().length + ": ");
+            index = io.getInt();
+        }while(index < 1 || index > Role.values().length);
+        return Role.values()[index - 1];
+    }
+
+    public String showAvailableEmployeesMenu(Map<String,String> availableEmployees) {
+        IOController io = IOController.getInstance();
+        String[] ids = (String[])availableEmployees.keySet().toArray();
+        for (int i = 0; i < ids.length; i++)
+            io.println((i+1) + ") " + ids[i] + " " + availableEmployees.get(ids[i]));
+        int index;
+        do {
+            io.print("Enter a number between 1 to " + ids.length);
+            index = io.getInt();
+        }while(index < 1 || index > ids.length);
+        return ids[index - 1];
     }
 }

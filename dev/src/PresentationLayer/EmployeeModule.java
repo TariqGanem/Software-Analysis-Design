@@ -7,6 +7,7 @@ import Resources.Role;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class EmployeeModule {
 
@@ -97,21 +98,47 @@ public class EmployeeModule {
 
                     case 4:
                         //backendController.addShift();
+
+
+                    case 5:
+                        //backendController.viewShift();
                         do {
-                            LocalDate date = null;
+                            LocalDate date;
                             do {
                                 date = menu.showEnterDateMenu();
                             } while (date == null);
                             boolean isMorning = menu.showEnterMorningEvening();
-                            if(backendController.addShift(date, isMorning))
-                                menu.showUpdateEmployeeMenu();
+                            if(option == 5)
+                                backendController.viewSpecificShift(date, isMorning);
+                            if(option == 5 || backendController.addShift(date, isMorning)) {
+                                int shiftMenu = menu.showUpdateShiftMenu();
+                                switch (shiftMenu){
+                                    case 1:
+                                        Role role = menu.showRoleMenu();
+                                        Map<String,String> availableEmployees = backendController.viewAvailableEmployees(date, isMorning, role);
+                                        String id = menu.showAvailableEmployeesMenu(availableEmployees);
+                                        backendController.assignToShift(id, role);
+                                        break;
+
+                                    case 2:
+
+                                        break;
+
+                                    case 3:
+
+                                        break;
+
+                                    case 4:
+
+                                        break;
+
+                                    default:
+
+                                }
+                            }
                             io.print("To find another shift type anything other than \"continue\": ");
                             continueToViewShift = io.getString();
                         } while (!continueToViewShift.equals("continue"));
-                        break;
-
-                    case 5:
-                        //backendController.addEmployee();
                         break;
 
                     case 6:
@@ -214,16 +241,30 @@ public class EmployeeModule {
                         break;
 
                     case 7:
-                        //backendController.viewShift();
-                        do {
-                            menu.viewShiftMenu(backendController);
-                            io.print("To view another shift type anything other than \"continue\": ");
-                            continueChanging = io.getString();
-                        } while (!continueChanging.equals("continue"));
+                        //backendController.addEmployee();
                         break;
 
                     case 8:
                         //backendController.defineShiftPersonnel();
+                        do {
+                            io.print("Please enter the day of the week in numbers: ");
+                            int day = 0;
+                            do {
+                                io.print("Pick a number between 1 and 7: ");
+                                day = io.getInt();
+                            } while (day <= 0 || day > 7);
+                            io.println("Is the shift in the morning or in the evening?");
+                            do {
+                                io.print("Type \"m\" or \"e\": ");
+                                morning_evening = io.getString();
+                            } while (!morning_evening.equals("m") && !morning_evening.equals("e"));
+                            Role role = menu.showRoleMenu();
+                            io.print("how many " + role.toString() + " are needed? ");
+                            int qtty = io.getInt();
+                            backendController.defineShiftPersonnel(day, morning_evening.equals("m"), role, qtty);
+                            io.print("To change another preference type anything other than \"continue\": ");
+                            continueChanging = io.getString();
+                        } while (!continueChanging.equals("continue"));
                         break;
 
                     default:

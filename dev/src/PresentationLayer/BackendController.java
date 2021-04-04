@@ -9,6 +9,7 @@ import Resources.Preference;
 import Resources.Role;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 public class BackendController {
@@ -127,5 +128,26 @@ public class BackendController {
         Response response = facade.setEmployee(employee);
         if (response.getErrorOccurred())
             io.print(response.getErrorMessage());
+    }
+
+    public void defineShiftPersonnel(int day, boolean isMorning, Role role, int qtty) {
+        Response res = facade.definePersonnelForShift(day, isMorning, role, qtty);
+        if(res.getErrorOccurred())
+            io.println(res.getErrorMessage());
+    }
+
+    public void assignToShift(String id, Role role) {
+        //TODO display available employees
+        Response res = facade.AssignToShift(id, role);
+        if(res.getErrorOccurred())
+            io.println(res.getErrorMessage());
+    }
+
+    public Map<String,String> viewAvailableEmployees(LocalDate date, boolean isMorning, Role role) {
+        ResponseT<Map<String,String>> res = facade.viewAvailableEmployees(date.getDayOfWeek().getValue(), isMorning, role);
+        if(!res.getErrorOccurred())
+            return res.getValue();
+        io.println(res.getErrorMessage());
+        return null;
     }
 }
