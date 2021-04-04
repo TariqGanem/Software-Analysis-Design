@@ -7,6 +7,7 @@ import Resources.Role;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class EmployeeModule {
 
@@ -97,45 +98,47 @@ public class EmployeeModule {
 
                     case 4:
                         //backendController.addShift();
-                        do {
-                            menu.addShiftMenu(backendController);
-                            io.print("To add another shift type anything other than \"continue\": ");
-                            continueChanging = io.getString();
-                        } while (!continueChanging.equals("continue"));
-                        break;
+
 
                     case 5:
-                        String name, newID, trustFund;
-                        int bankId, branchId, accountNumber, freeDays, sickDays;
-                        float salary;
-                        List<Role> skills;
-                        LocalDate startDate;
-                        Preference[][] timeFrames;
+                        //backendController.viewShift();
+                        do {
+                            LocalDate date;
+                            do {
+                                date = menu.showEnterDateMenu();
+                            } while (date == null);
+                            boolean isMorning = menu.showEnterMorningEvening();
+                            if (option == 5)
+                                backendController.viewSpecificShift(date, isMorning);
+                            if (option == 5 || backendController.addShift(date, isMorning)) {
+                                int shiftMenu = menu.showUpdateShiftMenu();
+                                switch (shiftMenu) {
+                                    case 1:
+                                        Role role = menu.showRoleMenu();
+                                        Map<String, String> availableEmployees = backendController.viewAvailableEmployees(date, isMorning, role);
+                                        String id = menu.showAvailableEmployeesMenu(availableEmployees);
+                                        backendController.assignToShift(id, role);
+                                        break;
 
-                        io.print("Please enter a name: ");
-                        name = io.getString();
-                        io.print("Please enter an ID: ");
-                        ID = io.getString();
-                        io.print("Please enter a bank id: ");
-                        bankId = io.getInt();
-                        io.print("Please enter a branch id: ");
-                        branchId = io.getInt();
-                        io.print("Please enter an account number: ");
-                        accountNumber = io.getInt();
-                        io.print("Please enter the salary: ");
-                        salary = io.getFloat();
-                        io.println("Please enter the start working date:");
-                        startDate = menu.showEnterDateMenu();
-                        io.print("Please enter a trust fund: ");
-                        trustFund = io.getString();
-                        io.print("Please enter the amount of free days: ");
-                        freeDays = io.getInt();
-                        io.print("Please enter the amount of sick days: ");
-                        sickDays = io.getInt();
-                        skills = menu.showEnterRoleList();
-                        timeFrames = menu.showEnterPreferenceArray();
+                                    case 2:
 
-                        backendController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, startDate, trustFund, freeDays, sickDays, skills, timeFrames);
+                                        break;
+
+                                    case 3:
+
+                                        break;
+
+                                    case 4:
+
+                                        break;
+
+                                    default:
+
+                                }
+                            }
+                            io.print("To find another shift type anything other than \"continue\": ");
+                            continueToViewShift = io.getString();
+                        } while (!continueToViewShift.equals("continue"));
                         break;
 
                     case 6:
@@ -255,16 +258,60 @@ public class EmployeeModule {
                         break;
 
                     case 7:
-                        //backendController.viewShift();
-                        do {
-                            menu.viewShiftMenu(backendController);
-                            io.print("To view another shift type anything other than \"continue\": ");
-                            continueChanging = io.getString();
-                        } while (!continueChanging.equals("continue"));
+                        String name, newID, trustFund;
+                        int bankId, branchId, accountNumber, freeDays, sickDays;
+                        float salary;
+                        List<Role> skills;
+                        LocalDate startDate;
+                        Preference[][] timeFrames;
+
+                        io.print("Please enter a name: ");
+                        name = io.getString();
+                        io.print("Please enter an ID: ");
+                        ID = io.getString();
+                        io.print("Please enter a bank id: ");
+                        bankId = io.getInt();
+                        io.print("Please enter a branch id: ");
+                        branchId = io.getInt();
+                        io.print("Please enter an account number: ");
+                        accountNumber = io.getInt();
+                        io.print("Please enter the salary: ");
+                        salary = io.getFloat();
+                        io.println("Please enter the start working date:");
+                        startDate = menu.showEnterDateMenu();
+                        io.print("Please enter a trust fund: ");
+                        trustFund = io.getString();
+                        io.print("Please enter the amount of free days: ");
+                        freeDays = io.getInt();
+                        io.print("Please enter the amount of sick days: ");
+                        sickDays = io.getInt();
+                        skills = menu.showEnterRoleList();
+                        timeFrames = menu.showEnterPreferenceArray();
+
+                        backendController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, startDate, trustFund, freeDays, sickDays, skills, timeFrames);
                         break;
 
                     case 8:
                         //backendController.defineShiftPersonnel();
+                        do {
+                            io.print("Please enter the day of the week in numbers: ");
+                            int day = 0;
+                            do {
+                                io.print("Pick a number between 1 and 7: ");
+                                day = io.getInt();
+                            } while (day <= 0 || day > 7);
+                            io.println("Is the shift in the morning or in the evening?");
+                            do {
+                                io.print("Type \"m\" or \"e\": ");
+                                morning_evening = io.getString();
+                            } while (!morning_evening.equals("m") && !morning_evening.equals("e"));
+                            Role role = menu.showRoleMenu();
+                            io.print("how many " + role.toString() + " are needed? ");
+                            int qtty = io.getInt();
+                            backendController.defineShiftPersonnel(day, morning_evening.equals("m"), role, qtty);
+                            io.print("To change another preference type anything other than \"continue\": ");
+                            continueChanging = io.getString();
+                        } while (!continueChanging.equals("continue"));
                         break;
 
                     default:

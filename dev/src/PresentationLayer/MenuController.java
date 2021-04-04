@@ -5,8 +5,8 @@ import Resources.Role;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 public class MenuController {
 
@@ -107,71 +107,22 @@ public class MenuController {
         return prefIndex - 1;
     }
 
-    public void addShiftMenu(BackendController backendController) {
+    public int showUpdateShiftMenu() {
         IOController io = IOController.getInstance();
-        String answer;
-        int year, month, day;
-        boolean isMorning;
 
-        io.print("Please enter a year: ");
-        year = io.getInt();
-        io.print("Please enter a month: ");
-        month = io.getInt();
-        io.print("Please enter a day: ");
-        day = io.getInt();
-        io.println("Is the shift in the morning or in the evening?");
+        io.println("What action would you like to perform?");
+        io.println("1) Assign an employee");
+        io.println("2) Remove an employee");
+        io.println("3) Delete shift");
+        io.println("4) Display assigned employees");
+
+        int answer;
         do {
-            io.print("Type \"m\" or \"e\": ");
-            answer = io.getString();
-        } while (!answer.equals("m") && !answer.equals("e"));
+            io.print("Enter a number between 1 and 4: ");
+            answer = io.getInt();
+        } while (answer < 1 || answer > 4);
 
-        isMorning = answer.equals("m");
-
-        LocalDate date;
-        try {
-            date = LocalDate.of(year, month, day);
-            if (backendController.addShift(date, isMorning)) {
-            }
-            //TODO ask if wish to assign or something
-        } catch (Exception ignored) {
-            io.println("You entered illegal values for a date, you may try again.");
-        }
-
-    }
-
-
-    public void viewShiftMenu(BackendController backendController) {
-        IOController io = IOController.getInstance();
-        String answer;
-        int year, month, day;
-        boolean isMorning;
-
-        io.print("Please enter a year: ");
-        year = io.getInt();
-        io.print("Please enter a month: ");
-        month = io.getInt();
-        io.print("Please enter a day: ");
-        day = io.getInt();
-        io.println("Is the shift in the morning or in the evening?");
-        do {
-            io.print("Type \"m\" or \"e\": ");
-            answer = io.getString();
-        } while (!answer.equals("m") && !answer.equals("e"));
-
-        isMorning = answer.equals("m");
-
-        LocalDate date;
-        try {
-            date = LocalDate.of(year, month, day);
-            if (backendController.getShift(date, isMorning))
-                updateShift(backendController);
-        } catch (Exception ignored) {
-            io.println("You entered illegal values for a date, you may try again.");
-        }
-    }
-
-    private void updateShift(BackendController backendController) {
-
+        return answer;
     }
 
     public int showUpdateEmployeeMenu() {
@@ -301,5 +252,33 @@ public class MenuController {
             default:
                 return "not a day of the week :(";
         }
+    }
+
+    public Role showRoleMenu() {
+        IOController io = IOController.getInstance();
+        int i = 1;
+        for (Role role : Role.values()) {
+            io.println(i + ") " + role.toString());
+            i++;
+        }
+        int index;
+        do {
+            io.print("Enter a number between 1 to " + Role.values().length + ": ");
+            index = io.getInt();
+        }while(index < 1 || index > Role.values().length);
+        return Role.values()[index - 1];
+    }
+
+    public String showAvailableEmployeesMenu(Map<String,String> availableEmployees) {
+        IOController io = IOController.getInstance();
+        String[] ids = (String[])availableEmployees.keySet().toArray();
+        for (int i = 0; i < ids.length; i++)
+            io.println((i+1) + ") " + ids[i] + " " + availableEmployees.get(ids[i]));
+        int index;
+        do {
+            io.print("Enter a number between 1 to " + ids.length);
+            index = io.getInt();
+        }while(index < 1 || index > ids.length);
+        return ids[index - 1];
     }
 }

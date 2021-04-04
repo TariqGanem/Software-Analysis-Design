@@ -215,13 +215,24 @@ public class Facade {
         return response;
     }
 
-    public ResponseT<List<String>> viewAvailableEmployees(int day, boolean isMorning, Role skill) {
-        ResponseT<List<String>> response;
+//    public ResponseT<List<String>> viewAvailableEmployees(int day, boolean isMorning, Role skill) {
+//        ResponseT<List<String>> response;
+//        try {
+//            Map<String, String> employees = employeeController.viewAvailableEmployees(day, isMorning, skill);
+//            response = new ResponseT<List<String>>(employees);
+//        } catch (Exception e) {
+//            response = new ResponseT<List<String>>(e);
+//        }
+//        return response;
+//    }
+
+    public ResponseT<Map<String, String>> viewAvailableEmployees(int day, boolean isMorning, Role skill) {
+        ResponseT<Map<String, String>> response;
         try {
-            List<String> employees = employeeController.viewAvailableEmployees(day, isMorning, skill);
-            response = new ResponseT<List<String>>(employees);
+            Map<String, String> employees = employeeController.viewAvailableEmployees(day, isMorning, skill);
+            response = new ResponseT<Map<String, String>>(employees);
         } catch (Exception e) {
-            response = new ResponseT<List<String>>(e);
+            response = new ResponseT<Map<String, String>>(e);
         }
         return response;
     }
