@@ -103,69 +103,7 @@ public class MenuController {
         return prefIndex - 1;
     }
 
-    public void addShiftMenu(BackendController backendController){
-        IOController io = IOController.getInstance();
-        String answer;
-        int year, month, day;
-        boolean isMorning;
-
-        io.print("Please enter a year: ");
-        year = io.getInt();
-        io.print("Please enter a month: ");
-        month = io.getInt();
-        io.print("Please enter a day: ");
-        day = io.getInt();
-        io.println("Is the shift in the morning or in the evening?");
-        do {
-            io.print("Type \"m\" or \"e\": ");
-            answer = io.getString();
-        } while (!answer.equals("m") && !answer.equals("e"));
-
-        isMorning = answer.equals("m");
-
-        LocalDate date;
-        try {
-            date = LocalDate.of(year, month, day);
-            if(backendController.addShift(date, isMorning))
-                //TODO ask if wish to assign or something
-        } catch(Exception ignored) {
-            io.println("You entered illegal values for a date, you may try again.");
-        }
-
-    }
-
-
-    public void viewShiftMenu(BackendController backendController) {
-        IOController io = IOController.getInstance();
-        String answer;
-        int year, month, day;
-        boolean isMorning;
-
-        io.print("Please enter a year: ");
-        year = io.getInt();
-        io.print("Please enter a month: ");
-        month = io.getInt();
-        io.print("Please enter a day: ");
-        day = io.getInt();
-        io.println("Is the shift in the morning or in the evening?");
-        do {
-            io.print("Type \"m\" or \"e\": ");
-            answer = io.getString();
-        } while (!answer.equals("m") && !answer.equals("e"));
-
-        isMorning = answer.equals("m");
-
-        LocalDate date;
-        try {
-            date = LocalDate.of(year, month, day);
-            if(backendController.getShift(date, isMorning))
-                updateShift(backendController);
-        } catch(Exception ignored) {
-            io.println("You entered illegal values for a date, you may try again.");
-        }
-    }
-
-    private void updateShift(BackendController backendController) {
+    private void showUpdateShiftMenu(BackendController backendController) {
 
 	}
     public int showUpdateEmployeeMenu() {

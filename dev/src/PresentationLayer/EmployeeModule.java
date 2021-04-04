@@ -94,10 +94,16 @@ public class EmployeeModule {
                     case 4:
                         //backendController.addShift();
                         do {
-                            menu.addShiftMenu(backendController);
-                            io.print("To add another shift type anything other than \"continue\": ");
-                            continueChanging = io.getString();
-                        } while (!continueChanging.equals("continue"));
+                            LocalDate date = null;
+                            do {
+                                date = menu.showEnterDateMenu();
+                            } while (date == null);
+                            boolean isMorning = menu.showEnterMorningEvening();
+                            if(backendController.addShift(date, isMorning))
+                                menu.showUpdateEmployeeMenu();
+                            io.print("To find another shift type anything other than \"continue\": ");
+                            continueToViewShift = io.getString();
+                        } while (!continueToViewShift.equals("continue"));
                         break;
 
                     case 5:
