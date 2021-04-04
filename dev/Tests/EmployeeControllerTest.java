@@ -45,8 +45,8 @@ public class EmployeeControllerTest {
         String trustFund = "Trust Fund";
         int freeDays = 10;
         int sickDays = 15;
-        Preference[][] timeFrames = new Preference[6][2];
-        for (int i = 0; i < 6; i++)
+        Preference[][] timeFrames = new Preference[7][2];
+        for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames[i][j] = Preference.WANT;
 
@@ -74,8 +74,8 @@ public class EmployeeControllerTest {
         String trustFund = "Trust Fund";
         int freeDays = 10;
         int sickDays = 15;
-        Preference[][] timeFrames = new Preference[6][2];
-        for (int i = 0; i < 6; i++)
+        Preference[][] timeFrames = new Preference[7][2];
+        for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames[i][j] = Preference.WANT;
 
@@ -115,8 +115,8 @@ public class EmployeeControllerTest {
         String trustFund = "Trust Fund";
         int freeDays = 10;
         int sickDays = 15;
-        Preference[][] timeFrames = new Preference[6][2];
-        for (int i = 0; i < 6; i++)
+        Preference[][] timeFrames = new Preference[7][2];
+        for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames[i][j] = Preference.WANT;
 
@@ -143,8 +143,8 @@ public class EmployeeControllerTest {
         String trustFund = "Trust Fund";
         int freeDays = 10;
         int sickDays = 15;
-        Preference[][] timeFrames = new Preference[6][2];
-        for (int i = 0; i < 6; i++)
+        Preference[][] timeFrames = new Preference[7][2];
+        for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames[i][j] = Preference.WANT;
 
@@ -173,8 +173,8 @@ public class EmployeeControllerTest {
         String trustFund = "Trust Fund";
         int freeDays = 10;
         int sickDays = 15;
-        Preference[][] timeFrames = new Preference[6][2];
-        for (int i = 0; i < 6; i++)
+        Preference[][] timeFrames = new Preference[7][2];
+        for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames[i][j] = Preference.WANT;
 
@@ -202,8 +202,8 @@ public class EmployeeControllerTest {
         String trustFund = "Trust Fund";
         int freeDays = 10;
         int sickDays = 15;
-        Preference[][] timeFrames = new Preference[6][2];
-        for (int i = 0; i < 6; i++)
+        Preference[][] timeFrames = new Preference[7][2];
+        for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames[i][j] = Preference.WANT;
 
@@ -232,8 +232,8 @@ public class EmployeeControllerTest {
         String trustFund = "Trust Fund";
         int freeDays = 10;
         int sickDays = 15;
-        Preference[][] timeFrames = new Preference[6][2];
-        for (int i = 0; i < 6; i++)
+        Preference[][] timeFrames = new Preference[7][2];
+        for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames[i][j] = Preference.WANT;
 
@@ -262,16 +262,16 @@ public class EmployeeControllerTest {
         String trustFund = "Trust Fund";
         int freeDays = 10;
         int sickDays = 15;
-        Preference[][] timeFrames1 = new Preference[6][2];
-        for (int i = 0; i < 6; i++)
+        Preference[][] timeFrames1 = new Preference[7][2];
+        for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames1[i][j] = Preference.WANT;
-        Preference[][] timeFrames2 = new Preference[6][2];
-        for (int i = 0; i < 6; i++)
+        Preference[][] timeFrames2 = new Preference[7][2];
+        for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames2[i][j] = Preference.CAN;
-        Preference[][] timeFrames3 = new Preference[6][2];
-        for (int i = 0; i < 6; i++)
+        Preference[][] timeFrames3 = new Preference[7][2];
+        for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames3[i][j] = Preference.CANT;
 

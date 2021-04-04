@@ -19,7 +19,7 @@ public class EmployeeTest {
         List<Role> roles = new ArrayList<>();
         roles.add(Role.Cashier);
         employee = new Employee("Sponge Bob", "123456789", 10, 100, 1000, 5000, LocalDate.now(),
-                "Trust Fund", 10, 15, roles, new Preference[6][2]);
+                "Trust Fund", 10, 15, roles, new Preference[7][2]);
     }
 
     @Test
@@ -124,7 +124,7 @@ public class EmployeeTest {
     public void testSetTimeFrames() {
         try {
             employee.setTimeFrames(new Preference[11][3]);
-            fail("Allowed timeFrames to be set to an array of lengths other than 6 and 2.");
+            fail("Allowed timeFrames to be set to an array of lengths other than 7 and 2.");
         } catch (Exception e) {
             String expectedMessage = "Time preferences must correlate to the shifts in a week.";
             String actualMessage = e.getMessage();

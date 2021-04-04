@@ -4,8 +4,6 @@ import Resources.Preference;
 import Resources.Role;
 
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class Employee {
@@ -20,7 +18,7 @@ public class Employee {
     private int freeDays;
     private int sickDays;
     private List<Role> skills;
-    private Preference[][] timeFrames = new Preference[6][2];
+    private Preference[][] timeFrames = new Preference[7][2];
 
     public Employee(String name, String ID, int bankId, int branchId, int accountNumber, float salary, LocalDate startDate,
                     String trustFund, int freeDays, int sickDays, List<Role> skills, Preference[][] timeFrames) {
@@ -35,6 +33,9 @@ public class Employee {
         setFreeDays(freeDays);
         setSickDays(sickDays);
         setSkills(skills);
+        timeFrames[5][1] = null;
+        timeFrames[6][0] = null;
+        timeFrames[6][1] = null;
         setTimeFrames(timeFrames);
     }
 
@@ -70,27 +71,28 @@ public class Employee {
     }
 
     public void setBankId(int bankId) {
-        if(bankId < 0) throw new IllegalArgumentException("The bankId can't be lower than 0.");
+        if (bankId < 0) throw new IllegalArgumentException("The bankId can't be lower than 0.");
         this.bankId = bankId;
     }
 
     public void setBranchId(int branchId) {
-        if(branchId < 0) throw new IllegalArgumentException("The branchId can't be lower than 0.");
+        if (branchId < 0) throw new IllegalArgumentException("The branchId can't be lower than 0.");
         this.branchId = branchId;
     }
 
     public void setAccountNumber(int accountNumber) {
-        if(accountNumber < 0) throw new IllegalArgumentException("The accountNumber can't be lower than 0.");
+        if (accountNumber < 0) throw new IllegalArgumentException("The accountNumber can't be lower than 0.");
         this.accountNumber = accountNumber;
     }
 
     public void setSalary(float salary) {
-        if(salary < 0) throw new IllegalArgumentException("The salary can't be lower than 0.");
+        if (salary < 0) throw new IllegalArgumentException("The salary can't be lower than 0.");
         this.salary = salary;
     }
 
     public void setStartDate(LocalDate startDate) {
-        if(startDate.isAfter(LocalDate.now())) throw new IllegalArgumentException("The startDate can't be after today.");
+        if (startDate.isAfter(LocalDate.now()))
+            throw new IllegalArgumentException("The startDate can't be after today.");
         this.startDate = startDate;
     }
 
@@ -99,12 +101,12 @@ public class Employee {
     }
 
     public void setFreeDays(int freeDays) {
-        if(freeDays < 0) throw new IllegalArgumentException("The freeDays can't be lower than 0.");
+        if (freeDays < 0) throw new IllegalArgumentException("The freeDays can't be lower than 0.");
         this.freeDays = freeDays;
     }
 
     public void setSickDays(int sickDays) {
-        if(sickDays < 0) throw new IllegalArgumentException("The sickDays can't be lower than 0.");
+        if (sickDays < 0) throw new IllegalArgumentException("The sickDays can't be lower than 0.");
         this.sickDays = sickDays;
     }
 
@@ -113,7 +115,14 @@ public class Employee {
     }
 
     public void setTimeFrames(Preference[][] timeFrames) {
-        if(timeFrames.length != 6 | timeFrames[0].length != 2) throw new IllegalArgumentException("Time preferences must correlate to the shifts in a week.");
+        if (timeFrames.length != 7 | timeFrames[0].length != 2)
+            throw new IllegalArgumentException("Time preferences must correlate to the shifts in a week.");
+        if (timeFrames[5][1] != null)
+            throw new IndexOutOfBoundsException("There is no shift at friday evening.");
+        if (timeFrames[6][0] != null)
+            throw new IndexOutOfBoundsException("There is no shift at saturday morning.");
+        if (timeFrames[6][1] != null)
+            throw new IndexOutOfBoundsException("There is no shift at saturday evening.");
         this.timeFrames = timeFrames;
     }
 
@@ -137,19 +146,35 @@ public class Employee {
         return branchId;
     }
 
-    public int getAccountNumber() { return accountNumber; }
+    public int getAccountNumber() {
+        return accountNumber;
+    }
 
-    public float getSalary() { return salary; }
+    public float getSalary() {
+        return salary;
+    }
 
-    public LocalDate getStartDate() { return startDate; }
+    public LocalDate getStartDate() {
+        return startDate;
+    }
 
-    public String getTrustFund() { return trustFund; }
+    public String getTrustFund() {
+        return trustFund;
+    }
 
-    public int getFreeDays() { return freeDays; }
+    public int getFreeDays() {
+        return freeDays;
+    }
 
-    public int getSickDays() { return sickDays; }
+    public int getSickDays() {
+        return sickDays;
+    }
 
-    public List<Role> getSkills() { return skills; }
+    public List<Role> getSkills() {
+        return skills;
+    }
 
-    public Preference[][] getTimeFrames() { return timeFrames; }
+    public Preference[][] getTimeFrames() {
+        return timeFrames;
+    }
 }

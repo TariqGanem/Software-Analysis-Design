@@ -16,8 +16,12 @@ public class EmployeeController {
         activeEmployee = null;
     }
 
+    public void logout() {
+        activeEmployee = null;
+    }
+
     public Employee getEmployee(String ID) throws NoPermissionException {
-        if (!activeEmployee.getIsManager())
+        if (!activeEmployee.getIsManager() && !activeEmployee.getID().equals(ID))
             throw new NoPermissionException("The employee currently using the system doesn't have permission to view this content.");
         if (!isValidID(ID))
             throw new IllegalArgumentException("No employee with the ID: " + ID + " was found in the system.");
@@ -86,11 +90,11 @@ public class EmployeeController {
     }*/
 
     public boolean isValidID(String ID) {
-        return employees.keySet().contains(ID);
+        return employees.containsKey(ID);
     }
 
     public boolean isManager() {
-        return activeEmployee.getIsManager();
+        return activeEmployee != null && activeEmployee.getIsManager();
     }
 
     public List<String> viewAvailableEmployees(int day, boolean isMorning, Role skill) {
