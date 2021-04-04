@@ -34,6 +34,20 @@ public class IOController {
         return ret;
     }
 
+    public float getFloat() {
+        String value = "";
+        Float ret = null;
+        do {
+            try {
+                value = scanner.next();
+                ret = Float.parseFloat(value);
+            } catch (Exception ignored) {
+                System.out.println("Please enter an integer / float.");
+            }
+        } while (ret == null);
+        return ret;
+    }
+
     public void print(String str) {
         System.out.print(str);
     }
