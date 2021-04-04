@@ -79,6 +79,11 @@ public class EmployeeModule {
 
                     case 4:
                         //backendController.addShift();
+                        do {
+                            menu.addShiftMenu(backendController);
+                            io.print("To add another shift type anything other than \"continue\": ");
+                            continueChanging = io.getString();
+                        } while (!continueChanging.equals("continue"));
                         break;
 
                     case 5:
@@ -91,6 +96,11 @@ public class EmployeeModule {
 
                     case 7:
                         //backendController.viewShift();
+                        do {
+                            menu.viewShiftMenu(backendController);
+                            io.print("To view another shift type anything other than \"continue\": ");
+                            continueChanging = io.getString();
+                        } while (!continueChanging.equals("continue"));
                         break;
 
                     case 8:

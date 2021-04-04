@@ -95,4 +95,23 @@ public class    BackendController {
         if (responseOfSet.getErrorOccurred())
             io.println(responseOfSet.getErrorMessage());
     }
+
+    public boolean addShift(LocalDate date, boolean isMorning) {
+        Response res = facade.addShift(date, isMorning);
+        if (res.getErrorOccurred()) {
+            io.println(res.getErrorMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public boolean getShift(LocalDate date, boolean isMorning) {
+        ResponseT<ShiftDTO> res = facade.getShift(date, isMorning);
+        if (res.getErrorOccurred()){
+            io.println(res.getErrorMessage());
+            return false;
+        }
+        io.println(res.getValue().describeShift());
+        return true;
+    }
 }
