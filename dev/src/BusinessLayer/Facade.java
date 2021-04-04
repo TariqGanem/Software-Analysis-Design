@@ -9,7 +9,6 @@ import DTOPackage.*;
 import Resources.Preference;
 import Resources.Role;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.naming.NoPermissionException;

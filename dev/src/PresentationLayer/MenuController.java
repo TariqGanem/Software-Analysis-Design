@@ -4,6 +4,7 @@ import Resources.Preference;
 import Resources.Role;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MenuController {
@@ -105,7 +106,7 @@ public class MenuController {
         return prefIndex - 1;
     }
 
-    public void addShiftMenu(BackendController backendController){
+    public void addShiftMenu(BackendController backendController) {
         IOController io = IOController.getInstance();
         String answer;
         int year, month, day;
@@ -128,9 +129,10 @@ public class MenuController {
         LocalDate date;
         try {
             date = LocalDate.of(year, month, day);
-            if(backendController.addShift(date, isMorning)) {}
-                //TODO ask if wish to assign or something
-        } catch(Exception ignored) {
+            if (backendController.addShift(date, isMorning)) {
+            }
+            //TODO ask if wish to assign or something
+        } catch (Exception ignored) {
             io.println("You entered illegal values for a date, you may try again.");
         }
 
@@ -160,16 +162,17 @@ public class MenuController {
         LocalDate date;
         try {
             date = LocalDate.of(year, month, day);
-            if(backendController.getShift(date, isMorning))
+            if (backendController.getShift(date, isMorning))
                 updateShift(backendController);
-        } catch(Exception ignored) {
+        } catch (Exception ignored) {
             io.println("You entered illegal values for a date, you may try again.");
         }
     }
 
     private void updateShift(BackendController backendController) {
 
-	}
+    }
+
     public int showUpdateEmployeeMenu() {
         IOController io = IOController.getInstance();
 
@@ -220,14 +223,25 @@ public class MenuController {
 
     public List<Role> showEnterRoleList() {
         IOController io = IOController.getInstance();
+        List<Role> skills = new ArrayList<>();
+        int answer = 0;
 
-        int i = 0;
-        for (Role role: Role.values()) {
-
+        int i = 1;
+        for (Role role : Role.values()) {
+            io.println(i + ") " + role.name());
+            i++;
         }
-        io.println("");
-        io.println("Please enter the new role list: ");
+        io.println("Please choose the roles of the employee:");
 
-        return null;
+        do {
+            io.print("Pick a number between 1 and " + Role.values().length + ": ");
+            answer = io.getInt();
+            if (answer >= 1 && answer < Role.values().length) {
+                skills.add(Role.values()[answer - 1]);
+            }
+            io.println("Type \"0\" to stop adding roles.");
+        } while (answer != 0);
+
+        return skills;
     }
 }
