@@ -97,17 +97,31 @@ public class EmployeeController {
         return activeEmployee != null && activeEmployee.getIsManager();
     }
 
-    public List<String> viewAvailableEmployees(int day, boolean isMorning, Role skill) {
-        List<String> toReturn = new ArrayList<>();
+//    public List<String> viewAvailableEmployees(int day, boolean isMorning, Role skill) {
+//        List<String> toReturn = new ArrayList<>();
+//        for (Employee e : employees.values()) {
+//            if (e.hasSkill(skill)) {
+//                Preference p = e.getPreference(day, isMorning);
+//                if (p.equals(Preference.WANT))
+//                    toReturn.add(e.getName() + " (" + e.getID() + ") WANTS to work at the specified date.");
+//                else if (p.equals(Preference.CAN))
+//                    toReturn.add(e.getName() + " (" + e.getID() + ") CAN work at the specified date.");
+//            }
+//        }
+//        return toReturn;
+//    }
+
+    public Map<String, String> viewAvailableEmployees(int day, boolean isMorning, Role skill) {
+        Map<String, String> ret = new HashMap<>();
         for (Employee e : employees.values()) {
             if (e.hasSkill(skill)) {
                 Preference p = e.getPreference(day, isMorning);
                 if (p.equals(Preference.WANT))
-                    toReturn.add(e.getName() + " (" + e.getID() + ") WANTS to work at the specified date.");
+                    ret.put(e.getID(), e.getName() + " WANTS to work at the specified date.");
                 else if (p.equals(Preference.CAN))
-                    toReturn.add(e.getName() + " (" + e.getID() + ") CAN work at the specified date.");
+                    ret.put(e.getID(), e.getName() + " CAN to work at the specified date.");
             }
         }
-        return toReturn;
+        return ret;
     }
 }
