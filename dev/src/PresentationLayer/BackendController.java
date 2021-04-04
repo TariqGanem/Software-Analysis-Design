@@ -137,7 +137,6 @@ public class BackendController {
     }
 
     public void assignToShift(String id, Role role) {
-        //TODO display available employees
         Response res = facade.AssignToShift(id, role);
         if(res.getErrorOccurred())
             io.println(res.getErrorMessage());

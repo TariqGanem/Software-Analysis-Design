@@ -148,6 +148,7 @@ public class Facade {
             if (!employeeController.isManager())
                 throw new NoPermissionException("this act can be performed by managers only.");
             shiftController.AssignToShift(id, skill);
+            // add exception when the employee does not have the skill
         } catch (Exception e) {
             return new Response(e);
         }

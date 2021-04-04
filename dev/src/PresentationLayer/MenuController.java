@@ -214,14 +214,24 @@ public class MenuController {
 
     public String showAvailableEmployeesMenu(Map<String,String> availableEmployees) {
         IOController io = IOController.getInstance();
-        String[] ids = (String[])availableEmployees.keySet().toArray();
+        String[] ids = new String[availableEmployees.size()];
+        int x = 0;
+        for (String id : availableEmployees.keySet()) {
+            ids[x] = id;
+            x++;
+        }
         for (int i = 0; i < ids.length; i++)
             io.println((i+1) + ") " + ids[i] + " " + availableEmployees.get(ids[i]));
         int index;
-        do {
-            io.print("Enter a number between 1 to " + ids.length);
-            index = io.getInt();
-        }while(index < 1 || index > ids.length);
+        if(ids.length > 0) {
+            do {
+                io.print("Enter a number between 1 to " + ids.length);
+                index = io.getInt();
+            } while (index < 1 || index > ids.length);
+        }else{
+            io.print("Enter an id of a valid employee: ");
+            return io.getString();
+        }
         return ids[index - 1];
     }
 }
