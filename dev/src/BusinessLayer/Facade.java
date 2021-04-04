@@ -21,6 +21,31 @@ public class Facade {
     public Facade() {
         employeeController = new EmployeeController();
         shiftController = new ShiftController();
+
+
+        //TODO: REMOVE THIS
+        //TODO: REMOVE THIS
+        //TODO: REMOVE THIS
+        //TODO: REMOVE THIS
+        //TODO: REMOVE THIS
+        List roles = new ArrayList<Role>();
+        roles.add(Role.Cashier);
+        String name = "Sponge Bob";
+        String ID1 = "123456789";
+        int bankId = 10;
+        int branchId = 100;
+        int accountNumber = 1000;
+        float salary = 5000;
+        LocalDate date = LocalDate.now();
+        String trustFund = "Trust Fund";
+        int freeDays = 10;
+        int sickDays = 15;
+        Preference[][] timeFrames = new Preference[7][2];
+        for (int i = 0; i < 7; i++)
+            for (int j = 0; j < 2; j++)
+                timeFrames[i][j] = Preference.WANT;
+        employeeController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
+
     }
 
     public boolean getIsManager() {
@@ -32,7 +57,7 @@ public class Facade {
         try {
             response = new ResponseT<EmployeeDTO>(toEmployeeDTO(employeeController.getEmployee(ID)));
         } catch (Exception e) {
-            response = new ResponseT<EmployeeDTO>(e);
+            response = new ResponseT<EmployeeDTO>(e, new EmployeeDTO());
         }
         return response;
     }
@@ -42,17 +67,17 @@ public class Facade {
         Employee rollback = null;
         List<Role> rollbackSkills = null;
         LocalDate rollbackDate = null;
-        Preference[][] rollbackTimeFrames = new Preference[6][2];
+        Preference[][] rollbackTimeFrames = new Preference[7][2];
         try {
             rollbackSkills = new ArrayList<>(employeeController.getEmployee(employee.ID).getSkills());
             rollbackDate = employeeController.getEmployee(employee.ID).getStartDate();
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 7; i++)
                 for (int j = 0; j < 2; j++)
                     rollbackTimeFrames[i][j] = employeeController.getEmployee(employee.ID).getTimeFrames()[i][j];
             rollback = employeeController.getEmployee(employee.ID);
 
             employeeController.updateEmployee(employee.name, employee.ID, employee.bankId, employee.branchId, employee.accountNumber, employee.salary,
-                    employee.startDate, employee.trustFund, employee.freeDays, employee.sickDays, employee.skills, rollbackTimeFrames);
+                    employee.startDate, employee.trustFund, employee.freeDays, employee.sickDays, employee.skills, employee.timeFrames);
             response = new Response();
         } catch (Exception e) {
             response = new Response(e);
@@ -79,8 +104,8 @@ public class Facade {
         toReturn.sickDays = employee.getSickDays();
         List<Role> newSkills = new ArrayList<>(employee.getSkills());
         toReturn.skills = newSkills;
-        Preference[][] newTimeFrames = new Preference[6][2];
-        for (int i = 0; i < 6; i++)
+        Preference[][] newTimeFrames = new Preference[7][2];
+        for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 newTimeFrames[i][j] = employee.getTimeFrames()[i][j];
         toReturn.timeFrames = newTimeFrames;
@@ -100,6 +125,17 @@ public class Facade {
         Response response;
         try {
             employeeController.login(ID);
+            response = new Response();
+        } catch (Exception e) {
+            response = new Response(e);
+        }
+        return response;
+    }
+
+    public Response logout() {
+        Response response;
+        try {
+            employeeController.logout();
             response = new Response();
         } catch (Exception e) {
             response = new Response(e);
