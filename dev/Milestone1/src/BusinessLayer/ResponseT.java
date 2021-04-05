@@ -15,4 +15,8 @@ public class ResponseT<T> extends Response {
         super(msg);
         value = val;
     }
+
+    public T getValue(){
+        return value;
+    }
 }

@@ -36,4 +36,17 @@ public class ShipmentDTO {
             destinations.add(new LocationDTO(location));
         }
     }
+
+    public ShipmentDTO(Date date, String departureHour, String truckPlateNumber, String driverId, double shipmentWeight,
+                       List<String> log, List<DocumentDTO> documents, Location source, List<LocationDTO> destinations) {
+        this.date = date;
+        this.departureHour = departureHour;
+        this.truckPlateNumber = truckPlateNumber;
+        this.driverId = driverId;
+        this.shipmentWeight = shipmentWeight;
+        this.log = log;
+        this.documents = documents;
+        this.source = source;
+        this.destinations = destinations;
+    }
 }

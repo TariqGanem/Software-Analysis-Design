@@ -6,8 +6,11 @@ import BusinessLayer.Controllers.ShipmentController;
 import BusinessLayer.Controllers.TruckController;
 import BusinessLayer.DTOs.DriverDTO;
 import BusinessLayer.DTOs.LocationDTO;
+import BusinessLayer.DTOs.ShipmentDTO;
 import BusinessLayer.DTOs.TruckDTO;
 import BusinessLayer.Objects.Driver;
+import BusinessLayer.Objects.Location;
+import BusinessLayer.Objects.Shipment;
 import BusinessLayer.Objects.Truck;
 
 public class Facade {
@@ -52,5 +55,18 @@ public class Facade {
         } catch (Exception e) {
             return new ResponseT<>(e.getMessage());
         }
+    }
+
+    private ResponseT<DriverDTO> toDriverDTO(Driver d){
+        return new ResponseT<>(new DriverDTO(d.getId(), d.getName(), d.getAllowedWeight()));
+    }
+
+    private ResponseT<TruckDTO> toTruckDTO(Truck t){
+        return new ResponseT<>(new TruckDTO(t.getTruckPlateNumber(), t.getModel(), t.getNatoWeight(), t.getMaxWeight(),
+                toShipmentDTO(t.getShipment()).getValue(), t.isAvailable()));
+    }
+
+    private ResponseT<ShipmentDTO> toShipmentDTO(Shipment s){
+       return null;
     }
 }

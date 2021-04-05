@@ -12,4 +12,10 @@ public class DriverDTO {
         name = d.getName();
         allowedWeight = d.getAllowedWeight();
     }
+
+    public DriverDTO(String id, String name, double allowedWeight){
+        this.id = id;
+        this.name = name;
+        this.allowedWeight = allowedWeight;
+    }
 }

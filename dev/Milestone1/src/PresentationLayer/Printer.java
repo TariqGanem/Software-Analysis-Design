@@ -23,7 +23,7 @@ public class Printer {
      * Welcome message upon starting
      */
     public void printBanner() {
-        System.out.println("\n" +
+        System.out.println(
                 " _    _      _                            _____       _____                             _               \n" +
                 "| |  | |    | |                          |_   _|     /  ___|                           | |              \n" +
                 "| |  | | ___| | ___ ___  _ __ ___   ___    | | ___   \\ `--. _   _ _ __  _ __   ___ _ __| |     ___  ___ \n" +
@@ -31,14 +31,14 @@ public class Printer {
                 "\\  /\\  /  __/ | (_| (_) | | | | | |  __/   | | (_) | /\\__/ / |_| | |_) | |_) |  __/ |  | |___|  __/  __/\n" +
                 " \\/  \\/ \\___|_|\\___\\___/|_| |_| |_|\\___|   \\_/\\___/  \\____/ \\__,_| .__/| .__/ \\___|_|  \\_____/\\___|\\___|\n" +
                 "                                                                 | |   | |                              \n" +
-                "                                                                 |_|   |_|                              \n");
+                "                                                                 |_|   |_|                              ");
     }
 
     /**
      * Printing all menu options
      */
     public void viewOptions(List<MenuItem> items) {
-        System.out.println("\nPlease select an option from the Menu:\n");
+        System.out.println("Please select an option from the Menu:\n");
         for (int i = 0; i < items.size(); i++) {
             System.out.println(i + 1 + ". " + items.get(i).getName());
         }
