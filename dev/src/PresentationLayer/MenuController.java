@@ -115,12 +115,13 @@ public class MenuController {
         io.println("2) Remove employee from shift");
         io.println("3) Delete shift");
         io.println("4) Display assigned employees");
+        io.println("Type 0 to quit");
 
         int answer;
         do {
-            io.print("Enter a number between 1 and 4: ");
+            io.print("Enter a number between 0 and 4: ");
             answer = io.getInt();
-        } while (answer < 1 || answer > 4);
+        } while (answer < 0 || answer > 4);
 
         return answer;
     }
@@ -139,12 +140,13 @@ public class MenuController {
         io.println("8) Free Days");
         io.println("9) Sick Days");
         io.println("10) Skills");
+        io.println("Type 0 to quit");
 
         int answer;
         do {
-            io.print("Enter a number between 1 and 10: ");
+            io.print("Enter a number between 0 and 10: ");
             answer = io.getInt();
-        } while (answer < 1 || answer > 11);
+        } while (answer < 0 || answer > 10);
 
         return answer;
     }
