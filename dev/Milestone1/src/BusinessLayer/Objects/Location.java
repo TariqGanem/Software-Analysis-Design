@@ -1,5 +1,6 @@
 package BusinessLayer.Objects;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,5 +31,9 @@ public class Location {
 
     public Map<Integer, String> getProducts() {
         return products;
+    }
+
+    public void setProducts(Map<Integer, String> prods){
+        products = prods;
     }
 }

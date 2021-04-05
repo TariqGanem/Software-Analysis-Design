@@ -16,4 +16,20 @@ public class LocationDTO {
         contactName = location.getContactName();
         products = location.getProducts();
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public Map<Integer, String> getProducts() {
+        return products;
+    }
 }

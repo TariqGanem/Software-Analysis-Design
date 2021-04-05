@@ -29,4 +29,27 @@ public class TruckDTO {
         available = t.isAvailable();
     }
 
+    public String getTruckPlateNumber() {
+        return truckPlateNumber;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public double getNatoWeight() {
+        return natoWeight;
+    }
+
+    public double getMaxWeight() {
+        return maxWeight;
+    }
+
+    public ShipmentDTO getShipment() {
+        return shipment;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
 }

@@ -57,16 +57,21 @@ public class Facade {
         }
     }
 
-    private ResponseT<DriverDTO> toDriverDTO(Driver d){
-        return new ResponseT<>(new DriverDTO(d.getId(), d.getName(), d.getAllowedWeight()));
+    public Response addAdress(LocationDTO loc) {
+        try {
+            locationController.addLocation(loc.getAddress(), loc.getPhoneNumber(), loc.getContactName(), loc.getProducts());
+            return new Response();
+        } catch (Exception e){
+            return new Response(e.getMessage());
+        }
     }
 
-    private ResponseT<TruckDTO> toTruckDTO(Truck t){
-        return new ResponseT<>(new TruckDTO(t.getTruckPlateNumber(), t.getModel(), t.getNatoWeight(), t.getMaxWeight(),
-                toShipmentDTO(t.getShipment()).getValue(), t.isAvailable()));
-    }
-
-    private ResponseT<ShipmentDTO> toShipmentDTO(Shipment s){
-       return null;
+    public Response addTruck(TruckDTO t) {
+        try{
+            truckController.addTruck(t.getTruckPlateNumber(), t.getModel(), t.getNatoWeight(), t.getMaxWeight());
+            return new Response();
+        } catch (Exception e){
+            return new Response(e.getMessage());
+        }
     }
 }

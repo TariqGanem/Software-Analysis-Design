@@ -4,6 +4,7 @@ import BusinessLayer.Objects.Location;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class LocationController {
     private List<Location> data;
@@ -33,13 +34,19 @@ public class LocationController {
      * @param contactName - The name of the driver who transports delivery for this location
      * @throws Exception in case of invalid parameters
      */
-    public void addLocation(String address, String phoneNumber, String contactName) throws Exception {
+    public void addLocation(String address, String phoneNumber, String contactName, Map<Integer, String> products) throws Exception {
         for (Location location : data) {
             if (location.getAddress().equals(address))
                 throw new Exception("Couldn't add new location - address already exists");
         }
-        if (address == null || phoneNumber == null || contactName == null)
+        if (address == null || phoneNumber == null || contactName == null || products == null)
             throw new Exception("Couldn't add new location - Invalid parameters");
-        data.add(new Location(address, phoneNumber, contactName));
+        for (String product: products.values()) {
+            if(product == null)
+                throw new Exception("Couldn't add new location - Invalid parameters");
+        }
+        Location loc = new Location(address, phoneNumber, contactName);
+        loc.setProducts(products);
+        data.add(loc);
     }
 }
