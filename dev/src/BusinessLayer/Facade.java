@@ -1,6 +1,5 @@
 package BusinessLayer;
 
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -21,6 +20,25 @@ public class Facade {
     public Facade() {
         employeeController = new EmployeeController();
         shiftController = new ShiftController();
+
+        //Add the admin employee
+        List roles = new ArrayList<Role>();
+        roles.add(Role.StoreManager);
+        String name = "admin";
+        String ID1 = "admin";
+        int bankId = 0;
+        int branchId = 0;
+        int accountNumber = 0;
+        float salary = 0;
+        LocalDate date = LocalDate.of(2000, 1, 1);
+        String trustFund = "admin";
+        int freeDays = 0;
+        int sickDays = 0;
+        Preference[][] timeFrames = new Preference[7][2];
+        for (int i = 0; i < 7; i++)
+            for (int j = 0; j < 2; j++)
+                timeFrames[i][j] = Preference.CANT;
+        addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
     }
 
     public boolean getIsManager() {
