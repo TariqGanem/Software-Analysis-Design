@@ -29,7 +29,7 @@ public class ShiftController {
 	public boolean AssignToShift(String id, Role skill) {
 		if(activeShift == null)
 			throw new NullPointerException("need a shift to assign this employee to.");
-		int amountPlanned = sp.getQtty(getDate(activeShift.getDate()), activeShift.isMorning(), skill);
+		int amountPlanned = sp.getQtty(getDay(activeShift.getDate()), activeShift.isMorning()).get(skill);
 		int actualAmount = activeShift.assignEmployee(skill, id);
 		if(actualAmount > amountPlanned)
 			throw new IndexOutOfBoundsException("note that you've planned " + amountPlanned + " " + skill + "\n and now the amount is - " + actualAmount);
@@ -48,15 +48,15 @@ public class ShiftController {
 		sp.setQtty(day, isMorning, skill, qtty);
 	}
 
-    public boolean addShift(LocalDate date, boolean isMorning) {
-        int day = getDate(date);
-        int index = isMorning ? day - 1 : day + 5;
-        if(index > 10)
-            throw new IllegalArgumentException("this shift is on rest day");
-        activeShift = new Shift(date, isMorning);
-        return shifts.add(activeShift);
-    }
-
+	public boolean addShift(LocalDate date, boolean isMorning) {
+		int day = getDay(date);
+		int index = isMorning ? day - 1 : day + 5;
+		if(index > 10)
+			throw new IllegalArgumentException("this shift is on rest day");
+		activeShift = new Shift(date, isMorning);
+		return shifts.add(activeShift);
+	}
+	
 	public boolean removeShift(LocalDate date, boolean isMorning) {
 		boolean success = shifts.remove(getShift(date, isMorning));
 		if(success)
@@ -64,7 +64,7 @@ public class ShiftController {
 		return success;
 	}
 
-	public int getDate(LocalDate date){
+	public int getDay(LocalDate date){
 		return (date.getDayOfWeek().getValue() + 1) % 7;
 	}
 
@@ -78,4 +78,7 @@ public class ShiftController {
 		return empShifts;
 	}
 
+	public Map<Role,Integer> getPersonnelForShift(int day, boolean isMorning){
+		return sp.getQtty(day, isMorning);
+	}
 }

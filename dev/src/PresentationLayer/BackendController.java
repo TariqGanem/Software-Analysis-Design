@@ -60,13 +60,15 @@ public class BackendController {
         return true;
     }
 
-    public void viewSpecificShift(LocalDate localDate, boolean isMorning) {
+    public boolean viewSpecificShift(LocalDate localDate, boolean isMorning) {
         ResponseT<Map<ShiftDTO, Role>> response = facade.getEmpShifts(activeEmployee);
-        if (response.getErrorOccurred())
+        if (response.getErrorOccurred()) {
             io.println(response.getErrorMessage());
-        else if(response.getValue().keySet().size() == 0)
+            return false;
+        } else if (response.getValue().keySet().size() == 0){
             io.println("You are not assigned to any shifts.");
-        else {
+            return false;
+        }else {
             for (ShiftDTO shiftDTO: response.getValue().keySet()) {
                 if(!shiftDTO.date.equals(localDate))
                     continue;
@@ -77,6 +79,7 @@ public class BackendController {
                     }
                 }
             }
+            return true;
         }
     }
 
@@ -144,6 +147,10 @@ public class BackendController {
         Response res = facade.definePersonnelForShift(day, isMorning, role, qtty);
         if(res.getErrorOccurred())
             io.println(res.getErrorMessage());
+    }
+
+    public Map<Role, Integer> getPersonnelForShift(int day, boolean isMorning){
+        return facade.getPersonnelForShift(day, isMorning);
     }
 
     public void assignToShift(String id, Role role) {

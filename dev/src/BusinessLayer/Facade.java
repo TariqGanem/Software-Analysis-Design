@@ -155,6 +155,10 @@ public class Facade {
         return new Response();
     }
 
+    public Map<Role, Integer> getPersonnelForShift(int day, boolean isMorning){
+        return shiftController.getPersonnelForShift(day, isMorning);
+    }
+
     public Response addShift(LocalDate date, boolean isMorning) {
         try {
             if (!employeeController.isManager())
@@ -170,7 +174,8 @@ public class Facade {
         try {
             if (!employeeController.isManager())
                 throw new NoPermissionException("this act can be performed by managers only.");
-            shiftController.removeShift(date, isMorning);
+            if(!shiftController.removeShift(date, isMorning))
+                throw new IllegalArgumentException("this shift does not exists.");
         } catch (Exception e) {
             return new Response(e);
         }

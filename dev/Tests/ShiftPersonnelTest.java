@@ -27,27 +27,27 @@ public class ShiftPersonnelTest {
             fail("negative quantity.");
         }catch (Exception ignored){}
         sp.setQtty(6,true, Role.Stocker, 2);
-        assertTrue(sp.getQtty(6,true, Role.Stocker)== 2);
+        assertTrue(sp.getQtty(6,true).get(Role.Stocker)== 2);
         sp.setQtty(6,true, Role.Stocker, 1);
-        assertTrue(sp.getQtty(6,true, Role.Stocker)== 1);
+        assertTrue(sp.getQtty(6,true).get(Role.Stocker)== 1);
     }
 
     @Test
     public void testGetQtty() {
         try{
-            sp.getQtty(6,false, Role.Stocker);
+            sp.getQtty(6,false).get(Role.Stocker);
             fail("no shift on friday night. should've fail.");
         }catch (Exception ignored){}
         try{
-            sp.getQtty(8,true, Role.Stocker);
+            sp.getQtty(8,true).get(Role.Stocker);
             fail("day num 1-6.");
         }catch (Exception ignored){}
         try{
-            sp.getQtty(6,false, Role.Stocker);
+            sp.getQtty(6,false).get(Role.Stocker);
             fail("negative quantity.");
         }catch (Exception ignored){}
-        assertTrue(sp.getQtty(6,true, Role.Stocker) == 1);//check default values
+        assertTrue(sp.getQtty(6,true).get(Role.Stocker) == 1);//check default values
         sp.setQtty(6,true, Role.Stocker, 2);
-        assertTrue(sp.getQtty(6,true, Role.Stocker) == 2);
+        assertTrue(sp.getQtty(6,true).get(Role.Stocker) == 2);
     }
 }
