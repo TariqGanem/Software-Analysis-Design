@@ -147,7 +147,7 @@ public class EmployeeModule {
                                         break;
                                     case 1:
                                         //Assign employee to shift
-                                        Map<Role, Integer> personnel = backendController.getPersonnelForShift(date.getDayOfWeek().getValue(), isMorning);
+                                        Map<Role, Integer> personnel = backendController.getPersonnelForShift((date.getDayOfWeek().getValue() + 1) % 7, isMorning);
                                         Role role = menu.showShiftPersonnelMenu(personnel);
                                         Map<String, String> availableEmployees = backendController.viewAvailableEmployees(date, isMorning, role);
                                         String id = menu.showAvailableEmployeesMenu(availableEmployees);
