@@ -60,6 +60,7 @@ public class EmployeeModule {
                         errorOccurred = backendController.logout();
                         if (!errorOccurred)
                             ID = null;
+                        io.println("");
                         break;
 
                     //View my profile
