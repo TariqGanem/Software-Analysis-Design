@@ -102,8 +102,6 @@ public class EmployeeModule {
 
                         //Add new shift
                     case 4:
-                        //backendController.addShift(); <--- DELETE THIS PLEASE
-                        break;
 
                         //View shift
                     case 5:
@@ -130,16 +128,18 @@ public class EmployeeModule {
                                         //Remove employee from shift
                                         Map<Role, List<String>> map = backendController.getShift(date, isMorning).getPositions();
                                         String empId = menu.showShiftPositionsMenu(map);
-                                        boolean b = backendController.removeFromShift(empId);
-
+                                        backendController.removeFromShift(empId);
                                         break;
 
                                     case 3:
                                         //Delete shift
+                                        backendController.removeShift(date, isMorning);
                                         break;
 
                                     case 4:
                                         //Display assigned employees
+                                        Map<Role, List<String>> positions = backendController.getShift(date, isMorning).getPositions();
+                                        menu.showAssignedEmployeesMenu(positions);
                                         break;
 
                                     default:

@@ -303,4 +303,14 @@ public class MenuController {
         io.print("enter a number between 1 to " + ret.size() + ": ");
         return ret.get(io.getInt() - 1);
     }
+
+    public void showAssignedEmployeesMenu(Map<Role, List<String>> map){
+        IOController io = IOController.getInstance();
+        List<String> ret = new ArrayList<>();
+        for (List<String> list : map.values())
+            ret.addAll(list);
+        int i = 1;
+        for (String id : ret)
+            io.println(i + ") " + id);
+    }
 }
