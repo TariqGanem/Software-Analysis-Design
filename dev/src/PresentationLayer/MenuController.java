@@ -40,9 +40,9 @@ public class MenuController {
     public void showManagerMenu() {
         IOController io = IOController.getInstance();
         io.println("4. Add new shift");
-        io.println("5. Add new employee");
+        io.println("5. View shift information");
         io.println("6. View employee profile");
-        io.println("7. View shift information");
+        io.println("7. Add new employee");
         io.println("8. Define shift personnel");
     }
 
@@ -188,13 +188,70 @@ public class MenuController {
         do {
             io.print("Pick a number between 1 and " + Role.values().length + ": ");
             answer = io.getInt();
-            if (answer >= 1 && answer < Role.values().length) {
+            if (answer >= 1 && answer <= Role.values().length) {
                 skills.add(Role.values()[answer - 1]);
             }
             io.println("Type \"0\" to stop adding roles.");
         } while (answer != 0);
 
         return skills;
+    }
+
+    public Preference[][] showEnterPreferenceArray() {
+        Preference[][] timeFrames = new Preference[7][2];
+        timeFrames[5][1] = null;
+        timeFrames[6][0] = null;
+        timeFrames[6][1] = null;
+        IOController io = IOController.getInstance();
+
+        io.println("Please pick one of the following preferences for each shift presented to you:");
+        int p = 1;
+        for (Preference preference : Preference.values()) {
+            io.println(p + ") " + preference.name());
+            p++;
+        }
+
+        for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 2; j++) {
+                if ((i == 5 && j == 1) || i == 6)
+                    continue;
+                io.print("What is your preference for " + whatDayIsIt(i));
+                if (j == 0) {
+                    io.println(" morning? ");
+                } else {
+                    io.println(" evening?");
+                }
+                int index = 0;
+                do {
+                    io.print("Please enter a number between 1 and " + Preference.values().length + ": ");
+                    index = io.getInt();
+                } while (index <= 0 || index > Preference.values().length);
+                timeFrames[i][j] = Preference.values()[index - 1];
+            }
+        }
+
+        return timeFrames;
+    }
+
+    private String whatDayIsIt(int day) {
+        switch (day) {
+            case 0:
+                return "sunday";
+            case 1:
+                return "monday";
+            case 2:
+                return "tuesday";
+            case 3:
+                return "wednesday";
+            case 4:
+                return "thursday";
+            case 5:
+                return "friday";
+            case 6:
+                return "saturday";
+            default:
+                return "not a day of the week :(";
+        }
     }
 
     public Role showRoleMenu() {

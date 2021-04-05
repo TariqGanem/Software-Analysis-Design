@@ -45,16 +45,19 @@ public class EmployeeModule {
                 } while (option < 0 || (!isManager && option >= 4) || (isManager && option >= 9));
 
                 switch (option) {
+                    //Logout
                     case 0:
                         errorOccurred = backendController.logout();
                         if (!errorOccurred)
                             ID = null;
                         break;
 
+                        //View my profile
                     case 1:
                         backendController.viewProfile("");
                         break;
 
+                        //View my shifts
                     case 2:
                         String continueToViewShift = "";
                         backendController.viewMyShifts();
@@ -73,6 +76,7 @@ public class EmployeeModule {
                         }
                         break;
 
+                        //Change shift preferences
                     case 3:
                         String continueChanging = "", morning_evening = "";
                         do {
@@ -96,26 +100,27 @@ public class EmployeeModule {
                         } while (!continueChanging.equals("continue"));
                         break;
 
+                        //Add new shift
                     case 4:
-                        //backendController.addShift();
+                        //backendController.addShift(); <--- DELETE THIS PLEASE
+                        break;
 
-
+                        //View shift
                     case 5:
-                        //backendController.viewShift();
                         do {
                             LocalDate date;
                             do {
                                 date = menu.showEnterDateMenu();
                             } while (date == null);
                             boolean isMorning = menu.showEnterMorningEvening();
-                            if(option == 5)
+                            if (option == 5)
                                 backendController.viewSpecificShift(date, isMorning);
-                            if(option == 5 || backendController.addShift(date, isMorning)) {
+                            if (option == 5 || backendController.addShift(date, isMorning)) {
                                 int shiftMenu = menu.showUpdateShiftMenu();
-                                switch (shiftMenu){
+                                switch (shiftMenu) {
                                     case 1:
                                         Role role = menu.showRoleMenu();
-                                        Map<String,String> availableEmployees = backendController.viewAvailableEmployees(date, isMorning, role);
+                                        Map<String, String> availableEmployees = backendController.viewAvailableEmployees(date, isMorning, role);
                                         String id = menu.showAvailableEmployeesMenu(availableEmployees);
                                         backendController.assignToShift(id, role);
                                         break;
@@ -141,6 +146,7 @@ public class EmployeeModule {
                         } while (!continueToViewShift.equals("continue"));
                         break;
 
+                        //View employee + update employee
                     case 6:
                         String viewID, updateEmployee;
                         io.print("Please enter the ID of the employee: ");
@@ -159,119 +165,95 @@ public class EmployeeModule {
                             ResponseT<EmployeeDTO> newEmployee;
                             do {
                                 updateIndex = menu.showUpdateEmployeeMenu();
+                                newEmployee = backendController.getEmployeeDTO(viewID);
+                                if (newEmployee.getErrorOccurred())
+                                    continue;
+                                EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
                                 switch (updateIndex) {
                                     case 1:
-                                        String name = menu.showEnterStringMenu("name");
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
-                                        if (!newEmployee.getErrorOccurred()) {
-                                            EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.name = name;
-                                            backendController.setEmployeeDTO(emp);
-                                        }
+                                        emp.name = menu.showEnterStringMenu("name");
                                         break;
 
                                     case 2:
-                                        int bankId = menu.showEnterIntMenu("bank id");
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
-                                        if (!newEmployee.getErrorOccurred()) {
-                                            EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.bankId = bankId;
-                                            backendController.setEmployeeDTO(emp);
-                                        }
+                                        emp.bankId = menu.showEnterIntMenu("bank id");
                                         break;
 
                                     case 3:
-                                        int branchId = menu.showEnterIntMenu("branch id");
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
-                                        if (!newEmployee.getErrorOccurred()) {
-                                            EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.branchId = branchId;
-                                            backendController.setEmployeeDTO(emp);
-                                        }
+                                        emp.branchId = menu.showEnterIntMenu("branch id");
                                         break;
 
                                     case 4:
-                                        int accountNumber = menu.showEnterIntMenu("account number");
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
-                                        if (!newEmployee.getErrorOccurred()) {
-                                            EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.accountNumber = accountNumber;
-                                            backendController.setEmployeeDTO(emp);
-                                        }
+                                        emp.accountNumber = menu.showEnterIntMenu("account number");
                                         break;
 
                                     case 5:
-                                        float salary = menu.showEnterFloatMenu("salary");
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
-                                        if (!newEmployee.getErrorOccurred()) {
-                                            EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.salary = salary;
-                                            backendController.setEmployeeDTO(emp);
-                                        }
+                                        emp.salary = menu.showEnterFloatMenu("salary");
                                         break;
 
                                     case 6:
-                                        LocalDate startDate = menu.showEnterDateMenu();
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
-                                        if (!newEmployee.getErrorOccurred()) {
-                                            EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.startDate = startDate;
-                                            backendController.setEmployeeDTO(emp);
-                                        }
+                                        emp.startDate = menu.showEnterDateMenu();
                                         break;
 
                                     case 7:
-                                        String trustFund = menu.showEnterStringMenu("trust fund");
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
-                                        if (!newEmployee.getErrorOccurred()) {
-                                            EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.trustFund = trustFund;
-                                            backendController.setEmployeeDTO(emp);
-                                        }
+                                        emp.trustFund = menu.showEnterStringMenu("trust fund");
                                         break;
 
                                     case 8:
-                                        int freeDays = menu.showEnterIntMenu("free days amount");
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
-                                        if (!newEmployee.getErrorOccurred()) {
-                                            EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.freeDays = freeDays;
-                                            backendController.setEmployeeDTO(emp);
-                                        }
+                                        emp.freeDays = menu.showEnterIntMenu("free days amount");
                                         break;
 
                                     case 9:
-                                        int sickDays = menu.showEnterIntMenu("sick days amount");
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
-                                        if (!newEmployee.getErrorOccurred()) {
-                                            EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.sickDays = sickDays;
-                                            backendController.setEmployeeDTO(emp);
-                                        }
+                                        emp.sickDays = menu.showEnterIntMenu("sick days amount");
                                         break;
 
                                     case 10:
-                                        List<Role> skills = menu.showEnterRoleList();
-                                        newEmployee = backendController.getEmployeeDTO(viewID);
-                                        if (!newEmployee.getErrorOccurred()) {
-                                            EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                            emp.skills = skills;
-                                            backendController.setEmployeeDTO(emp);
-                                        }
+                                        emp.skills = menu.showEnterRoleList();
                                         break;
                                 }
+                                backendController.setEmployeeDTO(emp);
                                 io.print("To change another field type anything other than \"continue\": ");
                                 continueUpdate = io.getString();
                             } while (!continueUpdate.equals("continue"));
                         }
                         break;
 
+                    //Add new employee
                     case 7:
-                        //backendController.addEmployee();
+                        String name, newID, trustFund;
+                        int bankId, branchId, accountNumber, freeDays, sickDays;
+                        float salary;
+                        List<Role> skills;
+                        LocalDate startDate;
+                        Preference[][] timeFrames;
+
+                        io.print("Please enter a name: ");
+                        name = io.getString();
+                        io.print("Please enter an ID: ");
+                        ID = io.getString();
+                        io.print("Please enter a bank id: ");
+                        bankId = io.getInt();
+                        io.print("Please enter a branch id: ");
+                        branchId = io.getInt();
+                        io.print("Please enter an account number: ");
+                        accountNumber = io.getInt();
+                        io.print("Please enter the salary: ");
+                        salary = io.getFloat();
+                        io.println("Please enter the start working date:");
+                        startDate = menu.showEnterDateMenu();
+                        io.print("Please enter a trust fund: ");
+                        trustFund = io.getString();
+                        io.print("Please enter the amount of free days: ");
+                        freeDays = io.getInt();
+                        io.print("Please enter the amount of sick days: ");
+                        sickDays = io.getInt();
+                        skills = menu.showEnterRoleList();
+                        timeFrames = menu.showEnterPreferenceArray();
+
+                        backendController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, startDate, trustFund, freeDays, sickDays, skills, timeFrames);
                         break;
 
+                    //Update shift personnel
                     case 8:
-                        //backendController.defineShiftPersonnel();
                         do {
                             io.print("Please enter the day of the week in numbers: ");
                             int day = 0;
