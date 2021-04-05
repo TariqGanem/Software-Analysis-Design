@@ -13,6 +13,9 @@ import BusinessLayer.Objects.Location;
 import BusinessLayer.Objects.Shipment;
 import BusinessLayer.Objects.Truck;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Facade {
     private Facade instance = null;
     private DriverController driverController;
@@ -49,7 +52,7 @@ public class Facade {
         }
     }
 
-    public ResponseT<LocationDTO> getLocationDTO(String address){
+    public ResponseT<LocationDTO> getLocationDTO(String address) {
         try {
             return new ResponseT<>(new LocationDTO(locationController.getLocation(address)));
         } catch (Exception e) {
@@ -57,20 +60,29 @@ public class Facade {
         }
     }
 
-    public Response addAdress(LocationDTO loc) {
+    public Response addLocation(LocationDTO loc) {
         try {
             locationController.addLocation(loc.getAddress(), loc.getPhoneNumber(), loc.getContactName(), loc.getProducts());
             return new Response();
-        } catch (Exception e){
+        } catch (Exception e) {
             return new Response(e.getMessage());
         }
     }
 
     public Response addTruck(TruckDTO t) {
-        try{
+        try {
             truckController.addTruck(t.getTruckPlateNumber(), t.getModel(), t.getNatoWeight(), t.getMaxWeight());
             return new Response();
-        } catch (Exception e){
+        } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
+    }
+
+    public Response addDriver(DriverDTO d) {
+        try {
+            driverController.addDriver(d.getId(), d.getName(), d.getAllowedWeight());
+            return new Response();
+        } catch (Exception e) {
             return new Response(e.getMessage());
         }
     }

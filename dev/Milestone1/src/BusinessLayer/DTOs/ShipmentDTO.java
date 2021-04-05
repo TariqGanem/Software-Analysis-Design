@@ -37,16 +37,39 @@ public class ShipmentDTO {
         }
     }
 
-    public ShipmentDTO(Date date, String departureHour, String truckPlateNumber, String driverId, double shipmentWeight,
-                       List<String> log, List<DocumentDTO> documents, Location source, List<LocationDTO> destinations) {
-        this.date = date;
-        this.departureHour = departureHour;
-        this.truckPlateNumber = truckPlateNumber;
-        this.driverId = driverId;
-        this.shipmentWeight = shipmentWeight;
-        this.log = log;
-        this.documents = documents;
-        this.source = source;
-        this.destinations = destinations;
+    public Date getDate() {
+        return date;
+    }
+
+    public String getDepartureHour() {
+        return departureHour;
+    }
+
+    public String getTruckPlateNumber() {
+        return truckPlateNumber;
+    }
+
+    public String getDriverId() {
+        return driverId;
+    }
+
+    public double getShipmentWeight() {
+        return shipmentWeight;
+    }
+
+    public List<String> getLog() {
+        return log;
+    }
+
+    public Location getSource() {
+        return source;
+    }
+
+    public List<DocumentDTO> getDocuments(){
+        return documents;
+    }
+
+    public List<LocationDTO> getLocations(){
+        return destinations;
     }
 }

@@ -24,6 +24,7 @@ public class Shipment {
         this.log = new LinkedList<>();
         this.source = source;
         this.destinations = new LinkedList<>();
+        documents = new LinkedList<>();
     }
 
 
