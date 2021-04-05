@@ -113,9 +113,11 @@ public class InitializeData {
     private void initializeShiftPersonnel(BackendController backendController) {
         backendController.login("123456789");
         int[] quantities = {1, 3, 5, 7, 6, 8, 1, 2, 3, 4, 6, 3, 3, 2};
-        for (int i = 1; i < 8; i++) {
+        for (int i = 1; i < 7; i++) {
             for (Role role: Role.values()) {
                 backendController.defineShiftPersonnel(i, true, role, quantities[i + 1]);
+                if(i == 6)
+                    continue;
                 backendController.defineShiftPersonnel(i, false, role, quantities[i + 2]);
             }
         }
