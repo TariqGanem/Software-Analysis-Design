@@ -111,8 +111,8 @@ public class MenuController {
         IOController io = IOController.getInstance();
 
         io.println("What action would you like to perform?");
-        io.println("1) Assign an employee");
-        io.println("2) Remove an employee");
+        io.println("1) Assign employee to shift");
+        io.println("2) Remove employee from shift");
         io.println("3) Delete shift");
         io.println("4) Display assigned employees");
 
@@ -290,5 +290,17 @@ public class MenuController {
             return io.getString();
         }
         return ids[index - 1];
+    }
+
+    public String showShiftPositionsMenu(Map<Role, List<String>> map) {
+        IOController io = IOController.getInstance();
+        List<String> ret = new ArrayList<>();
+        for (List<String> list : map.values())
+            ret.addAll(list);
+        int i = 1;
+        for (String id : ret)
+            io.println(i + ") " + id);
+        io.print("enter a number between 1 to " + ret.size() + ": ");
+        return ret.get(io.getInt() - 1);
     }
 }

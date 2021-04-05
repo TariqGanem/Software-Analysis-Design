@@ -43,9 +43,9 @@ public class Shift {
 	public boolean isMorning() {
 		return isMorning;
 	}
-	
+
 	public Map<Role, List<String>> getPositions(){
-		return new HashMap<Role, List<String>>(positions);
+		return new HashMap<>(positions);
 	}
 	
 //	/////////////////////////////////////////////////////////

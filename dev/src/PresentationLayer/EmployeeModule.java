@@ -119,6 +119,7 @@ public class EmployeeModule {
                                 int shiftMenu = menu.showUpdateShiftMenu();
                                 switch (shiftMenu) {
                                     case 1:
+                                        //Assign employee to shift
                                         Role role = menu.showRoleMenu();
                                         Map<String, String> availableEmployees = backendController.viewAvailableEmployees(date, isMorning, role);
                                         String id = menu.showAvailableEmployeesMenu(availableEmployees);
@@ -126,15 +127,19 @@ public class EmployeeModule {
                                         break;
 
                                     case 2:
+                                        //Remove employee from shift
+                                        Map<Role, List<String>> map = backendController.getShift(date, isMorning).getPositions();
+                                        String empId = menu.showShiftPositionsMenu(map);
+                                        boolean b = backendController.removeFromShift(empId);
 
                                         break;
 
                                     case 3:
-
+                                        //Delete shift
                                         break;
 
                                     case 4:
-
+                                        //Display assigned employees
                                         break;
 
                                     default:

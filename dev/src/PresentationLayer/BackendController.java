@@ -106,15 +106,13 @@ public class BackendController {
         return true;
     }
 
-    public boolean getShift(LocalDate date, boolean isMorning) {
+    public ShiftDTO getShift(LocalDate date, boolean isMorning) {
         ResponseT<ShiftDTO> res = facade.getShift(date, isMorning);
         if (res.getErrorOccurred()){
             io.println(res.getErrorMessage());
-            return false;
+            return null;
         }
-        io.println(res.getValue().describeShift());
-        return true;
-
+        return res.getValue();
     }
 
     public ResponseT<EmployeeDTO> getEmployeeDTO(String ID) {
@@ -157,5 +155,14 @@ public class BackendController {
             return res.getValue();
         io.println(res.getErrorMessage());
         return null;
+    }
+
+    public boolean removeFromShift(String empId) {
+        Response res = facade.removeFromShift(empId);
+        if(res.getErrorOccurred()) {
+            io.println(res.getErrorMessage());
+            return false;
+        }
+        return true;
     }
 }
