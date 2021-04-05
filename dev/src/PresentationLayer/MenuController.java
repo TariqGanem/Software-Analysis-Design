@@ -57,25 +57,25 @@ public class MenuController {
         return YES_NO.equals("y");
     }
 
-    public LocalDate showEnterDateMenu() {
+    public int showEnterYearMenu() {
         IOController io = IOController.getInstance();
-        int year, month, day;
-        LocalDate date = null;
-
         io.print("Please enter a year: ");
-        year = io.getInt();
+        int year = io.getInt();
+        return year;
+    }
+
+    public int showEnterMonthMenu() {
+        IOController io = IOController.getInstance();
         io.print("Please enter a month: ");
-        month = io.getInt();
+        int month = io.getInt();
+        return month;
+    }
+
+    public int showEnterDayMenu() {
+        IOController io = IOController.getInstance();
         io.print("Please enter a day: ");
-        day = io.getInt();
-
-        try {
-            date = LocalDate.of(year, month, day);
-        } catch (Exception ignored) {
-            io.println("You entered illegal values for a date, you may try again.");
-        }
-
-        return date;
+        int day = io.getInt();
+        return day;
     }
 
     public boolean showEnterMorningEvening() {

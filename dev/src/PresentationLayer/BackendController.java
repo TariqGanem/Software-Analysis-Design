@@ -44,17 +44,20 @@ public class BackendController {
             io.println(response.getValue().viewProfile());
     }
 
-    public void viewMyShifts() {
+    public boolean viewMyShifts() {
         ResponseT<Map<ShiftDTO, Role>> response = facade.getEmpShifts(activeEmployee);
         if (response.getErrorOccurred())
             io.println(response.getErrorMessage());
-        else if(response.getValue().keySet().size() == 0)
+        else if(response.getValue().keySet().size() == 0) {
             io.println("You are not assigned to any shifts.");
+            return false;
+        }
         else {
             for (ShiftDTO shiftDTO: response.getValue().keySet()) {
                 io.println("At " + shiftDTO.describeShift() + " you are assigned as " + response.getValue().get(shiftDTO).name());
             }
         }
+        return true;
     }
 
     public void viewSpecificShift(LocalDate localDate, boolean isMorning) {
@@ -150,7 +153,7 @@ public class BackendController {
     }
 
     public Map<String,String> viewAvailableEmployees(LocalDate date, boolean isMorning, Role role) {
-        ResponseT<Map<String,String>> res = facade.viewAvailableEmployees(date.getDayOfWeek().getValue(), isMorning, role);
+        ResponseT<Map<String,String>> res = facade.viewAvailableEmployees(date, isMorning, role);
         if(!res.getErrorOccurred())
             return res.getValue();
         io.println(res.getErrorMessage());
@@ -168,6 +171,15 @@ public class BackendController {
 
     public boolean removeShift(LocalDate date, boolean isMorning) {
         Response res = facade.removeShift(date, isMorning);
+        if(res.getErrorOccurred()) {
+            io.println(res.getErrorMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkLegalDate(int year, int month, int day) {
+        Response res = facade.checkLegalDate(year, month, day);
         if(res.getErrorOccurred()) {
             io.println(res.getErrorMessage());
             return false;

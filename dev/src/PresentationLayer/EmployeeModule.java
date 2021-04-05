@@ -22,10 +22,11 @@ public class EmployeeModule {
         io.println("THE FOLLOWING QUESTION IS FOR THE TESTER");
         io.println("If you want to load data into the system please type 1, to continue normally type any other number.");
         int init = io.getInt();
-        if(init == 1) {
+        if (init == 1) {
             InitializeData initclass = new InitializeData();
             initclass.initializeData(backendController);
         }
+        io.println("");
 
         io.println("Hello And Welcome to Super-Lee!\n");
         while (true) {
@@ -60,31 +61,40 @@ public class EmployeeModule {
                             ID = null;
                         break;
 
-                        //View my profile
+                    //View my profile
                     case 1:
                         backendController.viewProfile("");
+                        io.println("");
                         break;
 
-                        //View my shifts
+                    //View my shifts
                     case 2:
                         String continueToViewShift = "";
-                        backendController.viewMyShifts();
+                        boolean isAssigned = backendController.viewMyShifts();
+                        if (!isAssigned) {
+                            io.println("");
+                            continue;
+                        }
                         boolean displayShiftDetails = menu.displaySpecificEmployees();
                         if (displayShiftDetails) {
                             do {
-                                LocalDate date = null;
+                                int year, month, day;
                                 do {
-                                    date = menu.showEnterDateMenu();
-                                } while (date == null);
+                                    year = menu.showEnterYearMenu();
+                                    month = menu.showEnterMonthMenu();
+                                    day = menu.showEnterDayMenu();
+                                } while (!backendController.checkLegalDate(year, month, day));
+                                LocalDate date = LocalDate.of(year, month, day);
                                 boolean isMorning = menu.showEnterMorningEvening();
                                 backendController.viewSpecificShift(date, isMorning);
                                 io.print("To find another shift type anything other than \"continue\": ");
                                 continueToViewShift = io.getString();
                             } while (!continueToViewShift.equals("continue"));
                         }
+                        io.println("");
                         break;
 
-                        //Change shift preferences
+                    //Change shift preferences
                     case 3:
                         String continueChanging = "", morning_evening = "";
                         do {
@@ -106,18 +116,22 @@ public class EmployeeModule {
                             io.print("To change another preference type anything other than \"continue\": ");
                             continueChanging = io.getString();
                         } while (!continueChanging.equals("continue"));
+                        io.println("");
                         break;
 
-                        //Add new shift
+                    //Add new shift
                     case 4:
 
                         //View shift
                     case 5:
                         do {
-                            LocalDate date;
+                            int year, month, day;
                             do {
-                                date = menu.showEnterDateMenu();
-                            } while (date == null);
+                                year = menu.showEnterYearMenu();
+                                month = menu.showEnterMonthMenu();
+                                day = menu.showEnterDayMenu();
+                            } while (!backendController.checkLegalDate(year, month, day));
+                            LocalDate date = LocalDate.of(year, month, day);
                             boolean isMorning = menu.showEnterMorningEvening();
                             if (option == 5)
                                 backendController.viewSpecificShift(date, isMorning);
@@ -133,6 +147,7 @@ public class EmployeeModule {
                                         Map<String, String> availableEmployees = backendController.viewAvailableEmployees(date, isMorning, role);
                                         String id = menu.showAvailableEmployeesMenu(availableEmployees);
                                         backendController.assignToShift(id, role);
+                                        io.println("");
                                         break;
 
                                     case 2:
@@ -140,17 +155,20 @@ public class EmployeeModule {
                                         Map<Role, List<String>> map = backendController.getShift(date, isMorning).getPositions();
                                         String empId = menu.showShiftPositionsMenu(map);
                                         backendController.removeFromShift(empId);
+                                        io.println("");
                                         break;
 
                                     case 3:
                                         //Delete shift
                                         backendController.removeShift(date, isMorning);
+                                        io.println("");
                                         break;
 
                                     case 4:
                                         //Display assigned employees
                                         Map<Role, List<String>> positions = backendController.getShift(date, isMorning).getPositions();
                                         menu.showAssignedEmployeesMenu(positions);
+                                        io.println("");
                                         break;
 
                                     default:
@@ -160,9 +178,10 @@ public class EmployeeModule {
                             io.print("To find another shift type anything other than \"continue\": ");
                             continueToViewShift = io.getString();
                         } while (!continueToViewShift.equals("continue"));
+                        io.println("");
                         break;
 
-                        //View employee + update employee
+                    //View employee + update employee
                     case 6:
                         String viewID, updateEmployee;
                         io.print("Please enter the ID of the employee: ");
@@ -182,8 +201,10 @@ public class EmployeeModule {
                             do {
                                 updateIndex = menu.showUpdateEmployeeMenu();
                                 newEmployee = backendController.getEmployeeDTO(viewID);
-                                if (newEmployee.getErrorOccurred())
+                                if (newEmployee.getErrorOccurred()) {
+                                    io.println("");
                                     continue;
+                                }
                                 EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
                                 switch (updateIndex) {
                                     case 0:
@@ -210,7 +231,14 @@ public class EmployeeModule {
                                         break;
 
                                     case 6:
-                                        emp.startDate = menu.showEnterDateMenu();
+                                        int year, month, day;
+                                        do {
+                                            year = menu.showEnterYearMenu();
+                                            month = menu.showEnterMonthMenu();
+                                            day = menu.showEnterDayMenu();
+                                        } while (!backendController.checkLegalDate(year, month, day));
+                                        LocalDate date = LocalDate.of(year, month, day);
+                                        emp.startDate = date;
                                         break;
 
                                     case 7:
@@ -234,15 +262,15 @@ public class EmployeeModule {
                                 continueUpdate = io.getString();
                             } while (!continueUpdate.equals("continue"));
                         }
+                        io.println("");
                         break;
 
                     //Add new employee
                     case 7:
                         String name, newID, trustFund;
-                        int bankId, branchId, accountNumber, freeDays, sickDays;
+                        int bankId, branchId, accountNumber, freeDays, sickDays, year, month, day;
                         float salary;
                         List<Role> skills;
-                        LocalDate startDate;
                         Preference[][] timeFrames;
 
                         io.print("Please enter a name: ");
@@ -258,7 +286,12 @@ public class EmployeeModule {
                         io.print("Please enter the salary: ");
                         salary = io.getFloat();
                         io.println("Please enter the start working date:");
-                        startDate = menu.showEnterDateMenu();
+                        do {
+                            year = menu.showEnterYearMenu();
+                            month = menu.showEnterMonthMenu();
+                            day = menu.showEnterDayMenu();
+                        } while (!backendController.checkLegalDate(year, month, day));
+                        LocalDate date = LocalDate.of(year, month, day);
                         io.print("Please enter a trust fund: ");
                         trustFund = io.getString();
                         io.print("Please enter the amount of free days: ");
@@ -268,18 +301,19 @@ public class EmployeeModule {
                         skills = menu.showEnterRoleList();
                         timeFrames = menu.showEnterPreferenceArray();
 
-                        backendController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, startDate, trustFund, freeDays, sickDays, skills, timeFrames);
+                        backendController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, date , trustFund, freeDays, sickDays, skills, timeFrames);
+                        io.println("");
                         break;
 
                     //Update shift personnel
                     case 8:
                         do {
                             io.print("Please enter the day of the week in numbers: ");
-                            int day = 0;
+                            int dayShift = 0;
                             do {
                                 io.print("Pick a number between 1 and 7: ");
-                                day = io.getInt();
-                            } while (day <= 0 || day > 7);
+                                dayShift = io.getInt();
+                            } while (dayShift <= 0 || dayShift > 7);
                             io.println("Is the shift in the morning or in the evening?");
                             do {
                                 io.print("Type \"m\" or \"e\": ");
@@ -288,13 +322,11 @@ public class EmployeeModule {
                             Role role = menu.showRoleMenu();
                             io.print("how many " + role.toString() + " are needed? ");
                             int qtty = io.getInt();
-                            backendController.defineShiftPersonnel(day, morning_evening.equals("m"), role, qtty);
+                            backendController.defineShiftPersonnel(dayShift, morning_evening.equals("m"), role, qtty);
                             io.print("To change another preference type anything other than \"continue\": ");
                             continueChanging = io.getString();
                         } while (!continueChanging.equals("continue"));
-                        break;
-
-                    default:
+                        io.println("");
                         break;
                 }
             }

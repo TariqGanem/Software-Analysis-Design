@@ -9,13 +9,13 @@ public class ShiftController {
 	private List<Shift> shifts;
 	private ShiftPersonnel sp;
 	private Shift activeShift;
-	
+
 	public ShiftController() {
 		shifts = new ArrayList<Shift>();
 		sp = new ShiftPersonnel();
 		activeShift = null;
 	}
-	
+
 	public Shift getShift(LocalDate date, boolean isMorning) {
 		for (Shift shift : shifts) {
 			if(shift.getDate().equals(date) && shift.isMorning()==isMorning){
@@ -25,7 +25,7 @@ public class ShiftController {
 		}
 		throw new NoSuchElementException("there is no shift at the time you want.");
 	}
-		
+
 	public boolean AssignToShift(String id, Role skill) {
 		if(activeShift == null)
 			throw new NullPointerException("need a shift to assign this employee to.");
@@ -35,7 +35,7 @@ public class ShiftController {
 			throw new IndexOutOfBoundsException("note that you've planned " + amountPlanned + " " + skill + "\n and now the amount is - " + actualAmount);
 		return true;
 	}
-	
+
 	public boolean removeFromShift(String id) {
 		if(activeShift == null)
 			throw new NullPointerException("need a shift to remove this employee from.");
@@ -43,20 +43,20 @@ public class ShiftController {
 			throw new IllegalArgumentException(id + " is not assigned to this shift.");
 		return true;
 	}
-	
+
 	public void definePersonnelForShift(int day, boolean isMorning, Role skill, int qtty) {
 		sp.setQtty(day, isMorning, skill, qtty);
 	}
-	
-	public boolean addShift(LocalDate date, boolean isMorning) {
-		int day = getDate(date);
-		int index = isMorning ? day - 1 : day + 5;
-		if(index > 10)
-			throw new IllegalArgumentException("this shift is on rest day");
-		activeShift = new Shift(date, isMorning);
-		return shifts.add(activeShift);
-	}
-	
+
+    public boolean addShift(LocalDate date, boolean isMorning) {
+        int day = getDate(date);
+        int index = isMorning ? day - 1 : day + 5;
+        if(index > 10)
+            throw new IllegalArgumentException("this shift is on rest day");
+        activeShift = new Shift(date, isMorning);
+        return shifts.add(activeShift);
+    }
+
 	public boolean removeShift(LocalDate date, boolean isMorning) {
 		boolean success = shifts.remove(getShift(date, isMorning));
 		if(success)
@@ -65,7 +65,7 @@ public class ShiftController {
 	}
 
 	public int getDate(LocalDate date){
-		return date.getDayOfWeek().getValue();
+		return (date.getDayOfWeek().getValue() + 1) % 7;
 	}
 
 	public Map<Shift, Role> getEmpShifts(String id){
@@ -77,5 +77,5 @@ public class ShiftController {
 		}
 		return empShifts;
 	}
-	
+
 }

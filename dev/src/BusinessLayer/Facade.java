@@ -1,5 +1,6 @@
 package BusinessLayer;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -188,10 +189,10 @@ public class Facade {
         return response;
     }
 
-    public ResponseT<Map<String, String>> viewAvailableEmployees(int day, boolean isMorning, Role skill) {
+    public ResponseT<Map<String, String>> viewAvailableEmployees(LocalDate date, boolean isMorning, Role skill) {
         ResponseT<Map<String, String>> response;
         try {
-            Map<String, String> employees = employeeController.viewAvailableEmployees(day, isMorning, skill);
+            Map<String, String> employees = employeeController.viewAvailableEmployees((date.getDayOfWeek().getValue() + 1) % 7, isMorning, skill);
             response = new ResponseT<Map<String, String>>(employees);
         } catch (Exception e) {
             response = new ResponseT<Map<String, String>>(e);
@@ -209,4 +210,14 @@ public class Facade {
         return new ResponseT<>(ret);
     }
 
+    public Response checkLegalDate(int year, int month, int day) {
+        Response response;
+        try {
+            LocalDate date = LocalDate.of(year, month, day);
+            response = new Response();
+        } catch (Exception ignored) {
+            response = new Response(new Exception("You entered an illegal date"));
+        }
+        return response;
+    }
 }
