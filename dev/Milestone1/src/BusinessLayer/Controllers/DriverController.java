@@ -42,4 +42,8 @@ public class DriverController {
             throw new Exception("Couldn't add new driver - Invalid parameters");
         data.add(new Driver(id, name, allowedWeight));
     }
+
+    public List<Driver> getAlldrivers() {
+        return data;
+    }
 }

@@ -43,7 +43,7 @@ public class Menu {
     }
 
     private void addItems() {
-        addMenuItem("one");
+        addMenuItem("View All Trucks");
         addMenuItem("two");
         addMenuItem("Exit");//Keep last
     }
@@ -65,7 +65,7 @@ public class Menu {
         switch (input) {
             case 1:
                 // JUST AN EXAMPLE...
-                trucksHandler.doSomething();
+                trucksHandler.viewAllTrucks();
                 break;
             case 2:
                 locationsHandler.doSomething();

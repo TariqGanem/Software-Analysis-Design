@@ -1,5 +1,8 @@
 package PresentationLayer;
 
+import BusinessLayer.DTOs.TruckDTO;
+import BusinessLayer.Response;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -49,6 +52,10 @@ public class Printer {
     public void error(String msg) {
         System.out.println("---ERROR---");
         System.out.println(msg);
+    }
+
+    public void viewAllTrucks(List<TruckDTO> trucks){
+        // TODO - implement printing trucks
     }
 
 //    /**

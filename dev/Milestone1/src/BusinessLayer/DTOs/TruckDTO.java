@@ -7,7 +7,6 @@ public class TruckDTO {
     private String model;
     private double natoWeight;
     private double maxWeight;
-    private ShipmentDTO shipment;
     private boolean available;
 
     public TruckDTO(String truckPlateNumber, String model, double natoWeight, double maxWeight,
@@ -16,7 +15,6 @@ public class TruckDTO {
         this.model = model;
         this.natoWeight = natoWeight;
         this.maxWeight = maxWeight;
-        this.shipment = shipment;
         this.available = available;
     }
 
@@ -25,7 +23,6 @@ public class TruckDTO {
         model = t.getModel();
         natoWeight = t.getNatoWeight();
         maxWeight = t.getMaxWeight();
-        shipment = new ShipmentDTO(t.getShipment());
         available = t.isAvailable();
     }
 
@@ -43,10 +40,6 @@ public class TruckDTO {
 
     public double getMaxWeight() {
         return maxWeight;
-    }
-
-    public ShipmentDTO getShipment() {
-        return shipment;
     }
 
     public boolean isAvailable() {

@@ -7,6 +7,13 @@ import BusinessLayer.Controllers.TruckController;
 import BusinessLayer.DTOs.DriverDTO;
 import BusinessLayer.DTOs.LocationDTO;
 import BusinessLayer.DTOs.TruckDTO;
+import BusinessLayer.Objects.Driver;
+import BusinessLayer.Objects.Shipment;
+import BusinessLayer.Objects.Truck;
+
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Facade {
     private Facade instance = null;
@@ -79,13 +86,44 @@ public class Facade {
         }
     }
 
-    public Response reArrangeShipment(){
-        // TODO: Implementing 3 different functionalists
-        return null;
+    public ResponseT<List<TruckDTO>> getAlltrucks(){
+        try{
+            List<Truck> trucks = truckController.getAlltrucks();
+            List<TruckDTO> trucksDTO = new LinkedList<>();
+            for (Truck t: trucks) {
+                trucksDTO.add(getTruckDTO(t.getTruckPlateNumber()).getValue());
+            }
+            return new ResponseT<>(trucksDTO);
+        } catch (Exception e){
+            return new ResponseT<>(e.getMessage());
+        }
+    }
+
+    public ResponseT<List<DriverDTO>> getAlldrivers(){
+        try{
+            List<Driver> drivers = driverController.getAlldrivers();
+            List<DriverDTO> driversDTO = new LinkedList<>();
+            for (Driver d: drivers) {
+                driversDTO.add(getDriverDTO(d.getId()).getValue());
+            }
+            return new ResponseT<>(driversDTO);
+        } catch (Exception e){
+            return new ResponseT<>(e.getMessage());
+        }
     }
 
     public Response transport(){
         // TODO: Implementing the function
         return null;
+    }
+
+    public ResponseT<Double> weighTruck(String truckId, Date date, String departureHour, String driverId){
+        try{
+            double weight =  truckController.getTruck(truckId).getNatoWeight();
+            weight += shipmentController.getShipment(date, departureHour, driverId).getShipmentWeight();
+            return new ResponseT<>(weight);
+        } catch (Exception e){
+            return new ResponseT<>(e.getMessage());
+        }
     }
 }

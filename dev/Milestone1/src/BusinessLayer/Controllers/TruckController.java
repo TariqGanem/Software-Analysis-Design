@@ -21,7 +21,8 @@ public class TruckController {
      */
     public double weighTruck(String truckID) throws Exception {
         Truck t = getTruck(truckID);
-        return t.getNatoWeight() + t.getShipment().getShipmentWeight();
+        //return t.g
+        return -1;
     }
 
     /***
@@ -56,5 +57,9 @@ public class TruckController {
         if (truckPlateNumber == null || model == null)
             throw new Exception("Couldn't add new truck - Invalid parameters");
         trucks.add(new Truck(truckPlateNumber, model, natoWeight, maxWeight));
+    }
+
+    public List<Truck> getAlltrucks() {
+        return trucks;
     }
 }
