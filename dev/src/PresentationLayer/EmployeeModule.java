@@ -2,6 +2,7 @@ package PresentationLayer;
 
 import BusinessLayer.ResponseT;
 import DTOPackage.EmployeeDTO;
+import DTOPackage.ShiftDTO;
 import Resources.Preference;
 import Resources.Role;
 
@@ -111,9 +112,10 @@ public class EmployeeModule {
                                 date = menu.showEnterDateMenu();
                             } while (date == null);
                             boolean isMorning = menu.showEnterMorningEvening();
+                            boolean gotShift = true;
                             if (option == 5)
-                                backendController.viewSpecificShift(date, isMorning);
-                            if (option == 5 || backendController.addShift(date, isMorning)) {
+                                gotShift = backendController.viewSpecificShift(date, isMorning);
+                            if (gotShift && (option == 5 || backendController.addShift(date, isMorning))) {
                                 int shiftMenu = menu.showUpdateShiftMenu();
                                 switch (shiftMenu) {
                                     //go back
@@ -121,7 +123,8 @@ public class EmployeeModule {
                                         break;
                                     case 1:
                                         //Assign employee to shift
-                                        Role role = menu.showRoleMenu();
+                                        Map<Role, Integer> personnel = backendController.getPersonnelForShift(date.getDayOfWeek().getValue(), isMorning);
+                                        Role role = menu.showShiftPersonnelMenu(personnel);
                                         Map<String, String> availableEmployees = backendController.viewAvailableEmployees(date, isMorning, role);
                                         String id = menu.showAvailableEmployeesMenu(availableEmployees);
                                         backendController.assignToShift(id, role);
@@ -129,20 +132,28 @@ public class EmployeeModule {
 
                                     case 2:
                                         //Remove employee from shift
-                                        Map<Role, List<String>> map = backendController.getShift(date, isMorning).getPositions();
-                                        String empId = menu.showShiftPositionsMenu(map);
-                                        backendController.removeFromShift(empId);
+                                        ShiftDTO myShift = backendController.getShift(date, isMorning);
+                                        if(myShift != null){
+                                            Map<Role, List<String>> map = myShift.getPositions();
+                                            String empId = menu.showShiftPositionsMenu(map);
+                                            if(backendController.removeFromShift(empId))
+                                                io.println("success!");
+                                        }
                                         break;
 
                                     case 3:
                                         //Delete shift
-                                        backendController.removeShift(date, isMorning);
+                                        if(backendController.removeShift(date, isMorning))
+                                            io.println("success!");
                                         break;
 
                                     case 4:
                                         //Display assigned employees
-                                        Map<Role, List<String>> positions = backendController.getShift(date, isMorning).getPositions();
-                                        menu.showAssignedEmployeesMenu(positions);
+                                        ShiftDTO shift = backendController.getShift(date, isMorning);
+                                        if(shift != null){
+                                            Map<Role, List<String>> positions = shift.getPositions();
+                                            menu.showAssignedEmployeesMenu(positions);
+                                        }
                                         break;
 
                                     default:
@@ -277,7 +288,9 @@ public class EmployeeModule {
                                 io.print("Type \"m\" or \"e\": ");
                                 morning_evening = io.getString();
                             } while (!morning_evening.equals("m") && !morning_evening.equals("e"));
-                            Role role = menu.showRoleMenu();
+                            Map<Role, Integer> personnel = backendController.getPersonnelForShift(day, morning_evening.equals("m"));
+                            Role role = menu.showShiftPersonnelMenu(personnel);
+
                             io.print("how many " + role.toString() + " are needed? ");
                             int qtty = io.getInt();
                             backendController.defineShiftPersonnel(day, morning_evening.equals("m"), role, qtty);

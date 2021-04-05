@@ -8,19 +8,24 @@ public class ShiftPersonnel {
 	private Map<Role, Integer>[] empQtty;
 	
 	public ShiftPersonnel() {
-		empQtty = new Map[11];
+		empQtty = new Map[14];
 		for (int i = 0; i < 11; i++) {
 			empQtty[i] = new HashMap<>();
 		}
+		empQtty[11] = null;
+		empQtty[12] = null;
+		empQtty[13] = null;
 		//insert default data
 		
 		for (Map<Role, Integer> map : empQtty) {
-			map.put(Role.StoreManager, 1);
-			map.put(Role.Cashier, 1);
-			map.put(Role.HRManager, 1);
-			map.put(Role.StoreManagerAssistant, 1);
-			map.put(Role.Stocker, 1);
-			map.put(Role.ShiftManager, 1);
+			if(map != null){
+				map.put(Role.StoreManager, 1);
+				map.put(Role.Cashier, 1);
+				map.put(Role.HRManager, 1);
+				map.put(Role.StoreManagerAssistant, 1);
+				map.put(Role.Stocker, 1);
+				map.put(Role.ShiftManager, 1);
+			}
 		}
 	}
 	
@@ -35,12 +40,10 @@ public class ShiftPersonnel {
 		else empQtty[index].put(skill, qtty);
 	}
 	
-	public Integer getQtty(int day, boolean isMorning, Role skill) {
+	public Map<Role, Integer> getQtty(int day, boolean isMorning) {
 		int index = isMorning ? day - 1 : day + 5;
 		if(index > 10 || index < 0)
 			throw new IndexOutOfBoundsException("no such shift.");
-		if(!empQtty[index].containsKey(skill))
-			return 0;
-		return empQtty[index].get(skill);
+		return empQtty[index];
 	}
 }

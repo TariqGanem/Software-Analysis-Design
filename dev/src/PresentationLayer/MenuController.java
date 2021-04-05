@@ -256,20 +256,9 @@ public class MenuController {
         }
     }
 
-    public Role showRoleMenu() {
-        IOController io = IOController.getInstance();
-        int i = 1;
-        for (Role role : Role.values()) {
-            io.println(i + ") " + role.toString());
-            i++;
-        }
-        int index;
-        do {
-            io.print("Enter a number between 1 to " + Role.values().length + ": ");
-            index = io.getInt();
-        }while(index < 1 || index > Role.values().length);
-        return Role.values()[index - 1];
-    }
+//    public Role showRoleMenu() {
+//
+//    }
 
     public String showAvailableEmployeesMenu(Map<String,String> availableEmployees) {
         IOController io = IOController.getInstance();
@@ -280,11 +269,11 @@ public class MenuController {
             x++;
         }
         for (int i = 0; i < ids.length; i++)
-            io.println((i+1) + ") " + ids[i] + " " + availableEmployees.get(ids[i]));
+            io.println((i+1) + ") (" + ids[i] + ") " + availableEmployees.get(ids[i]));
         int index;
         if(ids.length > 0) {
             do {
-                io.print("Enter a number between 1 to " + ids.length);
+                io.print("Enter a number between 1 to " + ids.length + ": ");
                 index = io.getInt();
             } while (index < 1 || index > ids.length);
         }else{
@@ -314,5 +303,21 @@ public class MenuController {
         int i = 1;
         for (String id : ret)
             io.println(i + ") " + id);
+    }
+
+    public Role showShiftPersonnelMenu(Map<Role, Integer> map) {
+        IOController io = IOController.getInstance();
+        int i = 1;
+        Role[] roles = map.keySet().toArray(new Role[0]);
+        for (Role role : roles) {
+            io.println(i + ") " + role.toString() + " - " + map.get(role) + " Are needed.");
+            i++;
+        }
+        int index;
+        do {
+            io.print("Enter a number between 1 to " + Role.values().length + ": ");
+            index = io.getInt();
+        }while(index < 1 || index > Role.values().length);
+        return roles[index - 1];
     }
 }
