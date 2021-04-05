@@ -35,13 +35,13 @@ public class EmployeeModule {
                 boolean successfulLogin = false;
                 do {
                     ID = menu.loginMenu();
-                    if (ID.equals("Q"))
+                    if (ID.equals("q"))
                         break;
                     successfulLogin = backendController.login(ID);
                 } while (!successfulLogin);
             }
 
-            if (ID.equals("Q"))
+            if (ID.equals("q"))
                 break;
 
             isManager = backendController.getIsManager();
@@ -78,20 +78,22 @@ public class EmployeeModule {
                         }
                         boolean displayShiftDetails = menu.displaySpecificEmployees();
                         if (displayShiftDetails) {
-                            do {
-                                int year, month, day;
-                                do {
-                                    year = menu.showEnterYearMenu();
-                                    month = menu.showEnterMonthMenu();
-                                    day = menu.showEnterDayMenu();
-                                } while (!backendController.checkLegalDate(year, month, day));
-                                LocalDate date = LocalDate.of(year, month, day);
-                                boolean isMorning = menu.showEnterMorningEvening();
-                                backendController.viewSpecificShift(date, isMorning);
-                                io.print("To find another shift type anything other than \"continue\": ");
-                                continueToViewShift = io.getString();
-                            } while (!continueToViewShift.equals("continue"));
+                            io.println("");
+                            continue;
                         }
+                        do {
+                            int year, month, day;
+                            do {
+                                year = menu.showEnterYearMenu();
+                                month = menu.showEnterMonthMenu();
+                                day = menu.showEnterDayMenu();
+                            } while (!backendController.checkLegalDate(year, month, day));
+                            LocalDate date = LocalDate.of(year, month, day);
+                            boolean isMorning = menu.showEnterMorningEvening();
+                            backendController.viewSpecificShift(date, isMorning);
+                            io.print("To continue type \"c\", to view another shift type anything else: ");
+                            continueToViewShift = io.getString();
+                        } while (!continueToViewShift.equals("c"));
                         io.println("");
                         break;
 
@@ -114,13 +116,13 @@ public class EmployeeModule {
 
                             backendController.changePreference(day - 1, morning_evening.equals("m"), Preference.values()[prefIndex]);
 
-                            io.print("To change another preference type anything other than \"continue\": ");
+                            io.print("To continue type \"c\", to change another preference type anything else: ");
                             continueChanging = io.getString();
-                        } while (!continueChanging.equals("continue"));
+                        } while (!continueChanging.equals("c"));
                         io.println("");
                         break;
 
-                    //Add new shift
+                        //Add new shift
                     case 4:
 
                         //View shift
@@ -186,9 +188,9 @@ public class EmployeeModule {
 
                                 }
                             }
-                            io.print("To find another shift type anything other than \"continue\": ");
+                            io.print("To continue type \"c\", to view another shift type anything else: ");
                             continueToViewShift = io.getString();
-                        } while (!continueToViewShift.equals("continue"));
+                        } while (!continueToViewShift.equals("c"));
                         io.println("");
                         break;
 
@@ -205,74 +207,77 @@ public class EmployeeModule {
                             updateEmployee = io.getString();
                         } while (!updateEmployee.equals("y") && !updateEmployee.equals("n"));
 
-                        if (updateEmployee.equals("y")) {
-                            int updateIndex;
-                            String continueUpdate = null;
-                            ResponseT<EmployeeDTO> newEmployee;
-                            do {
-                                updateIndex = menu.showUpdateEmployeeMenu();
-                                newEmployee = backendController.getEmployeeDTO(viewID);
-                                if (newEmployee.getErrorOccurred()) {
-                                    io.println("");
-                                    continue;
-                                }
-                                EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
-                                switch (updateIndex) {
-                                    case 0:
-                                        //go back
-                                        break;
-                                    case 1:
-                                        emp.name = menu.showEnterStringMenu("name");
-                                        break;
-
-                                    case 2:
-                                        emp.bankId = menu.showEnterIntMenu("bank id");
-                                        break;
-
-                                    case 3:
-                                        emp.branchId = menu.showEnterIntMenu("branch id");
-                                        break;
-
-                                    case 4:
-                                        emp.accountNumber = menu.showEnterIntMenu("account number");
-                                        break;
-
-                                    case 5:
-                                        emp.salary = menu.showEnterFloatMenu("salary");
-                                        break;
-
-                                    case 6:
-                                        int year, month, day;
-                                        do {
-                                            year = menu.showEnterYearMenu();
-                                            month = menu.showEnterMonthMenu();
-                                            day = menu.showEnterDayMenu();
-                                        } while (!backendController.checkLegalDate(year, month, day));
-                                        LocalDate date = LocalDate.of(year, month, day);
-                                        emp.startDate = date;
-                                        break;
-
-                                    case 7:
-                                        emp.trustFund = menu.showEnterStringMenu("trust fund");
-                                        break;
-
-                                    case 8:
-                                        emp.freeDays = menu.showEnterIntMenu("free days amount");
-                                        break;
-
-                                    case 9:
-                                        emp.sickDays = menu.showEnterIntMenu("sick days amount");
-                                        break;
-
-                                    case 10:
-                                        emp.skills = menu.showEnterRoleList();
-                                        break;
-                                }
-                                backendController.setEmployeeDTO(emp);
-                                io.print("To change another field type anything other than \"continue\": ");
-                                continueUpdate = io.getString();
-                            } while (!continueUpdate.equals("continue"));
+                        if (updateEmployee.endsWith("n")) {
+                            io.println("");
+                            continue;
                         }
+
+                        int updateIndex;
+                        String continueUpdate = null;
+                        ResponseT<EmployeeDTO> newEmployee;
+                        do {
+                            updateIndex = menu.showUpdateEmployeeMenu();
+                            newEmployee = backendController.getEmployeeDTO(viewID);
+                            if (newEmployee.getErrorOccurred()) {
+                                io.println("");
+                                continue;
+                            }
+                            EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
+                            switch (updateIndex) {
+                                case 0:
+                                    //go back
+                                    break;
+                                case 1:
+                                    emp.name = menu.showEnterStringMenu("name");
+                                    break;
+
+                                case 2:
+                                    emp.bankId = menu.showEnterIntMenu("bank id");
+                                    break;
+
+                                case 3:
+                                    emp.branchId = menu.showEnterIntMenu("branch id");
+                                    break;
+
+                                case 4:
+                                    emp.accountNumber = menu.showEnterIntMenu("account number");
+                                    break;
+
+                                case 5:
+                                    emp.salary = menu.showEnterFloatMenu("salary");
+                                    break;
+
+                                case 6:
+                                    int year, month, day;
+                                    do {
+                                        year = menu.showEnterYearMenu();
+                                        month = menu.showEnterMonthMenu();
+                                        day = menu.showEnterDayMenu();
+                                    } while (!backendController.checkLegalDate(year, month, day));
+                                    LocalDate date = LocalDate.of(year, month, day);
+                                    emp.startDate = date;
+                                    break;
+
+                                case 7:
+                                    emp.trustFund = menu.showEnterStringMenu("trust fund");
+                                    break;
+
+                                case 8:
+                                    emp.freeDays = menu.showEnterIntMenu("free days amount");
+                                    break;
+
+                                case 9:
+                                    emp.sickDays = menu.showEnterIntMenu("sick days amount");
+                                    break;
+
+                                case 10:
+                                    emp.skills = menu.showEnterRoleList();
+                                    break;
+                            }
+                            backendController.setEmployeeDTO(emp);
+                            io.print("To continue type \"c\", to change another field type anything else: ");
+                            continueUpdate = io.getString();
+                        } while (!continueUpdate.equals("c"));
                         io.println("");
                         break;
 
@@ -336,9 +341,9 @@ public class EmployeeModule {
                             io.print("how many " + role.toString() + " are needed? ");
                             int qtty = io.getInt();
                             backendController.defineShiftPersonnel(dayShift, morning_evening.equals("m"), role, qtty);
-                            io.print("To change another preference type anything other than \"continue\": ");
+                            io.print("To continue type \"c\", to update more information type anything else: ");
                             continueChanging = io.getString();
-                        } while (!continueChanging.equals("continue"));
+                        } while (!continueChanging.equals("c"));
                         io.println("");
                         break;
                 }
