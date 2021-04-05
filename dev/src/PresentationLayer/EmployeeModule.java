@@ -124,6 +124,9 @@ public class EmployeeModule {
                             if (option == 5 || backendController.addShift(date, isMorning)) {
                                 int shiftMenu = menu.showUpdateShiftMenu();
                                 switch (shiftMenu) {
+                                    //go back
+                                    case 0:
+                                        break;
                                     case 1:
                                         //Assign employee to shift
                                         Role role = menu.showRoleMenu();
@@ -183,6 +186,9 @@ public class EmployeeModule {
                                     continue;
                                 EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
                                 switch (updateIndex) {
+                                    case 0:
+                                        //go back
+                                        break;
                                     case 1:
                                         emp.name = menu.showEnterStringMenu("name");
                                         break;
