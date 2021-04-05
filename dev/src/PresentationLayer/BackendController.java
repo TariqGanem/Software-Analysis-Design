@@ -165,4 +165,13 @@ public class BackendController {
         }
         return true;
     }
+
+    public boolean removeShift(LocalDate date, boolean isMorning) {
+        Response res = facade.removeShift(date, isMorning);
+        if(res.getErrorOccurred()) {
+            io.println(res.getErrorMessage());
+            return false;
+        }
+        return true;
+    }
 }
