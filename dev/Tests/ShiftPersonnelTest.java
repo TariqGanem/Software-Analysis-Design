@@ -7,8 +7,9 @@ import org.junit.Test;
 
 public class ShiftPersonnelTest {
     private ShiftPersonnel sp;
+
     @Before
-    private void setup(){
+    public void setup(){
         sp = new ShiftPersonnel();
     }
 

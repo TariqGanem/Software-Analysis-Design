@@ -31,10 +31,6 @@ public class ShiftControllerTest {
     @Test
     public void testAssignToShift() {
         sc.addShift(LocalDate.now(),false );
-        try{
-            sc.AssignToShift("1234", Role.ShiftManager);
-            fail("activate a shift first");
-        }catch (Exception ignored){}
         Shift s = sc.getShift(LocalDate.now(), false);
         boolean ans = sc.AssignToShift("1234", Role.ShiftManager);
         assertTrue(ans);
@@ -66,7 +62,7 @@ public class ShiftControllerTest {
 
     @Test
     public void testAddShift() {
-        int day = LocalDate.now().getDayOfWeek().getValue();
+        int day = (LocalDate.now().getDayOfWeek().getValue() + 1) % 7;
         LocalDate date = LocalDate.now().plusDays(7 - day);//saturday
         try{
             sc.addShift(date, false);
@@ -89,6 +85,9 @@ public class ShiftControllerTest {
         LocalDate date = LocalDate.now().plusDays(5 - day);
         sc.addShift(date, true);
         assertTrue(sc.removeShift(date, true));
-        assertFalse(sc.removeShift(date, true));
+        try {
+            sc.removeShift(date, true);
+            fail("Removed shift which doesn't exist.");
+        } catch (Exception ignored) {}
     }
 }
