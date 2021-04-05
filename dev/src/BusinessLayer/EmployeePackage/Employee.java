@@ -39,22 +39,6 @@ public class Employee {
         setTimeFrames(timeFrames);
     }
 
-    /*public boolean changeShiftPreference(int day, boolean isMorning, int preference) {
-        if (day > 5 || day < 0)
-            throw new IndexOutOfBoundsException("The day entered was out of bounds.");
-        else if (day == 5 && !isMorning)
-            throw new IndexOutOfBoundsException("There is no shift at friday evening.");
-        else if (preference < 0 || preference > 2)
-            throw new IndexOutOfBoundsException("The preference entered was out of bounds.");
-
-        if (isMorning)
-            timeFrames[day][0] = Preference.values()[preference];
-        else
-            timeFrames[day][1] = Preference.values()[preference];
-
-        return true;
-    }*/
-
     public Preference getPreference(int day, boolean isMorning) {
         if (isMorning)
             return timeFrames[day][0];

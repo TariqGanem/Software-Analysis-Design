@@ -10,6 +10,7 @@ import javax.naming.NoPermissionException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -275,16 +276,19 @@ public class EmployeeControllerTest {
             for (int j = 0; j < 2; j++)
                 timeFrames3[i][j] = Preference.CANT;
 
-        employeeController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames1);
-        employeeController.addEmployee(name, "1", bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames2);
-        employeeController.addEmployee(name, "2", bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames3);
+        employeeController.addEmployee("Sandy Cheeks", ID, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames1);
+        employeeController.addEmployee("Sponge Bob", "1", bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames2);
+        employeeController.addEmployee("Patrick Star", "2", bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames3);
         employeeController.login("123456789");
 
-//        List<String> emps = employeeController.viewAvailableEmployees(0, true, Role.Cashier);
-//        assertEquals(2, emps.size());
-//        assertTrue(emps.get(1).contains("(" + ID + ")"));
-//        assertFalse(emps.get(1).contains("(2)"));
-//        assertTrue(emps.get(0).contains("(1)"));
-//        assertFalse(emps.get(0).contains("(2)"));
+        Map<String, String> emps = employeeController.viewAvailableEmployees(0, true, Role.Cashier);
+        assertEquals(2, emps.size());
+        assertTrue(emps.get(ID).contains("Sandy Cheeks"));
+        assertTrue(emps.get(ID).contains("WANTS"));
+        assertFalse(emps.get(ID).contains("Sponge Bob"));
+        assertTrue(emps.get("1").contains("Sponge Bob"));
+        assertTrue(emps.get("1").contains("CAN"));
+        assertFalse(emps.get("1").contains("Sandy Cheeks"));
+        assertFalse(emps.containsKey("2"));
     }
 }

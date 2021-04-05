@@ -47,15 +47,7 @@ public class Shift {
 	public Map<Role, List<String>> getPositions(){
 		return new HashMap<>(positions);
 	}
-	
-//	/////////////////////////////////////////////////////////
-//	public List<String> getAssignedEmployees(){
-//		List<String> ans = new ArrayList<String>();
-//		for (List<String> lst : positions.values())
-//			ans.addAll(lst);
-//		return ans;
-//	}
-//	
+
 	public Role isAssignedToShift(String id) {
 		for (Role role : positions.keySet())
 			if(positions.get(role).contains(id))

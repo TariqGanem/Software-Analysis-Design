@@ -20,6 +20,14 @@ public class EmployeeModule {
         int option = -1;
         boolean errorOccurred = false, isManager = false;
 
+        io.println("THE FOLLOWING QUESTION IS FOR THE TESTER");
+        io.println("If you want to load data into the system please type 1, to continue normally type any other number.");
+        int init = io.getInt();
+        if(init == 1) {
+            InitializeData initclass = new InitializeData();
+            initclass.initializeData(backendController);
+        }
+
         io.println("Hello And Welcome to Super-Lee!\n");
         while (true) {
             if (ID == null) {
@@ -303,6 +311,7 @@ public class EmployeeModule {
                         break;
                 }
             }
+            option = -1;
             errorOccurred = false;
         }
     }

@@ -15,8 +15,8 @@ public class ShiftPersonnel {
 		empQtty[11] = null;
 		empQtty[12] = null;
 		empQtty[13] = null;
+
 		//insert default data
-		
 		for (Map<Role, Integer> map : empQtty) {
 			if(map != null){
 				map.put(Role.StoreManager, 1);
