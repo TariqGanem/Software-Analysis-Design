@@ -20,34 +20,6 @@ public class Facade {
     public Facade() {
         employeeController = new EmployeeController();
         shiftController = new ShiftController();
-
-
-        //TODO: REMOVE THIS
-        //TODO: REMOVE THIS
-        //TODO: REMOVE THIS
-        //TODO: REMOVE THIS
-        //TODO: REMOVE THIS
-        List roles = new ArrayList<Role>();
-        roles.add(Role.StoreManager);
-        String name = "Sponge Bob";
-        String ID1 = "123456789";
-        int bankId = 10;
-        int branchId = 100;
-        int accountNumber = 1000;
-        float salary = 5000;
-        LocalDate date = LocalDate.now();
-        String trustFund = "Trust Fund";
-        int freeDays = 10;
-        int sickDays = 15;
-        Preference[][] timeFrames = new Preference[7][2];
-        for (int i = 0; i < 7; i++)
-            for (int j = 0; j < 2; j++)
-                timeFrames[i][j] = Preference.WANT;
-        List roles1 = new ArrayList<Role>();
-        roles1.add(Role.Cashier);
-        employeeController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
-        employeeController.addEmployee(name, "987654321", bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles1, timeFrames);
-
     }
 
     public boolean getIsManager() {
@@ -215,17 +187,6 @@ public class Facade {
         }
         return response;
     }
-
-//    public ResponseT<List<String>> viewAvailableEmployees(int day, boolean isMorning, Role skill) {
-//        ResponseT<List<String>> response;
-//        try {
-//            Map<String, String> employees = employeeController.viewAvailableEmployees(day, isMorning, skill);
-//            response = new ResponseT<List<String>>(employees);
-//        } catch (Exception e) {
-//            response = new ResponseT<List<String>>(e);
-//        }
-//        return response;
-//    }
 
     public ResponseT<Map<String, String>> viewAvailableEmployees(int day, boolean isMorning, Role skill) {
         ResponseT<Map<String, String>> response;

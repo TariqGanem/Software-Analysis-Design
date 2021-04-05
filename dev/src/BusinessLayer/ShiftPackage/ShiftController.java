@@ -67,8 +67,7 @@ public class ShiftController {
 	public int getDate(LocalDate date){
 		return date.getDayOfWeek().getValue();
 	}
-	
-	/////////////////////////////////////////////////////////////////
+
 	public Map<Shift, Role> getEmpShifts(String id){
 		Map<Shift, Role> empShifts = new HashMap();
 		for (Shift shift : shifts) {

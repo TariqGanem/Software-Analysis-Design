@@ -12,8 +12,8 @@ public class ShiftPersonnel {
 		for (int i = 0; i < 11; i++) {
 			empQtty[i] = new HashMap<>();
 		}
+
 		//insert default data
-		
 		for (Map<Role, Integer> map : empQtty) {
 			map.put(Role.StoreManager, 1);
 			map.put(Role.Cashier, 1);

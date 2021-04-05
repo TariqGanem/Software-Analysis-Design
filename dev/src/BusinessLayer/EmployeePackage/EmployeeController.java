@@ -67,28 +67,6 @@ public class EmployeeController {
         employees.put(ID, new Employee(name, ID, bankId, branchId, accountNumber, salary, startDate, trustFund, freeDays, sickDays, skills, timeFrames));
     }
 
-    /*public boolean changeShiftPreference(int day, boolean isMorning, int preference) {
-        return activeEmployee.changeShiftPreference(day, isMorning, preference);
-    }*/
-
-    /*public String getSkills(String ID) throws NoPermissionException {
-        if (activeEmployee.getID().equals(ID))
-            return activeEmployee.describeRoles();
-        else if (!activeEmployee.getIsManager())
-            throw new NoPermissionException("The employee currently using the system doesn't have permission to view this content.");
-        else
-            return employees.get(ID).describeRoles();
-    }*/
-
-    /*public String viewProfile(String ID) throws NoPermissionException {
-        if (activeEmployee.getID().equals(ID))
-            return activeEmployee.viewProfile();
-        else if (!activeEmployee.getIsManager())
-            throw new NoPermissionException("The employee currently using the system doesn't have permission to view this content.");
-        else
-            return employees.get(ID).viewProfile();
-    }*/
-
     public boolean isValidID(String ID) {
         return employees.containsKey(ID);
     }
@@ -96,20 +74,6 @@ public class EmployeeController {
     public boolean isManager() {
         return activeEmployee != null && activeEmployee.getIsManager();
     }
-
-//    public List<String> viewAvailableEmployees(int day, boolean isMorning, Role skill) {
-//        List<String> toReturn = new ArrayList<>();
-//        for (Employee e : employees.values()) {
-//            if (e.hasSkill(skill)) {
-//                Preference p = e.getPreference(day, isMorning);
-//                if (p.equals(Preference.WANT))
-//                    toReturn.add(e.getName() + " (" + e.getID() + ") WANTS to work at the specified date.");
-//                else if (p.equals(Preference.CAN))
-//                    toReturn.add(e.getName() + " (" + e.getID() + ") CAN work at the specified date.");
-//            }
-//        }
-//        return toReturn;
-//    }
 
     public Map<String, String> viewAvailableEmployees(int day, boolean isMorning, Role skill) {
         Map<String, String> ret = new HashMap<>();
