@@ -6,15 +6,7 @@ import BusinessLayer.Controllers.ShipmentController;
 import BusinessLayer.Controllers.TruckController;
 import BusinessLayer.DTOs.DriverDTO;
 import BusinessLayer.DTOs.LocationDTO;
-import BusinessLayer.DTOs.ShipmentDTO;
 import BusinessLayer.DTOs.TruckDTO;
-import BusinessLayer.Objects.Driver;
-import BusinessLayer.Objects.Location;
-import BusinessLayer.Objects.Shipment;
-import BusinessLayer.Objects.Truck;
-
-import java.util.LinkedList;
-import java.util.List;
 
 public class Facade {
     private Facade instance = null;
@@ -85,5 +77,15 @@ public class Facade {
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
+    }
+
+    public Response reArrangeShipment(){
+        // TODO: Implementing 3 different functionalists
+        return null;
+    }
+
+    public Response transport(){
+        // TODO: Implementing the function
+        return null;
     }
 }
