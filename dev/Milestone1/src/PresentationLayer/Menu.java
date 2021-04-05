@@ -1,8 +1,7 @@
-package PresentationLayer.Menu;
+package PresentationLayer;
 
-import PresentationLayer.Menu.MenuItems.Exit;
-import PresentationLayer.Menu.MenuItems.MenuItem;
-import PresentationLayer.Printer;
+import PresentationLayer.Handlers.LocationsHandler;
+import PresentationLayer.Handlers.TrucksHandler;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,13 +13,17 @@ import java.util.Scanner;
 public class Menu {
     private static Menu instance = null;
     private static Printer printer;
-    private static List<MenuItem> items;
-    private static Scanner scanner;
+    private static List<String> items;
+    private Scanner scanner;
+    private TrucksHandler trucksHandler;
+    private LocationsHandler locationsHandler;
 
     private Menu() {
         printer = Printer.getInstance();
         items = new LinkedList<>();
         scanner = new Scanner(System.in);
+        trucksHandler = new TrucksHandler();
+        locationsHandler = new LocationsHandler();
     }
 
     public static Menu getInstance() {
@@ -40,27 +43,40 @@ public class Menu {
     }
 
     private void addItems() {
-        MenuItem exit = new Exit("Exit");
-        addMenuItem(exit);
+        addMenuItem("one");
+        addMenuItem("two");
+        addMenuItem("Exit");//Keep last
     }
 
 
-    public void selectItem() {
+    private void selectItem() {
         String inputL = null;
         do {
             inputL = scanner.nextLine();
-            if (validInt(inputL)) {
+            if (validInput(inputL)) {
                 int input = Integer.parseInt(inputL);
-                items.get(input - 1).activate();
-                if (printer.confirm())
-                    viewMenuItems();
-                else
-                    items.get(items.size() - 1).activate();
+                handleSelection(input);
+                viewMenuItems();
             }
         } while (true);
     }
 
-    public boolean validInt(String input) {
+    private void handleSelection(int input) {
+        switch (input) {
+            case 1:
+                // JUST AN EXAMPLE...
+                trucksHandler.doSomething();
+                break;
+            case 2:
+                locationsHandler.doSomething();
+                break;
+            case 3:
+                exit();
+                break;
+        }
+    }
+
+    private boolean validInput(String input) {
         for (int i = 0; i < input.length(); i++) {
             if ((int) input.charAt(i) < 48 || (int) input.charAt(i) > 57) {
                 printer.error("Enter only numbers!");
@@ -75,11 +91,16 @@ public class Menu {
             return true;
     }
 
+    private void exit() {
+        System.out.println("The application exited successfully!");
+        System.exit(0);
+    }
+
     private void viewMenuItems() {
         printer.viewOptions(items);
     }
 
-    public static void addMenuItem(MenuItem item) {
+    private static void addMenuItem(String item) {
         items.add(item);
     }
 

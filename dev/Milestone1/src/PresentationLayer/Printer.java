@@ -1,7 +1,5 @@
 package PresentationLayer;
 
-import PresentationLayer.Menu.MenuItems.MenuItem;
-
 import java.util.List;
 import java.util.Scanner;
 
@@ -25,22 +23,22 @@ public class Printer {
     public void printBanner() {
         System.out.println(
                 " _    _      _                            _____       _____                             _               \n" +
-                "| |  | |    | |                          |_   _|     /  ___|                           | |              \n" +
-                "| |  | | ___| | ___ ___  _ __ ___   ___    | | ___   \\ `--. _   _ _ __  _ __   ___ _ __| |     ___  ___ \n" +
-                "| |/\\| |/ _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\   | |/ _ \\   `--. \\ | | | '_ \\| '_ \\ / _ \\ '__| |    / _ \\/ _ \\\n" +
-                "\\  /\\  /  __/ | (_| (_) | | | | | |  __/   | | (_) | /\\__/ / |_| | |_) | |_) |  __/ |  | |___|  __/  __/\n" +
-                " \\/  \\/ \\___|_|\\___\\___/|_| |_| |_|\\___|   \\_/\\___/  \\____/ \\__,_| .__/| .__/ \\___|_|  \\_____/\\___|\\___|\n" +
-                "                                                                 | |   | |                              \n" +
-                "                                                                 |_|   |_|                              ");
+                        "| |  | |    | |                          |_   _|     /  ___|                           | |              \n" +
+                        "| |  | | ___| | ___ ___  _ __ ___   ___    | | ___   \\ `--. _   _ _ __  _ __   ___ _ __| |     ___  ___ \n" +
+                        "| |/\\| |/ _ \\ |/ __/ _ \\| '_ ` _ \\ / _ \\   | |/ _ \\   `--. \\ | | | '_ \\| '_ \\ / _ \\ '__| |    / _ \\/ _ \\\n" +
+                        "\\  /\\  /  __/ | (_| (_) | | | | | |  __/   | | (_) | /\\__/ / |_| | |_) | |_) |  __/ |  | |___|  __/  __/\n" +
+                        " \\/  \\/ \\___|_|\\___\\___/|_| |_| |_|\\___|   \\_/\\___/  \\____/ \\__,_| .__/| .__/ \\___|_|  \\_____/\\___|\\___|\n" +
+                        "                                                                 | |   | |                              \n" +
+                        "                                                                 |_|   |_|                              ");
     }
 
     /**
      * Printing all menu options
      */
-    public void viewOptions(List<MenuItem> items) {
-        System.out.println("Please select an option from the Menu:\n");
+    public void viewOptions(List<String> items) {
+        System.out.println("\nPlease select an option from the Menu:\n");
         for (int i = 0; i < items.size(); i++) {
-            System.out.println(i + 1 + ". " + items.get(i).getName());
+            System.out.println(i + 1 + ". " + items.get(i));
         }
         System.out.println();
     }
@@ -53,23 +51,23 @@ public class Printer {
         System.out.println(msg);
     }
 
-    /**
-     * Confirmation request
-     *
-     * @return true if the user confirms an action, false otherwise
-     */
-    public boolean confirm() {
-        System.out.print("Continue? [y/n]: ");
-        String answer = scanner.nextLine();
-        System.out.println();
-        switch (answer) {
-            case "y":
-                return true;
-            case "n":
-                return false;
-            default:
-                confirm();
-        }
-        return false;
-    }
+//    /**
+//     * Confirmation request
+//     *
+//     * @return true if the user confirms an action, false otherwise
+//     */
+//    public boolean confirm() {
+//        System.out.print("Continue? [y/n]: ");
+//        String answer = scanner.nextLine();
+//        System.out.println();
+//        switch (answer) {
+//            case "y":
+//                return true;
+//            case "n":
+//                return false;
+//            default:
+//                confirm();
+//        }
+//        return false;
+//    }
 }
