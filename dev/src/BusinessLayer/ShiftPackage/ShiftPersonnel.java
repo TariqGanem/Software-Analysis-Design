@@ -36,9 +36,11 @@ public class ShiftPersonnel {
         if (day > 7)
             throw new IndexOutOfBoundsException("Day greater than 7.");
         if (index > 10 || index < 0)
-            throw new IndexOutOfBoundsException("no such shift.");
+            throw new IndexOutOfBoundsException("No such shift.");
         if (qtty < 0)
-            throw new IllegalArgumentException("quantity above or equal zero.");
+            throw new IllegalArgumentException("Quantity above or equal zero.");
+        if(skill.equals(Role.ShiftManager) && qtty == 0)
+            throw new IllegalArgumentException("Each shift must have at least one Shift Manager.");
         if (empQtty[index].containsKey(skill))
             empQtty[index].replace(skill, qtty);
         else empQtty[index].put(skill, qtty);
@@ -49,7 +51,7 @@ public class ShiftPersonnel {
 		if (day > 7)
 			throw new IndexOutOfBoundsException("Day greater than 7.");
         if (index > 10 || index < 0)
-            throw new IndexOutOfBoundsException("no such shift.");
+            throw new IndexOutOfBoundsException("No such shift.");
         return empQtty[index];
     }
 }

@@ -46,7 +46,9 @@ public class EmployeeModule {
             if (ID.equals("q"))
                 break;
 
+            
             isManager = presentationController.getIsManager();
+	    io.println("");
 
             while (!errorOccurred && option != 0) {
                 menu.showMainMenu(isManager);
@@ -55,8 +57,9 @@ public class EmployeeModule {
                     io.print("Choose an option: ");
                     option = io.getInt();
                 } while (option < 0 || (!isManager && option >= 4) || (isManager && option >= 9));
-
+                io.println("");
                 switch (option) {
+
                     //Logout
                     case 0:
                         errorOccurred = presentationController.logout();
@@ -101,7 +104,7 @@ public class EmployeeModule {
 
                     //Change shift preferences
                     case 3:
-                        String continueChanging = "", morning_evening = "";
+                        String morning_evening = "";
                         do {
                             io.print("Please enter the day of the week in numbers: ");
                             int day = 0;
@@ -118,7 +121,7 @@ public class EmployeeModule {
 
                             presentationController.changePreference(day - 1, morning_evening.equals("m"), Preference.values()[prefIndex]);
 
-                            proceed = !goBack && menu.askToProceed("change another preference");
+                            proceed = menu.askToProceed("change another preference");
                         } while (proceed);
                         io.println("");
                         break;
@@ -144,8 +147,14 @@ public class EmployeeModule {
                                 if(option == 5)
                                     gotShift = presentationController.viewAShiftAsAdmin(date, isMorning);
                             }else {
-                                io.print("enter number of days: ");
-                                List<ShiftDTO> shiftDTOs = presentationController.viewShiftsAsAdmin(io.getInt());
+
+                                int daysNum;
+                                do{
+                                    io.print("Enter number of days: ");
+                                    daysNum = io.getInt();
+                                }while(daysNum <= 0);
+                                io.println("");
+                                List<ShiftDTO> shiftDTOs = backendController.viewShiftsAsAdmin(daysNum);
                                 if(shiftDTOs != null) {
                                     List<String> desc = new ArrayList<>();
                                     for (ShiftDTO shift : shiftDTOs)
@@ -157,6 +166,7 @@ public class EmployeeModule {
                                     gotShift = false;
                                 }
                             }
+                            io.println("");
                             if(option == 4 && date.isBefore(LocalDate.now())){
                                 gotShift = menu.showConfirmationMenu("this shift is in the past.");
                             }
@@ -401,4 +411,4 @@ public class EmployeeModule {
             errorOccurred = false;
         }
     }
-}
+
