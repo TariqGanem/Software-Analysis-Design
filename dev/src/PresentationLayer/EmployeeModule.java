@@ -21,6 +21,7 @@ public class EmployeeModule {
         int option = -1;
         boolean errorOccurred = false, isManager = false;
         boolean goBack = false;
+        boolean proceed = true;
         io.println("THE FOLLOWING QUESTION IS FOR THE TESTER");
         io.println("If you want to load data into the system please type 1, to continue normally type any other number.");
         int init = io.getInt();
@@ -92,8 +93,7 @@ public class EmployeeModule {
                             LocalDate date = LocalDate.of(year, month, day);
                             boolean isMorning = menu.showEnterMorningEvening();
                             backendController.viewSpecificShift(date, isMorning);
-                            io.print("To continue type \"c\", to view another shift type anything else: ");
-                            continueToViewShift = io.getString();
+                            proceed = !goBack && menu.askToProceed("view another shift");
                         } while (!continueToViewShift.equals("c"));
                         io.println("");
                         break;
@@ -117,9 +117,8 @@ public class EmployeeModule {
 
                             backendController.changePreference(day - 1, morning_evening.equals("m"), Preference.values()[prefIndex]);
 
-                            io.print("To continue type \"c\", to change another preference type anything else: ");
-                            continueChanging = io.getString();
-                        } while (!continueChanging.equals("c"));
+                            proceed = !goBack && menu.askToProceed("change another preference");
+                        } while (proceed);
                         io.println("");
                         break;
 
@@ -142,7 +141,7 @@ public class EmployeeModule {
                                 date = LocalDate.of(year, month, day);
                                 isMorning = menu.showEnterMorningEvening();
                                 if(option == 5)
-                                    gotShift = backendController.viewSpecificShift(date, isMorning);
+                                    gotShift = backendController.viewAShiftAsAdmin(date, isMorning);
                             }else {
                                 io.print("enter number of days: ");
                                 List<ShiftDTO> shiftDTOs = backendController.viewShiftsAsAdmin(io.getInt());
@@ -215,9 +214,8 @@ public class EmployeeModule {
 
                                 }
                             }
-                            io.print("To continue type \"c\", to view another shift type anything else: ");
-                            continueToViewShift = io.getString();
-                        } while (!goBack && !continueToViewShift.equals("c"));
+                            proceed = !goBack && menu.askToProceed("view another shift");
+                        } while (proceed);
                         goBack = false;
                         io.println("");
                         break;
@@ -304,9 +302,8 @@ public class EmployeeModule {
                                     break;
                             }
                             backendController.setEmployeeDTO(emp);
-                            io.print("To continue type \"c\", to change another field type anything else: ");
-                            continueUpdate = io.getString();
-                        } while (!goBack && !continueUpdate.equals("c"));
+                            proceed = !goBack && menu.askToProceed("change another field");
+                        } while (proceed);
                         goBack = false;
                         io.println("");
                         break;
@@ -371,9 +368,8 @@ public class EmployeeModule {
                             io.print("how many " + role.toString() + " are needed? ");
                             int qtty = io.getInt();
                             backendController.defineShiftPersonnel(dayShift, morning_evening.equals("m"), role, qtty);
-                            io.print("To continue type \"c\", to update more information type anything else: ");
-                            continueChanging = io.getString();
-                        } while (!continueChanging.equals("c"));
+                            proceed = !goBack && menu.askToProceed("update more information");
+                        } while (proceed);
                         io.println("");
                         break;
                 }

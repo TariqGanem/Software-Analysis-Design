@@ -121,7 +121,7 @@ public class MenuController {
 
         int answer;
         do {
-            io.print("Enter a number between 0 and 4: ");
+            io.print("Enter a number between 0 and 3: ");
             answer = io.getInt();
         } while (answer < 0 || answer > 3);
 
@@ -374,5 +374,12 @@ public class MenuController {
             i++;
         }
         return stop;
+    }
+
+    public boolean askToProceed(String msg) {
+        IOController io = IOController.getInstance();
+        io.print("To continue type \"c\", to " + msg + " type anything else: ");
+        String continueToAct = io.getString();
+        return !continueToAct.equals("c");
     }
 }
