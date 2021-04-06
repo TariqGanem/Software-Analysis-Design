@@ -62,4 +62,28 @@ public class TruckController {
     public List<Truck> getAlltrucks() {
         return trucks;
     }
+
+    public void checkWeight(String truckId, double truckWeight) throws Exception {
+        Truck t = getTruck(truckId);
+        if(truckWeight > t.getMaxWeight())
+            throw new Exception("Truck has passed the maximum allowed weight.");
+    }
+
+    public void depositeTruck(String truckId) throws Exception {
+        getTruck(truckId).depositeTruck();
+    }
+
+    public void backToWork(String truckId) throws Exception {
+        if(!getTruck(truckId).isAvailable())
+            throw new Exception("Truck is currently in a mission.");
+        getTruck(truckId).backToWork();
+    }
+
+    public Truck getAvailableTruck(double weight) throws Exception {
+        for (Truck t: trucks) {
+            if(t.isAvailable() && t.getMaxWeight() <= weight)
+                return t;
+        }
+        throw new Exception("No truck available");
+    }
 }

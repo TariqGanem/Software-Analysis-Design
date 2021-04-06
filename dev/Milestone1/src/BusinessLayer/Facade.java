@@ -112,18 +112,26 @@ public class Facade {
         }
     }
 
-    public Response transport(){
-        // TODO: Implementing the function
-        return null;
+    public Response arrangeDelivery(Date date, String departureHour, double weight){
+        try {
+            // First of all we ensure that driver is available
+            DriverDTO driver =  new DriverDTO(driverController.getAvailableDriver(weight));
+            // Then we ensure that truck is available
+            TruckDTO truck = new TruckDTO(truckController.getAvailableTruck(weight));
+            // TODO
+            return new Response();
+        } catch (Exception e){
+            return new Response(e.getMessage());
+        }
     }
 
-    public ResponseT<Double> weighTruck(String truckId, Date date, String departureHour, String driverId){
+    private double weighTruck(String truckId, Date date, String departureHour, String driverId){
         try{
             double weight =  truckController.getTruck(truckId).getNatoWeight();
             weight += shipmentController.getShipment(date, departureHour, driverId).getShipmentWeight();
-            return new ResponseT<>(weight);
+            return weight;
         } catch (Exception e){
-            return new ResponseT<>(e.getMessage());
+            return -1;
         }
     }
 }

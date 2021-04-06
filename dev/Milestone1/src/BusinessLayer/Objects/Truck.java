@@ -15,11 +15,6 @@ public class Truck {
         available = true;
     }
 
-    public void transport() {
-        //TODO
-        available = false;
-    }
-
     public String getTruckPlateNumber() {
         return truckPlateNumber;
     }
@@ -42,5 +37,9 @@ public class Truck {
 
     public void depositeTruck() {
         available = true;
+    }
+
+    public void backToWork() {
+        available = false;
     }
 }

@@ -46,4 +46,18 @@ public class DriverController {
     public List<Driver> getAlldrivers() {
         return data;
     }
+
+    public void checkAvailability(String driverId) throws Exception {
+        if (!getDriver(driverId).isAvailable())
+            throw new Exception("Driver is not available.");
+    }
+
+    public Driver getAvailableDriver(double weight) throws Exception {
+        for (Driver d : data) {
+            if (d.isAvailable() && d.getAllowedWeight() <= weight) {
+                return d;
+            }
+        }
+        throw new Exception("No available drivers.");
+    }
 }
