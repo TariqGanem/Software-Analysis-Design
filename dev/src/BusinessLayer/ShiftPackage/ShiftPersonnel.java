@@ -39,7 +39,7 @@ public class ShiftPersonnel {
             throw new IndexOutOfBoundsException("no such shift.");
         if (qtty < 0)
             throw new IllegalArgumentException("quantity above or equal zero.");
-        if (!empQtty[index].containsKey(skill))
+        if (empQtty[index].containsKey(skill))
             empQtty[index].replace(skill, qtty);
         else empQtty[index].put(skill, qtty);
     }

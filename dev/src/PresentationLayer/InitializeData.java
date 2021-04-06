@@ -128,15 +128,16 @@ public class InitializeData {
 
     private void initializeShifts(PresentationController presentationController) {
         presentationController.login("123456789");
-        LocalDate date1 = LocalDate.of(2021, 7,2);
-        int day1 = (date1.getDayOfWeek().getValue() + 1) % 7 == 0 ? 7 : (date1.getDayOfWeek().getValue() + 1) % 7;
+        LocalDate date1 = LocalDate.of(2021, 7,4);
+        int day1 = (date1.getDayOfWeek().getValue() + 1) % 7;
         presentationController.addShift(date1,true);
         presentationController.assignToShift("123456789", Role.ShiftManager);
         presentationController.assignToShift("111111111", Role.Cashier);
         presentationController.assignToShift("333333333", Role.StoreKeeper);
 
-        LocalDate date2 = LocalDate.of(2021, 7,3);
+        LocalDate date2 = LocalDate.of(2021, 7,5);
         int day2 = (date2.getDayOfWeek().getValue() + 1) % 7;
+        day2 = day2 == 0 ? 7 : day2;
         presentationController.addShift(date2,true);
         presentationController.assignToShift("123456789", Role.ShiftManager);
         presentationController.assignToShift("987654321", Role.Cashier);
@@ -144,12 +145,13 @@ public class InitializeData {
         presentationController.assignToShift("222222222", Role.HRManager);
         presentationController.assignToShift("333333333", Role.StoreKeeper);
 
-        LocalDate date3 = LocalDate.of(2021, 7,4);
+        LocalDate date3 = LocalDate.of(2021, 7,6);
         int day3 = (date3.getDayOfWeek().getValue() + 1) % 7;
-        presentationController.addShift(date2,true);
+        day3 = day3 == 0 ? 7 : day3;
+        presentationController.addShift(date3,true);
         presentationController.assignToShift("123456789", Role.ShiftManager);
         presentationController.assignToShift("111111111", Role.Cashier);
-        presentationController.assignToShift("222222222", Role.Cashier);
+        presentationController.assignToShift("222222222", Role.HRManager);
         presentationController.assignToShift("333333333", Role.StoreKeeper);
         presentationController.logout();
     }

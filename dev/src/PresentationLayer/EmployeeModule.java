@@ -20,7 +20,8 @@ public class EmployeeModule {
         String ID = null;
         int option = -1;
         boolean errorOccurred = false, isManager = false;
-
+        boolean goBack = false;
+        boolean proceed = true;
         io.println("THE FOLLOWING QUESTION IS FOR THE TESTER");
         io.println("If you want to load data into the system please type 1, to continue normally type any other number.");
         int init = io.getInt();
@@ -93,9 +94,8 @@ public class EmployeeModule {
                             LocalDate date = LocalDate.of(year, month, day);
                             boolean isMorning = menu.showEnterMorningEvening();
                             presentationController.viewSpecificShift(date, isMorning);
-                            io.print("To continue type \"c\", to view another shift type anything else: ");
-                            continueToViewShift = io.getString();
-                        } while (!continueToViewShift.equals("c"));
+                            proceed = !goBack && menu.askToProceed("view another shift");
+                        } while (proceed);
                         io.println("");
                         break;
 
@@ -118,9 +118,8 @@ public class EmployeeModule {
 
                             presentationController.changePreference(day - 1, morning_evening.equals("m"), Preference.values()[prefIndex]);
 
-                            io.print("To continue type \"c\", to change another preference type anything else: ");
-                            continueChanging = io.getString();
-                        } while (!continueChanging.equals("c"));
+                            proceed = !goBack && menu.askToProceed("change another preference");
+                        } while (proceed);
                         io.println("");
                         break;
 
@@ -143,7 +142,7 @@ public class EmployeeModule {
                                 date = LocalDate.of(year, month, day);
                                 isMorning = menu.showEnterMorningEvening();
                                 if(option == 5)
-                                    gotShift = presentationController.viewSpecificShift(date, isMorning);
+                                    gotShift = presentationController.viewAShiftAsAdmin(date, isMorning);
                             }else {
                                 io.print("enter number of days: ");
                                 List<ShiftDTO> shiftDTOs = presentationController.viewShiftsAsAdmin(io.getInt());
@@ -158,11 +157,15 @@ public class EmployeeModule {
                                     gotShift = false;
                                 }
                             }
+                            if(option == 4 && date.isBefore(LocalDate.now())){
+                                gotShift = menu.showConfirmationMenu("this shift is in the past.");
+                            }
                             if (gotShift && (option == 5 || presentationController.addShift(date, isMorning))) {
                                 int shiftMenu = menu.showUpdateShiftMenu();
                                 switch (shiftMenu) {
                                     //go back
                                     case 0:
+                                        goBack = true;
                                         break;
                                     case 1:
                                         //Assign employee to shift
@@ -212,28 +215,23 @@ public class EmployeeModule {
 
                                     case 3:
                                         //Delete shift
-                                        if (presentationController.removeShift(date, isMorning))
+                                        boolean stop = false;
+                                        if(date.isBefore(LocalDate.now())){
+                                            stop = menu.showConfirmationMenu("this shift has past.");
+                                        }
+                                        if (!stop & presentationController.removeShift(date, isMorning))
                                             io.println("success!");
                                         io.println("");
                                         break;
 
-                                    case 4:
-                                        //Display assigned employees
-                                        ShiftDTO shift = presentationController.getShift(date, isMorning);
-                                        if (shift != null) {
-                                            Map<Role, List<String>> positions = shift.getPositions();
-                                            menu.showAssignedEmployeesMenu(positions);
-                                        }
-                                        io.println("");
-                                        break;
-
                                     default:
+                                        break;
 
                                 }
                             }
-                            io.print("To continue type \"c\", to view another shift type anything else: ");
-                            continueToViewShift = io.getString();
-                        } while (!continueToViewShift.equals("c"));
+                            proceed = !goBack && menu.askToProceed("view another shift");
+                        } while (proceed);
+                        goBack = false;
                         io.println("");
                         break;
 
@@ -269,6 +267,7 @@ public class EmployeeModule {
                             switch (updateIndex) {
                                 case 0:
                                     //go back
+                                    goBack = true;
                                     break;
                                 case 1:
                                     emp.name = menu.showEnterStringMenu("name");
@@ -322,9 +321,9 @@ public class EmployeeModule {
                                     break;
                             }
                             presentationController.setEmployeeDTO(emp);
-                            io.print("To continue type \"c\", to change another field type anything else: ");
-                            continueUpdate = io.getString();
-                        } while (!continueUpdate.equals("c"));
+                            proceed = !goBack && menu.askToProceed("change another field");
+                        } while (proceed);
+                        goBack = false;
                         io.println("");
                         break;
 
@@ -388,9 +387,8 @@ public class EmployeeModule {
                             io.print("how many " + role.toString() + " are needed? ");
                             int qtty = io.getInt();
                             presentationController.defineShiftPersonnel(dayShift, morning_evening.equals("m"), role, qtty);
-                            io.print("To continue type \"c\", to update more information type anything else: ");
-                            continueChanging = io.getString();
-                        } while (!continueChanging.equals("c"));
+                            proceed = menu.askToProceed("update more information");
+                        } while (proceed);
                         io.println("");
                         break;
                 }

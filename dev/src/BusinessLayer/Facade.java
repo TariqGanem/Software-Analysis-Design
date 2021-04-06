@@ -106,7 +106,12 @@ public class Facade {
     }
 
     public ResponseT<ShiftDTO> getShift(LocalDate date, boolean isMorning) {
-        return new ResponseT<ShiftDTO>(toShiftDTO(shiftController.getShift(date, isMorning)));
+        try{
+            Shift shift = shiftController.getShift(date, isMorning);
+            return new ResponseT<ShiftDTO>(toShiftDTO(shift));
+        }catch (Exception ex){
+            return new ResponseT<ShiftDTO>(ex);
+        }
     }
 
     public ResponseT<List<ShiftDTO>> getShifts(int daysFromToday){

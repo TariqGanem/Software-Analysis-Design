@@ -3,6 +3,7 @@ package PresentationLayer;
 import Resources.Preference;
 import Resources.Role;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -114,15 +115,15 @@ public class MenuHandler {
         io.println("1) Assign employee to shift");
         io.println("2) Remove employee from shift");
         io.println("3) Delete shift");
-        io.println("4) Display assigned employees");
+//        io.println("4) Display assigned employees");//shown in viewShift
         io.println("Type 0 to quit");
         io.println("----------------------");
 
         int answer;
         do {
-            io.print("Enter a number between 0 and 4: ");
+            io.print("Enter a number between 0 and 3: ");
             answer = io.getInt();
-        } while (answer < 0 || answer > 4);
+        } while (answer < 0 || answer > 3);
 
         return answer;
     }
@@ -282,19 +283,21 @@ public class MenuHandler {
         int i = 1;
         for (String id : ret)
             io.println(i + ") " + id);
-        io.print("enter a number between 1 to " + ret.size() + ": ");
+        io.print("enter a number between 1 and " + ret.size() + ": ");
         return ret.get(io.getInt() - 1);
     }
 
-    public void showAssignedEmployeesMenu(Map<Role, List<String>> map){
-        IOController io = IOController.getInstance();
-        List<String> ret = new ArrayList<>();
-        for (List<String> list : map.values())
-            ret.addAll(list);
-        int i = 1;
-        for (String id : ret)
-            io.println(i + ") " + id);
-    }
+//    public void showAssignedEmployeesMenu(Map<Role, List<String>> map){
+//        IOController io = IOController.getInstance();
+//        List<String> ret = new ArrayList<>();
+//        for (List<String> list : map.values())
+//            ret.addAll(list);
+//        int i = 1;
+//        for (String id : ret) {
+//            io.println(i + ") " + id);
+//            i++;
+//        }
+//    }
 
     public Role showShiftPersonnelMenu(Map<Role, Integer> map, String msg) {
         IOController io = IOController.getInstance();
@@ -307,6 +310,7 @@ public class MenuHandler {
         int index;
         do {
             io.print(msg + " Enter a number between 1 to " + Role.values().length + ": ");
+            io.print("Enter a number between 1 and " + Role.values().length + ": ");
             index = io.getInt();
         }while(index < 1 || index > Role.values().length);
         return roles[index - 1];
@@ -332,6 +336,7 @@ public class MenuHandler {
         int i = 1;
         for (String str : desc) {
             io.println(i + ") " + str);
+            i++;
         }
         int num;
         do {
@@ -339,5 +344,35 @@ public class MenuHandler {
             num = io.getInt();
         }while(num < 1 | num > desc.size());
         return num - 1;
+    }
+
+    public boolean showConfirmationMenu(String msg){
+        boolean stop = false;
+        IOController io = IOController.getInstance();
+        io.println(msg);
+        String very = "";
+        int i = 0;
+        while(i < 3 & !stop){
+            io.println("ARE YOU " + very + "SURE? \n1) yes\n2) no");
+            very += "very ";
+            int ans;
+            do{
+                io.println("pick 1 or 2 (yes/no): ");
+                ans = io.getInt();
+            }while(ans != 1 & ans != 2);
+            if(ans == 2){
+                stop = true;
+                io.println("canceled!");
+            }
+            i++;
+        }
+        return stop;
+    }
+
+    public boolean askToProceed(String msg) {
+        IOController io = IOController.getInstance();
+        io.print("To continue type \"c\", to " + msg + " type anything else: ");
+        String continueToAct = io.getString();
+        return !continueToAct.equals("c");
     }
 }
