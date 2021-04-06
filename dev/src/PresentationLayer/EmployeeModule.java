@@ -20,7 +20,7 @@ public class EmployeeModule {
         String ID = null;
         int option = -1;
         boolean errorOccurred = false, isManager = false;
-
+        boolean goBack = false;
         io.println("THE FOLLOWING QUESTION IS FOR THE TESTER");
         io.println("If you want to load data into the system please type 1, to continue normally type any other number.");
         int init = io.getInt();
@@ -157,11 +157,15 @@ public class EmployeeModule {
                                     gotShift = false;
                                 }
                             }
+                            if(option == 4 && date.isBefore(LocalDate.now())){
+                                gotShift = menu.showConfirmationMenu("this shift is in the past.");
+                            }
                             if (gotShift && (option == 5 || backendController.addShift(date, isMorning))) {
                                 int shiftMenu = menu.showUpdateShiftMenu();
                                 switch (shiftMenu) {
                                     //go back
                                     case 0:
+                                        goBack = true;
                                         break;
                                     case 1:
                                         //Assign employee to shift
@@ -188,20 +192,24 @@ public class EmployeeModule {
 
                                     case 3:
                                         //Delete shift
-                                        if (backendController.removeShift(date, isMorning))
+                                        boolean stop = false;
+                                        if(date.isBefore(LocalDate.now())){
+                                            stop = menu.showConfirmationMenu("this shift has past.");
+                                        }
+                                        if (!stop & backendController.removeShift(date, isMorning))
                                             io.println("success!");
                                         io.println("");
                                         break;
 
-                                    case 4:
-                                        //Display assigned employees
-                                        ShiftDTO shift = backendController.getShift(date, isMorning);
-                                        if (shift != null) {
-                                            Map<Role, List<String>> positions = shift.getPositions();
-                                            menu.showAssignedEmployeesMenu(positions);
-                                        }
-                                        io.println("");
-                                        break;
+//                                    case 4:
+//                                        //Display assigned employees
+//                                        ShiftDTO shift = backendController.getShift(date, isMorning);
+//                                        if (shift != null) {
+//                                            Map<Role, List<String>> positions = shift.getPositions();
+//                                            menu.showAssignedEmployeesMenu(positions);
+//                                        }
+//                                        io.println("");
+//                                        break;
 
                                     default:
 
@@ -209,7 +217,8 @@ public class EmployeeModule {
                             }
                             io.print("To continue type \"c\", to view another shift type anything else: ");
                             continueToViewShift = io.getString();
-                        } while (!continueToViewShift.equals("c"));
+                        } while (!goBack && !continueToViewShift.equals("c"));
+                        goBack = false;
                         io.println("");
                         break;
 
@@ -245,6 +254,7 @@ public class EmployeeModule {
                             switch (updateIndex) {
                                 case 0:
                                     //go back
+                                    goBack = true;
                                     break;
                                 case 1:
                                     emp.name = menu.showEnterStringMenu("name");
@@ -296,7 +306,8 @@ public class EmployeeModule {
                             backendController.setEmployeeDTO(emp);
                             io.print("To continue type \"c\", to change another field type anything else: ");
                             continueUpdate = io.getString();
-                        } while (!continueUpdate.equals("c"));
+                        } while (!goBack && !continueUpdate.equals("c"));
+                        goBack = false;
                         io.println("");
                         break;
 
