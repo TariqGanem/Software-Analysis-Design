@@ -1,6 +1,5 @@
 package PresentationLayer;
 
-import DTOPackage.ShiftDTO;
 import Resources.Preference;
 import Resources.Role;
 
@@ -9,9 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InitializeData {
+
     public void initializeData(PresentationController presentationController) {
         initializeEmployees(presentationController);
         initializeShiftPersonnel(presentationController);
+        initializeShifts(presentationController);
     }
 
     private void initializeEmployees(PresentationController presentationController) {
@@ -126,14 +127,15 @@ public class InitializeData {
     }
 
     private void initializeShifts(PresentationController presentationController) {
-        LocalDate date1 = LocalDate.of(2022, 1,1);
+        presentationController.login("123456789");
+        LocalDate date1 = LocalDate.of(2021, 7,2);
         int day1 = (date1.getDayOfWeek().getValue() + 1) % 7;
         presentationController.addShift(date1,true);
         presentationController.assignToShift("123456789", Role.ShiftManager);
         presentationController.assignToShift("111111111", Role.Cashier);
         presentationController.assignToShift("333333333", Role.StoreKeeper);
 
-        LocalDate date2 = LocalDate.of(2022, 1,1);
+        LocalDate date2 = LocalDate.of(2021, 7,3);
         int day2 = (date2.getDayOfWeek().getValue() + 1) % 7;
         presentationController.defineShiftPersonnel(day2, false, Role.ShiftManager, 1);
         presentationController.defineShiftPersonnel(day2, false, Role.Cashier, 2);
@@ -149,7 +151,7 @@ public class InitializeData {
         presentationController.assignToShift("222222222", Role.HRManager);
         presentationController.assignToShift("333333333", Role.StoreKeeper);
 
-        LocalDate date3 = LocalDate.of(2022, 1,1);
+        LocalDate date3 = LocalDate.of(2021, 7,4);
         int day3 = (date3.getDayOfWeek().getValue() + 1) % 7;
         presentationController.defineShiftPersonnel(day3, false, Role.ShiftManager, 1);
         presentationController.defineShiftPersonnel(day3, false, Role.Cashier, 1);
@@ -163,5 +165,6 @@ public class InitializeData {
         presentationController.assignToShift("111111111", Role.Cashier);
         presentationController.assignToShift("222222222", Role.Cashier);
         presentationController.assignToShift("333333333", Role.StoreKeeper);
+        presentationController.logout();
     }
 }

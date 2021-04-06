@@ -26,6 +26,7 @@ public class ShiftPersonnel {
                 map.put(Role.StoreManagerAssistant, 1);
                 map.put(Role.Stocker, 1);
                 map.put(Role.ShiftManager, 1);
+                map.put(Role.StoreKeeper, 1);
             }
         }
     }

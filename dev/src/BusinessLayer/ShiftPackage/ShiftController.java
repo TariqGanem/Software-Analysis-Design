@@ -26,6 +26,10 @@ public class ShiftController {
         throw new NoSuchElementException("there is no shift at the time you want.");
     }
 
+    public List<Shift> getShifts() {
+        return shifts;
+    }
+
     public boolean AssignToShift(String id, Role skill) {
         if (activeShift == null)
             throw new NullPointerException("need a shift to assign this employee to.");
