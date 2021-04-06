@@ -87,4 +87,16 @@ public class EmployeeController {
         }
         return ret;
     }
+
+    public Map<String, String> viewUnavailableEmployees(int day, boolean isMorning, Role skill) {
+        Map<String, String> ret = new HashMap<>();
+        for (Employee e : employees.values()) {
+            if (e.hasSkill(skill)) {
+                Preference p = e.getPreference(day, isMorning);
+                if (p.equals(Preference.CANT))
+                    ret.put(e.getID(), e.getName() + " CANT work at the specified date.");
+            }
+        }
+        return ret;
+    }
 }

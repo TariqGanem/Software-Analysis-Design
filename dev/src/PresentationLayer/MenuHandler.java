@@ -260,27 +260,18 @@ public class MenuHandler {
         }
     }
 
-    public String showAvailableEmployeesMenu(Map<String,String> availableEmployees) {
+    public void showAvailableEmployeesMenu(Map<String,String> availableEmployees, int startIndex) {
         IOController io = IOController.getInstance();
         String[] ids = new String[availableEmployees.size()];
-        int x = 0;
+        int next = startIndex;
         for (String id : availableEmployees.keySet()) {
-            ids[x] = id;
-            x++;
+            ids[next - startIndex] = id;
+            next++;
         }
-        for (int i = 0; i < ids.length; i++)
-            io.println((i+1) + ") (" + ids[i] + ") " + availableEmployees.get(ids[i]));
-        int index;
-        if(ids.length > 0) {
-            do {
-                io.print("Enter a number between 1 to " + ids.length + ": ");
-                index = io.getInt();
-            } while (index < 1 || index > ids.length);
-        }else{
-            io.print("Enter an id of a valid employee: ");
-            return io.getString();
+        for (int i = 0; i < ids.length; i++) {
+            io.println(startIndex + ") (" + ids[i] + ") " + availableEmployees.get(ids[i]));
+            startIndex++;
         }
-        return ids[index - 1];
     }
 
     public String showShiftPositionsMenu(Map<Role, List<String>> map) {
@@ -305,7 +296,7 @@ public class MenuHandler {
             io.println(i + ") " + id);
     }
 
-    public Role showShiftPersonnelMenu(Map<Role, Integer> map) {
+    public Role showShiftPersonnelMenu(Map<Role, Integer> map, String msg) {
         IOController io = IOController.getInstance();
         int i = 1;
         Role[] roles = map.keySet().toArray(new Role[0]);
@@ -315,7 +306,7 @@ public class MenuHandler {
         }
         int index;
         do {
-            io.print("Enter a number between 1 to " + Role.values().length + ": ");
+            io.print(msg + " Enter a number between 1 to " + Role.values().length + ": ");
             index = io.getInt();
         }while(index < 1 || index > Role.values().length);
         return roles[index - 1];

@@ -167,11 +167,34 @@ public class EmployeeModule {
                                     case 1:
                                         //Assign employee to shift
                                         int day1 = (date.getDayOfWeek().getValue() + 1) % 7 == 0 ? 7 : (date.getDayOfWeek().getValue() + 1) % 7;
+                                        int listSize = 0;
                                         Map<Role, Integer> personnel = presentationController.getPersonnelForShift(day1, isMorning);
-                                        Role role = menu.showShiftPersonnelMenu(personnel);
-                                        Map<String, String> availableEmployees = presentationController.viewAvailableEmployees(date, isMorning, role);
-                                        String id = menu.showAvailableEmployeesMenu(availableEmployees);
-                                        presentationController.assignToShift(id, role);
+                                        Role role = menu.showShiftPersonnelMenu(personnel, "What employee do you want to add?");
+                                        Map<String, String> availableEmployees = presentationController.viewAvailableEmployees(date, isMorning, role, false);
+                                        listSize += availableEmployees.size();
+                                        menu.showAvailableEmployeesMenu(availableEmployees, 1);
+                                        io.println("Do you want to also view the employees who marked 'CANT' on this shift?");
+                                        String viewCant = "";
+                                        do {
+                                            io.print("Enter \"y\" or \"n\" ");
+                                            viewCant = io.getString();
+                                        } while(!viewCant.equals("y") && !viewCant.equals("n"));
+                                        Map<String, String> unavailableEmployees = null;
+                                        if (viewCant.equals("y")) {
+                                            unavailableEmployees = presentationController.viewAvailableEmployees(date, isMorning, role, true);
+                                            listSize += unavailableEmployees.size();
+                                            menu.showAvailableEmployeesMenu(unavailableEmployees, listSize);
+                                        }
+                                        io.println("Please choose from the list which employee would you like to add.");
+                                        int id = 0;
+                                        do {
+                                            io.print("Enter a number between 1 and " + listSize + ": ");
+                                            id = io.getInt();
+                                        } while(id <= 0 || id > listSize);
+                                        if (id <= availableEmployees.size())
+                                            presentationController.assignToShift(availableEmployees.keySet().toArray(new String[0])[id - 1], role);
+                                        else
+                                            presentationController.assignToShift(unavailableEmployees.keySet().toArray(new String[0])[id - availableEmployees.size() - 1], role);
                                         io.println("");
                                         break;
 
@@ -360,7 +383,7 @@ public class EmployeeModule {
                                 morning_evening = io.getString();
                             } while (!morning_evening.equals("m") && !morning_evening.equals("e"));
                             Map<Role, Integer> personnel = presentationController.getPersonnelForShift(dayShift, morning_evening.equals("m"));
-                            Role role = menu.showShiftPersonnelMenu(personnel);
+                            Role role = menu.showShiftPersonnelMenu(personnel, "What job do you want to change the amount of?");
 
                             io.print("how many " + role.toString() + " are needed? ");
                             int qtty = io.getInt();

@@ -186,8 +186,8 @@ public class PresentationController {
             io.println(res.getErrorMessage());
     }
 
-    public Map<String,String> viewAvailableEmployees(LocalDate date, boolean isMorning, Role role) {
-        ResponseT<Map<String,String>> res = facade.viewAvailableEmployees(date, isMorning, role);
+    public Map<String,String> viewAvailableEmployees(LocalDate date, boolean isMorning, Role role, boolean unavailable) {
+        ResponseT<Map<String,String>> res = facade.viewAvailableEmployees(date, isMorning, role, unavailable);
         if(!res.getErrorOccurred())
             return res.getValue();
         io.println(res.getErrorMessage());
