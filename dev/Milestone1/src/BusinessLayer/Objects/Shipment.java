@@ -63,4 +63,9 @@ public class Shipment {
     public List<Document> getDocuments() {
         return documents;
     }
+
+    public void addDocument(Date date, String departureHour, String truckPlateNumber, String driverId, double shipmentWeight, Location source) {
+        //documents.add(new Document());
+        //TODO -
+    }
 }

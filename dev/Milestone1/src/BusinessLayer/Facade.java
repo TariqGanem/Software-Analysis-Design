@@ -4,6 +4,7 @@ import BusinessLayer.Controllers.DriverController;
 import BusinessLayer.Controllers.LocationController;
 import BusinessLayer.Controllers.ShipmentController;
 import BusinessLayer.Controllers.TruckController;
+import BusinessLayer.DTOs.DocumentDTO;
 import BusinessLayer.DTOs.DriverDTO;
 import BusinessLayer.DTOs.LocationDTO;
 import BusinessLayer.DTOs.TruckDTO;
@@ -86,52 +87,51 @@ public class Facade {
         }
     }
 
-    public ResponseT<List<TruckDTO>> getAlltrucks(){
-        try{
+    public ResponseT<List<TruckDTO>> getAlltrucks() {
+        try {
             List<Truck> trucks = truckController.getAlltrucks();
             List<TruckDTO> trucksDTO = new LinkedList<>();
-            for (Truck t: trucks) {
+            for (Truck t : trucks) {
                 trucksDTO.add(getTruckDTO(t.getTruckPlateNumber()).getValue());
             }
             return new ResponseT<>(trucksDTO);
-        } catch (Exception e){
+        } catch (Exception e) {
             return new ResponseT<>(e.getMessage());
         }
     }
 
-    public ResponseT<List<DriverDTO>> getAlldrivers(){
-        try{
+    public ResponseT<List<DriverDTO>> getAlldrivers() {
+        try {
             List<Driver> drivers = driverController.getAlldrivers();
             List<DriverDTO> driversDTO = new LinkedList<>();
-            for (Driver d: drivers) {
+            for (Driver d : drivers) {
                 driversDTO.add(getDriverDTO(d.getId()).getValue());
             }
             return new ResponseT<>(driversDTO);
-        } catch (Exception e){
+        } catch (Exception e) {
             return new ResponseT<>(e.getMessage());
         }
     }
 
-    public Response arrangeDelivery(Date date, String departureHour, double weight){
+    public Response arrangeDelivery(Date date, String departureHour, double weight, String address) {
         try {
             // First of all we ensure that driver is available
-            DriverDTO driver =  new DriverDTO(driverController.getAvailableDriver(weight));
+            DriverDTO driver = new DriverDTO(driverController.getAvailableDriver(weight));
             // Then we ensure that truck is available
             TruckDTO truck = new TruckDTO(truckController.getAvailableTruck(weight));
-            // TODO
+            double realWeight = weighTruck(truck.getTruckPlateNumber(), date, departureHour, driver.getId());
+            shipmentController.addShipment(date, departureHour, truck.getTruckPlateNumber(), driver.getId(), weight, locationController.getLocation(address));
             return new Response();
-        } catch (Exception e){
+        } catch (Exception e) {
             return new Response(e.getMessage());
         }
     }
 
-    private double weighTruck(String truckId, Date date, String departureHour, String driverId){
-        try{
-            double weight =  truckController.getTruck(truckId).getNatoWeight();
-            weight += shipmentController.getShipment(date, departureHour, driverId).getShipmentWeight();
-            return weight;
-        } catch (Exception e){
-            return -1;
-        }
+    private double weighTruck(String truckId, Date date, String departureHour, String driverId) throws Exception {
+        double realWeight = truckController.getTruck(truckId).getNatoWeight();
+        realWeight += shipmentController.getShipment(date, departureHour, driverId).getShipmentWeight();
+        if (realWeight > truckController.getTruck(truckId).getMaxWeight())
+            throw new Exception("Truck's weight exceeded the limit.");
+        return realWeight;
     }
 }
