@@ -215,7 +215,10 @@ public class Facade {
     public ResponseT<Map<String, String>> viewAvailableEmployees(LocalDate date, boolean isMorning, Role skill) {
         ResponseT<Map<String, String>> response;
         try {
-            Map<String, String> employees = employeeController.viewAvailableEmployees((date.getDayOfWeek().getValue() + 1) % 7, isMorning, skill);
+            int day = (date.getDayOfWeek().getValue() + 1) % 7;
+            if (day == 0)
+                day = 7;
+            Map<String, String> employees = employeeController.viewAvailableEmployees(day, isMorning, skill);
             response = new ResponseT<Map<String, String>>(employees);
         } catch (Exception e) {
             response = new ResponseT<Map<String, String>>(e);

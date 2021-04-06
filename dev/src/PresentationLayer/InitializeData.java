@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InitializeData {
-    public void initializeData(BackendController backendController) {
-        initializeEmployees(backendController);
-        initializeShiftPersonnel(backendController);
+    public void initializeData(PresentationController presentationController) {
+        initializeEmployees(presentationController);
+        initializeShiftPersonnel(presentationController);
     }
 
-    private void initializeEmployees(BackendController backendController) {
+    private void initializeEmployees(PresentationController presentationController) {
         List roles = new ArrayList<Role>();
         roles.add(Role.StoreManager);
         String name = "Mr. Krabs";
@@ -30,7 +30,7 @@ public class InitializeData {
         for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames[i][j] = (i + j) % 2 == 0 ? Preference.WANT : Preference.CAN;
-        backendController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
+        presentationController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
 
         roles = new ArrayList<Role>();
         roles.add(Role.ShiftManager);
@@ -50,7 +50,7 @@ public class InitializeData {
         for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames[i][j] = (i + j) == 2 ? Preference.CANT : Preference.CAN;
-        backendController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
+        presentationController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
 
         roles = new ArrayList<Role>();
         roles.add(Role.Cashier);
@@ -70,7 +70,7 @@ public class InitializeData {
         for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames[i][j] = Preference.WANT;
-        backendController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
+        presentationController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
 
         roles = new ArrayList<Role>();
         roles.add(Role.HRManager);
@@ -89,7 +89,7 @@ public class InitializeData {
         for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames[i][j] = Preference.CANT;
-        backendController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
+        presentationController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
 
         roles = new ArrayList<Role>();
         roles.add(Role.StoreKeeper);
@@ -107,24 +107,24 @@ public class InitializeData {
         for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames[i][j] = Preference.WANT;
-        backendController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
+        presentationController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
     }
 
-    private void initializeShiftPersonnel(BackendController backendController) {
-        backendController.login("123456789");
+    private void initializeShiftPersonnel(PresentationController presentationController) {
+        presentationController.login("123456789");
         int[] quantities = {1, 3, 5, 7, 6, 8, 1, 2, 3, 4, 6, 3, 3, 2};
         for (int i = 1; i < 7; i++) {
             for (Role role: Role.values()) {
-                backendController.defineShiftPersonnel(i, true, role, quantities[i + 1]);
+                presentationController.defineShiftPersonnel(i, true, role, quantities[i + 1]);
                 if(i == 6)
                     continue;
-                backendController.defineShiftPersonnel(i, false, role, quantities[i + 2]);
+                presentationController.defineShiftPersonnel(i, false, role, quantities[i + 2]);
             }
         }
-        backendController.logout();
+        presentationController.logout();
     }
 
-    private void initializeShifts(BackendController backendController) {
+    private void initializeShifts(PresentationController presentationController) {
 
     }
 }
