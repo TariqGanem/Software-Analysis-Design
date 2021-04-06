@@ -1,5 +1,6 @@
 package PresentationLayer;
 
+import DTOPackage.ShiftDTO;
 import Resources.Preference;
 import Resources.Role;
 
@@ -123,6 +124,44 @@ public class InitializeData {
     }
 
     private void initializeShifts(BackendController backendController) {
+        LocalDate date1 = LocalDate.of(2022, 1,1);
+        int day1 = (date1.getDayOfWeek().getValue() + 1) % 7;
+        backendController.addShift(date1,true);
+        backendController.assignToShift("123456789", Role.ShiftManager);
+        backendController.assignToShift("111111111", Role.Cashier);
+        backendController.assignToShift("333333333", Role.StoreKeeper);
+
+        LocalDate date2 = LocalDate.of(2022, 1,1);
+        int day2 = (date2.getDayOfWeek().getValue() + 1) % 7;
+        backendController.defineShiftPersonnel(day2, false, Role.ShiftManager, 1);
+        backendController.defineShiftPersonnel(day2, false, Role.Cashier, 2);
+        backendController.defineShiftPersonnel(day2, false, Role.StoreKeeper, 1);
+        backendController.defineShiftPersonnel(day2, false, Role.Stocker, 0);
+        backendController.defineShiftPersonnel(day2, false, Role.HRManager, 0);
+        backendController.defineShiftPersonnel(day2, false, Role.StoreManagerAssistant, 0);
+        backendController.defineShiftPersonnel(day2, false, Role.StoreManager, 0);
+        backendController.addShift(date2,true);
+        backendController.assignToShift("123456789", Role.ShiftManager);
+        backendController.assignToShift("987654321", Role.Cashier);
+        backendController.assignToShift("111111111", Role.Stocker);
+        backendController.assignToShift("222222222", Role.HRManager);
+        backendController.assignToShift("333333333", Role.StoreKeeper);
+
+        LocalDate date3 = LocalDate.of(2022, 1,1);
+        int day3 = (date3.getDayOfWeek().getValue() + 1) % 7;
+        backendController.defineShiftPersonnel(day3, false, Role.ShiftManager, 1);
+        backendController.defineShiftPersonnel(day3, false, Role.Cashier, 1);
+        backendController.defineShiftPersonnel(day3, false, Role.StoreKeeper, 1);
+        backendController.defineShiftPersonnel(day3, false, Role.Stocker, 1);
+        backendController.defineShiftPersonnel(day3, false, Role.HRManager, 1);
+        backendController.defineShiftPersonnel(day3, false, Role.StoreManagerAssistant, 0);
+        backendController.defineShiftPersonnel(day3, false, Role.StoreManager, 0);
+        backendController.addShift(date2,true);
+        backendController.assignToShift("123456789", Role.ShiftManager);
+        backendController.assignToShift("111111111", Role.Cashier);
+        backendController.assignToShift("222222222", Role.Cashier);
+        backendController.assignToShift("333333333", Role.StoreKeeper);
+
 
     }
 }
