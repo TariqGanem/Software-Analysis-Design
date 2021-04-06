@@ -1,5 +1,8 @@
 package DTO;
 
+import Business_Layer.Objects.ContactPerson;
+
+import java.util.HashMap;
 import java.util.Map;
 
 public class SupplierDTO {

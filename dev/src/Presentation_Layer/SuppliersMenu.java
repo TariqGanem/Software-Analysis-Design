@@ -1,7 +1,7 @@
-package Presentation_Layer;
+package src.Presentation_Layer;
 
 import Business_Layer.Application.Facade;
-import DTO.SupplierDTO;
+import Business_Layer.Application.Response.DTO.SupplierDTO;
 import Business_Layer.Application.Response.Response;
 
 import java.util.HashMap;
@@ -91,7 +91,7 @@ public class SuppliersMenu implements Menu {
                 "2.Delete a current Supplier" + "\n" +
                 "3.Edit a current Supplier" + "\n" +
                 "4.Print Supplier card" + "\n" +
-                "5.Return to Main menu" + "\n");
+                "5.Return to src.Main menu" + "\n");
     }
 
     private void EditSupplierMenu() {

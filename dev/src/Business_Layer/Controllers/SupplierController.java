@@ -1,4 +1,4 @@
-package Business_Layer.Controllers;
+package sBusiness_Layer.Controllers;
 
 import DTO.SupplierDTO;
 import Business_Layer.Objects.SupplierCard;

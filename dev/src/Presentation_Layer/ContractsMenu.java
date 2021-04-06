@@ -1,7 +1,7 @@
 package Presentation_Layer;
 
 import Business_Layer.Application.Facade;
-import DTO.ContractDTO;
+import Business_Layer.Application.Response.DTO.ContractDTO;
 import Business_Layer.Application.Response.Response;
 
 import java.util.Scanner;
@@ -53,7 +53,7 @@ public class ContractsMenu implements Menu {
                 "1.Add or Edit Quantity contract" + "\n" +
                 "2.Modify item" + "\n" +
                 "3.Print contract" + "\n" +
-                "4.Return to Main menu" + "\n");
+                "4.Return to src.Main menu" + "\n");
     }
 
     public void QuantityPrint_Menu() {

@@ -35,7 +35,7 @@ public class MainMenu implements Menu {
     }
 
     private void menu_options() {
-        System.out.println("======Main Menu======" + "\n" +
+        System.out.println("======src.Main Menu======" + "\n" +
                 "1.Manage Suppliers" + "\n" +
                 "2.Manage Contracts" + "\n" +
                 "3.Manage Orders" + "\n" +
