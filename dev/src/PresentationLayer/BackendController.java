@@ -83,6 +83,33 @@ public class BackendController {
         }
     }
 
+    public List<ShiftDTO> viewShiftsAsAdmin(int dayFromToday) {
+        ResponseT<List<ShiftDTO>> res = facade.getShifts(dayFromToday);
+        if(res.getErrorOccurred()) {
+            io.println(res.getErrorMessage());
+            return null;
+        }
+        return res.getValue();
+    }
+
+    public boolean viewAShiftAsAdmin(LocalDate localDate, boolean isMorning) {
+        ResponseT<ShiftDTO> response = facade.getShift(localDate, isMorning);
+        if (response.getErrorOccurred()) {
+            io.println(response.getErrorMessage());
+            return false;
+        }else {
+            ShiftDTO shiftDTO = response.getValue();
+            //io.println(shiftDTO.describeShift());
+            for (Role role: shiftDTO.positions.keySet()) {
+                io.println(role.name() + ":");
+                for (String ID: shiftDTO.positions.get(role)) {
+                    io.println("\t" + ID + " " + facade.getEmployee(ID).getValue().name);
+                }
+            }
+            return true;
+        }
+    }
+
     public boolean logout() {
         Response response = facade.logout();
         if (response.getErrorOccurred())

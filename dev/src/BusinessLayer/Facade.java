@@ -109,6 +109,20 @@ public class Facade {
         return new ResponseT<ShiftDTO>(toShiftDTO(shiftController.getShift(date, isMorning)));
     }
 
+    public ResponseT<List<ShiftDTO>> getShifts(int daysFromToday){
+        List<ShiftDTO> shiftDTOs = new ArrayList<>();
+        for (Shift shift : shiftController.getShifts()) {
+            System.out.println(shift.getDate().toString());
+            if(shift.getDate().isAfter(LocalDate.now().plusDays(daysFromToday)) || shift.getDate().isBefore(LocalDate.now()))
+                continue;
+            shiftDTOs.add(toShiftDTO(shift));
+        }
+        ResponseT<List<ShiftDTO>> res;
+        if(shiftDTOs.isEmpty())
+            return new ResponseT<>(new NullPointerException("no shift in the next " + daysFromToday + " days."));
+        return new ResponseT<>(shiftDTOs);
+    }
+
     private ShiftDTO toShiftDTO(Shift shift) {
         return new ShiftDTO(shift.getDate(), shift.isMorning(), shift.getPositions());
     }

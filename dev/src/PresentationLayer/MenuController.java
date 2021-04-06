@@ -259,10 +259,6 @@ public class MenuController {
         }
     }
 
-//    public Role showRoleMenu() {
-//
-//    }
-
     public String showAvailableEmployeesMenu(Map<String,String> availableEmployees) {
         IOController io = IOController.getInstance();
         String[] ids = new String[availableEmployees.size()];
@@ -322,5 +318,34 @@ public class MenuController {
             index = io.getInt();
         }while(index < 1 || index > Role.values().length);
         return roles[index - 1];
+    }
+
+    public boolean showSpecificDateMenu() {
+        IOController io = IOController.getInstance();
+        io.println("1) Specific date");
+        io.println("2) View shifts x days from now");
+        int num;
+        do {
+            io.print("enter a number between 1 and 2: ");
+            num = io.getInt();
+        }while(num != 1 & num != 2);
+        return num == 1;
+
+
+    }
+
+
+    public int showFutureShiftsMenu(List<String> desc) {
+        IOController io = IOController.getInstance();
+        int i = 1;
+        for (String str : desc) {
+            io.println(i + ") " + str);
+        }
+        int num;
+        do {
+            io.print("enter a number between 1 and " + desc.size() + ": ");
+            num = io.getInt();
+        }while(num < 1 | num > desc.size());
+        return num - 1;
     }
 }

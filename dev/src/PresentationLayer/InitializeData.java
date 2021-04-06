@@ -12,6 +12,7 @@ public class InitializeData {
     public void initializeData(BackendController backendController) {
         initializeEmployees(backendController);
         initializeShiftPersonnel(backendController);
+        initializeShifts(backendController);
     }
 
     private void initializeEmployees(BackendController backendController) {
@@ -126,15 +127,17 @@ public class InitializeData {
     }
 
     private void initializeShifts(BackendController backendController) {
-        LocalDate date1 = LocalDate.of(2022, 1,1);
+        backendController.login("123456789");
+        LocalDate date1 = LocalDate.of(2021, 7,2);
         int day1 = (date1.getDayOfWeek().getValue() + 1) % 7;
         backendController.addShift(date1,true);
         backendController.assignToShift("123456789", Role.ShiftManager);
         backendController.assignToShift("111111111", Role.Cashier);
         backendController.assignToShift("333333333", Role.StoreKeeper);
 
-        LocalDate date2 = LocalDate.of(2022, 1,1);
+        LocalDate date2 = LocalDate.of(2021, 7,3);
         int day2 = (date2.getDayOfWeek().getValue() + 1) % 7;
+        day2 = day2 == 0 ? 7 : day2;
         backendController.defineShiftPersonnel(day2, false, Role.ShiftManager, 1);
         backendController.defineShiftPersonnel(day2, false, Role.Cashier, 2);
         backendController.defineShiftPersonnel(day2, false, Role.StoreKeeper, 1);
@@ -149,8 +152,9 @@ public class InitializeData {
         backendController.assignToShift("222222222", Role.HRManager);
         backendController.assignToShift("333333333", Role.StoreKeeper);
 
-        LocalDate date3 = LocalDate.of(2022, 1,1);
+        LocalDate date3 = LocalDate.of(2021, 7,4);
         int day3 = (date3.getDayOfWeek().getValue() + 1) % 7;
+        day3 = day3 == 0 ? 7 : day3;
         backendController.defineShiftPersonnel(day3, false, Role.ShiftManager, 1);
         backendController.defineShiftPersonnel(day3, false, Role.Cashier, 1);
         backendController.defineShiftPersonnel(day3, false, Role.StoreKeeper, 1);
@@ -161,9 +165,9 @@ public class InitializeData {
         backendController.addShift(date2,true);
         backendController.assignToShift("123456789", Role.ShiftManager);
         backendController.assignToShift("111111111", Role.Cashier);
-        backendController.assignToShift("222222222", Role.Cashier);
+        backendController.assignToShift("222222222", Role.HRManager);
         backendController.assignToShift("333333333", Role.StoreKeeper);
-
+        backendController.logout();
 
     }
 }

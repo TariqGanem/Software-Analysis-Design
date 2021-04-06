@@ -7,6 +7,7 @@ import Resources.Preference;
 import Resources.Role;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -129,16 +130,33 @@ public class EmployeeModule {
                     case 5:
                         do {
                             int year, month, day;
-                            do {
-                                year = menu.showEnterYearMenu();
-                                month = menu.showEnterMonthMenu();
-                                day = menu.showEnterDayMenu();
-                            } while (!backendController.checkLegalDate(year, month, day));
-                            LocalDate date = LocalDate.of(year, month, day);
-                            boolean isMorning = menu.showEnterMorningEvening();
+                            LocalDate date = null;
+                            boolean isMorning = false;
                             boolean gotShift = true;
-                            if (option == 5)
-                                gotShift = backendController.viewSpecificShift(date, isMorning);
+                            if(option == 4 || menu.showSpecificDateMenu()){
+                                do {
+                                    year = menu.showEnterYearMenu();
+                                    month = menu.showEnterMonthMenu();
+                                    day = menu.showEnterDayMenu();
+                                } while (!backendController.checkLegalDate(year, month, day));
+                                date = LocalDate.of(year, month, day);
+                                isMorning = menu.showEnterMorningEvening();
+                                if(option == 5)
+                                    gotShift = backendController.viewSpecificShift(date, isMorning);
+                            }else {
+                                io.print("enter number of days: ");
+                                List<ShiftDTO> shiftDTOs = backendController.viewShiftsAsAdmin(io.getInt());
+                                if(shiftDTOs != null) {
+                                    List<String> desc = new ArrayList<>();
+                                    for (ShiftDTO shift : shiftDTOs)
+                                        desc.add(shift.describeShift());
+                                    int index = menu.showFutureShiftsMenu(desc);
+                                    date = shiftDTOs.get(index).date;
+                                    isMorning = shiftDTOs.get(index).isMorning;
+                                }else{
+                                    gotShift = false;
+                                }
+                            }
                             if (gotShift && (option == 5 || backendController.addShift(date, isMorning))) {
                                 int shiftMenu = menu.showUpdateShiftMenu();
                                 switch (shiftMenu) {
@@ -147,7 +165,8 @@ public class EmployeeModule {
                                         break;
                                     case 1:
                                         //Assign employee to shift
-                                        Map<Role, Integer> personnel = backendController.getPersonnelForShift((date.getDayOfWeek().getValue() + 1) % 7, isMorning);
+                                        int day1 = (date.getDayOfWeek().getValue() + 1) % 7 == 0 ? 7 : (date.getDayOfWeek().getValue() + 1) % 7;
+                                        Map<Role, Integer> personnel = backendController.getPersonnelForShift(day1, isMorning);
                                         Role role = menu.showShiftPersonnelMenu(personnel);
                                         Map<String, String> availableEmployees = backendController.viewAvailableEmployees(date, isMorning, role);
                                         String id = menu.showAvailableEmployeesMenu(availableEmployees);
