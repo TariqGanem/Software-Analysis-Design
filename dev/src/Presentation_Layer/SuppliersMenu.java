@@ -1,7 +1,7 @@
-package src.Presentation_Layer;
+package Presentation_Layer;
 
 import Business_Layer.Application.Facade;
-import Business_Layer.Application.Response.DTO.SupplierDTO;
+import DTO.SupplierDTO;
 import Business_Layer.Application.Response.Response;
 
 import java.util.HashMap;
