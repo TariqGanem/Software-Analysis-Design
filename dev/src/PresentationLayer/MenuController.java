@@ -3,7 +3,6 @@ package PresentationLayer;
 import Resources.Preference;
 import Resources.Role;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +23,7 @@ public class MenuController {
     public String loginMenu() {
         IOController io = IOController.getInstance();
         String ID = null;
-        io.println("Type \"Q\" to quit.");
+        io.println("Type \"q\" to quit.");
         io.print("Please enter your employee ID: ");
         ID = io.getString();
         return ID;
@@ -111,11 +110,13 @@ public class MenuController {
         IOController io = IOController.getInstance();
 
         io.println("What action would you like to perform?");
+        io.println("----------------------");
         io.println("1) Assign employee to shift");
         io.println("2) Remove employee from shift");
         io.println("3) Delete shift");
         io.println("4) Display assigned employees");
         io.println("Type 0 to quit");
+        io.println("----------------------");
 
         int answer;
         do {
@@ -130,6 +131,7 @@ public class MenuController {
         IOController io = IOController.getInstance();
 
         io.println("What information do you want to change?");
+        io.println("----------------------");
         io.println("1) Name");
         io.println("2) Bank id");
         io.println("3) Branch id");
@@ -141,6 +143,7 @@ public class MenuController {
         io.println("9) Sick Days");
         io.println("10) Skills");
         io.println("Type 0 to quit");
+        io.println("----------------------");
 
         int answer;
         do {
@@ -217,11 +220,11 @@ public class MenuController {
             for (int j = 0; j < 2; j++) {
                 if ((i == 5 && j == 1) || i == 6)
                     continue;
-                io.print("What is your preference for " + whatDayIsIt(i));
+                io.print("What is your preference for " + whatDayIsIt(i).toUpperCase());
                 if (j == 0) {
-                    io.println(" morning? ");
+                    io.println(" MORNING? ");
                 } else {
-                    io.println(" evening?");
+                    io.println(" EVENING?");
                 }
                 int index = 0;
                 do {
