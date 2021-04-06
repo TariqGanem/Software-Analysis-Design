@@ -36,12 +36,13 @@ public class PresentationController {
         return facade.getIsManager();
     }
 
-    public void viewProfile(String ID) {
+    public boolean viewProfile(String ID) {
         ResponseT<EmployeeDTO> response = ID.equals("") ? facade.getEmployee(activeEmployee) : facade.getEmployee(ID);
         if (response.getErrorOccurred())
             io.println(response.getErrorMessage());
         else
             io.println(response.getValue().viewProfile());
+        return response.getErrorOccurred();
     }
 
     public boolean viewMyShifts() {

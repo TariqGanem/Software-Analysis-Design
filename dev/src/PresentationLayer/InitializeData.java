@@ -114,13 +114,12 @@ public class InitializeData {
 
     private void initializeShiftPersonnel(PresentationController presentationController) {
         presentationController.login("123456789");
-        int[] quantities = {1, 3, 5, 7, 6, 8, 1, 2, 3, 4, 6, 3, 3, 2};
         for (int i = 1; i < 7; i++) {
             for (Role role: Role.values()) {
-                presentationController.defineShiftPersonnel(i, true, role, quantities[i + 1]);
+                presentationController.defineShiftPersonnel(i, true, role, i % 3 + 1);
                 if(i == 6)
                     continue;
-                presentationController.defineShiftPersonnel(i, false, role, quantities[i + 2]);
+                presentationController.defineShiftPersonnel(i, false, role, i % 2 + 1);
             }
         }
         presentationController.logout();
@@ -133,6 +132,7 @@ public class InitializeData {
         presentationController.addShift(date1,true);
         presentationController.assignToShift("123456789", Role.ShiftManager);
         presentationController.assignToShift("111111111", Role.Cashier);
+        presentationController.assignToShift("222222222", Role.Cashier);
         presentationController.assignToShift("333333333", Role.StoreKeeper);
 
         LocalDate date2 = LocalDate.of(2021, 7,5);
@@ -148,7 +148,7 @@ public class InitializeData {
         LocalDate date3 = LocalDate.of(2021, 7,6);
         int day3 = (date3.getDayOfWeek().getValue() + 1) % 7;
         day3 = day3 == 0 ? 7 : day3;
-        presentationController.addShift(date3,true);
+        presentationController.addShift(date3,false);
         presentationController.assignToShift("123456789", Role.ShiftManager);
         presentationController.assignToShift("111111111", Role.Cashier);
         presentationController.assignToShift("222222222", Role.HRManager);

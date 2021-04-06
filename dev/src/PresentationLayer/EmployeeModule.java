@@ -207,7 +207,9 @@ public class EmployeeModule {
                                         if (myShift != null) {
                                             Map<Role, List<String>> map = myShift.getPositions();
                                             String empId = menu.showShiftPositionsMenu(map);
-                                            if (presentationController.removeFromShift(empId))
+                                            if (empId == null)
+                                                io.println("There are no employees in the shift.");
+                                            else if (presentationController.removeFromShift(empId))
                                                 io.println("success!");
                                         }
                                         io.println("");
@@ -238,9 +240,11 @@ public class EmployeeModule {
                     //View employee + update employee
                     case 6:
                         String viewID, updateEmployee;
-                        io.print("Please enter the ID of the employee: ");
-                        viewID = io.getString();
-                        presentationController.viewProfile(viewID);
+                        do {
+                            io.print("Please enter the ID of the employee: ");
+                            viewID = io.getString();
+                            errorOccurred = presentationController.viewProfile(viewID);
+                        } while (errorOccurred);
 
                         io.println("Do you want to change this employee's information?:");
                         do {

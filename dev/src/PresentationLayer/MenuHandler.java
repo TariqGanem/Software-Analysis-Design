@@ -115,7 +115,6 @@ public class MenuHandler {
         io.println("1) Assign employee to shift");
         io.println("2) Remove employee from shift");
         io.println("3) Delete shift");
-//        io.println("4) Display assigned employees");//shown in viewShift
         io.println("Type 0 to quit");
         io.println("----------------------");
 
@@ -261,7 +260,7 @@ public class MenuHandler {
         }
     }
 
-    public void showAvailableEmployeesMenu(Map<String,String> availableEmployees, int startIndex) {
+    public void showAvailableEmployeesMenu(Map<String, String> availableEmployees, int startIndex) {
         IOController io = IOController.getInstance();
         String[] ids = new String[availableEmployees.size()];
         int next = startIndex;
@@ -281,23 +280,19 @@ public class MenuHandler {
         for (List<String> list : map.values())
             ret.addAll(list);
         int i = 1;
-        for (String id : ret)
+        for (String id : ret) {
             io.println(i + ") " + id);
-        io.print("enter a number between 1 and " + ret.size() + ": ");
-        return ret.get(io.getInt() - 1);
+            i++;
+        }
+        int answer;
+        if (ret.size() == 0)
+            return null;
+        do {
+            io.print("enter a number between 1 and " + ret.size() + ": ");
+            answer = io.getInt();
+        } while(answer < 1 || answer > ret.size());
+        return ret.get(answer - 1);
     }
-
-//    public void showAssignedEmployeesMenu(Map<Role, List<String>> map){
-//        IOController io = IOController.getInstance();
-//        List<String> ret = new ArrayList<>();
-//        for (List<String> list : map.values())
-//            ret.addAll(list);
-//        int i = 1;
-//        for (String id : ret) {
-//            io.println(i + ") " + id);
-//            i++;
-//        }
-//    }
 
     public Role showShiftPersonnelMenu(Map<Role, Integer> map, String msg) {
         IOController io = IOController.getInstance();
@@ -312,7 +307,7 @@ public class MenuHandler {
             io.print(msg + " Enter a number between 1 to " + Role.values().length + ": ");
             io.print("Enter a number between 1 and " + Role.values().length + ": ");
             index = io.getInt();
-        }while(index < 1 || index > Role.values().length);
+        } while (index < 1 || index > Role.values().length);
         return roles[index - 1];
     }
 
@@ -324,12 +319,11 @@ public class MenuHandler {
         do {
             io.print("enter a number between 1 and 2: ");
             num = io.getInt();
-        }while(num != 1 & num != 2);
+        } while (num != 1 & num != 2);
         return num == 1;
 
 
     }
-
 
     public int showFutureShiftsMenu(List<String> desc) {
         IOController io = IOController.getInstance();
@@ -342,31 +336,25 @@ public class MenuHandler {
         do {
             io.print("enter a number between 1 and " + desc.size() + ": ");
             num = io.getInt();
-        }while(num < 1 | num > desc.size());
+        } while (num < 1 | num > desc.size());
         return num - 1;
     }
 
-    public boolean showConfirmationMenu(String msg){
-        boolean stop = false;
+    public boolean showConfirmationMenu(String msg) {
+        boolean confirmation = true;
         IOController io = IOController.getInstance();
         io.println(msg);
-        String very = "";
-        int i = 0;
-        while(i < 3 & !stop){
-            io.println("ARE YOU " + very + "SURE? \n1) yes\n2) no");
-            very += "very ";
-            int ans;
-            do{
-                io.println("pick 1 or 2 (yes/no): ");
-                ans = io.getInt();
-            }while(ans != 1 & ans != 2);
-            if(ans == 2){
-                stop = true;
-                io.println("canceled!");
-            }
-            i++;
+        io.println("ARE YOU SURE? \n1) yes\n2) no");
+        int ans;
+        do {
+            io.println("Enter 1 or 2 (yes/no): ");
+            ans = io.getInt();
+        } while (ans != 1 & ans != 2);
+        if (ans == 2) {
+            confirmation = false;
+            io.println("Cancelled!");
         }
-        return stop;
+        return confirmation;
     }
 
     public boolean askToProceed(String msg) {
