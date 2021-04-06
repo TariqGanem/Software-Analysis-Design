@@ -12,7 +12,7 @@ _______________________|
 	true -> Employee is a StoreManager or a HRManger
 	false -> otherwise
 - Field in Facade: isAdmin removed
-- Field in BackendController: isManager removed
+- Field in PresentationController: isManager removed
 - Field in Employee: isManager removed
 - Removed Bank object to make it easier to use the DTO objects
 + Fields in Employee: bankId, branchId, accountNumber
@@ -25,5 +25,5 @@ _______________________|
 + Added test class "ShiftPersonnelTest" to test the ShiftPersonnel logic
 + Field in BackendController: String activeEmployee
 + public class EmployeeModule: contains main and responsible for displaying the menus and getting user input
-+ public class MenuController: Helps EmployeeModule to display the menus. In order not to clutter main and not to use static functions we built this class.
++ public class MenuHandler: Helps EmployeeModule to display the menus. In order not to clutter main and not to use static functions we built this class.
 + public class InitializeData: This class loads the hardcoded data into the system.

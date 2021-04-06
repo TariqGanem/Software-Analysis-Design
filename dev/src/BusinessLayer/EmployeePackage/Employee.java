@@ -23,7 +23,7 @@ public class Employee {
     public Employee(String name, String ID, int bankId, int branchId, int accountNumber, float salary, LocalDate startDate,
                     String trustFund, int freeDays, int sickDays, List<Role> skills, Preference[][] timeFrames) {
         setName(name);
-        this.ID = ID;
+        setID(ID);
         setBankId(bankId);
         setBranchId(branchId);
         setAccountNumber(accountNumber);
@@ -52,6 +52,12 @@ public class Employee {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setID(String ID) {
+        if (!ID.matches("[0-9]+") && !ID.equals("admin"))
+            throw new IllegalArgumentException("Only use numbers for your ID.");
+        this.ID = ID;
     }
 
     public void setBankId(int bankId) {
@@ -95,6 +101,8 @@ public class Employee {
     }
 
     public void setSkills(List<Role> skills) {
+        if (skills.size() == 0)
+            throw new IllegalArgumentException("The role list needs to contain at least one role!");
         int i = 0, j = 0;
         for (Role r1: skills) {
             j = 0;

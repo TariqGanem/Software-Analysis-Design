@@ -1,6 +1,5 @@
 package PresentationLayer;
 
-import DTOPackage.ShiftDTO;
 import Resources.Preference;
 import Resources.Role;
 
@@ -9,13 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InitializeData {
-    public void initializeData(BackendController backendController) {
-        initializeEmployees(backendController);
-        initializeShiftPersonnel(backendController);
-        initializeShifts(backendController);
+
+    public void initializeData(PresentationController presentationController) {
+        initializeEmployees(presentationController);
+        initializeShiftPersonnel(presentationController);
+        initializeShifts(presentationController);
     }
 
-    private void initializeEmployees(BackendController backendController) {
+    private void initializeEmployees(PresentationController presentationController) {
         List roles = new ArrayList<Role>();
         roles.add(Role.StoreManager);
         String name = "Mr. Krabs";
@@ -32,7 +32,7 @@ public class InitializeData {
         for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames[i][j] = (i + j) % 2 == 0 ? Preference.WANT : Preference.CAN;
-        backendController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
+        presentationController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
 
         roles = new ArrayList<Role>();
         roles.add(Role.ShiftManager);
@@ -52,7 +52,7 @@ public class InitializeData {
         for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames[i][j] = (i + j) == 2 ? Preference.CANT : Preference.CAN;
-        backendController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
+        presentationController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
 
         roles = new ArrayList<Role>();
         roles.add(Role.Cashier);
@@ -72,7 +72,7 @@ public class InitializeData {
         for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames[i][j] = Preference.WANT;
-        backendController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
+        presentationController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
 
         roles = new ArrayList<Role>();
         roles.add(Role.HRManager);
@@ -91,7 +91,7 @@ public class InitializeData {
         for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames[i][j] = Preference.CANT;
-        backendController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
+        presentationController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
 
         roles = new ArrayList<Role>();
         roles.add(Role.StoreKeeper);
@@ -109,65 +109,50 @@ public class InitializeData {
         for (int i = 0; i < 7; i++)
             for (int j = 0; j < 2; j++)
                 timeFrames[i][j] = Preference.WANT;
-        backendController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
+        presentationController.addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
     }
 
-    private void initializeShiftPersonnel(BackendController backendController) {
-        backendController.login("123456789");
-        int[] quantities = {1, 3, 5, 7, 6, 8, 1, 2, 3, 4, 6, 3, 3, 2};
+    private void initializeShiftPersonnel(PresentationController presentationController) {
+        presentationController.login("123456789");
         for (int i = 1; i < 7; i++) {
             for (Role role: Role.values()) {
-                backendController.defineShiftPersonnel(i, true, role, quantities[i + 1]);
+                presentationController.defineShiftPersonnel(i, true, role, i % 3 + 1);
                 if(i == 6)
                     continue;
-                backendController.defineShiftPersonnel(i, false, role, quantities[i + 2]);
+                presentationController.defineShiftPersonnel(i, false, role, i % 2 + 1);
             }
         }
-        backendController.logout();
+        presentationController.logout();
     }
 
-    private void initializeShifts(BackendController backendController) {
-        backendController.login("123456789");
+    private void initializeShifts(PresentationController presentationController) {
+        presentationController.login("123456789");
         LocalDate date1 = LocalDate.of(2021, 7,4);
         int day1 = (date1.getDayOfWeek().getValue() + 1) % 7;
-        backendController.addShift(date1,true);
-        backendController.assignToShift("123456789", Role.ShiftManager);
-        backendController.assignToShift("111111111", Role.Cashier);
-        backendController.assignToShift("333333333", Role.StoreKeeper);
+        presentationController.addShift(date1,true);
+        presentationController.assignToShift("123456789", Role.ShiftManager);
+        presentationController.assignToShift("111111111", Role.Cashier);
+        presentationController.assignToShift("222222222", Role.Cashier);
+        presentationController.assignToShift("333333333", Role.StoreKeeper);
 
         LocalDate date2 = LocalDate.of(2021, 7,5);
         int day2 = (date2.getDayOfWeek().getValue() + 1) % 7;
         day2 = day2 == 0 ? 7 : day2;
-//        backendController.defineShiftPersonnel(day2, false, Role.ShiftManager, 1);
-//        backendController.defineShiftPersonnel(day2, false, Role.Cashier, 2);
-//        backendController.defineShiftPersonnel(day2, false, Role.StoreKeeper, 1);
-//        backendController.defineShiftPersonnel(day2, false, Role.Stocker, 0);
-//        backendController.defineShiftPersonnel(day2, false, Role.HRManager, 0);
-//        backendController.defineShiftPersonnel(day2, false, Role.StoreManagerAssistant, 0);
-//        backendController.defineShiftPersonnel(day2, false, Role.StoreManager, 0);
-        backendController.addShift(date2,true);
-        backendController.assignToShift("123456789", Role.ShiftManager);
-        backendController.assignToShift("987654321", Role.Cashier);
-        backendController.assignToShift("111111111", Role.Stocker);
-        backendController.assignToShift("222222222", Role.HRManager);
-        backendController.assignToShift("333333333", Role.StoreKeeper);
+        presentationController.addShift(date2,true);
+        presentationController.assignToShift("123456789", Role.ShiftManager);
+        presentationController.assignToShift("987654321", Role.Cashier);
+        presentationController.assignToShift("111111111", Role.Stocker);
+        presentationController.assignToShift("222222222", Role.HRManager);
+        presentationController.assignToShift("333333333", Role.StoreKeeper);
 
         LocalDate date3 = LocalDate.of(2021, 7,6);
         int day3 = (date3.getDayOfWeek().getValue() + 1) % 7;
         day3 = day3 == 0 ? 7 : day3;
-//        backendController.defineShiftPersonnel(day3, false, Role.ShiftManager, 1);
-//        backendController.defineShiftPersonnel(day3, false, Role.Cashier, 1);
-//        backendController.defineShiftPersonnel(day3, false, Role.StoreKeeper, 1);
-//        backendController.defineShiftPersonnel(day3, false, Role.Stocker, 1);
-//        backendController.defineShiftPersonnel(day3, false, Role.HRManager, 1);
-//        backendController.defineShiftPersonnel(day3, false, Role.StoreManagerAssistant, 0);
-//        backendController.defineShiftPersonnel(day3, false, Role.StoreManager, 0);
-        backendController.addShift(date3,true);
-        backendController.assignToShift("123456789", Role.ShiftManager);
-        backendController.assignToShift("111111111", Role.Cashier);
-        backendController.assignToShift("222222222", Role.HRManager);
-        backendController.assignToShift("333333333", Role.StoreKeeper);
-        backendController.logout();
-
+        presentationController.addShift(date3,false);
+        presentationController.assignToShift("123456789", Role.ShiftManager);
+        presentationController.assignToShift("111111111", Role.Cashier);
+        presentationController.assignToShift("222222222", Role.HRManager);
+        presentationController.assignToShift("333333333", Role.StoreKeeper);
+        presentationController.logout();
     }
 }

@@ -41,9 +41,8 @@ public class EmployeeController {
     public void updateEmployee(String name, String ID, int bankId, int branchId, int accountNumber, float salary, LocalDate startDate,
                                String trustFund, int freeDays, int sickDays, List<Role> skills, Preference[][] timeFrames) throws Exception {
         Employee toUpdate = getEmployee(ID);
-        if(!toUpdate.getID().equals(ID))
-            throw new IllegalArgumentException("You are not allowed to change the ID of an employee.");
         toUpdate.setName(name);
+        toUpdate.setID(ID);
         toUpdate.setBankId(bankId);
         toUpdate.setBranchId(branchId);
         toUpdate.setAccountNumber(accountNumber);
@@ -84,6 +83,18 @@ public class EmployeeController {
                     ret.put(e.getID(), e.getName() + " WANTS to work at the specified date.");
                 else if (p.equals(Preference.CAN))
                     ret.put(e.getID(), e.getName() + " CAN to work at the specified date.");
+            }
+        }
+        return ret;
+    }
+
+    public Map<String, String> viewUnavailableEmployees(int day, boolean isMorning, Role skill) {
+        Map<String, String> ret = new HashMap<>();
+        for (Employee e : employees.values()) {
+            if (e.hasSkill(skill)) {
+                Preference p = e.getPreference(day, isMorning);
+                if (p.equals(Preference.CANT))
+                    ret.put(e.getID(), e.getName() + " CANT work at the specified date.");
             }
         }
         return ret;

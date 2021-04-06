@@ -18,7 +18,7 @@ public class Shift {
 	public int assignEmployee(Role skill, String id) {
 		List<String> lst = positions.get(Role.ShiftManager);
 		if((lst==null || lst.isEmpty()) && !skill.equals(Role.ShiftManager))
-			throw new IllegalArgumentException("no shift without shift manager.");
+			throw new IllegalArgumentException("Please enter a shift manager before adding employees.");
 		if(isAssignedToShift(id) != null)
 			throw new IllegalArgumentException("this employee already assigned to this shift");
 		List<String> ids = positions.get(skill);

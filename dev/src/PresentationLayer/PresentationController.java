@@ -12,12 +12,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-public class BackendController {
+public class PresentationController {
     private Facade facade;
     private IOController io;
     private String activeEmployee;
 
-    public BackendController() {
+    public PresentationController() {
         facade = new Facade();
         io = IOController.getInstance();
         activeEmployee = null;
@@ -36,12 +36,13 @@ public class BackendController {
         return facade.getIsManager();
     }
 
-    public void viewProfile(String ID) {
+    public boolean viewProfile(String ID) {
         ResponseT<EmployeeDTO> response = ID.equals("") ? facade.getEmployee(activeEmployee) : facade.getEmployee(ID);
         if (response.getErrorOccurred())
             io.println(response.getErrorMessage());
         else
             io.println(response.getValue().viewProfile());
+        return response.getErrorOccurred();
     }
 
     public boolean viewMyShifts() {
@@ -186,8 +187,8 @@ public class BackendController {
             io.println(res.getErrorMessage());
     }
 
-    public Map<String,String> viewAvailableEmployees(LocalDate date, boolean isMorning, Role role) {
-        ResponseT<Map<String,String>> res = facade.viewAvailableEmployees(date, isMorning, role);
+    public Map<String,String> viewAvailableEmployees(LocalDate date, boolean isMorning, Role role, boolean unavailable) {
+        ResponseT<Map<String,String>> res = facade.viewAvailableEmployees(date, isMorning, role, unavailable);
         if(!res.getErrorOccurred())
             return res.getValue();
         io.println(res.getErrorMessage());

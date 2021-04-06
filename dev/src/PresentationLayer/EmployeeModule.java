@@ -14,8 +14,8 @@ import java.util.Map;
 public class EmployeeModule {
 
     public static void main(String[] args) {
-        BackendController backendController = new BackendController();
-        MenuController menu = new MenuController();
+        PresentationController presentationController = new PresentationController();
+        MenuHandler menu = new MenuHandler();
         IOController io = IOController.getInstance();
         String ID = null;
         int option = -1;
@@ -27,7 +27,7 @@ public class EmployeeModule {
         int init = io.getInt();
         if (init == 1) {
             InitializeData initclass = new InitializeData();
-            initclass.initializeData(backendController);
+            initclass.initializeData(presentationController);
         }
         io.println("");
 
@@ -39,15 +39,16 @@ public class EmployeeModule {
                     ID = menu.loginMenu();
                     if (ID.equals("q"))
                         break;
-                    successfulLogin = backendController.login(ID);
+                    successfulLogin = presentationController.login(ID);
                 } while (!successfulLogin);
             }
 
             if (ID.equals("q"))
                 break;
 
-            isManager = backendController.getIsManager();
-            io.println("");
+            
+            isManager = presentationController.getIsManager();
+	    io.println("");
 
             while (!errorOccurred && option != 0) {
                 menu.showMainMenu(isManager);
@@ -61,21 +62,22 @@ public class EmployeeModule {
 
                     //Logout
                     case 0:
-                        errorOccurred = backendController.logout();
+                        errorOccurred = presentationController.logout();
                         if (!errorOccurred)
                             ID = null;
+                        io.println("");
                         break;
 
                     //View my profile
                     case 1:
-                        backendController.viewProfile("");
+                        presentationController.viewProfile("");
                         io.println("");
                         break;
 
                     //View my shifts
                     case 2:
                         String continueToViewShift = "";
-                        boolean isAssigned = backendController.viewMyShifts();
+                        boolean isAssigned = presentationController.viewMyShifts();
                         if (!isAssigned) {
                             io.println("");
                             continue;
@@ -91,11 +93,11 @@ public class EmployeeModule {
                                 year = menu.showEnterYearMenu();
                                 month = menu.showEnterMonthMenu();
                                 day = menu.showEnterDayMenu();
-                            } while (!backendController.checkLegalDate(year, month, day));
+                            } while (!presentationController.checkLegalDate(year, month, day));
                             LocalDate date = LocalDate.of(year, month, day);
                             boolean isMorning = menu.showEnterMorningEvening();
-                            backendController.viewSpecificShift(date, isMorning);
-                            proceed = menu.askToProceed("view another shift");
+                            presentationController.viewSpecificShift(date, isMorning);
+                            proceed = !goBack && menu.askToProceed("view another shift");
                         } while (proceed);
                         io.println("");
                         break;
@@ -117,7 +119,7 @@ public class EmployeeModule {
                             } while (!morning_evening.equals("m") && !morning_evening.equals("e"));
                             int prefIndex = menu.showPreferenceMenu();
 
-                            backendController.changePreference(day - 1, morning_evening.equals("m"), Preference.values()[prefIndex]);
+                            presentationController.changePreference(day - 1, morning_evening.equals("m"), Preference.values()[prefIndex]);
 
                             proceed = menu.askToProceed("change another preference");
                         } while (proceed);
@@ -139,11 +141,11 @@ public class EmployeeModule {
                                     year = menu.showEnterYearMenu();
                                     month = menu.showEnterMonthMenu();
                                     day = menu.showEnterDayMenu();
-                                } while (!backendController.checkLegalDate(year, month, day));
+                                } while (!presentationController.checkLegalDate(year, month, day));
                                 date = LocalDate.of(year, month, day);
                                 isMorning = menu.showEnterMorningEvening();
                                 if(option == 5)
-                                    gotShift = backendController.viewAShiftAsAdmin(date, isMorning);
+                                    gotShift = presentationController.viewAShiftAsAdmin(date, isMorning);
                             }else {
 
                                 int daysNum;
@@ -168,7 +170,7 @@ public class EmployeeModule {
                             if(option == 4 && date.isBefore(LocalDate.now())){
                                 gotShift = menu.showConfirmationMenu("this shift is in the past.");
                             }
-                            if (gotShift && (option == 5 || backendController.addShift(date, isMorning))) {
+                            if (gotShift && (option == 5 || presentationController.addShift(date, isMorning))) {
                                 int shiftMenu = menu.showUpdateShiftMenu();
                                 switch (shiftMenu) {
                                     //go back
@@ -178,21 +180,46 @@ public class EmployeeModule {
                                     case 1:
                                         //Assign employee to shift
                                         int day1 = (date.getDayOfWeek().getValue() + 1) % 7 == 0 ? 7 : (date.getDayOfWeek().getValue() + 1) % 7;
-                                        Map<Role, Integer> personnel = backendController.getPersonnelForShift(day1, isMorning);
-                                        Role role = menu.showShiftPersonnelMenu(personnel);
-                                        Map<String, String> availableEmployees = backendController.viewAvailableEmployees(date, isMorning, role);
-                                        String id = menu.showAvailableEmployeesMenu(availableEmployees);
-                                        backendController.assignToShift(id, role);
+                                        int listSize = 0;
+                                        Map<Role, Integer> personnel = presentationController.getPersonnelForShift(day1, isMorning);
+                                        Role role = menu.showShiftPersonnelMenu(personnel, "What employee do you want to add?");
+                                        Map<String, String> availableEmployees = presentationController.viewAvailableEmployees(date, isMorning, role, false);
+                                        listSize += availableEmployees.size();
+                                        menu.showAvailableEmployeesMenu(availableEmployees, 1);
+                                        io.println("Do you want to also view the employees who marked 'CANT' on this shift?");
+                                        String viewCant = "";
+                                        do {
+                                            io.print("Enter \"y\" or \"n\" ");
+                                            viewCant = io.getString();
+                                        } while(!viewCant.equals("y") && !viewCant.equals("n"));
+                                        Map<String, String> unavailableEmployees = null;
+                                        if (viewCant.equals("y")) {
+                                            unavailableEmployees = presentationController.viewAvailableEmployees(date, isMorning, role, true);
+                                            listSize += unavailableEmployees.size();
+                                            menu.showAvailableEmployeesMenu(unavailableEmployees, listSize);
+                                        }
+                                        io.println("Please choose from the list which employee would you like to add.");
+                                        int id = 0;
+                                        do {
+                                            io.print("Enter a number between 1 and " + listSize + ": ");
+                                            id = io.getInt();
+                                        } while(id <= 0 || id > listSize);
+                                        if (id <= availableEmployees.size())
+                                            presentationController.assignToShift(availableEmployees.keySet().toArray(new String[0])[id - 1], role);
+                                        else
+                                            presentationController.assignToShift(unavailableEmployees.keySet().toArray(new String[0])[id - availableEmployees.size() - 1], role);
                                         io.println("");
                                         break;
 
                                     case 2:
                                         //Remove employee from shift
-                                        ShiftDTO myShift = backendController.getShift(date, isMorning);
+                                        ShiftDTO myShift = presentationController.getShift(date, isMorning);
                                         if (myShift != null) {
                                             Map<Role, List<String>> map = myShift.getPositions();
                                             String empId = menu.showShiftPositionsMenu(map);
-                                            if (backendController.removeFromShift(empId))
+                                            if (empId == null)
+                                                io.println("There are no employees in the shift.");
+                                            else if (presentationController.removeFromShift(empId))
                                                 io.println("success!");
                                         }
                                         io.println("");
@@ -204,22 +231,13 @@ public class EmployeeModule {
                                         if(date.isBefore(LocalDate.now())){
                                             stop = menu.showConfirmationMenu("this shift has past.");
                                         }
-                                        if (!stop & backendController.removeShift(date, isMorning))
+                                        if (!stop & presentationController.removeShift(date, isMorning))
                                             io.println("success!");
                                         io.println("");
                                         break;
 
-//                                    case 4:
-//                                        //Display assigned employees
-//                                        ShiftDTO shift = backendController.getShift(date, isMorning);
-//                                        if (shift != null) {
-//                                            Map<Role, List<String>> positions = shift.getPositions();
-//                                            menu.showAssignedEmployeesMenu(positions);
-//                                        }
-//                                        io.println("");
-//                                        break;
-
                                     default:
+                                        break;
 
                                 }
                             }
@@ -232,9 +250,11 @@ public class EmployeeModule {
                     //View employee + update employee
                     case 6:
                         String viewID, updateEmployee;
-                        io.print("Please enter the ID of the employee: ");
-                        viewID = io.getString();
-                        backendController.viewProfile(viewID);
+                        do {
+                            io.print("Please enter the ID of the employee: ");
+                            viewID = io.getString();
+                            errorOccurred = presentationController.viewProfile(viewID);
+                        } while (errorOccurred);
 
                         io.println("Do you want to change this employee's information?:");
                         do {
@@ -252,12 +272,12 @@ public class EmployeeModule {
                         ResponseT<EmployeeDTO> newEmployee;
                         do {
                             updateIndex = menu.showUpdateEmployeeMenu();
-                            newEmployee = backendController.getEmployeeDTO(viewID);
+                            newEmployee = presentationController.getEmployeeDTO(viewID);
                             if (newEmployee.getErrorOccurred()) {
                                 io.println("");
                                 continue;
                             }
-                            EmployeeDTO emp = backendController.getEmployeeDTO(viewID).getValue();
+                            EmployeeDTO emp = presentationController.getEmployeeDTO(viewID).getValue();
                             switch (updateIndex) {
                                 case 0:
                                     //go back
@@ -268,49 +288,53 @@ public class EmployeeModule {
                                     break;
 
                                 case 2:
-                                    emp.bankId = menu.showEnterIntMenu("bank id");
+                                    emp.ID = menu.showEnterStringMenu("id");
                                     break;
 
                                 case 3:
-                                    emp.branchId = menu.showEnterIntMenu("branch id");
+                                    emp.bankId = menu.showEnterIntMenu("bank id");
                                     break;
 
                                 case 4:
-                                    emp.accountNumber = menu.showEnterIntMenu("account number");
+                                    emp.branchId = menu.showEnterIntMenu("branch id");
                                     break;
 
                                 case 5:
-                                    emp.salary = menu.showEnterFloatMenu("salary");
+                                    emp.accountNumber = menu.showEnterIntMenu("account number");
                                     break;
 
                                 case 6:
+                                    emp.salary = menu.showEnterFloatMenu("salary");
+                                    break;
+
+                                case 7:
                                     int year, month, day;
                                     do {
                                         year = menu.showEnterYearMenu();
                                         month = menu.showEnterMonthMenu();
                                         day = menu.showEnterDayMenu();
-                                    } while (!backendController.checkLegalDate(year, month, day));
+                                    } while (!presentationController.checkLegalDate(year, month, day));
                                     LocalDate date = LocalDate.of(year, month, day);
                                     emp.startDate = date;
                                     break;
 
-                                case 7:
+                                case 8:
                                     emp.trustFund = menu.showEnterStringMenu("trust fund");
                                     break;
 
-                                case 8:
+                                case 9:
                                     emp.freeDays = menu.showEnterIntMenu("free days amount");
                                     break;
 
-                                case 9:
+                                case 10:
                                     emp.sickDays = menu.showEnterIntMenu("sick days amount");
                                     break;
 
-                                case 10:
+                                case 11:
                                     emp.skills = menu.showEnterRoleList();
                                     break;
                             }
-                            backendController.setEmployeeDTO(emp);
+                            presentationController.setEmployeeDTO(emp);
                             proceed = !goBack && menu.askToProceed("change another field");
                         } while (proceed);
                         goBack = false;
@@ -342,7 +366,7 @@ public class EmployeeModule {
                             year = menu.showEnterYearMenu();
                             month = menu.showEnterMonthMenu();
                             day = menu.showEnterDayMenu();
-                        } while (!backendController.checkLegalDate(year, month, day));
+                        } while (!presentationController.checkLegalDate(year, month, day));
                         LocalDate date = LocalDate.of(year, month, day);
                         io.print("Please enter a trust fund: ");
                         trustFund = io.getString();
@@ -353,7 +377,7 @@ public class EmployeeModule {
                         skills = menu.showEnterRoleList();
                         timeFrames = menu.showEnterPreferenceArray();
 
-                        backendController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, skills, timeFrames);
+                        presentationController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, skills, timeFrames);
                         io.println("");
                         break;
 
@@ -371,12 +395,12 @@ public class EmployeeModule {
                                 io.print("Type \"m\" or \"e\": ");
                                 morning_evening = io.getString();
                             } while (!morning_evening.equals("m") && !morning_evening.equals("e"));
-                            Map<Role, Integer> personnel = backendController.getPersonnelForShift(dayShift, morning_evening.equals("m"));
-                            Role role = menu.showShiftPersonnelMenu(personnel);
+                            Map<Role, Integer> personnel = presentationController.getPersonnelForShift(dayShift, morning_evening.equals("m"));
+                            Role role = menu.showShiftPersonnelMenu(personnel, "What job do you want to change the amount of?");
 
                             io.print("how many " + role.toString() + " are needed? ");
                             int qtty = io.getInt();
-                            backendController.defineShiftPersonnel(dayShift, morning_evening.equals("m"), role, qtty);
+                            presentationController.defineShiftPersonnel(dayShift, morning_evening.equals("m"), role, qtty);
                             proceed = menu.askToProceed("update more information");
                         } while (proceed);
                         io.println("");
@@ -387,4 +411,4 @@ public class EmployeeModule {
             errorOccurred = false;
         }
     }
-}
+
