@@ -1,5 +1,5 @@
-import src.Presentation_Layer.MainMenu;
-import src.Presentation_Layer.Menu;
+import Presentation_Layer.MainMenu;
+import Presentation_Layer.Menu;
 
 public class Main {
     public static void main(String[] args) {
