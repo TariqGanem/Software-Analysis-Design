@@ -28,7 +28,11 @@ First of all you will need to log in to the system. Once the system is running e
    4.1. Assign emplyoee to the shift: To assign a new employee enter '1'. You will be shown the amount of people needed for each job in the shift. Enter the the job
         you want to add right now. Now pick the employee from the list shown to you. You are required to add a shift manager before adding regular employees.
    
-   4.2. Remove employee from a shift: To remove an employee from a shift 
+   4.2. Remove employee from a shift: To remove an employee from a shift enter '2'. You will be shown a list of the employees assigned to the shift, pick one of them.
+
+   4.3. Delete shift: To delete this shift enter '3'.
+
+   To return to the main menu enter 'c', to continue looking at shifts type anything else.
 
 
 5. View a specific shift: To view a specific shfift enter '5' when the main menu is shown. You are now presented by two options:
