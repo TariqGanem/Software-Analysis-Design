@@ -47,6 +47,7 @@ public class EmployeeModule {
                 break;
 
             isManager = backendController.getIsManager();
+            io.println("");
 
             while (!errorOccurred && option != 0) {
                 menu.showMainMenu(isManager);
@@ -55,8 +56,9 @@ public class EmployeeModule {
                     io.print("Choose an option: ");
                     option = io.getInt();
                 } while (option < 0 || (!isManager && option >= 4) || (isManager && option >= 9));
-
+                io.println("");
                 switch (option) {
+
                     //Logout
                     case 0:
                         errorOccurred = backendController.logout();
@@ -93,14 +95,14 @@ public class EmployeeModule {
                             LocalDate date = LocalDate.of(year, month, day);
                             boolean isMorning = menu.showEnterMorningEvening();
                             backendController.viewSpecificShift(date, isMorning);
-                            proceed = !goBack && menu.askToProceed("view another shift");
-                        } while (!continueToViewShift.equals("c"));
+                            proceed = menu.askToProceed("view another shift");
+                        } while (proceed);
                         io.println("");
                         break;
 
                     //Change shift preferences
                     case 3:
-                        String continueChanging = "", morning_evening = "";
+                        String morning_evening = "";
                         do {
                             io.print("Please enter the day of the week in numbers: ");
                             int day = 0;
@@ -117,7 +119,7 @@ public class EmployeeModule {
 
                             backendController.changePreference(day - 1, morning_evening.equals("m"), Preference.values()[prefIndex]);
 
-                            proceed = !goBack && menu.askToProceed("change another preference");
+                            proceed = menu.askToProceed("change another preference");
                         } while (proceed);
                         io.println("");
                         break;
@@ -143,8 +145,14 @@ public class EmployeeModule {
                                 if(option == 5)
                                     gotShift = backendController.viewAShiftAsAdmin(date, isMorning);
                             }else {
-                                io.print("enter number of days: ");
-                                List<ShiftDTO> shiftDTOs = backendController.viewShiftsAsAdmin(io.getInt());
+
+                                int daysNum;
+                                do{
+                                    io.print("Enter number of days: ");
+                                    daysNum = io.getInt();
+                                }while(daysNum <= 0);
+                                io.println("");
+                                List<ShiftDTO> shiftDTOs = backendController.viewShiftsAsAdmin(daysNum);
                                 if(shiftDTOs != null) {
                                     List<String> desc = new ArrayList<>();
                                     for (ShiftDTO shift : shiftDTOs)
@@ -156,6 +164,7 @@ public class EmployeeModule {
                                     gotShift = false;
                                 }
                             }
+                            io.println("");
                             if(option == 4 && date.isBefore(LocalDate.now())){
                                 gotShift = menu.showConfirmationMenu("this shift is in the past.");
                             }
@@ -368,7 +377,7 @@ public class EmployeeModule {
                             io.print("how many " + role.toString() + " are needed? ");
                             int qtty = io.getInt();
                             backendController.defineShiftPersonnel(dayShift, morning_evening.equals("m"), role, qtty);
-                            proceed = !goBack && menu.askToProceed("update more information");
+                            proceed = menu.askToProceed("update more information");
                         } while (proceed);
                         io.println("");
                         break;
