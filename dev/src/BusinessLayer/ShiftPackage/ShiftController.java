@@ -60,7 +60,7 @@ public class ShiftController {
         if (index > 10)
             throw new IllegalArgumentException("this shift is on rest day");
         for (Shift shift: shifts)
-            if(shift.getDate().isEqual(date))
+            if(shift.getDate().isEqual(date) && shift.isMorning()==isMorning)
                 throw new IllegalArgumentException("this shift is already exists");
         activeShift = new Shift(date, isMorning);
         return shifts.add(activeShift);

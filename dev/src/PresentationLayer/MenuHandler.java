@@ -5,24 +5,25 @@ import Resources.Role;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class MenuHandler {
 
+    IOController io = IOController.getInstance();
+
     public void showMainMenu(boolean isManager) {
-        IOController io = IOController.getInstance();
         io.println("Main Menu:");
         io.println("----------------------");
         showEmployeeMenu();
         if (isManager)
             showManagerMenu();
-        io.println("Type 0 to quit");
+        io.println("Type 0 to logout");
         io.println("----------------------");
     }
 
     public String loginMenu() {
-        IOController io = IOController.getInstance();
         String ID = null;
         io.println("Type \"q\" to quit.");
         io.print("Please enter your employee ID: ");
@@ -31,14 +32,12 @@ public class MenuHandler {
     }
 
     public void showEmployeeMenu() {
-        IOController io = IOController.getInstance();
         io.println("1. View my profile");
         io.println("2. View my shifts");
         io.println("3. Change my preferences");
     }
 
     public void showManagerMenu() {
-        IOController io = IOController.getInstance();
         io.println("4. Add new shift");
         io.println("5. View shift information");
         io.println("6. View employee profile");
@@ -47,7 +46,6 @@ public class MenuHandler {
     }
 
     public boolean displaySpecificEmployees() {
-        IOController io = IOController.getInstance();
         String YES_NO = null;
         io.println("Would you like to view the employees in a specific shift?");
         do {
@@ -58,28 +56,24 @@ public class MenuHandler {
     }
 
     public int showEnterYearMenu() {
-        IOController io = IOController.getInstance();
         io.print("Please enter a year: ");
         int year = io.getInt();
         return year;
     }
 
     public int showEnterMonthMenu() {
-        IOController io = IOController.getInstance();
         io.print("Please enter a month: ");
         int month = io.getInt();
         return month;
     }
 
     public int showEnterDayMenu() {
-        IOController io = IOController.getInstance();
         io.print("Please enter a day: ");
         int day = io.getInt();
         return day;
     }
 
     public boolean showEnterMorningEvening() {
-        IOController io = IOController.getInstance();
         String answer;
 
         io.println("Is the shift in the morning or in the evening?");
@@ -92,7 +86,6 @@ public class MenuHandler {
     }
 
     public int showPreferenceMenu() {
-        IOController io = IOController.getInstance();
         io.println("Please pick one of the following preferences:");
         int i = 1;
         for (Preference preference : Preference.values()) {
@@ -108,7 +101,6 @@ public class MenuHandler {
     }
 
     public int showUpdateShiftMenu() {
-        IOController io = IOController.getInstance();
 
         io.println("What action would you like to perform?");
         io.println("----------------------");
@@ -128,7 +120,6 @@ public class MenuHandler {
     }
 
     public int showUpdateEmployeeMenu() {
-        IOController io = IOController.getInstance();
 
         io.println("What information do you want to change?");
         io.println("----------------------");
@@ -156,31 +147,21 @@ public class MenuHandler {
     }
 
     public String showEnterStringMenu(String whatToEnter) {
-        IOController io = IOController.getInstance();
-
         io.print("Please enter a new " + whatToEnter + ": ");
-
         return io.getString();
     }
 
     public int showEnterIntMenu(String whatToEnter) {
-        IOController io = IOController.getInstance();
-
         io.print("Please enter a new " + whatToEnter + ": ");
-
         return io.getInt();
     }
 
     public float showEnterFloatMenu(String whatToEnter) {
-        IOController io = IOController.getInstance();
-
         io.print("Please enter a new " + whatToEnter + ": ");
-
         return io.getFloat();
     }
 
     public List<Role> showEnterRoleList() {
-        IOController io = IOController.getInstance();
         List<Role> skills = new ArrayList<>();
         int answer = 0;
 
@@ -208,7 +189,6 @@ public class MenuHandler {
         timeFrames[5][1] = null;
         timeFrames[6][0] = null;
         timeFrames[6][1] = null;
-        IOController io = IOController.getInstance();
 
         io.println("Please pick one of the following preferences for each shift presented to you:");
         int p = 1;
@@ -261,7 +241,6 @@ public class MenuHandler {
     }
 
     public void showAvailableEmployeesMenu(Map<String, String> availableEmployees, int startIndex) {
-        IOController io = IOController.getInstance();
         String[] ids = new String[availableEmployees.size()];
         int next = startIndex;
         for (String id : availableEmployees.keySet()) {
@@ -275,7 +254,6 @@ public class MenuHandler {
     }
 
     public String showShiftPositionsMenu(Map<Role, List<String>> map) {
-        IOController io = IOController.getInstance();
         List<String> ret = new ArrayList<>();
         for (List<String> list : map.values())
             ret.addAll(list);
@@ -295,7 +273,6 @@ public class MenuHandler {
     }
 
     public Role showShiftPersonnelMenu(Map<Role, Integer> map, String msg) {
-        IOController io = IOController.getInstance();
         int i = 1;
         Role[] roles = map.keySet().toArray(new Role[0]);
         for (Role role : roles) {
@@ -304,15 +281,13 @@ public class MenuHandler {
         }
         int index;
         do {
-            io.print(msg + " Enter a number between 1 to " + Role.values().length + ": ");
-            io.print("Enter a number between 1 and " + Role.values().length + ": ");
+            io.print(msg + "\nEnter a number between 1 to " + Role.values().length + ": ");
             index = io.getInt();
         } while (index < 1 || index > Role.values().length);
         return roles[index - 1];
     }
 
     public boolean showSpecificDateMenu() {
-        IOController io = IOController.getInstance();
         io.println("1) Specific date");
         io.println("2) View shifts x days from now");
         int num;
@@ -320,13 +295,11 @@ public class MenuHandler {
             io.print("enter a number between 1 and 2: ");
             num = io.getInt();
         } while (num != 1 & num != 2);
+        io.println("");
         return num == 1;
-
-
     }
 
     public int showFutureShiftsMenu(List<String> desc) {
-        IOController io = IOController.getInstance();
         int i = 1;
         for (String str : desc) {
             io.println(i + ") " + str);
@@ -342,9 +315,10 @@ public class MenuHandler {
 
     public boolean showConfirmationMenu(String msg) {
         boolean confirmation = true;
-        IOController io = IOController.getInstance();
+        io.println("----------------------");
         io.println(msg);
         io.println("ARE YOU SURE? \n1) yes\n2) no");
+        io.println("----------------------");
         int ans;
         do {
             io.println("Enter 1 or 2 (yes/no): ");
@@ -358,9 +332,18 @@ public class MenuHandler {
     }
 
     public boolean askToProceed(String msg) {
-        IOController io = IOController.getInstance();
-        io.print("To continue type \"c\", to " + msg + " type anything else: ");
+        io.print("For the \"Main Menu\" type \"c\". To " + msg + " type anything else: ");
         String continueToAct = io.getString();
         return !continueToAct.equals("c");
     }
+
+//    public Map<Role, Map<String, String>> getPositions(Map<Role, List<String>> positions){
+//        for (Role role : positions.keySet()) {
+//            Map map = new HashMap();
+//            for (String id : positions.get(role)) {
+//                map.put(id, )
+//            }
+//        }
+//        return new HashMap<>(positions);
+//    }
 }

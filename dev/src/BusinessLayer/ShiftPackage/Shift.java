@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.*;
 import Resources.Role;
 
+import javax.naming.NoPermissionException;
+
 public class Shift {
 	private LocalDate date;
 	private boolean isMorning;
@@ -30,9 +32,14 @@ public class Shift {
 	}
 	
 	public boolean removeFromShift(String id) {
-		for (List<String> l : positions.values())
-			if(l.contains(id))
-				return l.remove(id);
+		for (Role role : positions.keySet()) {
+			List<String> l = positions.get(role);
+			if (l.contains(id)){
+				if(role.equals(Role.ShiftManager) & l.size() == 1)
+					throw new IllegalArgumentException("Add another shift manager before removing the last!");
+				else return l.remove(id);
+			}
+		}
 		return false;
 	}
 	

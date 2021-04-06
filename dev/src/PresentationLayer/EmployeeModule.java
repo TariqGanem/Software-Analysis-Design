@@ -46,9 +46,9 @@ public class EmployeeModule {
             if (ID.equals("q"))
                 break;
 
-            
+
             isManager = presentationController.getIsManager();
-	    io.println("");
+            io.println("");
 
             while (!errorOccurred && option != 0) {
                 menu.showMainMenu(isManager);
@@ -76,7 +76,6 @@ public class EmployeeModule {
 
                     //View my shifts
                     case 2:
-                        String continueToViewShift = "";
                         boolean isAssigned = presentationController.viewMyShifts();
                         if (!isAssigned) {
                             io.println("");
@@ -97,7 +96,7 @@ public class EmployeeModule {
                             LocalDate date = LocalDate.of(year, month, day);
                             boolean isMorning = menu.showEnterMorningEvening();
                             presentationController.viewSpecificShift(date, isMorning);
-                            proceed = !goBack && menu.askToProceed("view another shift");
+                            proceed = menu.askToProceed("view another shift");
                         } while (proceed);
                         io.println("");
                         break;
@@ -126,7 +125,7 @@ public class EmployeeModule {
                         io.println("");
                         break;
 
-                        //Add new shift
+                    //Add new shift
                     case 4:
 
                         //View shift
@@ -136,7 +135,7 @@ public class EmployeeModule {
                             LocalDate date = null;
                             boolean isMorning = false;
                             boolean gotShift = true;
-                            if(option == 4 || menu.showSpecificDateMenu()){
+                            if (option == 4 || menu.showSpecificDateMenu()) {
                                 do {
                                     year = menu.showEnterYearMenu();
                                     month = menu.showEnterMonthMenu();
@@ -144,33 +143,40 @@ public class EmployeeModule {
                                 } while (!presentationController.checkLegalDate(year, month, day));
                                 date = LocalDate.of(year, month, day);
                                 isMorning = menu.showEnterMorningEvening();
-                                if(option == 5)
-                                    gotShift = presentationController.viewAShiftAsAdmin(date, isMorning);
-                            }else {
+//                                if (option == 5)
+//                                    gotShift = presentationController.viewAShiftAsAdmin(date, isMorning);
+                            } else {
 
                                 int daysNum;
-                                do{
+                                do {
                                     io.print("Enter number of days: ");
                                     daysNum = io.getInt();
-                                }while(daysNum <= 0);
+                                } while (daysNum <= 0);
                                 io.println("");
-                                List<ShiftDTO> shiftDTOs = backendController.viewShiftsAsAdmin(daysNum);
-                                if(shiftDTOs != null) {
+                                List<ShiftDTO> shiftDTOs = presentationController.viewShiftsAsAdmin(daysNum);
+                                if (shiftDTOs != null) {
                                     List<String> desc = new ArrayList<>();
                                     for (ShiftDTO shift : shiftDTOs)
                                         desc.add(shift.describeShift());
                                     int index = menu.showFutureShiftsMenu(desc);
                                     date = shiftDTOs.get(index).date;
                                     isMorning = shiftDTOs.get(index).isMorning;
-                                }else{
+                                } else {
                                     gotShift = false;
                                 }
                             }
                             io.println("");
-                            if(option == 4 && date.isBefore(LocalDate.now())){
-                                gotShift = menu.showConfirmationMenu("this shift is in the past.");
+                            if (option == 4){
+                                if(date.isBefore(LocalDate.now())) {
+                                    gotShift = menu.showConfirmationMenu("this date already past.");
+                                }
+                                gotShift = gotShift && presentationController.addShift(date, isMorning);
                             }
-                            if (gotShift && (option == 5 || presentationController.addShift(date, isMorning))) {
+                            gotShift = gotShift && presentationController.viewAShiftAsAdmin(date, isMorning);
+                            io.println("");
+
+                            if (gotShift) {
+
                                 int shiftMenu = menu.showUpdateShiftMenu();
                                 switch (shiftMenu) {
                                     //go back
@@ -182,28 +188,30 @@ public class EmployeeModule {
                                         int day1 = (date.getDayOfWeek().getValue() + 1) % 7 == 0 ? 7 : (date.getDayOfWeek().getValue() + 1) % 7;
                                         int listSize = 0;
                                         Map<Role, Integer> personnel = presentationController.getPersonnelForShift(day1, isMorning);
-                                        Role role = menu.showShiftPersonnelMenu(personnel, "What employee do you want to add?");
+                                        Role role = menu.showShiftPersonnelMenu(personnel, "Which employee do you want to add?");
+                                        io.println("");
                                         Map<String, String> availableEmployees = presentationController.viewAvailableEmployees(date, isMorning, role, false);
                                         listSize += availableEmployees.size();
                                         menu.showAvailableEmployeesMenu(availableEmployees, 1);
                                         io.println("Do you want to also view the employees who marked 'CANT' on this shift?");
                                         String viewCant = "";
                                         do {
-                                            io.print("Enter \"y\" or \"n\" ");
+                                            io.print("Enter \"y\" or \"n\": ");
                                             viewCant = io.getString();
-                                        } while(!viewCant.equals("y") && !viewCant.equals("n"));
+                                        } while (!viewCant.equals("y") && !viewCant.equals("n"));
                                         Map<String, String> unavailableEmployees = null;
                                         if (viewCant.equals("y")) {
                                             unavailableEmployees = presentationController.viewAvailableEmployees(date, isMorning, role, true);
                                             listSize += unavailableEmployees.size();
                                             menu.showAvailableEmployeesMenu(unavailableEmployees, listSize);
                                         }
+                                        io.println("");
                                         io.println("Please choose from the list which employee would you like to add.");
                                         int id = 0;
                                         do {
                                             io.print("Enter a number between 1 and " + listSize + ": ");
                                             id = io.getInt();
-                                        } while(id <= 0 || id > listSize);
+                                        } while (id <= 0 || id > listSize);
                                         if (id <= availableEmployees.size())
                                             presentationController.assignToShift(availableEmployees.keySet().toArray(new String[0])[id - 1], role);
                                         else
@@ -228,7 +236,7 @@ public class EmployeeModule {
                                     case 3:
                                         //Delete shift
                                         boolean stop = false;
-                                        if(date.isBefore(LocalDate.now())){
+                                        if (date.isBefore(LocalDate.now())) {
                                             stop = menu.showConfirmationMenu("this shift has past.");
                                         }
                                         if (!stop & presentationController.removeShift(date, isMorning))
@@ -241,7 +249,8 @@ public class EmployeeModule {
 
                                 }
                             }
-                            proceed = !goBack && menu.askToProceed("view another shift");
+                            String msg = option == 5 ? "view" : "add";
+                            proceed = !goBack && menu.askToProceed(msg + " another shift");
                         } while (proceed);
                         goBack = false;
                         io.println("");
@@ -253,6 +262,7 @@ public class EmployeeModule {
                         do {
                             io.print("Please enter the ID of the employee: ");
                             viewID = io.getString();
+                            io.println("");
                             errorOccurred = presentationController.viewProfile(viewID);
                         } while (errorOccurred);
 
@@ -405,10 +415,12 @@ public class EmployeeModule {
                         } while (proceed);
                         io.println("");
                         break;
+
                 }
             }
             option = -1;
             errorOccurred = false;
         }
     }
+}
 
