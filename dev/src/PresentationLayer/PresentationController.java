@@ -12,12 +12,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-public class BackendController {
+public class PresentationController {
     private Facade facade;
     private IOController io;
     private String activeEmployee;
 
-    public BackendController() {
+    public PresentationController() {
         facade = new Facade();
         io = IOController.getInstance();
         activeEmployee = null;

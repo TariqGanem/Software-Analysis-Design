@@ -41,9 +41,8 @@ public class EmployeeController {
     public void updateEmployee(String name, String ID, int bankId, int branchId, int accountNumber, float salary, LocalDate startDate,
                                String trustFund, int freeDays, int sickDays, List<Role> skills, Preference[][] timeFrames) throws Exception {
         Employee toUpdate = getEmployee(ID);
-        if(!toUpdate.getID().equals(ID))
-            throw new IllegalArgumentException("You are not allowed to change the ID of an employee.");
         toUpdate.setName(name);
+        toUpdate.setID(ID);
         toUpdate.setBankId(bankId);
         toUpdate.setBranchId(branchId);
         toUpdate.setAccountNumber(accountNumber);

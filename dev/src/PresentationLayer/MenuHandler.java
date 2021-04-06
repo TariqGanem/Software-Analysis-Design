@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class MenuController {
+public class MenuHandler {
 
     public void showMainMenu(boolean isManager) {
         IOController io = IOController.getInstance();
@@ -133,21 +133,22 @@ public class MenuController {
         io.println("What information do you want to change?");
         io.println("----------------------");
         io.println("1) Name");
-        io.println("2) Bank id");
-        io.println("3) Branch id");
-        io.println("4) Account Number");
-        io.println("5) Salary");
-        io.println("6) Start Date");
-        io.println("7) Trust Fund");
-        io.println("8) Free Days");
-        io.println("9) Sick Days");
-        io.println("10) Skills");
+        io.println("2) ID");
+        io.println("3) Bank id");
+        io.println("4) Branch id");
+        io.println("5) Account Number");
+        io.println("6) Salary");
+        io.println("7) Start Date");
+        io.println("8) Trust Fund");
+        io.println("9) Free Days");
+        io.println("10) Sick Days");
+        io.println("11) Skills");
         io.println("Type 0 to quit");
         io.println("----------------------");
 
         int answer;
         do {
-            io.print("Enter a number between 0 and 10: ");
+            io.print("Enter a number between 0 and 11: ");
             answer = io.getInt();
         } while (answer < 0 || answer > 10);
 
