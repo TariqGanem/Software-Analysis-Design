@@ -45,48 +45,25 @@ public class PresentationController {
         return response.getErrorOccurred();
     }
 
-    public boolean viewMyShifts() {
-        ResponseT<Map<ShiftDTO, Role>> response = facade.getEmpShifts(activeEmployee);
-        if (response.getErrorOccurred())
-            io.println(response.getErrorMessage());
-        else if(response.getValue().keySet().size() == 0) {
-            io.println("You are not assigned to any shifts.");
-            return false;
-        }
-        else {
-            for (ShiftDTO shiftDTO: response.getValue().keySet()) {
-                io.println("At " + shiftDTO.describeShift() + " you are assigned as " + response.getValue().get(shiftDTO).name());
-            }
-        }
-        return true;
-    }
-
-    public boolean viewSpecificShift(LocalDate localDate, boolean isMorning) {
+    public Map<ShiftDTO, Role> viewMyShifts() {
         ResponseT<Map<ShiftDTO, Role>> response = facade.getEmpShifts(activeEmployee);
         if (response.getErrorOccurred()) {
             io.println(response.getErrorMessage());
-            return false;
-        } else if (response.getValue().keySet().size() == 0){
+            return null;
+        } else if (response.getValue().keySet().size() == 0) {
             io.println("You are not assigned to any shifts.");
-            return false;
-        }else {
-            for (ShiftDTO shiftDTO: response.getValue().keySet()) {
-                if(!shiftDTO.date.equals(localDate))
-                    continue;
-                for (Role role: shiftDTO.positions.keySet()) {
-                    io.println(role.name() + ":");
-                    for (String ID: shiftDTO.positions.get(role)) {
-                        io.println("\t" + ID + " " + facade.getEmployee(ID).getValue().name);
-                    }
-                }
-            }
-            return true;
+            return null;
         }
+        int i = 1;
+        for (ShiftDTO shiftDTO : response.getValue().keySet()) {
+            io.println(i + ") At " + shiftDTO.describeShift() + " you are assigned as " + response.getValue().get(shiftDTO).name());
+        }
+        return response.getValue();
     }
 
     public List<ShiftDTO> viewShiftsAsAdmin(int dayFromToday) {
         ResponseT<List<ShiftDTO>> res = facade.getShifts(dayFromToday);
-        if(res.getErrorOccurred()) {
+        if (res.getErrorOccurred()) {
             io.println(res.getErrorMessage());
             return null;
         }
@@ -98,14 +75,19 @@ public class PresentationController {
         if (response.getErrorOccurred()) {
             io.println(response.getErrorMessage());
             return false;
-        }else {
+        } else {
             ShiftDTO shiftDTO = response.getValue();
-            if(shiftDTO.positions.isEmpty())
+            if (shiftDTO.positions.isEmpty())
                 io.println("No employee is assigned to this shift yet.");
-            for (Role role: shiftDTO.positions.keySet()) {
+            for (Role role : shiftDTO.positions.keySet()) {
                 io.println(role.name() + ":");
-                for (String ID: shiftDTO.positions.get(role)) {
-                    io.println("\t" + ID + " " + facade.getEmployee(ID).getValue().name);
+                for (String ID : shiftDTO.positions.get(role)) {
+                    ResponseT<String> nameResponse = facade.getName(ID);
+                    if (response.getErrorOccurred()) {
+                        io.println(response.getErrorMessage());
+                        return false;
+                    }
+                    io.println("\t" + ID + " " + nameResponse.getValue());
                 }
             }
             return true;
@@ -143,7 +125,7 @@ public class PresentationController {
 
     public ShiftDTO getShift(LocalDate date, boolean isMorning) {
         ResponseT<ShiftDTO> res = facade.getShift(date, isMorning);
-        if (res.getErrorOccurred()){
+        if (res.getErrorOccurred()) {
             io.println(res.getErrorMessage());
             return null;
         }
@@ -174,23 +156,23 @@ public class PresentationController {
 
     public void defineShiftPersonnel(int day, boolean isMorning, Role role, int qtty) {
         Response res = facade.definePersonnelForShift(day, isMorning, role, qtty);
-        if(res.getErrorOccurred())
+        if (res.getErrorOccurred())
             io.println(res.getErrorMessage());
     }
 
-    public Map<Role, Integer> getPersonnelForShift(int day, boolean isMorning){
+    public Map<Role, Integer> getPersonnelForShift(int day, boolean isMorning) {
         return facade.getPersonnelForShift(day, isMorning);
     }
 
     public void assignToShift(String id, Role role) {
         Response res = facade.AssignToShift(id, role);
-        if(res.getErrorOccurred())
+        if (res.getErrorOccurred())
             io.println(res.getErrorMessage());
     }
 
-    public Map<String,String> viewAvailableEmployees(LocalDate date, boolean isMorning, Role role, boolean unavailable) {
-        ResponseT<Map<String,String>> res = facade.viewAvailableEmployees(date, isMorning, role, unavailable);
-        if(!res.getErrorOccurred())
+    public Map<String, String> viewAvailableEmployees(LocalDate date, boolean isMorning, Role role, boolean unavailable) {
+        ResponseT<Map<String, String>> res = facade.viewAvailableEmployees(date, isMorning, role, unavailable);
+        if (!res.getErrorOccurred())
             return res.getValue();
         io.println(res.getErrorMessage());
         return null;
@@ -198,7 +180,7 @@ public class PresentationController {
 
     public boolean removeFromShift(String empId) {
         Response res = facade.removeFromShift(empId);
-        if(res.getErrorOccurred()) {
+        if (res.getErrorOccurred()) {
             io.println(res.getErrorMessage());
             return false;
         }
@@ -207,7 +189,7 @@ public class PresentationController {
 
     public boolean removeShift(LocalDate date, boolean isMorning) {
         Response res = facade.removeShift(date, isMorning);
-        if(res.getErrorOccurred()) {
+        if (res.getErrorOccurred()) {
             io.println(res.getErrorMessage());
             return false;
         }
@@ -216,7 +198,7 @@ public class PresentationController {
 
     public boolean checkLegalDate(int year, int month, int day) {
         Response res = facade.checkLegalDate(year, month, day);
-        if(res.getErrorOccurred()) {
+        if (res.getErrorOccurred()) {
             io.println(res.getErrorMessage());
             return false;
         }

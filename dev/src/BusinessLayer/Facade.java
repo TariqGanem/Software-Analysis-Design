@@ -55,6 +55,16 @@ public class Facade {
         return response;
     }
 
+    public ResponseT<String> getName(String ID) {
+        ResponseT<String> response;
+        try {
+            response = new ResponseT<String>(employeeController.getName(ID));
+        } catch (Exception e) {
+            response = new ResponseT<String>(e);
+        }
+        return response;
+    }
+
     public Response setEmployee(EmployeeDTO employee) {
         Response response;
         Employee rollback = null;

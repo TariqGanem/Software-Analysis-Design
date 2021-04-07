@@ -76,26 +76,22 @@ public class EmployeeModule {
 
                     //View my shifts
                     case 2:
-                        boolean isAssigned = presentationController.viewMyShifts();
-                        if (!isAssigned) {
+                        Map<ShiftDTO, Role> myShifts = presentationController.viewMyShifts();
+                        if (myShifts == null) {
                             io.println("");
                             continue;
                         }
                         boolean displayShiftDetails = menu.displaySpecificEmployees();
-                        if (displayShiftDetails) {
+                        if (!displayShiftDetails) {
                             io.println("");
                             continue;
                         }
                         do {
-                            int year, month, day;
-                            do {
-                                year = menu.showEnterYearMenu();
-                                month = menu.showEnterMonthMenu();
-                                day = menu.showEnterDayMenu();
-                            } while (!presentationController.checkLegalDate(year, month, day));
-                            LocalDate date = LocalDate.of(year, month, day);
-                            boolean isMorning = menu.showEnterMorningEvening();
-                            presentationController.viewSpecificShift(date, isMorning);
+                            io.print("Please enter a number between 1 and " + myShifts.keySet().size() + ": ");
+                            int shiftToDisplay = io.getInt();
+                            LocalDate date = myShifts.keySet().toArray(new ShiftDTO[0])[shiftToDisplay - 1].date;
+                            boolean isMorning = myShifts.keySet().toArray(new ShiftDTO[0])[shiftToDisplay - 1].isMorning;
+                            presentationController.viewAShiftAsAdmin(date, isMorning);
                             proceed = menu.askToProceed("view another shift");
                         } while (proceed);
                         io.println("");
