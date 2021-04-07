@@ -100,7 +100,8 @@ public class PresentationController {
             return false;
         }else {
             ShiftDTO shiftDTO = response.getValue();
-            //io.println(shiftDTO.describeShift());
+            if(shiftDTO.positions.isEmpty())
+                io.println("No employee is assigned to this shift yet.");
             for (Role role: shiftDTO.positions.keySet()) {
                 io.println(role.name() + ":");
                 for (String ID: shiftDTO.positions.get(role)) {
