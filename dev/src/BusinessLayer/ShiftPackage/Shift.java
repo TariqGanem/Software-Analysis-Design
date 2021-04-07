@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.util.*;
 import Resources.Role;
 
-import javax.naming.NoPermissionException;
-
 public class Shift {
 	private LocalDate date;
 	private boolean isMorning;

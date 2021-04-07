@@ -266,7 +266,6 @@ public class EmployeeModule {
                         }
 
                         int updateIndex;
-                        String continueUpdate = null;
                         ResponseT<EmployeeDTO> newEmployee;
                         do {
                             updateIndex = menu.showUpdateEmployeeMenu();
