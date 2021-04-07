@@ -6,11 +6,12 @@ This is a managment system for the employees of Super-Market "Super-Lee".
 * Super-Lee has 11 shifts in a week (sunday-monday both morning and evening, and friday mornings).
 * The system has a pre defined user called "admin", this user is intended to be used when the system is first used. One person from the managment team should use this
   user to add the already existing employees to the system. The ID of this special user is 'admin'.
+* Employees in the managment team (called Admin/manager) are those with a Role such as HRManager or StoreManager.
 * Employees in the managment team will have permissions to assign shifts, add new employees, etc.
 * Employees not in the managment team will only be able to view their information and shifts.
 
 System Instructions:
-First of all you will need to log in to the system. Once the system is running enter your ID (You can also type 'q' to exit the system entirely).
+First of all you will need to log into the system. Once the system is running enter your ID (You can also type 'q' to exit the system entirely).
 
 (The following 3 functionalities are for all employees)
 1. View personal information: To view your own personal information enter '1' when the main menu is shown. To change your information ask a managment employee to change
@@ -29,12 +30,12 @@ First of all you will need to log in to the system. Once the system is running e
    4.1. Assign emplyoee to the shift: To assign a new employee enter '1'. You will be shown the amount of people needed for each job in the shift. Enter the the job
         you want to add right now. Now pick the employee from the list shown to you. You are required to add a shift manager before adding regular employees.
    
-   4.2. Remove employee from a shift: To remove an employee from a shift enter '2'. You will be shown a list of the employees assigned to the shift, pick one of them.
+   4.2. Remove employee from a shift: To remove an employee from a shift enter '2'. You will be shown a list of the employees id assigned to the shift, pick one of them.
 
    4.3. Delete shift: To delete this shift enter '3'.
 
    To exit the 'update shift menu' enter 0.
-   After you perform an action, to return to the main menu enter 'c', to continue looking at shifts type anything else.
+   After you perform an action, to return to the main menu enter 'c', to continue adding shifts type anything else.
 
 5. View a specific shift: To view a specific shfift enter '5' when the main menu is shown. You are now presented by two options:
    5.1. Find the shift with a specific date: You will be requested to enter the date and if its in the morning/evening.
