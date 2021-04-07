@@ -2,6 +2,7 @@ package Business_Layer.Objects;
 
 import DTO.ContactDTO;
 import DTO.SupplierDTO;
+import javafx.util.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,14 +29,56 @@ public class SupplierCard {
         this.contacts = new HashMap<>();
     }
 
-    public SupplierDTO DTO() {
-        Map<String, ContactDTO> dto_contacts = new HashMap<>();
-        for (String name : contacts.keySet()) {
-            dto_contacts.put(name, contacts.get(name).DTO());
+    public SupplierCard(SupplierDTO supplier){
+        name = supplier.getName();
+        manifactur = supplier.getManifactur();
+        company_id = supplier.getCompany_id();
+        bankAccount = supplier.getBankAccount();
+        paymentConditions = supplier.getPaymentConditions();
+        orderType = supplier.getOrderType();
+        contacts = new HashMap<>();
+        for (Map.Entry<String, ContactDTO> pair: supplier.getContacts().entrySet()) {
+            contacts.put(pair.getKey(),new ContactPerson(pair.getValue()));
         }
-        return new SupplierDTO(name, manifactur, company_id, bankAccount, paymentConditions
-                , orderType, selfPickup, dto_contacts);
+        selfPickup = supplier.isSelfPickup();
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getBankAccount() {
+        return bankAccount;
+    }
+
+    public int getCompany_id() {
+        return company_id;
+    }
+
+    public String getManifactur() {
+        return manifactur;
+    }
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public String getPaymentConditions() {
+        return paymentConditions;
+    }
+
+    public boolean isSelfPickup() {
+        return selfPickup;
+    }
+
+    public Map<String, ContactPerson> getContacts() {
+        return contacts;
+    }
+
+
+
+
+
 
     public void ChangePaymentConditions(String paymentConditions) {
         this.paymentConditions = paymentConditions;
@@ -74,4 +117,6 @@ public class SupplierCard {
             throw new Exception("There's no contact person with this name.");
         contacts.get(name).EditMethod(method, method_data);
     }
+
+
 }

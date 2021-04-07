@@ -1,8 +1,8 @@
 package Presentation_Layer;
 
 import Business_Layer.Application.Facade;
-import Business_Layer.Application.Response.DTO.ContractDTO;
 import Business_Layer.Application.Response.Response;
+import DTO.ContractDTO;
 
 import java.util.Scanner;
 

@@ -13,6 +13,13 @@ public class ContactPerson {
         this.contactMethods = contactMethods;
     }
 
+
+    public ContactPerson(ContactDTO contact){
+        name = contact.getName();
+        contactMethods = contact.getContactMethods();
+    }
+
+
     public ContactDTO DTO(){
         return new ContactDTO(name, contactMethods);
     }
@@ -34,4 +41,14 @@ public class ContactPerson {
             throw new Exception("There's no method such as this!");
         contactMethods.put(method, method_data);
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public Map<String, String> getContactMethods() {
+        return contactMethods;
+    }
+
+
 }

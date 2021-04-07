@@ -3,8 +3,8 @@ package Business_Layer.Objects;
 import DTO.ItemDTO;
 
 public class Item {
-    private int id;
-    private String name;
+    private final int id;
+    private final String name;
     private double price;
 
     public Item(int id, String name, double price) {
@@ -13,9 +13,23 @@ public class Item {
         this.price = price;
     }
 
-    public ItemDTO DTO() {
-        return new ItemDTO(id, name, price);
+    public Item (ItemDTO item){
+        id = item.getId();
+        name = item.getName();
+        price = item.getPrice();
     }
+    public int getId() {
+        return id;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
 
     public void ChangePrice(double price) {
         this.price = price;

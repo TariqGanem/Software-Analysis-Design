@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Contract {
     private Map<Integer, Item> items;
-    private QuantityReport report = null;
+    private QuantityReport report;
     private boolean selfPickup;
 
     public Contract(boolean selfPickup) {
@@ -15,12 +15,14 @@ public class Contract {
         this.selfPickup = selfPickup;
     }
 
-    public ContractDTO DTO() {
-        Map<Integer, ItemDTO> items_dto = new HashMap<>();
-        for (Integer id : items.keySet()) {
-            items_dto.put(id, items.get(id).DTO());
+    public Contract(ContractDTO contract){
+        items = new HashMap<>();
+        for (Map.Entry<Integer, ItemDTO> item:
+             contract.getItems().entrySet()) {
+            items.put(item.getKey(), new Item(item.getValue()));
         }
-        return new ContractDTO(items_dto, report != null ? report.DTO() : null, selfPickup);
+        report = new QuantityReport(contract.getReport());
+        selfPickup = contract.isSelfPickup();
     }
 
     public void AddQuantityReport() throws Exception {
@@ -63,5 +65,17 @@ public class Contract {
         if (!items.containsKey(item_id))
             throw new Exception("The contract doesn't have an item with this id!!!");
         items.get(item_id).ChangePrice(price);
+    }
+
+    public Map<Integer, Item> getItems() {
+        return items;
+    }
+
+    public QuantityReport getReport() {
+        return report;
+    }
+
+    public boolean isSelfPickup() {
+        return selfPickup;
     }
 }

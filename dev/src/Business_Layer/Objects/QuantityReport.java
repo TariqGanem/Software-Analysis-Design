@@ -11,10 +11,10 @@ public class QuantityReport {
     public QuantityReport() {
         discounts = new HashMap<>();
     }
-
-    public QuantityReportDTO DTO(){
-        return new QuantityReportDTO(discounts);
+    public QuantityReport(QuantityReportDTO quantityReport){
+        discounts = quantityReport.getDiscounts();
     }
+
     public void AddDiscount(int item_id, int quantity, double new_price) throws Exception {
         if (!discounts.containsKey(item_id))
             discounts.put(item_id, new HashMap<>());
@@ -27,5 +27,9 @@ public class QuantityReport {
         if(!discounts.containsKey(item_id))
             throw new Exception("The quantity report doesn't have this item!!!");
         discounts.remove(item_id);
+    }
+
+    public Map<Integer, Map<Integer, Double>> getDiscounts() {
+        return discounts;
     }
 }
