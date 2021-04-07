@@ -4,12 +4,10 @@ import BusinessLayer.Controllers.DriverController;
 import BusinessLayer.Controllers.LocationController;
 import BusinessLayer.Controllers.ShipmentController;
 import BusinessLayer.Controllers.TruckController;
-import BusinessLayer.DTOs.DocumentDTO;
-import BusinessLayer.DTOs.DriverDTO;
-import BusinessLayer.DTOs.LocationDTO;
-import BusinessLayer.DTOs.TruckDTO;
+import DTOs.DriverDTO;
+import DTOs.LocationDTO;
+import DTOs.TruckDTO;
 import BusinessLayer.Objects.Driver;
-import BusinessLayer.Objects.Shipment;
 import BusinessLayer.Objects.Truck;
 
 import java.util.Date;

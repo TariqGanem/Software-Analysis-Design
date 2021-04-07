@@ -1,7 +1,6 @@
 package PresentationLayer;
 
-import BusinessLayer.DTOs.TruckDTO;
-import BusinessLayer.Response;
+import DTOs.TruckDTO;
 
 import java.util.List;
 import java.util.Scanner;

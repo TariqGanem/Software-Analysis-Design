@@ -1,6 +1,6 @@
 package PresentationLayer.Handlers;
 
-import BusinessLayer.DTOs.TruckDTO;
+import DTOs.TruckDTO;
 import BusinessLayer.Facade;
 import BusinessLayer.ResponseT;
 import PresentationLayer.Printer;

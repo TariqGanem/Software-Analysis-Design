@@ -1,4 +1,4 @@
-package BusinessLayer.DTOs;
+package DTOs;
 
 import BusinessLayer.Objects.Location;
 
