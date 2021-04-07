@@ -35,7 +35,7 @@ First of all you will need to log in to the system. Once the system is running e
    4.3. Delete shift: To delete this shift enter '3'.
 
    To exit the 'update shift menu' enter 0.
-   After you perform an action, to return to the main menu enter 'c', to continue looking at shifts type anything else.
+   After you perform an action, to return to the main menu enter 'c', to continue adding/viewing shifts type anything else.
 
 5. View a specific shift: To view a specific shfift enter '5' when the main menu is shown. You are now presented by two options:
    5.1. Find the shift with a specific date: You will be requested to enter the date and if its in the morning/evening.
