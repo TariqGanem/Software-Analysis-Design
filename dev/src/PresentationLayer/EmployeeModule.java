@@ -127,17 +127,11 @@ public class EmployeeModule {
                         //View shift
                     case 5:
                         do {
-                            int year, month, day;
                             LocalDate date = null;
                             boolean isMorning = false;
                             boolean gotShift = true;
                             if (option == 4 || menu.showSpecificDateMenu()) {
-                                do {
-                                    year = menu.showEnterYearMenu();
-                                    month = menu.showEnterMonthMenu();
-                                    day = menu.showEnterDayMenu();
-                                } while (!presentationController.checkLegalDate(year, month, day));
-                                date = LocalDate.of(year, month, day);
+                                date = menu.showEnterDateMenu();
                                 isMorning = menu.showEnterMorningEvening();
 //                                if (option == 5)
 //                                    gotShift = presentationController.viewAShiftAsAdmin(date, isMorning);
@@ -314,14 +308,7 @@ public class EmployeeModule {
                                     break;
 
                                 case 7:
-                                    int year, month, day;
-                                    do {
-                                        year = menu.showEnterYearMenu();
-                                        month = menu.showEnterMonthMenu();
-                                        day = menu.showEnterDayMenu();
-                                    } while (!presentationController.checkLegalDate(year, month, day));
-                                    LocalDate date = LocalDate.of(year, month, day);
-                                    emp.startDate = date;
+                                    emp.startDate = menu.showEnterDateMenu();;
                                     break;
 
                                 case 8:
@@ -368,12 +355,7 @@ public class EmployeeModule {
                         io.print("Please enter the salary: ");
                         salary = io.getFloat();
                         io.println("Please enter the start working date:");
-                        do {
-                            year = menu.showEnterYearMenu();
-                            month = menu.showEnterMonthMenu();
-                            day = menu.showEnterDayMenu();
-                        } while (!presentationController.checkLegalDate(year, month, day));
-                        LocalDate date = LocalDate.of(year, month, day);
+                        LocalDate date = menu.showEnterDateMenu();
                         io.print("Please enter a trust fund: ");
                         trustFund = io.getString();
                         io.print("Please enter the amount of free days: ");

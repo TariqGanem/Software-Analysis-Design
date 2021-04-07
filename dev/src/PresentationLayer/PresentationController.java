@@ -195,13 +195,4 @@ public class PresentationController {
         }
         return true;
     }
-
-    public boolean checkLegalDate(int year, int month, int day) {
-        Response res = facade.checkLegalDate(year, month, day);
-        if (res.getErrorOccurred()) {
-            io.println(res.getErrorMessage());
-            return false;
-        }
-        return true;
-    }
 }

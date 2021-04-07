@@ -3,6 +3,7 @@ package PresentationLayer;
 import Resources.Preference;
 import Resources.Role;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -53,22 +54,23 @@ public class MenuHandler {
         return YES_NO.equals("y");
     }
 
-    public int showEnterYearMenu() {
-        io.print("Please enter a year: ");
-        int year = io.getInt();
-        return year;
-    }
-
-    public int showEnterMonthMenu() {
-        io.print("Please enter a month: ");
-        int month = io.getInt();
-        return month;
-    }
-
-    public int showEnterDayMenu() {
-        io.print("Please enter a day: ");
-        int day = io.getInt();
-        return day;
+    public LocalDate showEnterDateMenu(){
+        int year, month, day;
+        boolean success = false;
+        LocalDate date = null;
+        do {
+            io.print("Please enter a year: ");
+            year = io.getInt();
+            io.print("Please enter a month: ");
+            month = io.getInt();
+            io.print("Please enter a day: ");
+            day = io.getInt();
+            try{
+                date = LocalDate.of(year, month, day);
+                success = true;
+            }catch(Exception ignored){}
+        } while (!success);
+        return date;
     }
 
     public boolean showEnterMorningEvening() {
@@ -334,14 +336,4 @@ public class MenuHandler {
         String continueToAct = io.getString();
         return !continueToAct.equals("c");
     }
-
-//    public Map<Role, Map<String, String>> getPositions(Map<Role, List<String>> positions){
-//        for (Role role : positions.keySet()) {
-//            Map map = new HashMap();
-//            for (String id : positions.get(role)) {
-//                map.put(id, )
-//            }
-//        }
-//        return new HashMap<>(positions);
-//    }
 }
