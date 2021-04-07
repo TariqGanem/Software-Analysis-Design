@@ -1,17 +1,30 @@
 package DTO;
 
+import Business_Layer.Objects.Contract;
+import Business_Layer.Objects.Item;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class ContractDTO {
-    private Map<Integer, ItemDTO> items;
-    private QuantityReportDTO report = null;
-    private boolean selfPickup;
+    private final Map<Integer, ItemDTO> items;
+    private final QuantityReportDTO report;
+    private final boolean selfPickup;
 
     public ContractDTO(Map<Integer, ItemDTO> items, QuantityReportDTO report, boolean selfPickup) {
         this.items = items;
         this.report = report;
         this.selfPickup = selfPickup;
+    }
+
+    public ContractDTO(Contract contract){
+        items = new HashMap<>();
+        for (Map.Entry<Integer, Item> item:
+             contract.getItems().entrySet()) {
+            items.put(item.getKey(), new ItemDTO(item.getValue()));
+        }
+        report = new QuantityReportDTO(contract.getReport());
+        selfPickup = contract.isSelfPickup();
     }
 
     @Override
@@ -26,5 +39,17 @@ public class ContractDTO {
             output += report.toString();
         output += "===================================================" + "\n";
         return output;
+    }
+
+    public Map<Integer, ItemDTO> getItems() {
+        return items;
+    }
+
+    public QuantityReportDTO getReport() {
+        return report;
+    }
+
+    public boolean isSelfPickup() {
+        return selfPickup;
     }
 }

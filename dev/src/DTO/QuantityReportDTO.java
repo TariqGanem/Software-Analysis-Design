@@ -1,15 +1,19 @@
 package DTO;
 
+import Business_Layer.Objects.QuantityReport;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class QuantityReportDTO {
-    private Map<Integer, Map<Integer, Double>> discounts;
+    private final Map<Integer, Map<Integer, Double>> discounts;
 
     public QuantityReportDTO(Map<Integer, Map<Integer, Double>> discounts) {
         this.discounts = discounts;
     }
-
+    public QuantityReportDTO(QuantityReport quantityReport){
+        discounts = quantityReport.getDiscounts();
+    }
     @Override
     public String toString() {
         String output = "--------------------Quantity Report--------------------\n";
@@ -22,5 +26,9 @@ public class QuantityReportDTO {
         }
         output += "-------------------------------------------------------" + "\n";
         return output;
+    }
+
+    public Map<Integer, Map<Integer, Double>> getDiscounts() {
+        return discounts;
     }
 }

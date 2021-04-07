@@ -1,14 +1,21 @@
 package DTO;
 
+import Business_Layer.Objects.ContactPerson;
+
 import java.util.Map;
 
 public class ContactDTO {
-    private String name;
-    private Map<String, String> contactMethods;
+    private final String name;
+    private final Map<String, String> contactMethods;
 
     public ContactDTO(String name, Map<String, String> contactMethods) {
         this.name = name;
         this.contactMethods = contactMethods;
+    }
+
+    public ContactDTO(ContactPerson contactPerson){
+        name = contactPerson.getName();
+        contactMethods = contactPerson.getContactMethods();
     }
 
     @Override
@@ -23,4 +30,11 @@ public class ContactDTO {
         return output;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Map<String, String> getContactMethods() {
+        return contactMethods;
+    }
 }

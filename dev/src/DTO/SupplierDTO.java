@@ -1,6 +1,7 @@
 package DTO;
 
 import Business_Layer.Objects.ContactPerson;
+import Business_Layer.Objects.SupplierCard;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +28,21 @@ public class SupplierDTO {
         this.contacts = contacts;
     }
 
+    public SupplierDTO(SupplierCard supplierCard){
+        name = supplierCard.getName();
+        manifactur = supplierCard.getManifactur();
+        company_id = supplierCard.getCompany_id();
+        bankAccount = supplierCard.getBankAccount();
+        orderType = supplierCard.getOrderType();
+        selfPickup = supplierCard.isSelfPickup();
+        paymentConditions = supplierCard.getPaymentConditions();
+        this.contacts = new HashMap<>();
+        for (Map.Entry<String, ContactPerson> contacts :
+             supplierCard.getContacts().entrySet()) {
+            this.contacts.put(contacts.getKey(), new ContactDTO(contacts.getValue()));
+        }
+
+    }
     @Override
     public String toString() {
         String output = "============================================" + '\n' +
@@ -53,5 +69,37 @@ public class SupplierDTO {
             output += contacts.get(contact).toString();
         }
         return output;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getBankAccount() {
+        return bankAccount;
+    }
+
+    public int getCompany_id() {
+        return company_id;
+    }
+
+    public String getManifactur() {
+        return manifactur;
+    }
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public String getPaymentConditions() {
+        return paymentConditions;
+    }
+
+    public boolean isSelfPickup() {
+        return selfPickup;
+    }
+
+    public Map<String, ContactDTO> getContacts() {
+        return contacts;
     }
 }
