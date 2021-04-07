@@ -3,6 +3,7 @@ package BusinessLayer.Objects;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class Shipment {
     private Date date;
@@ -12,6 +13,7 @@ public class Shipment {
     private double shipmentWeight;
     private List<String> log;
     private List<Document> documents;
+    private int nextTrackingNumber;
     private Location source;
     private List<Location> destinations;
 
@@ -24,7 +26,8 @@ public class Shipment {
         this.log = new LinkedList<>();
         this.source = source;
         this.destinations = new LinkedList<>();
-        documents = new LinkedList<>();
+        this.documents = new LinkedList<>();
+        this.nextTrackingNumber = 0;
     }
 
 
@@ -64,8 +67,20 @@ public class Shipment {
         return documents;
     }
 
-    public void addDocument(Date date, String departureHour, String truckPlateNumber, String driverId, double shipmentWeight, Location source) {
-        //documents.add(new Document());
-        //TODO -
+    public int getNextTrackingNumber() {
+        return nextTrackingNumber;
     }
+
+    /**
+     *
+     * @param products
+     * @param dest
+     */
+    public void addDocument(Map<Integer, String> products, Location dest) {
+        Document d = new Document(nextTrackingNumber, products, dest);
+        documents.add(d);
+        nextTrackingNumber++;
+    }
+
+
 }

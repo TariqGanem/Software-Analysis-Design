@@ -47,11 +47,12 @@ public class DriverController {
         return data;
     }
 
-    public void checkAvailability(String driverId) throws Exception {
-        if (!getDriver(driverId).isAvailable())
-            throw new Exception("Driver is not available.");
-    }
-
+    /**
+     *
+     * @param weight
+     * @return
+     * @throws Exception
+     */
     public Driver getAvailableDriver(double weight) throws Exception {
         for (Driver d : data) {
             if (d.isAvailable() && d.getAllowedWeight() <= weight) {

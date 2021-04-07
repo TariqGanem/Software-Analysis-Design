@@ -6,6 +6,7 @@ import BusinessLayer.Objects.Shipment;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class ShipmentController {
     private List<Shipment> data;
@@ -54,13 +55,12 @@ public class ShipmentController {
                 throw new Exception("Couldn't add new shipment - Shipment already exists");
         }
         data.add(new Shipment(date, departureHour, truckPlateNumber, driverId, shipmentWeight, source));
-        addDocument(date, departureHour, truckPlateNumber, driverId, shipmentWeight, source);
     }
 
-    private void addDocument(Date date, String departureHour, String truckPlateNumber, String driverId, double shipmentWeight, Location source) throws Exception {
+    public void addDocument(Date date, String departureHour, String driverId, Location dest, Map<Integer, String> products) throws Exception {
         for (Shipment s : data) {
             if (s.getDate().compareTo(date) == 0 && s.getDepartureHour().equals(departureHour) && s.getDriverId().equals(driverId)) {
-                s.addDocument(date, departureHour, truckPlateNumber, driverId, shipmentWeight, source);
+                s.addDocument(products, dest);
                 break;
             }
         }

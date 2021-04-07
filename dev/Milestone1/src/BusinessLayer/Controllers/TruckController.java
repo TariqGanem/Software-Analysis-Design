@@ -79,6 +79,12 @@ public class TruckController {
         getTruck(truckId).backToWork();
     }
 
+    /**
+     *
+     * @param weight
+     * @return
+     * @throws Exception
+     */
     public Truck getAvailableTruck(double weight) throws Exception {
         for (Truck t: trucks) {
             if(t.isAvailable() && t.getMaxWeight() <= weight)
