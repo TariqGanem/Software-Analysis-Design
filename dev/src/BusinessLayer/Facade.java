@@ -257,15 +257,4 @@ public class Facade {
         }
         return new ResponseT<>(ret);
     }
-
-    public Response checkLegalDate(int year, int month, int day) {
-        Response response;
-        try {
-            LocalDate date = LocalDate.of(year, month, day);
-            response = new Response();
-        } catch (Exception ignored) {
-            response = new Response(new Exception("You entered an illegal date"));
-        }
-        return response;
-    }
 }
