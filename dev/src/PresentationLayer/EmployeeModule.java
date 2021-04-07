@@ -46,9 +46,9 @@ public class EmployeeModule {
             if (ID.equals("q"))
                 break;
 
-            
+
             isManager = presentationController.getIsManager();
-	    io.println("");
+            io.println("");
 
             while (!errorOccurred && option != 0) {
                 menu.showMainMenu(isManager);
@@ -126,7 +126,7 @@ public class EmployeeModule {
                         io.println("");
                         break;
 
-                        //Add new shift
+                    //Add new shift
                     case 4:
 
                         //View shift
@@ -136,7 +136,7 @@ public class EmployeeModule {
                             LocalDate date = null;
                             boolean isMorning = false;
                             boolean gotShift = true;
-                            if(option == 4 || menu.showSpecificDateMenu()){
+                            if (option == 4 || menu.showSpecificDateMenu()) {
                                 do {
                                     year = menu.showEnterYearMenu();
                                     month = menu.showEnterMonthMenu();
@@ -144,30 +144,30 @@ public class EmployeeModule {
                                 } while (!presentationController.checkLegalDate(year, month, day));
                                 date = LocalDate.of(year, month, day);
                                 isMorning = menu.showEnterMorningEvening();
-                                if(option == 5)
+                                if (option == 5)
                                     gotShift = presentationController.viewAShiftAsAdmin(date, isMorning);
-                            }else {
+                            } else {
 
                                 int daysNum;
-                                do{
+                                do {
                                     io.print("Enter number of days: ");
                                     daysNum = io.getInt();
-                                }while(daysNum <= 0);
+                                } while (daysNum <= 0);
                                 io.println("");
-                                List<ShiftDTO> shiftDTOs = backendController.viewShiftsAsAdmin(daysNum);
-                                if(shiftDTOs != null) {
+                                List<ShiftDTO> shiftDTOs = presentationController.viewShiftsAsAdmin(daysNum);
+                                if (shiftDTOs != null) {
                                     List<String> desc = new ArrayList<>();
                                     for (ShiftDTO shift : shiftDTOs)
                                         desc.add(shift.describeShift());
                                     int index = menu.showFutureShiftsMenu(desc);
                                     date = shiftDTOs.get(index).date;
                                     isMorning = shiftDTOs.get(index).isMorning;
-                                }else{
+                                } else {
                                     gotShift = false;
                                 }
                             }
                             io.println("");
-                            if(option == 4 && date.isBefore(LocalDate.now())){
+                            if (option == 4 && date.isBefore(LocalDate.now())) {
                                 gotShift = menu.showConfirmationMenu("this shift is in the past.");
                             }
                             if (gotShift && (option == 5 || presentationController.addShift(date, isMorning))) {
@@ -191,7 +191,7 @@ public class EmployeeModule {
                                         do {
                                             io.print("Enter \"y\" or \"n\" ");
                                             viewCant = io.getString();
-                                        } while(!viewCant.equals("y") && !viewCant.equals("n"));
+                                        } while (!viewCant.equals("y") && !viewCant.equals("n"));
                                         Map<String, String> unavailableEmployees = null;
                                         if (viewCant.equals("y")) {
                                             unavailableEmployees = presentationController.viewAvailableEmployees(date, isMorning, role, true);
@@ -203,7 +203,7 @@ public class EmployeeModule {
                                         do {
                                             io.print("Enter a number between 1 and " + listSize + ": ");
                                             id = io.getInt();
-                                        } while(id <= 0 || id > listSize);
+                                        } while (id <= 0 || id > listSize);
                                         if (id <= availableEmployees.size())
                                             presentationController.assignToShift(availableEmployees.keySet().toArray(new String[0])[id - 1], role);
                                         else
@@ -228,7 +228,7 @@ public class EmployeeModule {
                                     case 3:
                                         //Delete shift
                                         boolean stop = false;
-                                        if(date.isBefore(LocalDate.now())){
+                                        if (date.isBefore(LocalDate.now())) {
                                             stop = menu.showConfirmationMenu("this shift has past.");
                                         }
                                         if (!stop & presentationController.removeShift(date, isMorning))
@@ -411,4 +411,5 @@ public class EmployeeModule {
             errorOccurred = false;
         }
     }
+}
 
