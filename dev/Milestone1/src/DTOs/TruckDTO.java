@@ -9,13 +9,12 @@ public class TruckDTO {
     private double maxWeight;
     private boolean available;
 
-    public TruckDTO(String truckPlateNumber, String model, double natoWeight, double maxWeight,
-                    ShipmentDTO shipment, boolean available) {
+    public TruckDTO(String truckPlateNumber, String model, double natoWeight, double maxWeight) {
         this.truckPlateNumber = truckPlateNumber;
         this.model = model;
         this.natoWeight = natoWeight;
         this.maxWeight = maxWeight;
-        this.available = available;
+        this.available = true;
     }
 
     public TruckDTO(Truck t){

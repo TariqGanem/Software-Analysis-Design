@@ -43,6 +43,7 @@ public class Menu {
     }
 
     private void addItems() {
+        addMenuItem("Add Truck");
         addMenuItem("View All Trucks");
         addMenuItem("two");
         addMenuItem("Exit");//Keep last
@@ -50,7 +51,7 @@ public class Menu {
 
 
     private void selectItem() {
-        String inputL = null;
+        String inputL;
         do {
             inputL = scanner.nextLine();
             if (validInput(inputL)) {
@@ -64,13 +65,16 @@ public class Menu {
     private void handleSelection(int input) {
         switch (input) {
             case 1:
-                // JUST AN EXAMPLE...
-                trucksHandler.viewAllTrucks();
+                trucksHandler.addTruck();
+
                 break;
             case 2:
-                locationsHandler.doSomething();
+                trucksHandler.viewAllTrucks();
                 break;
             case 3:
+                locationsHandler.doSomething();
+                break;
+            case 4:
                 exit();
                 break;
         }

@@ -53,27 +53,40 @@ public class Printer {
         System.out.println(msg);
     }
 
-    public void viewAllTrucks(List<TruckDTO> trucks){
-        // TODO - implement printing trucks
+    public void viewAllTrucks(List<TruckDTO> trucks) {
+        for (int i = 0; i < trucks.size(); i++) {
+            System.out.println("\t" + (i + 1)
+                    + ". Truck Plate Number: " + trucks.get(i).getTruckPlateNumber()
+                    + "\t Model: " + trucks.get(i).getModel()
+                    + "\t Nato Wight: " + trucks.get(i).getNatoWeight()
+                    + "\t Max Wight: " + trucks.get(i).getMaxWeight()
+                    + "\t Available: " + (trucks.get(i).isAvailable() ? "Yes": "No")
+            );
+        }
     }
 
-//    /**
-//     * Confirmation request
-//     *
-//     * @return true if the user confirms an action, false otherwise
-//     */
-//    public boolean confirm() {
-//        System.out.print("Continue? [y/n]: ");
-//        String answer = scanner.nextLine();
-//        System.out.println();
-//        switch (answer) {
-//            case "y":
-//                return true;
-//            case "n":
-//                return false;
-//            default:
-//                confirm();
-//        }
-//        return false;
-//    }
+    public void success(String msg) {
+        System.out.println("---SUCCESS---");
+        System.out.println(msg);
+    }
+
+    /**
+     * Confirmation request
+     *
+     * @return true if the user confirms an action, false otherwise
+     */
+    public boolean confirm() {
+        System.out.print("Continue? [y/n]: ");
+        String answer = scanner.nextLine();
+        System.out.println();
+        switch (answer) {
+            case "y":
+                return true;
+            case "n":
+                return false;
+            default:
+                confirm();
+        }
+        return false;
+    }
 }
