@@ -1,18 +1,23 @@
 package PresentationLayer.Handlers;
 
+import BusinessLayer.Facade;
 import BusinessLayer.Response;
 import DTOs.TruckDTO;
-import BusinessLayer.Facade;
 import BusinessLayer.ResponseT;
 import PresentationLayer.Printer;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class TrucksHandler extends Handler {
+public class TrucksHandler{
 
-    public TrucksHandler() {
-        super();
+    private Printer printer;
+    private Scanner scanner;
+    private Facade facade;
+    public TrucksHandler(Facade facade) {
+        printer = Printer.getInstance();
+        scanner = new Scanner(System.in);
+        this.facade = facade;
     }
 
     public void addTruck() {
@@ -30,7 +35,6 @@ public class TrucksHandler extends Handler {
             printer.error(res.getMsg());
         else {
             printer.success("Truck has been added!");
-            goBack();
         }
     }
 
@@ -40,7 +44,16 @@ public class TrucksHandler extends Handler {
             printer.error(res.getMsg());
         else {
             printer.viewAllTrucks(res.getValue());
-            goBack();
+        }
+    }
+
+    protected double getDouble() {
+        while (true) {
+            try {
+                return Double.parseDouble(scanner.next());
+            } catch (Exception e) {
+                printer.error("Enter only numbers");
+            }
         }
     }
 

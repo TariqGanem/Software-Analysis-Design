@@ -1,5 +1,7 @@
 package PresentationLayer;
 
+import DTOs.TruckDTO;
+import PresentationLayer.Handlers.Handler;
 import PresentationLayer.Handlers.LocationsHandler;
 import PresentationLayer.Handlers.TrucksHandler;
 
@@ -15,15 +17,13 @@ public class Menu {
     private static Printer printer;
     private static List<String> items;
     private Scanner scanner;
-    private TrucksHandler trucksHandler;
-    private LocationsHandler locationsHandler;
+    private static Handler handler;
 
     private Menu() {
         printer = Printer.getInstance();
         items = new LinkedList<>();
         scanner = new Scanner(System.in);
-        trucksHandler = new TrucksHandler();
-        locationsHandler = new LocationsHandler();
+        handler = Handler.getInstance();
     }
 
     public static Menu getInstance() {
@@ -43,9 +43,15 @@ public class Menu {
     }
 
     private void addItems() {
+        addMenuItem("Initialize System Data");
         addMenuItem("Add Truck");
+        addMenuItem("Add Driver");
+        addMenuItem("Add Location");
         addMenuItem("View All Trucks");
-        addMenuItem("two");
+        addMenuItem("View All Drivers");
+        addMenuItem("View All Locations");
+        addMenuItem("View All Shipment Transportations");
+        addMenuItem("Track Shipment");
         addMenuItem("Exit");//Keep last
     }
 
@@ -65,16 +71,27 @@ public class Menu {
     private void handleSelection(int input) {
         switch (input) {
             case 1:
-                trucksHandler.addTruck();
-
+                (new DataInitializer(handler.getFacade())).initialize();
                 break;
             case 2:
-                trucksHandler.viewAllTrucks();
+                handler.getTruckHandler().addTruck();
                 break;
             case 3:
-                locationsHandler.doSomething();
+
                 break;
             case 4:
+                handler.getLocationHandler().doSomething();
+                break;
+            case 5:
+                handler.getTruckHandler().viewAllTrucks();
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
                 exit();
                 break;
         }
