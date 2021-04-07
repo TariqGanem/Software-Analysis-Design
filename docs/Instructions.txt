@@ -16,7 +16,8 @@ First of all you will need to log in to the system. Once the system is running e
 1. View personal information: To view your own personal information enter '1' when the main menu is shown. To change your information ask a managment employee to change
    the information for you.
 
-2. View my upcoming shifts: To view your upcoming shifts enter '2' when the main menu is shown.
+2. View my upcoming shifts: To view your upcoming shifts enter '2' when the main menu is shown. You will see all of your shifts in a list. You will be asked if you want
+   to view the other employees who are assigned with you, answer yes or no. If you answer yes, pick a shift from the list.
 
 3. Change my shift preferences: To change your shift preferences (i.e. when can you work, cant you work, want to work) enter '3' when the mainmenu is shown.
    Shift preferences are stored in the system for each 11 shifts in a week. Employees who want to change their preferences will have to login to the system and change
