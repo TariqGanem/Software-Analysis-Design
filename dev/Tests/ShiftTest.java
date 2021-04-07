@@ -32,7 +32,9 @@ public class ShiftTest {
 	public void testRemoveFromShift() {
 		shift.assignEmployee(Role.ShiftManager, "1234");
 		assertEquals(shift.isAssignedToShift("1234"), Role.ShiftManager);
-		shift.removeFromShift("1234");
-		assertNull(shift.isAssignedToShift("1234"));
+		shift.assignEmployee(Role.Cashier, "2345");
+		assertEquals(shift.isAssignedToShift("2345"), Role.Cashier);
+		shift.removeFromShift("2345");
+		assertNull(shift.isAssignedToShift("2345"));
 	}
 }
