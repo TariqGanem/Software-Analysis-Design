@@ -36,7 +36,7 @@ public class ShiftController {
         int amountPlanned = sp.getQtty(getDay(activeShift.getDate()), activeShift.isMorning()).get(skill);
         int actualAmount = activeShift.assignEmployee(skill, id);
         if (actualAmount > amountPlanned)
-            throw new IndexOutOfBoundsException("note that you've planned " + amountPlanned + " " + skill + "\n and now the amount is - " + actualAmount);
+            throw new IndexOutOfBoundsException("Note that you only needed " + amountPlanned + " " + skill + "s\nAnd now the amount is - " + actualAmount);
         return true;
     }
 

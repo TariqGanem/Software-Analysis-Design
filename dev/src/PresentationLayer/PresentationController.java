@@ -109,7 +109,7 @@ public class PresentationController {
             responseOfGet.getValue().timeFrames[day][0] = preference;
         else
             responseOfGet.getValue().timeFrames[day][1] = preference;
-        Response responseOfSet = facade.setEmployee(responseOfGet.getValue());
+        Response responseOfSet = facade.setEmployee(responseOfGet.getValue().ID, responseOfGet.getValue());
         if (responseOfSet.getErrorOccurred())
             io.println(responseOfSet.getErrorMessage());
     }
@@ -139,10 +139,12 @@ public class PresentationController {
         return response;
     }
 
-    public void setEmployeeDTO(EmployeeDTO employee) {
-        Response response = facade.setEmployee(employee);
+    public void setEmployeeDTO(String oldID, EmployeeDTO employee) {
+        Response response = facade.setEmployee(oldID, employee);
         if (response.getErrorOccurred())
             io.println(response.getErrorMessage());
+        else
+            activeEmployee = employee.ID;
     }
 
     public void addEmployee(String name, String ID, int bankId, int branchId, int accountNumber, float salary,

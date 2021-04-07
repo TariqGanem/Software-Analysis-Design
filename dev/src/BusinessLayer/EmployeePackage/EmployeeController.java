@@ -44,11 +44,15 @@ public class EmployeeController {
         throw new IllegalArgumentException("No employee with the ID: " + ID + " was found in the system.");
     }
 
-    public void updateEmployee(String name, String ID, int bankId, int branchId, int accountNumber, float salary, LocalDate startDate,
+    public void updateEmployee(String oldID, String name, String newID, int bankId, int branchId, int accountNumber, float salary, LocalDate startDate,
                                String trustFund, int freeDays, int sickDays, List<Role> skills, Preference[][] timeFrames) throws Exception {
-        Employee toUpdate = getEmployee(ID);
+        Employee toUpdate = getEmployee(oldID);
         toUpdate.setName(name);
-        toUpdate.setID(ID);
+        if (!oldID.equals(newID))
+            for (String empID: employees.keySet())
+                if (empID.equals(newID))
+                    throw new IllegalArgumentException("There is already a user with the ID " + newID + " in the system.");
+        toUpdate.setID(newID);
         toUpdate.setBankId(bankId);
         toUpdate.setBranchId(branchId);
         toUpdate.setAccountNumber(accountNumber);
@@ -59,6 +63,10 @@ public class EmployeeController {
         toUpdate.setSickDays(sickDays);
         toUpdate.setSkills(skills);
         toUpdate.setTimeFrames(timeFrames);
+        if (!oldID.equals(newID)) {
+            employees.remove(oldID);
+            employees.put(newID, toUpdate);
+        }
     }
 
     public void addEmployee(String name, String ID, int bankId, int branchId, int accountNumber,

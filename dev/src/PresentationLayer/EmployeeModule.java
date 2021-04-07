@@ -278,6 +278,7 @@ public class EmployeeModule {
                                 continue;
                             }
                             EmployeeDTO emp = presentationController.getEmployeeDTO(viewID).getValue();
+                            String oldID = emp.ID;
                             switch (updateIndex) {
                                 case 0:
                                     //go back
@@ -327,7 +328,7 @@ public class EmployeeModule {
                                     emp.skills = menu.showEnterRoleList();
                                     break;
                             }
-                            presentationController.setEmployeeDTO(emp);
+                            presentationController.setEmployeeDTO(oldID, emp);
                             proceed = !goBack && menu.askToProceed("change another field");
                         } while (proceed);
                         goBack = false;

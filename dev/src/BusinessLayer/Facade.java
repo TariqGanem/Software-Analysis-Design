@@ -65,27 +65,27 @@ public class Facade {
         return response;
     }
 
-    public Response setEmployee(EmployeeDTO employee) {
+    public Response setEmployee(String oldID, EmployeeDTO employee) {
         Response response;
         Employee rollback = null;
         List<Role> rollbackSkills = null;
         LocalDate rollbackDate = null;
         Preference[][] rollbackTimeFrames = new Preference[7][2];
         try {
-            rollbackSkills = new ArrayList<>(employeeController.getEmployee(employee.ID).getSkills());
-            rollbackDate = employeeController.getEmployee(employee.ID).getStartDate();
+            rollbackSkills = new ArrayList<>(employeeController.getEmployee(oldID).getSkills());
+            rollbackDate = employeeController.getEmployee(oldID).getStartDate();
             for (int i = 0; i < 7; i++)
                 for (int j = 0; j < 2; j++)
-                    rollbackTimeFrames[i][j] = employeeController.getEmployee(employee.ID).getTimeFrames()[i][j];
-            rollback = employeeController.getEmployee(employee.ID);
+                    rollbackTimeFrames[i][j] = employeeController.getEmployee(oldID).getTimeFrames()[i][j];
+            rollback = employeeController.getEmployee(oldID);
 
-            employeeController.updateEmployee(employee.name, employee.ID, employee.bankId, employee.branchId, employee.accountNumber, employee.salary,
+            employeeController.updateEmployee(rollback.getID(), employee.name, employee.ID, employee.bankId, employee.branchId, employee.accountNumber, employee.salary,
                     employee.startDate, employee.trustFund, employee.freeDays, employee.sickDays, employee.skills, employee.timeFrames);
             response = new Response();
         } catch (Exception e) {
             response = new Response(e);
             try {
-                employeeController.updateEmployee(rollback.getName(), rollback.getID(), rollback.getBankId(), rollback.getBranchId(), rollback.getAccountNumber(),
+                employeeController.updateEmployee(rollback.getID(), rollback.getName(), rollback.getID(), rollback.getBankId(), rollback.getBranchId(), rollback.getAccountNumber(),
                         rollback.getSalary(), rollbackDate, rollback.getTrustFund(), rollback.getFreeDays(), rollback.getSickDays(), rollbackSkills, rollbackTimeFrames);
             } catch (Exception ignored) {
             }
@@ -169,8 +169,10 @@ public class Facade {
                 throw new IllegalArgumentException("invalid id.");
             if (!employeeController.isManager())
                 throw new NoPermissionException("this act can be performed by managers only.");
+            List<Role> roles = employeeController.getEmployee(id).getSkills();
+            if (roles.stream().noneMatch(x -> x.name().equals(skill.name())))
+                throw new NoPermissionException("this employee doesn't have the correct roles.");
             shiftController.AssignToShift(id, skill);
-            // add exception when the employee does not have the skill
         } catch (Exception e) {
             return new Response(e);
         }

@@ -18,6 +18,7 @@ public class InitializeData {
     private void initializeEmployees(PresentationController presentationController) {
         List roles = new ArrayList<Role>();
         roles.add(Role.StoreManager);
+        roles.add(Role.ShiftManager);
         String name = "Mr. Krabs";
         String ID1 = "123456789";
         int bankId = 10;

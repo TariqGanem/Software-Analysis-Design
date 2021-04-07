@@ -281,7 +281,7 @@ public class MenuHandler {
         }
         int index;
         do {
-            io.print(msg + "\nEnter a number between 1 to " + Role.values().length + ": ");
+            io.print(msg + "\nEnter a number between 1 and " + Role.values().length + ": ");
             index = io.getInt();
         } while (index < 1 || index > Role.values().length);
         return roles[index - 1];
