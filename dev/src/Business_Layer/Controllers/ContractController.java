@@ -64,7 +64,7 @@ public class ContractController {
     public ContractDTO PrintContract(int company_id) throws Exception {
         if (!contracts.containsKey(company_id))
             throw new Exception("There's no contract with this company id!!!");
-        return contracts.get(company_id).DTO();
+        return new ContractDTO(contracts.get(company_id));
     }
 
     public void RemoveContract(int company_id) throws Exception {
