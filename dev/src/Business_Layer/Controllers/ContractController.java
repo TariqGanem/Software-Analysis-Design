@@ -7,12 +7,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ContractController {
+    private static ContractController instance;
     private Map<Integer, Contract> contracts;
 
-    public ContractController() {
+    private ContractController() {
         contracts = new HashMap<>();
     }
 
+    public static ContractController getInstance(){
+        if (instance==null)
+            instance = new ContractController();
+        return instance;
+    }
     public void AddContract(int company_id, boolean selfPickup) throws Exception {
         if (contracts.containsKey(company_id))
             throw new Exception("There's already supplier working with this company!!!");

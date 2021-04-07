@@ -6,19 +6,20 @@ import Business_Layer.Application.Response.Response;
 import Business_Layer.Controllers.*;
 import Business_Layer.Controllers.OrderController;
 import Business_Layer.Controllers.SupplierController;
+import com.sun.org.apache.xpath.internal.operations.Or;
 
 import java.util.Map;
 
 public class Facade {
-    private static Facade instance = null;
+    private static   Facade instance;
     private SupplierController sc;
     private ContractController cc;
     private OrderController oc;
 
     public Facade() {
-        sc = new SupplierController();
-        cc = new ContractController();
-        oc = new OrderController();
+        sc = SupplierController.getInstance();
+        cc = ContractController.getInstance();
+        oc = OrderController.getInstance();
     }
 
     public static Facade getInstance() {

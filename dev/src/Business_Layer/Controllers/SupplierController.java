@@ -1,4 +1,4 @@
-package sBusiness_Layer.Controllers;
+package Business_Layer.Controllers;
 
 import DTO.SupplierDTO;
 import Business_Layer.Objects.SupplierCard;
@@ -7,10 +7,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SupplierController {
+    private static SupplierController instance;
     private Map<Integer, SupplierCard> suppliers;
 
-    public SupplierController() {
+
+    private SupplierController() {
         suppliers = new HashMap<>();
+    }
+
+    public static SupplierController getInstance() {
+        if(instance == null)
+            instance = new SupplierController();
+        return instance;
     }
 
     public void AddSupplier(String name, String manifactur, int company_id, int BankAccount,
@@ -42,7 +50,7 @@ public class SupplierController {
     public SupplierDTO PrintSupplierCard(int company_id) throws Exception {
         if (!suppliers.containsKey(company_id))
             throw new Exception("There's no supplier working with this company!!!");
-        return suppliers.get(company_id).DTO();
+        return new SupplierDTO(suppliers.get(company_id));
     }
 
     public void AddContactPerson(int company_id, String name, Map<String, String> contactMethods) throws Exception {
@@ -60,7 +68,7 @@ public class SupplierController {
     public SupplierDTO PrintAllContacts(int company_id) throws Exception {
         if (!suppliers.containsKey(company_id))
             throw new Exception("There's no supplier working with this company!!!");
-        return suppliers.get(company_id).DTO();
+        return new SupplierDTO(suppliers.get(company_id));
     }
 
     public void AddMethod(int company_id, String name, String method, String method_data) throws Exception {
