@@ -57,7 +57,7 @@ public class ShipmentController {
         data.add(new Shipment(date, departureHour, truckPlateNumber, driverId, shipmentWeight, source));
     }
 
-    public void addDocument(Date date, String departureHour, String driverId, Location dest, Map<Integer, String> products) throws Exception {
+    public void addDocument(Date date, String departureHour, String driverId, Location dest, Map<String, Integer> products) throws Exception {
         for (Shipment s : data) {
             if (s.getDate().compareTo(date) == 0 && s.getDepartureHour().equals(departureHour) && s.getDriverId().equals(driverId)) {
                 s.addDocument(products, dest);

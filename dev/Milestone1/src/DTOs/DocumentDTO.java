@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class DocumentDTO {
     private int trackingNumber;
-    private Map<Integer, String> products;
+    private Map<String, Integer> products;
     private Location destination;
 
     public DocumentDTO(Document d){

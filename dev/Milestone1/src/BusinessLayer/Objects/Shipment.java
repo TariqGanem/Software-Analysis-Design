@@ -76,7 +76,7 @@ public class Shipment {
      * @param products
      * @param dest
      */
-    public void addDocument(Map<Integer, String> products, Location dest) {
+    public void addDocument(Map<String, Integer> products, Location dest) {
         Document d = new Document(nextTrackingNumber, products, dest);
         documents.add(d);
         nextTrackingNumber++;

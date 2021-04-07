@@ -8,7 +8,7 @@ public class LocationDTO {
     private String address;
     private String phoneNumber;
     private String contactName;
-    private Map<Integer, String> products;
+    private Map<String, Integer> products;
 
     public LocationDTO(Location location){
         address = location.getAddress();
@@ -29,7 +29,7 @@ public class LocationDTO {
         return contactName;
     }
 
-    public Map<Integer, String> getProducts() {
+    public Map<String, Integer> getProducts() {
         return products;
     }
 }

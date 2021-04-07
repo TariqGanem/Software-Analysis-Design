@@ -8,7 +8,7 @@ public class Location {
     private String address;
     private String phoneNumber;
     private String contactName;
-    private Map<Integer, String> products;
+    private Map<String, Integer> products;
 
     public Location(String address, String phoneNumber, String contactName) {
         this.address = address;
@@ -29,11 +29,11 @@ public class Location {
         return contactName;
     }
 
-    public Map<Integer, String> getProducts() {
+    public Map<String, Integer> getProducts() {
         return products;
     }
 
-    public void setProducts(Map<Integer, String> prods){
+    public void setProducts(Map<String, Integer> prods){
         products = prods;
     }
 }

@@ -157,19 +157,18 @@ public class Facade {
      * @param departureHour
      * @param weight
      * @param source
-     * @param dests
-     * @param products
+     * @param binds
      * @return
      */
-    public Response arrangeDelivery(Date date, String departureHour, double weight, String source, List<String> dests, Map<Integer, String> products) {
+    public Response arrangeDelivery(Date date, String departureHour, double weight, String source, Map<String, Map<String, Integer>> binds) {
         try {
             DriverDTO driver = new DriverDTO(driverController.getAvailableDriver(weight));
             TruckDTO truck = new TruckDTO(truckController.getAvailableTruck(weight));
             weighTruck(truck.getTruckPlateNumber(), date, departureHour, driver.getId());
             Location s = locationController.getLocation(source);
             shipmentController.addShipment(date, departureHour, truck.getTruckPlateNumber(), driver.getId(), weight, s);
-            for (String d: dests) {
-                shipmentController.addDocument(date, departureHour, driver.getId(), locationController.getLocation(d), products);
+            for (String d: binds.keySet()) {
+                shipmentController.addDocument(date, departureHour, driver.getId(), locationController.getLocation(d), binds.get(d));
             }
             return new Response();
         } catch (Exception e) {
