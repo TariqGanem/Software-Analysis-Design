@@ -242,10 +242,9 @@ public class EmployeeControllerTest {
         employeeController.login("123456789");
 
         try {
-            employeeController.updateEmployee(name, "987654321", bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
-            fail("Tried to change an employee ID but failed.");
+            employeeController.updateEmployee("123456789",name, "987654321", bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
         } catch (Exception e) {
-            assertTrue(e instanceof IllegalArgumentException);
+            fail("Tried to change an employee ID but failed.");
         }
     }
 

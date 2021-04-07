@@ -57,7 +57,10 @@ public class ShiftControllerTest {
         }catch (Exception ignored){}
         sc.addShift(LocalDate.now(), false);
         sc.AssignToShift("1234", Role.ShiftManager);
-        assertTrue(sc.removeFromShift("1234"));
+        try {
+            assertTrue(sc.removeFromShift("1234"));
+            fail("removed the last shift manager in the shift");
+        } catch (Exception ignored) {}
     }
 
     @Test

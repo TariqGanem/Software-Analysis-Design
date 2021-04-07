@@ -76,20 +76,22 @@ public class EmployeeModule {
 
                     //View my shifts
                     case 2:
-                        boolean isAssigned = presentationController.viewMyShifts();
-                        if (!isAssigned) {
+                        Map<ShiftDTO, Role> myShifts = presentationController.viewMyShifts();
+                        if (myShifts == null) {
                             io.println("");
                             continue;
                         }
                         boolean displayShiftDetails = menu.displaySpecificEmployees();
-                        if (displayShiftDetails) {
+                        if (!displayShiftDetails) {
                             io.println("");
                             continue;
                         }
                         do {
-                            LocalDate date = menu.showEnterDateMenu();
-                            boolean isMorning = menu.showEnterMorningEvening();
-                            presentationController.viewSpecificShift(date, isMorning);
+                            io.print("Please enter a number between 1 and " + myShifts.keySet().size() + ": ");
+                            int shiftToDisplay = io.getInt();
+                            LocalDate date = myShifts.keySet().toArray(new ShiftDTO[0])[shiftToDisplay - 1].date;
+                            boolean isMorning = myShifts.keySet().toArray(new ShiftDTO[0])[shiftToDisplay - 1].isMorning;
+                            presentationController.viewAShiftAsAdmin(date, isMorning);
                             proceed = menu.askToProceed("view another shift");
                         } while (proceed);
                         io.println("");
@@ -275,6 +277,7 @@ public class EmployeeModule {
                                 continue;
                             }
                             EmployeeDTO emp = presentationController.getEmployeeDTO(viewID).getValue();
+                            String oldID = emp.ID;
                             switch (updateIndex) {
                                 case 0:
                                     //go back
@@ -324,7 +327,7 @@ public class EmployeeModule {
                                     emp.skills = menu.showEnterRoleList();
                                     break;
                             }
-                            presentationController.setEmployeeDTO(emp);
+                            presentationController.setEmployeeDTO(oldID, emp);
                             proceed = !goBack && menu.askToProceed("change another field");
                         } while (proceed);
                         goBack = false;
