@@ -2,19 +2,25 @@ package Business_Layer.Controllers;
 
 import Business_Layer.Objects.Order;
 import DTO.OrderDTO;
+import DTO.Status;
+import com.sun.org.apache.xpath.internal.operations.Or;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class OrderController {
     private static OrderController instance = null;
-    Queue<Order> activeOrders;
-    Queue<Order> archivedOrders;
+
+    Map<Integer, Order> activeOrders;
+    Map<Integer, Order> archivedOrders;
 
     private OrderController(){
-        activeOrders = new PriorityQueue<>();
-        archivedOrders = new PriorityQueue<>();
+        activeOrders = new HashMap<>();
+        archivedOrders = new HashMap<>();
     }
 
     public static OrderController getInstance(){
@@ -27,19 +33,41 @@ public class OrderController {
 
     // return type of functions may differ in coming development's levels
     public void placeAnOrder(OrderDTO order){
-        this.activeOrders.add(new Order(order));
+        this.activeOrders.put(order.getId(),new Order(order));
     }
 
-    public void completeAnOrder(OrderDTO order){}
-    public void cancelAnOrder(OrderDTO order){
-
+    public void completeAnOrder(int orderID){
+        if (activeOrders.containsKey(orderID)){
+            Order order = activeOrders.remove(orderID);
+            order.setNewStatus(Status.Completed);
+            archive(order);
+        }
+    }
+    public void cancelAnOrder(int orderID){
+        if (activeOrders.containsKey(orderID)){
+            Order order = activeOrders.remove(orderID);
+            order.setNewStatus(Status.Canceled);
+            archive(order);
+        }
 
     }
 
-    public void editAnOrder(OrderDTO order){}
+    public void rescheduleAnOrder(int orderID, LocalDate newDate){
 
-    public void rescheduleAnOrder(OrderDTO order){}
+        if (activeOrders.containsKey(orderID)){
+            Order order = activeOrders.remove(orderID);
+            if (newDate.isAfter(order.getOrderDate()))
+                order.setNewDate(newDate);
+            else
+                throw new DateTimeException("date should be more later than: "+ order.getOrderDate());
 
-    public void scheduleAnOrder(OrderDTO order){}
+        }
+    }
+
+    private void archive(Order order) {
+        if (order != null) {
+            archivedOrders.put(order.getId(), order);
+        }
+    }
 
 }
