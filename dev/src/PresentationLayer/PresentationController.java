@@ -57,6 +57,7 @@ public class PresentationController {
         int i = 1;
         for (ShiftDTO shiftDTO : response.getValue().keySet()) {
             io.println(i + ") At " + shiftDTO.describeShift() + " you are assigned as " + response.getValue().get(shiftDTO).name());
+            i++;
         }
         return response.getValue();
     }
