@@ -3,6 +3,7 @@ package Presentation_Layer;
 import Business_Layer.Application.Facade;
 import DTO.SupplierDTO;
 import Business_Layer.Application.Response.Response;
+import enums.ContactMethod;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -172,10 +173,10 @@ public class SuppliersMenu implements Menu {
                                 "method's name-method's data:method's name-method's data:....:method's name-method's data");
                         String methods_inputs = sc.nextLine();
                         String[] split_methods = methods_inputs.split(":");
-                        Map<String, String> methods = new HashMap<>();
-                        for (String method:split_methods) {
-                            methods.putIfAbsent(method.split("-")[0],method.split("-")[1]);
-                        }
+                        Map<ContactMethod, String> methods = new HashMap<>();
+                  //      for (ContactMethod method:split_methods) {
+                 //           methods.putIfAbsent(method.split("-")[0],method.split("-")[1]);
+                 //       }
                         Response supplier = facade.AddContactPerson(company_id, name, methods);
                         if(supplier.isError())
                             System.out.println(supplier.getErrorMessage());
@@ -225,11 +226,33 @@ public class SuppliersMenu implements Menu {
                         company_id = Integer.parseInt(sc.nextLine());
                         System.out.print("Enter the person's name: ");
                         String person_name = sc.nextLine();
-                        System.out.print("Enter the method's name: ");
-                        String method_name = sc.nextLine();
+                        System.out.print("Choose a contact method: \n" +
+                                "1.Email\n" +
+                                "2.Mobile\n" +
+                                "3.Phone\n" +
+                                "4.Fax");
+
+                        int contactMethod = sc.nextInt();
+                        ContactMethod method = null;
+                        switch (contactMethod){
+                            case 1:
+                                method = ContactMethod.Email;
+                                break;
+                            case 2:
+                                method = ContactMethod.Mobile;
+                                break;
+                            case 3:
+                                method = ContactMethod.Phone;
+                                break;
+                            case 4:
+                                method = ContactMethod.Fax;
+                                break;
+                            default:
+                                System.out.println("chosee a number from 1 till 4:");
+                        }
                         System.out.print("Enter the method's data: ");
                         String method_data = sc.nextLine();
-                        Response supplier = facade.EditMethod(company_id, person_name, method_name, method_data);
+                        Response supplier = facade.EditMethod(company_id, person_name, method, method_data);
                         if(supplier.isError())
                             System.out.println(supplier.getErrorMessage());
                         else

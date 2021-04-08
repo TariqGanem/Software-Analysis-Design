@@ -2,6 +2,7 @@ package Business_Layer.Objects;
 
 import DTO.ContactDTO;
 import DTO.SupplierDTO;
+import enums.ContactMethod;
 import javafx.util.Pair;
 
 import java.util.HashMap;
@@ -88,7 +89,7 @@ public class SupplierCard {
         this.bankAccount = bankAccount;
     }
 
-    public void AddContactPreson(String name, Map<String, String> contactMethods) throws Exception {
+    public void AddContactPreson(String name, Map<ContactMethod, String> contactMethods) throws Exception {
         if (contacts.containsKey(name))
             throw new Exception("There's already a contact person with this name.");
         contacts.put(name, new ContactPerson(name, contactMethods));
@@ -100,19 +101,19 @@ public class SupplierCard {
         contacts.remove(name);
     }
 
-    public void AddMethod(String name, String method, String method_data) throws Exception {
+    public void AddMethod(String name, ContactMethod method, String method_data) throws Exception {
         if (!contacts.containsKey(name))
             throw new Exception("There's no contact person with this name.");
         contacts.get(name).AddMethod(method, method_data);
     }
 
-    public void RemoveMethod(String name, String method) throws Exception {
+    public void RemoveMethod(String name, ContactMethod method) throws Exception {
         if (!contacts.containsKey(name))
             throw new Exception("There's no contact person with this name.");
         contacts.get(name).RemoveMethod(method);
     }
 
-    public void EditMethod(String name, String method, String method_data) throws Exception {
+    public void EditMethod(String name, ContactMethod method, String method_data) throws Exception {
         if (!contacts.containsKey(name))
             throw new Exception("There's no contact person with this name.");
         contacts.get(name).EditMethod(method, method_data);

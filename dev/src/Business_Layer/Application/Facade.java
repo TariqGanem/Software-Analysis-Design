@@ -7,6 +7,7 @@ import Business_Layer.Controllers.*;
 import Business_Layer.Controllers.OrderController;
 import Business_Layer.Controllers.SupplierController;
 import com.sun.org.apache.xpath.internal.operations.Or;
+import enums.ContactMethod;
 
 import java.util.Map;
 
@@ -79,7 +80,7 @@ public class Facade {
         }
     }
 
-    public Response AddContactPerson(int company_id, String name, Map<String, String> contactMethods) {
+    public Response AddContactPerson(int company_id, String name, Map<ContactMethod, String> contactMethods) {
         try {
             sc.AddContactPerson(company_id, name, contactMethods);
             return new Response();
@@ -97,7 +98,7 @@ public class Facade {
         }
     }
 
-    public Response AddMethod(int company_id, String name, String method, String method_data) {
+    public Response AddMethod(int company_id, String name, ContactMethod method, String method_data) {
         try {
             sc.AddMethod(company_id, name, method, method_data);
             return new Response();
@@ -106,7 +107,7 @@ public class Facade {
         }
     }
 
-    public Response RemoveMethod(int company_id, String name, String method) {
+    public Response RemoveMethod(int company_id, String name, ContactMethod method) {
         try {
             sc.RemoveMethod(company_id, name, method);
             return new Response();
@@ -115,7 +116,7 @@ public class Facade {
         }
     }
 
-    public Response EditMethod(int company_id, String name, String method, String method_data) {
+    public Response EditMethod(int company_id, String name, ContactMethod method, String method_data) {
         try {
             sc.EditMethod(company_id, name, method, method_data);
             return new Response();
