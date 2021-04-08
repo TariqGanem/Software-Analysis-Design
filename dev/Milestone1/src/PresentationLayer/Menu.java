@@ -1,5 +1,6 @@
 package PresentationLayer;
 
+import BusinessLayer.Facade;
 import DTOs.TruckDTO;
 import PresentationLayer.Handlers.Handler;
 import PresentationLayer.Handlers.LocationsHandler;
@@ -14,16 +15,20 @@ import java.util.Scanner;
  */
 public class Menu {
     private static Menu instance = null;
-    private static Printer printer;
-    private static List<String> items;
+    private Printer printer;
+    private List<String> items;
     private Scanner scanner;
-    private static Handler handler;
+    private TrucksHandler trucksHandler;
+    private LocationsHandler locationsHandler;
+    private Facade facade;
 
     private Menu() {
         printer = Printer.getInstance();
         items = new LinkedList<>();
         scanner = new Scanner(System.in);
-        handler = Handler.getInstance();
+        facade = new Facade();
+        trucksHandler = new TrucksHandler(facade);
+        locationsHandler = new LocationsHandler(facade);
     }
 
     public static Menu getInstance() {
@@ -71,19 +76,19 @@ public class Menu {
     private void handleSelection(int input) {
         switch (input) {
             case 1:
-                (new DataInitializer(handler.getFacade())).initialize();
+                (new DataInitializer(facade)).initialize();
                 break;
             case 2:
-                handler.getTruckHandler().addTruck();
+                trucksHandler.addTruck();
                 break;
             case 3:
 
                 break;
             case 4:
-                handler.getLocationHandler().doSomething();
+                locationsHandler.doSomething();
                 break;
             case 5:
-                handler.getTruckHandler().viewAllTrucks();
+                trucksHandler.viewAllTrucks();
                 break;
             case 6:
                 break;
@@ -121,7 +126,7 @@ public class Menu {
         printer.viewOptions(items);
     }
 
-    private static void addMenuItem(String item) {
+    private void addMenuItem(String item) {
         items.add(item);
     }
 

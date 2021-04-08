@@ -9,14 +9,10 @@ import PresentationLayer.Printer;
 import java.util.List;
 import java.util.Scanner;
 
-public class TrucksHandler{
-
-    private Printer printer;
-    private Scanner scanner;
+public class TrucksHandler extends Handler{
     private Facade facade;
+
     public TrucksHandler(Facade facade) {
-        printer = Printer.getInstance();
-        scanner = new Scanner(System.in);
         this.facade = facade;
     }
 

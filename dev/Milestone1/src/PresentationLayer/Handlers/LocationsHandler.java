@@ -7,15 +7,11 @@ import PresentationLayer.Printer;
 
 import java.util.Scanner;
 
-public class LocationsHandler {
+public class LocationsHandler extends Handler {
 
-    private Printer printer;
-    private Scanner scanner;
     private Facade facade;
 
     public LocationsHandler(Facade facade) {
-        printer = Printer.getInstance();
-        scanner = new Scanner(System.in);
         this.facade = facade;
     }
 
