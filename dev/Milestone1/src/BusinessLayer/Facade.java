@@ -191,6 +191,10 @@ public class Facade {
         return realWeight;
     }
 
+    /**
+     *
+     * @return
+     */
     public ResponseT<List<LocationDTO>> getAllLocations() {
         try {
             List<Location> locations = locationController.getAllLocations();
@@ -204,6 +208,10 @@ public class Facade {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public ResponseT<List<ShipmentDTO>> getAllShipments() {
         try {
             List<Shipment> shipments = shipmentController.getAllShipments();
@@ -217,10 +225,32 @@ public class Facade {
         }
     }
 
+    /**
+     *
+     * @param date
+     * @param departureHour
+     * @param driverId
+     * @return
+     */
     public ResponseT<ShipmentDTO> getShipmentDTO(Date date, String departureHour, String driverId) {
         try {
             return new ResponseT<>(new ShipmentDTO(shipmentController.getShipment(date, departureHour, driverId)));
         } catch (Exception e) {
+            return new ResponseT<>(e.getMessage());
+        }
+    }
+
+    /**
+     *
+     * @param trackingId
+     * @return
+     */
+    public ResponseT<ShipmentDTO> trackShipment(int trackingId){
+        try{
+            Shipment shipment = shipmentController.trackShipment(trackingId);
+            ShipmentDTO s = getShipmentDTO(shipment.getDate(), shipment.getDepartureHour(), shipment.getDriverId()).getValue();
+            return new ResponseT<>(s);
+        } catch (Exception e){
             return new ResponseT<>(e.getMessage());
         }
     }

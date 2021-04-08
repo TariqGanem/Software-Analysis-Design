@@ -1,5 +1,6 @@
 package BusinessLayer.Controllers;
 
+import BusinessLayer.Objects.Document;
 import BusinessLayer.Objects.Location;
 import BusinessLayer.Objects.Shipment;
 
@@ -10,9 +11,11 @@ import java.util.Map;
 
 public class ShipmentController {
     private List<Shipment> data;
+    private int trackingNumber;
 
     public ShipmentController() {
         data = new LinkedList<>();
+        trackingNumber = 0;
     }
 
     /***
@@ -64,7 +67,8 @@ public class ShipmentController {
     public void addDocument(Date date, String departureHour, String driverId, Location dest, Map<String, List<Double>> products, double weight) throws Exception {
         for (Shipment s : data) {
             if (s.getDate().compareTo(date) == 0 && s.getDepartureHour().equals(departureHour) && s.getDriverId().equals(driverId)) {
-                s.addDocument(products, dest, weight);
+                s.addDocument(products, dest, weight, trackingNumber);
+                trackingNumber++;
                 break;
             }
         }
@@ -86,5 +90,21 @@ public class ShipmentController {
 
     public List<Shipment> getAllShipments() {
         return data;
+    }
+
+    /**
+     *
+     * @param trackingId
+     * @return
+     */
+    public Shipment trackShipment(int trackingId) throws Exception {
+        for (Shipment s: data) {
+            for (Document d: s.getDocuments()) {
+                if(d.getTrackingNumber() == trackingId){
+                    return s;
+                }
+            }
+        }
+        throw new Exception("Invalid document id.");
     }
 }

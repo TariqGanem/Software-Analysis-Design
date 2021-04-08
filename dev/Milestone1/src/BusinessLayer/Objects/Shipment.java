@@ -12,7 +12,6 @@ public class Shipment {
     private String driverId;
     private double shipmentWeight;
     private List<Document> documents;
-    private int nextTrackingNumber;
     private Location source;
     private List<Location> destinations;
     private Map<String, List<Double>> items;
@@ -25,7 +24,6 @@ public class Shipment {
         this.source = source;
         this.destinations = dests;
         this.documents = new LinkedList<>();
-        this.nextTrackingNumber = 0;
         this.shipmentWeight = 0;
         this.items = items;
         for (String item : items.keySet()) {
@@ -70,11 +68,10 @@ public class Shipment {
      * @param products
      * @param dest
      */
-    public void addDocument(Map<String, List<Double>> products, Location dest, double weight) {
-        Document d = new Document(nextTrackingNumber, products, dest);
+    public void addDocument(Map<String, List<Double>> products, Location dest, double weight, int trackingNumber) {
+        Document d = new Document(trackingNumber, products, dest);
         d.updateWeight(weight);
         documents.add(d);
-        nextTrackingNumber++;
     }
 
     public Map<String, List<Double>> getItems() {

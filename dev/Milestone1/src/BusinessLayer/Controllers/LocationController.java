@@ -45,6 +45,10 @@ public class LocationController {
         data.add(loc);
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Location> getAllLocations() {
         return data;
     }

@@ -47,6 +47,10 @@ public class TruckController {
         trucks.add(new Truck(truckPlateNumber, model, natoWeight, maxWeight));
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Truck> getAlltrucks() {
         return trucks;
     }

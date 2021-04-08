@@ -43,6 +43,10 @@ public class DriverController {
         data.add(new Driver(id, name, allowedWeight));
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Driver> getAlldrivers() {
         return data;
     }
