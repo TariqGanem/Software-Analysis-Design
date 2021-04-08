@@ -19,8 +19,8 @@ class OrderTest {
         }
     }
 
-    @AfterAll
-    static void tearDown() { // done
+    @AfterEach
+    void tearDown() { // done
         try {
             order = new Order(11, Status.Active, LocalDate.now().plusDays(30));
         }
