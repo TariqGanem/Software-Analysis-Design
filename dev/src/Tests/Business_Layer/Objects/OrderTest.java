@@ -1,6 +1,6 @@
 package Business_Layer.Objects;
 
-import DTO.Status;
+import enums.Status;
 import org.junit.jupiter.api.*;
 
 import java.time.LocalDate;
