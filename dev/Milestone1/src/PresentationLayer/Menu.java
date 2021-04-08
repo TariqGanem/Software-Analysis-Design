@@ -89,7 +89,7 @@ public class Menu {
                 driversHandler.addDriver();
                 break;
             case 4:
-                //locationsHandler.addLocation();
+                locationsHandler.addLocation();
                 break;
             case 5:
                 trucksHandler.viewAllTrucks();
@@ -98,9 +98,10 @@ public class Menu {
                 driversHandler.viewAllDrivers();
                 break;
             case 7:
-                //locationsHandler.viewAllLocations();
+                locationsHandler.viewAllLocations();
                 break;
             case 8:
+
                 break;
             case 9:
                 break;

@@ -43,14 +43,4 @@ public class TrucksHandler extends Handler {
         }
     }
 
-    protected double getDouble() {
-        while (true) {
-            try {
-                return Double.parseDouble(scanner.next());
-            } catch (Exception e) {
-                printer.error("Enter only numbers");
-            }
-        }
-    }
-
 }

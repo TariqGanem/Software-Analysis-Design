@@ -1,6 +1,7 @@
 package PresentationLayer;
 
 import DTOs.DriverDTO;
+import DTOs.LocationDTO;
 import DTOs.TruckDTO;
 
 import java.util.List;
@@ -54,6 +55,11 @@ public class Printer {
         System.out.println(msg);
     }
 
+    public void success(String msg) {
+        System.out.println("---SUCCESS---");
+        System.out.println(msg);
+    }
+
     public void viewAllTrucks(List<TruckDTO> trucks) {
         for (int i = 0; i < trucks.size(); i++) {
             System.out.println("\t" + (i + 1)
@@ -76,28 +82,14 @@ public class Printer {
         }
     }
 
-    public void success(String msg) {
-        System.out.println("---SUCCESS---");
-        System.out.println(msg);
-    }
 
-    /**
-     * Confirmation request
-     *
-     * @return true if the user confirms an action, false otherwise
-     */
-    public boolean confirm() {
-        System.out.print("Continue? [y/n]: ");
-        String answer = scanner.nextLine();
-        System.out.println();
-        switch (answer) {
-            case "y":
-                return true;
-            case "n":
-                return false;
-            default:
-                confirm();
+    public void viewAllLocations(List<LocationDTO> locations) {
+        for (int i = 0; i < locations.size(); i++) {
+            System.out.println("\t" + (i + 1)
+                    + ". Address: " + locations.get(i).getAddress()
+                    + "\t Phone: " + locations.get(i).getPhoneNumber()
+                    + "\t Contact Name: " + locations.get(i).getContactName()
+            );
         }
-        return false;
     }
 }
