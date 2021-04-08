@@ -28,7 +28,7 @@ public class TruckTest {
     public void testAddTruckWithSameId(){
         data.addTruck("12345", "BMW", 6.5, 12);
         Response res = data.addTruck("12345", "Volvo", 4, 8);
-        assertEquals(res.getMsg(), "Couldn't add new truck - truckPlateNumber already exists");
+        assertEquals("Couldn't add new truck - truckPlateNumber already exists", res.getMsg());
         assertNotEquals(2, data.getAlltrucks().getValue().size());
     }
 
