@@ -143,7 +143,6 @@ public class Facade {
     }
 
     /**
-     *
      * @param date
      * @param departureHour
      * @param source
@@ -154,7 +153,7 @@ public class Facade {
     public Response arrangeDelivery(Date date, String departureHour, String source, Map<String, List<Double>> items, List<String> dests) {
         try {
             double weight = 0;
-            for (String item: items.keySet()) {
+            for (String item : items.keySet()) {
                 weight += (items.get(item).get(0) * items.get(item).get(0));
             }
             DriverDTO driver = new DriverDTO(driverController.getAvailableDriver(weight));

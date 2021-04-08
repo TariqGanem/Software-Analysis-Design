@@ -28,7 +28,7 @@ public class Document {
         return destination;
     }
 
-    public void updateWeight(double weight){
+    public void updateWeight(double weight) {
         this.weight = weight;
     }
 }

@@ -39,7 +39,7 @@ public class LocationController {
             if (location.getAddress().equals(address))
                 throw new Exception("Couldn't add new location - address already exists");
         }
-        if (address == null || phoneNumber == null || contactName == null)
+        if (address == null || address.trim().isEmpty() || phoneNumber == null || phoneNumber.trim().isEmpty() || contactName == null || contactName.trim().isEmpty())
             throw new Exception("Couldn't add new location - Invalid parameters");
         Location loc = new Location(address, phoneNumber, contactName);
         data.add(loc);
