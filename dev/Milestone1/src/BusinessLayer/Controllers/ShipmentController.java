@@ -53,10 +53,34 @@ public class ShipmentController {
         data.add(new Shipment(date, departureHour, truckPlateNumber, driverId, items, source, dests));
     }
 
-    public void addDocument(Date date, String departureHour, String driverId, Location dest, Map<String, Pair<Double, Integer>> products) throws Exception {
+    /**
+     *
+     * @param date
+     * @param departureHour
+     * @param driverId
+     * @param dest
+     * @param products
+     * @throws Exception
+     */
+    public void addDocument(Date date, String departureHour, String driverId, Location dest, Map<String, Pair<Double, Integer>> products, double weight) throws Exception {
         for (Shipment s : data) {
             if (s.getDate().compareTo(date) == 0 && s.getDepartureHour().equals(departureHour) && s.getDriverId().equals(driverId)) {
-                s.addDocument(products, dest);
+                s.addDocument(products, dest, weight);
+                break;
+            }
+        }
+    }
+
+    /**
+     *
+     * @param date
+     * @param departureHour
+     * @param driverId
+     */
+    public void deleteShipment(Date date, String departureHour, String driverId){
+        for (Shipment s : data) {
+            if (s.getDate().compareTo(date) == 0 && s.getDepartureHour().equals(departureHour) && s.getDriverId().equals(driverId)) {
+                data.remove(s);
                 break;
             }
         }

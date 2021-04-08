@@ -142,7 +142,7 @@ public class Facade {
     }
 
     /**
-     * 
+     *
      * @param date
      * @param departureHour
      * @param source
@@ -158,15 +158,15 @@ public class Facade {
             }
             DriverDTO driver = new DriverDTO(driverController.getAvailableDriver(weight));
             TruckDTO truck = new TruckDTO(truckController.getAvailableTruck(weight));
-            weighTruck(truck.getTruckPlateNumber(), date, departureHour, driver.getId());
             Location s = locationController.getLocation(source);
             List<Location> d = new LinkedList<>();
             for (String loc : dests) {
                 d.add(locationController.getLocation(loc));
             }
             shipmentController.addShipment(date, departureHour, truck.getTruckPlateNumber(), driver.getId(), items, s, d);
+            double realWeight = weighTruck(truck.getTruckPlateNumber(), date, departureHour, driver.getId());
             for (String dest : dests) {
-                shipmentController.addDocument(date, departureHour, driver.getId(), locationController.getLocation(dest), items);
+                shipmentController.addDocument(date, departureHour, driver.getId(), locationController.getLocation(dest), items, realWeight);
             }
             return new Response();
         } catch (Exception e) {
@@ -181,10 +181,13 @@ public class Facade {
      * @param driverId
      * @throws Exception
      */
-    private void weighTruck(String truckId, Date date, String departureHour, String driverId) throws Exception {
+    private double weighTruck(String truckId, Date date, String departureHour, String driverId) throws Exception {
         double realWeight = truckController.getTruck(truckId).getNatoWeight();
         realWeight += shipmentController.getShipment(date, departureHour, driverId).getShipmentWeight();
-        if (realWeight > truckController.getTruck(truckId).getMaxWeight())
-            throw new Exception("Truck's weight exceeded the limit.");
+        if (realWeight > truckController.getTruck(truckId).getMaxWeight()) {
+            shipmentController.deleteShipment(date, departureHour, driverId);
+            throw new Exception("Truck's weight exceeded the limit, shipment has been removed.");
+        }
+        return realWeight;
     }
 }

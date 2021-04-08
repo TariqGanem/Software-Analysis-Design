@@ -8,11 +8,13 @@ public class Document {
     private int trackingNumber;
     private Map<String, Pair<Double, Integer>> products;
     private Location destination;
+    private double weight;
 
     public Document(int trackingNumber, Map<String, Pair<Double, Integer>> products, Location destination) {
         this.trackingNumber = trackingNumber;
         this.products = products;
         this.destination = destination;
+        weight = 0;
     }
 
     public int getTrackingNumber() {
@@ -25,5 +27,9 @@ public class Document {
 
     public Location getDestination() {
         return destination;
+    }
+
+    public void updateWeight(double weight){
+        this.weight = weight;
     }
 }
