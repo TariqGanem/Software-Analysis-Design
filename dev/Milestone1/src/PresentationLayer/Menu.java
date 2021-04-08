@@ -3,10 +3,7 @@ package PresentationLayer;
 import BusinessLayer.Facade;
 import BusinessLayer.Objects.Driver;
 import DTOs.TruckDTO;
-import PresentationLayer.Handlers.DriversHandler;
-import PresentationLayer.Handlers.Handler;
-import PresentationLayer.Handlers.LocationsHandler;
-import PresentationLayer.Handlers.TrucksHandler;
+import PresentationLayer.Handlers.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +20,8 @@ public class Menu {
     private TrucksHandler trucksHandler;
     private LocationsHandler locationsHandler;
     private DriversHandler driversHandler;
+    private ShipmentsHandler shipmentsHandler;
+
     private Facade facade;
 
     private Menu() {
@@ -33,6 +32,7 @@ public class Menu {
         trucksHandler = new TrucksHandler(facade);
         locationsHandler = new LocationsHandler(facade);
         driversHandler = new DriversHandler(facade);
+        shipmentsHandler = new ShipmentsHandler(facade);
     }
 
     public static Menu getInstance() {
@@ -61,6 +61,7 @@ public class Menu {
         addMenuItem("View All Locations");
         addMenuItem("View All Shipment Transportations");
         addMenuItem("Track Shipment");
+        addMenuItem("Arrange Shipment");
         addMenuItem("Exit");//Keep last
     }
 
@@ -101,11 +102,15 @@ public class Menu {
                 locationsHandler.viewAllLocations();
                 break;
             case 8:
-
+                shipmentsHandler.viewAllShipments();
                 break;
             case 9:
+                //TODO
                 break;
             case 10:
+                shipmentsHandler.arrangeShipment();
+                break;
+            case 11:
                 exit();
                 break;
         }
