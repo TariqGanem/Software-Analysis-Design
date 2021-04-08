@@ -84,4 +84,8 @@ public class ShipmentController {
             }
         }
     }
+
+    public List<Shipment> getAllShipments() {
+        return data;
+    }
 }

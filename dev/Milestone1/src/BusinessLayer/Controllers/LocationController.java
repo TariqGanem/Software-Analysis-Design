@@ -44,4 +44,8 @@ public class LocationController {
         Location loc = new Location(address, phoneNumber, contactName);
         data.add(loc);
     }
+
+    public List<Location> getAllLocations() {
+        return data;
+    }
 }

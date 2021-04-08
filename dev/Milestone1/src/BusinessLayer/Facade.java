@@ -5,8 +5,10 @@ import BusinessLayer.Controllers.LocationController;
 import BusinessLayer.Controllers.ShipmentController;
 import BusinessLayer.Controllers.TruckController;
 import BusinessLayer.Objects.Location;
+import BusinessLayer.Objects.Shipment;
 import DTOs.DriverDTO;
 import DTOs.LocationDTO;
+import DTOs.ShipmentDTO;
 import DTOs.TruckDTO;
 import BusinessLayer.Objects.Driver;
 import BusinessLayer.Objects.Truck;
@@ -188,5 +190,39 @@ public class Facade {
             throw new Exception("Truck's weight exceeded the limit, shipment has been removed.");
         }
         return realWeight;
+    }
+
+    public ResponseT<List<LocationDTO>> getAllLocations() {
+        try {
+            List<Location> locations = locationController.getAllLocations();
+            List<LocationDTO> locationsDTO = new LinkedList<>();
+            for (Location d : locations) {
+                locationsDTO.add(getLocationDTO(d.getAddress()).getValue());
+            }
+            return new ResponseT<>(locationsDTO);
+        } catch (Exception e) {
+            return new ResponseT<>(e.getMessage());
+        }
+    }
+
+    public ResponseT<List<ShipmentDTO>> getAllShipments() {
+        try {
+            List<Shipment> shipments = shipmentController.getAllShipments();
+            List<ShipmentDTO> shipmentsDTO = new LinkedList<>();
+            for (Shipment d : shipments) {
+                shipmentsDTO.add(getShipmentDTO(d.getDate(), d.getDepartureHour(), d.getDriverId()).getValue());
+            }
+            return new ResponseT<>(shipmentsDTO);
+        } catch (Exception e) {
+            return new ResponseT<>(e.getMessage());
+        }
+    }
+
+    public ResponseT<ShipmentDTO> getShipmentDTO(Date date, String departureHour, String driverId) {
+        try {
+            return new ResponseT<>(new ShipmentDTO(shipmentController.getShipment(date, departureHour, driverId)));
+        } catch (Exception e) {
+            return new ResponseT<>(e.getMessage());
+        }
     }
 }
