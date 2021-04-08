@@ -38,7 +38,7 @@ public class DriverController {
             if (d.getId().equals(id))
                 throw new Exception("Couldn't add new driver - driverId already exists");
         }
-        if (name == null || id == null || allowedWeight <= 0)
+        if (id == null || id.trim().isEmpty() || name == null || name.trim().isEmpty() || allowedWeight <= 0)
             throw new Exception("Couldn't add new driver - Invalid parameters");
         data.add(new Driver(id, name, allowedWeight));
     }

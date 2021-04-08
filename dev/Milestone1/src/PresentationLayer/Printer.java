@@ -1,5 +1,6 @@
 package PresentationLayer;
 
+import DTOs.DriverDTO;
 import DTOs.TruckDTO;
 
 import java.util.List;
@@ -58,9 +59,19 @@ public class Printer {
             System.out.println("\t" + (i + 1)
                     + ". Truck Plate Number: " + trucks.get(i).getTruckPlateNumber()
                     + "\t Model: " + trucks.get(i).getModel()
-                    + "\t Nato Wight: " + trucks.get(i).getNatoWeight()
-                    + "\t Max Wight: " + trucks.get(i).getMaxWeight()
+                    + "\t Nato Weight: " + trucks.get(i).getNatoWeight()
+                    + "\t Max Weight: " + trucks.get(i).getMaxWeight()
                     + "\t Available: " + (trucks.get(i).isAvailable() ? "Yes": "No")
+            );
+        }
+    }
+
+    public void viewAllDrivers(List<DriverDTO> drivers){
+        for (int i = 0; i < drivers.size(); i++) {
+            System.out.println("\t" + (i + 1)
+                    + ". Id Number: " + drivers.get(i).getId()
+                    + "\t Name: " + drivers.get(i).getName()
+                    + "\t Allowed Weight: " + drivers.get(i).getAllowedWeight()
             );
         }
     }

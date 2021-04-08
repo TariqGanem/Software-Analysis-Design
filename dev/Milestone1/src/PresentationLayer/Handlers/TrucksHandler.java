@@ -17,13 +17,13 @@ public class TrucksHandler extends Handler{
     }
 
     public void addTruck() {
-        System.out.printf("\nEnter truck plate number:");
+        System.out.printf("\nEnter truck plate number: ");
         String plateNumber = scanner.next();
         System.out.printf("\nEnter truck model:");
         String model = scanner.next();
-        System.out.printf("\nEnter truck's nato weight:");
+        System.out.printf("\nEnter truck's nato weight: ");
         double natoWeight = getDouble();
-        System.out.printf("\nEnter truck's max weight:");
+        System.out.printf("\nEnter truck's max weight: ");
         double maxWeight = getDouble();
         System.out.println();
         Response res = facade.addTruck(new TruckDTO(plateNumber, model, natoWeight, maxWeight));

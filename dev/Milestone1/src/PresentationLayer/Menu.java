@@ -1,7 +1,9 @@
 package PresentationLayer;
 
 import BusinessLayer.Facade;
+import BusinessLayer.Objects.Driver;
 import DTOs.TruckDTO;
+import PresentationLayer.Handlers.DriversHandler;
 import PresentationLayer.Handlers.Handler;
 import PresentationLayer.Handlers.LocationsHandler;
 import PresentationLayer.Handlers.TrucksHandler;
@@ -20,6 +22,7 @@ public class Menu {
     private Scanner scanner;
     private TrucksHandler trucksHandler;
     private LocationsHandler locationsHandler;
+    private DriversHandler driversHandler;
     private Facade facade;
 
     private Menu() {
@@ -29,6 +32,7 @@ public class Menu {
         facade = new Facade();
         trucksHandler = new TrucksHandler(facade);
         locationsHandler = new LocationsHandler(facade);
+        driversHandler = new DriversHandler(facade);
     }
 
     public static Menu getInstance() {
@@ -82,17 +86,19 @@ public class Menu {
                 trucksHandler.addTruck();
                 break;
             case 3:
-
+                driversHandler.addDriver();
                 break;
             case 4:
-                locationsHandler.doSomething();
+                //locationsHandler.addLocation();
                 break;
             case 5:
                 trucksHandler.viewAllTrucks();
                 break;
             case 6:
+                driversHandler.viewAllDrivers();
                 break;
             case 7:
+                //locationsHandler.viewAllLocations();
                 break;
             case 8:
                 break;

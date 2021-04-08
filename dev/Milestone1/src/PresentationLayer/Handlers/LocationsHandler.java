@@ -2,6 +2,7 @@ package PresentationLayer.Handlers;
 
 
 import BusinessLayer.Facade;
+import BusinessLayer.Response;
 import DTOs.TruckDTO;
 import PresentationLayer.Printer;
 
@@ -15,8 +16,11 @@ public class LocationsHandler extends Handler {
         this.facade = facade;
     }
 
-    public void doSomething() {
-        System.out.printf("invoking function from location controller via facade...");
-        facade.addTruck(new TruckDTO("1", "2", 3, 4));
+    public void viewAllLocations() {
+
+    }
+
+    public void addLocation() {
+
     }
 }
