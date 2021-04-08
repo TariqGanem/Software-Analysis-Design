@@ -1,4 +1,4 @@
-package DTO;
+package enums;
 
 public enum Status {
     Canceled,
