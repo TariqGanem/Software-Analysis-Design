@@ -33,13 +33,14 @@ public class ShipmentController {
 
     /**
      * Adding a new shipment to the system
-     * @param date - Date of the shipment to be transported
-     * @param departureHour - The exact hour for the transportation of the shipment
+     *
+     * @param date             - Date of the shipment to be transported
+     * @param departureHour    - The exact hour for the transportation of the shipment
      * @param truckPlateNumber - The truck's unique id for the transportation
-     * @param driverId - The driver's unique id
-     * @param items - All items with quantities and weights to transport
-     * @param source - Source location of the transportation
-     * @param dests - All locations to transport the delivery
+     * @param driverId         - The driver's unique id
+     * @param items            - All items with quantities and weights to transport
+     * @param source           - Source location of the transportation
+     * @param dests            - All locations to transport the delivery
      * @throws Exception
      */
     public void addShipment(Date date, String departureHour, String truckPlateNumber, String driverId, Map<String, List<Double>> items, Location source, List<Location> dests) throws Exception {
@@ -53,7 +54,6 @@ public class ShipmentController {
     }
 
     /**
-     *
      * @param date
      * @param departureHour
      * @param driverId
@@ -71,12 +71,11 @@ public class ShipmentController {
     }
 
     /**
-     *
      * @param date
      * @param departureHour
      * @param driverId
      */
-    public void deleteShipment(Date date, String departureHour, String driverId){
+    public void deleteShipment(Date date, String departureHour, String driverId) {
         for (Shipment s : data) {
             if (s.getDate().compareTo(date) == 0 && s.getDepartureHour().equals(departureHour) && s.getDriverId().equals(driverId)) {
                 data.remove(s);

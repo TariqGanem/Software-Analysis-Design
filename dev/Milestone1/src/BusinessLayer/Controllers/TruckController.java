@@ -52,7 +52,6 @@ public class TruckController {
     }
 
     /**
-     *
      * @param weight
      * @return
      * @throws Exception

@@ -28,7 +28,7 @@ public class Shipment {
         this.nextTrackingNumber = 0;
         this.shipmentWeight = 0;
         this.items = items;
-        for (String item: items.keySet()) {
+        for (String item : items.keySet()) {
             shipmentWeight += (items.get(item).get(0) * items.get(item).get(1));
         }
     }

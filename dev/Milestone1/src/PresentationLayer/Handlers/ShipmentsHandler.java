@@ -7,7 +7,7 @@ import DTOs.TruckDTO;
 
 import java.util.List;
 
-public class ShipmentsHandler extends Handler{
+public class ShipmentsHandler extends Handler {
 
     private Facade facade;
 
