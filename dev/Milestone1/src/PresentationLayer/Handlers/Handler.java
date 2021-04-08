@@ -23,7 +23,7 @@ public class Handler {
             try {
                 return Double.parseDouble(scanner.next());
             } catch (Exception e) {
-                printer.error("Enter only numbers");
+                printer.error("Enter only numbers!");
             }
         }
     }

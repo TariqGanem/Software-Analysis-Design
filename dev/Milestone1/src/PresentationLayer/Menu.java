@@ -103,7 +103,6 @@ public class Menu {
             case 8:
                 break;
             case 9:
-                exit();
                 break;
             case 10:
                 exit();
