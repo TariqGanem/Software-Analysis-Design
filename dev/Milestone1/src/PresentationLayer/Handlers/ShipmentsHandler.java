@@ -3,6 +3,7 @@ package PresentationLayer.Handlers;
 import BusinessLayer.Facade;
 import BusinessLayer.Response;
 import BusinessLayer.ResponseT;
+import DTOs.ShipmentDTO;
 import DTOs.TruckDTO;
 
 import java.util.List;
@@ -34,11 +35,14 @@ public class ShipmentsHandler extends Handler{
     }
 
     public void viewAllShipments() {
-        ResponseT<List<TruckDTO>> res = facade.getAlltrucks();
+        ResponseT<List<ShipmentDTO>> res = facade.getAllShipments();
         if (res.errorOccured())
             printer.error(res.getMsg());
         else {
-            printer.viewAllTrucks(res.getValue());
+            printer.viewAllShipments(res.getValue());
         }
+    }
+
+    public void trackShipment() {
     }
 }

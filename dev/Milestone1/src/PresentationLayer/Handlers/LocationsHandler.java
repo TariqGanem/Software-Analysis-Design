@@ -37,11 +37,11 @@ public class LocationsHandler extends Handler {
     }
 
     public void viewAllLocations() {
-//        ResponseT<List<LocationDTO>> res = facade.getAllLocations();
-//        if (res.errorOccured())
-//            printer.error(res.getMsg());
-//        else {
-//            printer.viewAllLocations(res.getValue());
-//        }
+        ResponseT<List<LocationDTO>> res = facade.getAllLocations();
+        if (res.errorOccured())
+            printer.error(res.getMsg());
+        else {
+            printer.viewAllLocations(res.getValue());
+        }
     }
 }

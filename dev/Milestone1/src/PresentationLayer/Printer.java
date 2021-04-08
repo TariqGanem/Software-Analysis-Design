@@ -2,6 +2,7 @@ package PresentationLayer;
 
 import DTOs.DriverDTO;
 import DTOs.LocationDTO;
+import DTOs.ShipmentDTO;
 import DTOs.TruckDTO;
 
 import java.util.List;
@@ -90,6 +91,22 @@ public class Printer {
                     + "\t Phone: " + locations.get(i).getPhoneNumber()
                     + "\t Contact Name: " + locations.get(i).getContactName()
             );
+        }
+    }
+
+    public void viewAllShipments(List<ShipmentDTO> shipments) {
+        for (int i = 0; i < shipments.size(); i++) {
+            System.out.println("\t" + (i + 1)
+                    + ". Date: " + shipments.get(i).getDate()
+                    + "\t Departure Hour: " + shipments.get(i).getDepartureHour()
+                    + "\t Truck Plate Number: " + shipments.get(i).getTruckPlateNumber()
+                    + "\t Driver Id: " + shipments.get(i).getDriverId()
+                    + "\t Shipment Weight: " + shipments.get(i).getShipmentWeight()
+                    + "\t Source: " + shipments.get(i).getSource()
+                    + "\t Arrives At: "
+            );
+            viewAllLocations(shipments.get(i).getLocations());
+            System.out.println("----------------------------------------------------");
         }
     }
 }

@@ -105,7 +105,7 @@ public class Menu {
                 shipmentsHandler.viewAllShipments();
                 break;
             case 9:
-                //TODO
+                shipmentsHandler.trackShipment();
                 break;
             case 10:
                 shipmentsHandler.arrangeShipment();
