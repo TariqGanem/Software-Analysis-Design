@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import Business_Layer.Objects.Item;
 import Business_Layer.Objects.Order;
+import enums.Status;
 
 public class OrderDTO {
     private final int id;

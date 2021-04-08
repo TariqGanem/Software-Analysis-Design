@@ -1,14 +1,15 @@
 package DTO;
 
 import Business_Layer.Objects.ContactPerson;
+import enums.ContactMethod;
 
 import java.util.Map;
 
 public class ContactDTO {
     private final String name;
-    private final Map<String, String> contactMethods;
+    private final Map<ContactMethod, String> contactMethods;
 
-    public ContactDTO(String name, Map<String, String> contactMethods) {
+    public ContactDTO(String name, Map<ContactMethod, String> contactMethods) {
         this.name = name;
         this.contactMethods = contactMethods;
     }
@@ -23,7 +24,7 @@ public class ContactDTO {
         String output = "***************************" + "\n" +
                 "name: " + name + '\n' +
                 "contactMethods: " + '\n';
-        for (String method : contactMethods.keySet()) {
+        for (ContactMethod method : contactMethods.keySet()) {
             output += method + " - " + contactMethods.get(method) + '\n';
         }
         output += "***************************" + '\n';
@@ -34,7 +35,7 @@ public class ContactDTO {
         return name;
     }
 
-    public Map<String, String> getContactMethods() {
+    public Map<ContactMethod, String> getContactMethods() {
         return contactMethods;
     }
 }
