@@ -34,19 +34,14 @@ public class LocationController {
      * @param contactName - The name of the driver who transports delivery for this location
      * @throws Exception in case of invalid parameters
      */
-    public void addLocation(String address, String phoneNumber, String contactName, Map<String, Integer> products) throws Exception {
+    public void addLocation(String address, String phoneNumber, String contactName) throws Exception {
         for (Location location : data) {
             if (location.getAddress().equals(address))
                 throw new Exception("Couldn't add new location - address already exists");
         }
-        if (address == null || phoneNumber == null || contactName == null || products == null)
+        if (address == null || phoneNumber == null || contactName == null)
             throw new Exception("Couldn't add new location - Invalid parameters");
-        for (String product : products.keySet()) {
-            if (product == null || products.get(product) <= 0)
-                throw new Exception("Couldn't add new location - Invalid parameters");
-        }
         Location loc = new Location(address, phoneNumber, contactName);
-        loc.setProducts(products);
         data.add(loc);
     }
 }

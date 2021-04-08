@@ -3,10 +3,12 @@ package DTOs;
 import BusinessLayer.Objects.Document;
 import BusinessLayer.Objects.Location;
 import BusinessLayer.Objects.Shipment;
+import javafx.util.Pair;
 
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class ShipmentDTO {
     private Date date;
@@ -14,10 +16,10 @@ public class ShipmentDTO {
     private String truckPlateNumber;
     private String driverId;
     private double shipmentWeight;
-    private List<String> log;
     private List<DocumentDTO> documents;
     private Location source;
     private List<LocationDTO> destinations;
+    private Map<String, Pair<Double, Integer>> items;
 
     public ShipmentDTO(Shipment s) {
         date = s.getDate();
@@ -25,7 +27,6 @@ public class ShipmentDTO {
         truckPlateNumber = s.getTruckPlateNumber();
         driverId = s.getDriverId();
         shipmentWeight = s.getShipmentWeight();
-        log = s.getLog();
         documents = new LinkedList<>();
         for (Document d : s.getDocuments()) {
             documents.add(new DocumentDTO(d));
@@ -35,6 +36,7 @@ public class ShipmentDTO {
         for (Location location : s.getDestinations()) {
             destinations.add(new LocationDTO(location));
         }
+        items = s.getItems();
     }
 
     public Date getDate() {
@@ -57,10 +59,6 @@ public class ShipmentDTO {
         return shipmentWeight;
     }
 
-    public List<String> getLog() {
-        return log;
-    }
-
     public Location getSource() {
         return source;
     }
@@ -71,5 +69,9 @@ public class ShipmentDTO {
 
     public List<LocationDTO> getLocations() {
         return destinations;
+    }
+
+    public Map<String, Pair<Double, Integer>> getItems() {
+        return items;
     }
 }

@@ -14,18 +14,6 @@ public class TruckController {
 
 
     /***
-     * Weighing truck before transportation
-     * @param truckID - Truck unique ID
-     * @return truck's weight
-     * @throws Exception in case of truck not found in the system
-     */
-    public double weighTruck(String truckID) throws Exception {
-        Truck t = getTruck(truckID);
-        //return t.g
-        return -1;
-    }
-
-    /***
      * Searching for the needed truck
      * @param truckID - Truck unique ID
      * @return Truck which has the given ID
@@ -63,23 +51,8 @@ public class TruckController {
         return trucks;
     }
 
-    public void checkWeight(String truckId, double truckWeight) throws Exception {
-        Truck t = getTruck(truckId);
-        if (truckWeight > t.getMaxWeight())
-            throw new Exception("Truck has passed the maximum allowed weight.");
-    }
-
-    public void depositeTruck(String truckId) throws Exception {
-        getTruck(truckId).depositeTruck();
-    }
-
-    public void backToWork(String truckId) throws Exception {
-        if (!getTruck(truckId).isAvailable())
-            throw new Exception("Truck is currently in a mission.");
-        getTruck(truckId).backToWork();
-    }
-
     /**
+     *
      * @param weight
      * @return
      * @throws Exception

@@ -1,5 +1,7 @@
 package BusinessLayer.Objects;
 
+import javafx.util.Pair;
+
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,23 +13,26 @@ public class Shipment {
     private String truckPlateNumber;
     private String driverId;
     private double shipmentWeight;
-    private List<String> log;
     private List<Document> documents;
     private int nextTrackingNumber;
     private Location source;
     private List<Location> destinations;
+    private Map<String, Pair<Double, Integer>> items;
 
-    public Shipment(Date date, String departureHour, String truckPlateNumber, String driverId, double shipmentWeight, Location source) {
+    public Shipment(Date date, String departureHour, String truckPlateNumber, String driverId, Map<String, Pair<Double, Integer>> items, Location source, List<Location> dests) {
         this.date = date;
         this.departureHour = departureHour;
         this.truckPlateNumber = truckPlateNumber;
         this.driverId = driverId;
-        this.shipmentWeight = shipmentWeight;
-        this.log = new LinkedList<>();
         this.source = source;
-        this.destinations = new LinkedList<>();
+        this.destinations = dests;
         this.documents = new LinkedList<>();
         this.nextTrackingNumber = 0;
+        this.shipmentWeight = 0;
+        this.items = items;
+        for (String item: items.keySet()) {
+            shipmentWeight += (items.get(item).getKey() * items.get(item).getValue());
+        }
     }
 
 
@@ -51,10 +56,6 @@ public class Shipment {
         return shipmentWeight;
     }
 
-    public List<String> getLog() {
-        return log;
-    }
-
     public Location getSource() {
         return source;
     }
@@ -67,19 +68,18 @@ public class Shipment {
         return documents;
     }
 
-    public int getNextTrackingNumber() {
-        return nextTrackingNumber;
-    }
-
     /**
      * @param products
      * @param dest
      */
-    public void addDocument(Map<String, Integer> products, Location dest) {
+    public void addDocument(Map<String, Pair<Double, Integer>> products, Location dest) {
         Document d = new Document(nextTrackingNumber, products, dest);
         documents.add(d);
         nextTrackingNumber++;
     }
 
 
+    public Map<String, Pair<Double, Integer>> getItems() {
+        return items;
+    }
 }

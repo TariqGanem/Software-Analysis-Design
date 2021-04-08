@@ -10,11 +10,9 @@ import DTOs.LocationDTO;
 import DTOs.TruckDTO;
 import BusinessLayer.Objects.Driver;
 import BusinessLayer.Objects.Truck;
+import javafx.util.Pair;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Facade {
     private DriverController driverController;
@@ -69,12 +67,11 @@ public class Facade {
      * @param address
      * @param phoneNumber
      * @param contactName
-     * @param products
      * @return
      */
-    public Response addLocation(String address, String phoneNumber, String contactName, Map<String, Integer> products) {
+    public Response addLocation(String address, String phoneNumber, String contactName) {
         try {
-            locationController.addLocation(address, phoneNumber, contactName, products);
+            locationController.addLocation(address, phoneNumber, contactName);
             return new Response();
         } catch (Exception e) {
             return new Response(e.getMessage());
@@ -145,22 +142,31 @@ public class Facade {
     }
 
     /**
+     * 
      * @param date
      * @param departureHour
-     * @param weight
      * @param source
-     * @param binds
+     * @param items
+     * @param dests
      * @return
      */
-    public Response arrangeDelivery(Date date, String departureHour, double weight, String source, Map<String, Map<String, Integer>> binds) {
+    public Response arrangeDelivery(Date date, String departureHour, String source, Map<String, Pair<Double, Integer>> items, List<String> dests) {
         try {
+            double weight = 0;
+            for (String item: items.keySet()) {
+                weight += (items.get(item).getKey() * items.get(item).getValue());
+            }
             DriverDTO driver = new DriverDTO(driverController.getAvailableDriver(weight));
             TruckDTO truck = new TruckDTO(truckController.getAvailableTruck(weight));
             weighTruck(truck.getTruckPlateNumber(), date, departureHour, driver.getId());
             Location s = locationController.getLocation(source);
-            shipmentController.addShipment(date, departureHour, truck.getTruckPlateNumber(), driver.getId(), weight, s);
-            for (String d : binds.keySet()) {
-                shipmentController.addDocument(date, departureHour, driver.getId(), locationController.getLocation(d), binds.get(d));
+            List<Location> d = new LinkedList<>();
+            for (String loc : dests) {
+                d.add(locationController.getLocation(loc));
+            }
+            shipmentController.addShipment(date, departureHour, truck.getTruckPlateNumber(), driver.getId(), items, s, d);
+            for (String dest : dests) {
+                shipmentController.addDocument(date, departureHour, driver.getId(), locationController.getLocation(dest), items);
             }
             return new Response();
         } catch (Exception e) {

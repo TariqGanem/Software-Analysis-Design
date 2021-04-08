@@ -34,12 +34,4 @@ public class Truck {
     public boolean isAvailable() {
         return available;
     }
-
-    public void depositeTruck() {
-        available = true;
-    }
-
-    public void backToWork() {
-        available = false;
-    }
 }

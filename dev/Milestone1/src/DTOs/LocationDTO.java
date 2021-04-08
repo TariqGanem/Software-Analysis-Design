@@ -8,13 +8,11 @@ public class LocationDTO {
     private String address;
     private String phoneNumber;
     private String contactName;
-    private Map<String, Integer> products;
 
     public LocationDTO(Location location) {
         address = location.getAddress();
         phoneNumber = location.getPhoneNumber();
         contactName = location.getContactName();
-        products = location.getProducts();
     }
 
     public String getAddress() {
@@ -27,9 +25,5 @@ public class LocationDTO {
 
     public String getContactName() {
         return contactName;
-    }
-
-    public Map<String, Integer> getProducts() {
-        return products;
     }
 }
