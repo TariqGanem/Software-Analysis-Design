@@ -43,7 +43,7 @@ public class ShipmentController {
      * @param dests - All locations to transport the delivery
      * @throws Exception
      */
-    public void addShipment(Date date, String departureHour, String truckPlateNumber, String driverId, Map<String, Pair<Double, Integer>> items, Location source, List<Location> dests) throws Exception {
+    public void addShipment(Date date, String departureHour, String truckPlateNumber, String driverId, Map<String, List<Double>> items, Location source, List<Location> dests) throws Exception {
         if (departureHour == null || departureHour.trim().isEmpty())
             throw new Exception("Couldn't add new shipment - Invalid parameters");
         for (Shipment s : data) {
@@ -62,7 +62,7 @@ public class ShipmentController {
      * @param products
      * @throws Exception
      */
-    public void addDocument(Date date, String departureHour, String driverId, Location dest, Map<String, Pair<Double, Integer>> products, double weight) throws Exception {
+    public void addDocument(Date date, String departureHour, String driverId, Location dest, Map<String, List<Double>> products, double weight) throws Exception {
         for (Shipment s : data) {
             if (s.getDate().compareTo(date) == 0 && s.getDepartureHour().equals(departureHour) && s.getDriverId().equals(driverId)) {
                 s.addDocument(products, dest, weight);

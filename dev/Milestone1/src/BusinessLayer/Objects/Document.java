@@ -1,16 +1,15 @@
 package BusinessLayer.Objects;
 
-import javafx.util.Pair;
-
+import java.util.List;
 import java.util.Map;
 
 public class Document {
     private int trackingNumber;
-    private Map<String, Pair<Double, Integer>> products;
+    private Map<String, List<Double>> products;
     private Location destination;
     private double weight;
 
-    public Document(int trackingNumber, Map<String, Pair<Double, Integer>> products, Location destination) {
+    public Document(int trackingNumber, Map<String, List<Double>> products, Location destination) {
         this.trackingNumber = trackingNumber;
         this.products = products;
         this.destination = destination;
@@ -21,7 +20,7 @@ public class Document {
         return trackingNumber;
     }
 
-    public Map<String, Pair<Double, Integer>> getProducts() {
+    public Map<String, List<Double>> getProducts() {
         return products;
     }
 

@@ -1,7 +1,5 @@
 package BusinessLayer.Objects;
 
-import javafx.util.Pair;
-
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,9 +15,9 @@ public class Shipment {
     private int nextTrackingNumber;
     private Location source;
     private List<Location> destinations;
-    private Map<String, Pair<Double, Integer>> items;
+    private Map<String, List<Double>> items;
 
-    public Shipment(Date date, String departureHour, String truckPlateNumber, String driverId, Map<String, Pair<Double, Integer>> items, Location source, List<Location> dests) {
+    public Shipment(Date date, String departureHour, String truckPlateNumber, String driverId, Map<String, List<Double>> items, Location source, List<Location> dests) {
         this.date = date;
         this.departureHour = departureHour;
         this.truckPlateNumber = truckPlateNumber;
@@ -31,7 +29,7 @@ public class Shipment {
         this.shipmentWeight = 0;
         this.items = items;
         for (String item: items.keySet()) {
-            shipmentWeight += (items.get(item).getKey() * items.get(item).getValue());
+            shipmentWeight += (items.get(item).get(0) * items.get(item).get(1));
         }
     }
 
@@ -72,15 +70,14 @@ public class Shipment {
      * @param products
      * @param dest
      */
-    public void addDocument(Map<String, Pair<Double, Integer>> products, Location dest, double weight) {
+    public void addDocument(Map<String, List<Double>> products, Location dest, double weight) {
         Document d = new Document(nextTrackingNumber, products, dest);
         d.updateWeight(weight);
         documents.add(d);
         nextTrackingNumber++;
     }
 
-
-    public Map<String, Pair<Double, Integer>> getItems() {
+    public Map<String, List<Double>> getItems() {
         return items;
     }
 }

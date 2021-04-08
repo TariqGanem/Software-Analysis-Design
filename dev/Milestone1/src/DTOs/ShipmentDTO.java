@@ -3,7 +3,6 @@ package DTOs;
 import BusinessLayer.Objects.Document;
 import BusinessLayer.Objects.Location;
 import BusinessLayer.Objects.Shipment;
-import javafx.util.Pair;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -19,7 +18,7 @@ public class ShipmentDTO {
     private List<DocumentDTO> documents;
     private Location source;
     private List<LocationDTO> destinations;
-    private Map<String, Pair<Double, Integer>> items;
+    private Map<String, List<Double>> items;
 
     public ShipmentDTO(Shipment s) {
         date = s.getDate();
@@ -71,7 +70,7 @@ public class ShipmentDTO {
         return destinations;
     }
 
-    public Map<String, Pair<Double, Integer>> getItems() {
+    public Map<String, List<Double>> getItems() {
         return items;
     }
 }

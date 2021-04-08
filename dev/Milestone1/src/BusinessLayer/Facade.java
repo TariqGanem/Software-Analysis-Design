@@ -150,11 +150,11 @@ public class Facade {
      * @param dests
      * @return
      */
-    public Response arrangeDelivery(Date date, String departureHour, String source, Map<String, Pair<Double, Integer>> items, List<String> dests) {
+    public Response arrangeDelivery(Date date, String departureHour, String source, Map<String, List<Double>> items, List<String> dests) {
         try {
             double weight = 0;
             for (String item: items.keySet()) {
-                weight += (items.get(item).getKey() * items.get(item).getValue());
+                weight += (items.get(item).get(0) * items.get(item).get(0));
             }
             DriverDTO driver = new DriverDTO(driverController.getAvailableDriver(weight));
             TruckDTO truck = new TruckDTO(truckController.getAvailableTruck(weight));
