@@ -19,7 +19,7 @@ public class ShipmentDTO {
     private Location source;
     private List<LocationDTO> destinations;
 
-    public ShipmentDTO(Shipment s){
+    public ShipmentDTO(Shipment s) {
         date = s.getDate();
         departureHour = s.getDepartureHour();
         truckPlateNumber = s.getTruckPlateNumber();
@@ -27,12 +27,12 @@ public class ShipmentDTO {
         shipmentWeight = s.getShipmentWeight();
         log = s.getLog();
         documents = new LinkedList<>();
-        for (Document d: s.getDocuments()) {
+        for (Document d : s.getDocuments()) {
             documents.add(new DocumentDTO(d));
         }
         source = s.getSource();
         destinations = new LinkedList<>();
-        for (Location location: s.getDestinations()) {
+        for (Location location : s.getDestinations()) {
             destinations.add(new LocationDTO(location));
         }
     }
@@ -65,11 +65,11 @@ public class ShipmentDTO {
         return source;
     }
 
-    public List<DocumentDTO> getDocuments(){
+    public List<DocumentDTO> getDocuments() {
         return documents;
     }
 
-    public List<LocationDTO> getLocations(){
+    public List<LocationDTO> getLocations() {
         return destinations;
     }
 }

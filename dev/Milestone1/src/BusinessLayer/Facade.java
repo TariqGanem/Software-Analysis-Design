@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 public class Facade {
-    private Facade instance = null;
     private DriverController driverController;
     private TruckController truckController;
     private LocationController locationController;
@@ -30,14 +29,7 @@ public class Facade {
         this.shipmentController = new ShipmentController();
     }
 
-    public Facade getInstance() {
-        if (instance == null)
-            instance = new Facade();
-        return instance;
-    }
-
     /**
-     *
      * @param truckId
      * @return
      */
@@ -50,7 +42,6 @@ public class Facade {
     }
 
     /**
-     *
      * @param id
      * @return
      */
@@ -63,7 +54,6 @@ public class Facade {
     }
 
     /**
-     *
      * @param address
      * @return
      */
@@ -76,13 +66,15 @@ public class Facade {
     }
 
     /**
-     *
-     * @param loc
+     * @param address
+     * @param phoneNumber
+     * @param contactName
+     * @param products
      * @return
      */
-    public Response addLocation(LocationDTO loc) {
+    public Response addLocation(String address, String phoneNumber, String contactName, Map<String, Integer> products) {
         try {
-            locationController.addLocation(loc.getAddress(), loc.getPhoneNumber(), loc.getContactName(), loc.getProducts());
+            locationController.addLocation(address, phoneNumber, contactName, products);
             return new Response();
         } catch (Exception e) {
             return new Response(e.getMessage());
@@ -90,13 +82,15 @@ public class Facade {
     }
 
     /**
-     *
-     * @param t
+     * @param truckPlateNumber
+     * @param model
+     * @param natoWeight
+     * @param maxWeight
      * @return
      */
-    public Response addTruck(TruckDTO t) {
+    public Response addTruck(String truckPlateNumber, String model, double natoWeight, double maxWeight) {
         try {
-            truckController.addTruck(t.getTruckPlateNumber(), t.getModel(), t.getNatoWeight(), t.getMaxWeight());
+            truckController.addTruck(truckPlateNumber, model, natoWeight, maxWeight);
             return new Response();
         } catch (Exception e) {
             return new Response(e.getMessage());
@@ -104,13 +98,14 @@ public class Facade {
     }
 
     /**
-     *
-     * @param d
+     * @param id
+     * @param name
+     * @param allowedWeight
      * @return
      */
-    public Response addDriver(DriverDTO d) {
+    public Response addDriver(String id, String name, double allowedWeight) {
         try {
-            driverController.addDriver(d.getId(), d.getName(), d.getAllowedWeight());
+            driverController.addDriver(id, name, allowedWeight);
             return new Response();
         } catch (Exception e) {
             return new Response(e.getMessage());
@@ -118,7 +113,6 @@ public class Facade {
     }
 
     /**
-     *
      * @return
      */
     public ResponseT<List<TruckDTO>> getAlltrucks() {
@@ -135,7 +129,6 @@ public class Facade {
     }
 
     /**
-     *
      * @return
      */
     public ResponseT<List<DriverDTO>> getAlldrivers() {
@@ -152,7 +145,6 @@ public class Facade {
     }
 
     /**
-     *
      * @param date
      * @param departureHour
      * @param weight
@@ -167,7 +159,7 @@ public class Facade {
             weighTruck(truck.getTruckPlateNumber(), date, departureHour, driver.getId());
             Location s = locationController.getLocation(source);
             shipmentController.addShipment(date, departureHour, truck.getTruckPlateNumber(), driver.getId(), weight, s);
-            for (String d: binds.keySet()) {
+            for (String d : binds.keySet()) {
                 shipmentController.addDocument(date, departureHour, driver.getId(), locationController.getLocation(d), binds.get(d));
             }
             return new Response();
@@ -177,7 +169,6 @@ public class Facade {
     }
 
     /**
-     *
      * @param truckId
      * @param date
      * @param departureHour

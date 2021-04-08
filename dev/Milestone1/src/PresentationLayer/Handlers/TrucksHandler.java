@@ -9,7 +9,7 @@ import PresentationLayer.Printer;
 import java.util.List;
 import java.util.Scanner;
 
-public class TrucksHandler extends Handler{
+public class TrucksHandler extends Handler {
     private Facade facade;
 
     public TrucksHandler(Facade facade) {
@@ -26,7 +26,7 @@ public class TrucksHandler extends Handler{
         System.out.printf("\nEnter truck's max weight: ");
         double maxWeight = getDouble();
         System.out.println();
-        Response res = facade.addTruck(new TruckDTO(plateNumber, model, natoWeight, maxWeight));
+        Response res = facade.addTruck(plateNumber, model, natoWeight, maxWeight);
         if (res.errorOccured())
             printer.error(res.getMsg());
         else {

@@ -10,7 +10,7 @@ public class LocationDTO {
     private String contactName;
     private Map<String, Integer> products;
 
-    public LocationDTO(Location location){
+    public LocationDTO(Location location) {
         address = location.getAddress();
         phoneNumber = location.getPhoneNumber();
         contactName = location.getContactName();

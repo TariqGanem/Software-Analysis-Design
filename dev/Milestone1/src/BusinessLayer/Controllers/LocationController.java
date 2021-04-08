@@ -41,8 +41,8 @@ public class LocationController {
         }
         if (address == null || phoneNumber == null || contactName == null || products == null)
             throw new Exception("Couldn't add new location - Invalid parameters");
-        for (String product: products.keySet()) {
-            if(product == null || products.get(product) <= 0)
+        for (String product : products.keySet()) {
+            if (product == null || products.get(product) <= 0)
                 throw new Exception("Couldn't add new location - Invalid parameters");
         }
         Location loc = new Location(address, phoneNumber, contactName);

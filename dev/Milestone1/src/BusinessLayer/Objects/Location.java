@@ -33,7 +33,7 @@ public class Location {
         return products;
     }
 
-    public void setProducts(Map<String, Integer> prods){
+    public void setProducts(Map<String, Integer> prods) {
         products = prods;
     }
 }

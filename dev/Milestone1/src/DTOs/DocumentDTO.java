@@ -10,7 +10,7 @@ public class DocumentDTO {
     private Map<String, Integer> products;
     private Location destination;
 
-    public DocumentDTO(Document d){
+    public DocumentDTO(Document d) {
         trackingNumber = d.getTrackingNumber();
         products = d.getProducts();
         destination = d.getDestination();

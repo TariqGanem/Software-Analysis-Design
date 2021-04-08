@@ -16,7 +16,7 @@ public class ResponseT<T> extends Response {
         value = val;
     }
 
-    public T getValue(){
+    public T getValue() {
         return value;
     }
 }

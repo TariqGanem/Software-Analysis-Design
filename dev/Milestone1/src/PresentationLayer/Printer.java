@@ -61,12 +61,12 @@ public class Printer {
                     + "\t Model: " + trucks.get(i).getModel()
                     + "\t Nato Weight: " + trucks.get(i).getNatoWeight()
                     + "\t Max Weight: " + trucks.get(i).getMaxWeight()
-                    + "\t Available: " + (trucks.get(i).isAvailable() ? "Yes": "No")
+                    + "\t Available: " + (trucks.get(i).isAvailable() ? "Yes" : "No")
             );
         }
     }
 
-    public void viewAllDrivers(List<DriverDTO> drivers){
+    public void viewAllDrivers(List<DriverDTO> drivers) {
         for (int i = 0; i < drivers.size(); i++) {
             System.out.println("\t" + (i + 1)
                     + ". Id Number: " + drivers.get(i).getId()

@@ -54,7 +54,7 @@ public class TruckController {
         }
         if (maxWeight <= natoWeight)
             throw new Exception("Couldn't add new truck - Illegal truck weight");
-        if (truckPlateNumber == null || truckPlateNumber.isEmpty() || model ==  null|| model.isEmpty())
+        if (truckPlateNumber == null || truckPlateNumber.isEmpty() || model == null || model.isEmpty())
             throw new Exception("Couldn't add new truck - Invalid parameters");
         trucks.add(new Truck(truckPlateNumber, model, natoWeight, maxWeight));
     }
@@ -65,7 +65,7 @@ public class TruckController {
 
     public void checkWeight(String truckId, double truckWeight) throws Exception {
         Truck t = getTruck(truckId);
-        if(truckWeight > t.getMaxWeight())
+        if (truckWeight > t.getMaxWeight())
             throw new Exception("Truck has passed the maximum allowed weight.");
     }
 
@@ -74,20 +74,19 @@ public class TruckController {
     }
 
     public void backToWork(String truckId) throws Exception {
-        if(!getTruck(truckId).isAvailable())
+        if (!getTruck(truckId).isAvailable())
             throw new Exception("Truck is currently in a mission.");
         getTruck(truckId).backToWork();
     }
 
     /**
-     *
      * @param weight
      * @return
      * @throws Exception
      */
     public Truck getAvailableTruck(double weight) throws Exception {
-        for (Truck t: trucks) {
-            if(t.isAvailable() && t.getMaxWeight() <= weight)
+        for (Truck t : trucks) {
+            if (t.isAvailable() && t.getMaxWeight() <= weight)
                 return t;
         }
         throw new Exception("No truck available");

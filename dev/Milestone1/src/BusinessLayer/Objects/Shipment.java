@@ -72,7 +72,6 @@ public class Shipment {
     }
 
     /**
-     *
      * @param products
      * @param dest
      */
