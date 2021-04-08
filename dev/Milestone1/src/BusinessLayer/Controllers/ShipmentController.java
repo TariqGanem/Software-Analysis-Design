@@ -2,7 +2,6 @@ package BusinessLayer.Controllers;
 
 import BusinessLayer.Objects.Location;
 import BusinessLayer.Objects.Shipment;
-import javafx.util.Pair;
 
 import java.util.Date;
 import java.util.LinkedList;

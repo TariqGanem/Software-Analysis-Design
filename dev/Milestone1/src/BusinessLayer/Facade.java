@@ -10,7 +10,6 @@ import DTOs.LocationDTO;
 import DTOs.TruckDTO;
 import BusinessLayer.Objects.Driver;
 import BusinessLayer.Objects.Truck;
-import javafx.util.Pair;
 
 import java.util.*;
 
