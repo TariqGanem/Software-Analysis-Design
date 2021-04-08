@@ -104,6 +104,9 @@ public class Menu {
                 break;
             case 9:
                 exit();
+                break;    
+            case 10:
+                exit();
                 break;
         }
     }
