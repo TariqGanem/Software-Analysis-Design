@@ -1,42 +1,43 @@
 package Business_Layer.Objects;
 
 import DTO.ContactDTO;
+import enums.ContactMethod;
 
 import java.util.*;
 
 public class ContactPerson {
-    private String name;
-    private Map<String, String> contactMethods;
+    private final String name;
+    private final Map<ContactMethod, String> contactMethods;
 
-    public ContactPerson(String name, Map<String, String> contactMethods) {
+    public ContactPerson(String name, Map<ContactMethod, String> contactMethods) {
+        if (contactMethods == null)
+            throw new NullPointerException();
         this.name = name;
         this.contactMethods = contactMethods;
     }
 
 
     public ContactPerson(ContactDTO contact){
+        if (contact == null)
+            throw new NullPointerException();
         name = contact.getName();
         contactMethods = contact.getContactMethods();
     }
 
 
-    public ContactDTO DTO(){
-        return new ContactDTO(name, contactMethods);
-    }
-
-    public void AddMethod(String method, String method_data) throws Exception {
+    public void AddMethod(ContactMethod method, String method_data) throws Exception {
         if (contactMethods.containsKey(method))
             throw new Exception("There's already a method such as this!");
         contactMethods.put(method, method_data);
     }
 
-    public void RemoveMethod(String method) throws Exception {
+    public void RemoveMethod(ContactMethod method) throws Exception {
         if (!contactMethods.containsKey(method))
             throw new Exception("There's no method such as this!");
         contactMethods.remove(method);
     }
 
-    public void EditMethod(String method, String method_data) throws Exception {
+    public void EditMethod(ContactMethod method, String method_data) throws Exception {
         if (!contactMethods.containsKey(method))
             throw new Exception("There's no method such as this!");
         contactMethods.put(method, method_data);
@@ -46,7 +47,7 @@ public class ContactPerson {
         return name;
     }
 
-    public Map<String, String> getContactMethods() {
+    public Map<ContactMethod, String> getContactMethods() {
         return contactMethods;
     }
 
