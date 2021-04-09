@@ -54,12 +54,19 @@ public class Order {
         return items;
     }
 
-    public void setNewDate(LocalDate newDate){
-        orderDate = newDate;
+    public void setNewDate(LocalDate newDate) throws Exception {
+        if (orderDate.isBefore(newDate)){
+            orderDate = newDate;
+        }
+        else{
+            throw new Exception("new date cannot be equal or earlier than current due date of the order!");
+        }
     }
 
-    public void setNewStatus(Status newStatus){
-        status = newStatus;
+    public void setNewStatus(Status newStatus) throws Exception {
+        if ((status == Status.Active && ( newStatus == Status.Completed|| newStatus==Status.Canceled) || (status == Status.Canceled && newStatus == Status.Active)))
+            status = newStatus;
+        else throw new Exception("Status cannot be changed from "+status+" to "+newStatus+"!");
     }
     public void addItem(Item newItem){
 
