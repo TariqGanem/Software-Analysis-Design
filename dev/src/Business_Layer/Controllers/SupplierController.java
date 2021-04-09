@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class SupplierController {
     private static SupplierController instance;
-    private Map<Integer, SupplierCard> suppliers;
+    private final Map<Integer, SupplierCard> suppliers;
 
 
     private SupplierController() {
@@ -171,5 +171,9 @@ public class SupplierController {
         if (!suppliers.containsKey(company_id))
             throw new Exception("There's no supplier working with this company!!!");
         suppliers.get(company_id).EditMethod(name, method, method_data);
+    }
+
+    public boolean isSupplier(int supplierID) {
+        return suppliers.containsKey(supplierID);
     }
 }
