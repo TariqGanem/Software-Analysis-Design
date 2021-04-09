@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class ContractController {
     private static ContractController instance;
-    private Map<Integer, Contract> contracts;
+    private final Map<Integer, Contract> contracts;
 
     private ContractController() {
         contracts = new HashMap<>();
@@ -138,5 +138,12 @@ public class ContractController {
         if (!contracts.containsKey(company_id))
             throw new Exception("There's no contract with this company id!!!");
         contracts.remove(company_id);
+    }
+
+    public Contract getContract(Integer supplierID) throws Exception {
+        if (contracts.containsKey(supplierID))
+            return contracts.get(supplierID);
+        else
+            throw new Exception("supplier does not exist!");
     }
 }
