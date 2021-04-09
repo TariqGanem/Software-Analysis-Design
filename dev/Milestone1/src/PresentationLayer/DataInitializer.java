@@ -3,7 +3,9 @@ package PresentationLayer;
 import BusinessLayer.Facade;
 import DTOs.TruckDTO;
 
-import javax.xml.crypto.Data;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class DataInitializer {
@@ -23,15 +25,22 @@ public class DataInitializer {
     }
 
     public void initTrucks() {
-        facade.addTruck("HRY1234", "FH16", 6, 12);
-        facade.addTruck("HYTE779", "GH67", 5, 9);
-        facade.addTruck("7783624", "EIF", 8, 13);
+        try{
+            String sDate1 = "31/12/1998";
+            Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
+            System.out.println(date1);
+        }
+        catch (Exception e){}
+
+        facade.addTruck("HRY1234", "FH16", 6000, 3000);
+        facade.addTruck("HYTE779", "GH67", 5000, 2500);
+        facade.addTruck("7783624", "EIF", 8000, 1560);
     }
 
     public void initDrivers() {
-        facade.addDriver("20816222", "Yazan", 7);
-        facade.addDriver("20877734", "Tariq", 9);
-        facade.addDriver("31556888", "Kareem", 6);
+        facade.addDriver("20816222", "Yazan", 7000);
+        facade.addDriver("20877734", "Tariq", 9000);
+        facade.addDriver("31556888", "Kareem", 15000);
     }
 
     public void initLocations() {

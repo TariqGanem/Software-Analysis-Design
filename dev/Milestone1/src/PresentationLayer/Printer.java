@@ -1,9 +1,6 @@
 package PresentationLayer;
 
-import DTOs.DriverDTO;
-import DTOs.LocationDTO;
-import DTOs.ShipmentDTO;
-import DTOs.TruckDTO;
+import DTOs.*;
 
 import java.util.List;
 import java.util.Scanner;
@@ -108,5 +105,18 @@ public class Printer {
             viewAllLocations(shipments.get(i).getLocations());
             System.out.println("----------------------------------------------------");
         }
+    }
+
+    public void viewShipment(ShipmentDTO shipment, DocumentDTO document) {
+//            System.out.println(
+//                    "\t Date: " + shipment.getDate()
+//                    + "\t Departure Hour: " + shipment.getDepartureHour()
+//                    + "\t Truck Plate Number: " + shipment.getTruckPlateNumber()
+//                    + "\t Driver Id: " + shipment.getDriverId()
+//                    + "\t Shipment Weight: " + document.
+//                    + "\t Source: " + shipments.get(i).getSource()
+//                    + "\t Arrives At: "
+//            );
+//            viewAllLocations(shipments.get(i).getLocations());
     }
 }

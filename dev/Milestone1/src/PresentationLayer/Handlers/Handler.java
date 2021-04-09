@@ -5,6 +5,8 @@ import BusinessLayer.Objects.Location;
 import PresentationLayer.DataInitializer;
 import PresentationLayer.Printer;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Handler {
@@ -28,20 +30,25 @@ public class Handler {
         }
     }
 
-    public void goBack() {
-        System.out.println("\nPress any button to view menu...");
-        scanner.next();
+    protected Date getDate() {
+        while (true) {
+            try {
+                return new SimpleDateFormat("dd/MM/yyyy").parse(scanner.next());
+            } catch (Exception e) {
+                printer.error("Enter valid date format!");
+            }
+        }
     }
 
 
-//    protected double getInt() {
-//        while (true) {
-//            try {
-//                return Integer.parseInt(scanner.next());
-//            } catch (Exception e) {
-//                printer.error("Enter only numbers");
-//            }
-//        }
-//    }
+    protected int getInt() {
+        while (true) {
+            try {
+                return Integer.parseInt(scanner.next());
+            } catch (Exception e) {
+                printer.error("Enter only natural numbers");
+            }
+        }
+    }
 
 }
