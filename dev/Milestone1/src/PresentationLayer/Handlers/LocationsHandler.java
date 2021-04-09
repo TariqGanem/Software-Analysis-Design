@@ -5,11 +5,8 @@ import BusinessLayer.Facade;
 import BusinessLayer.Response;
 import BusinessLayer.ResponseT;
 import DTOs.LocationDTO;
-import DTOs.TruckDTO;
-import PresentationLayer.Printer;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class LocationsHandler extends Handler {
 

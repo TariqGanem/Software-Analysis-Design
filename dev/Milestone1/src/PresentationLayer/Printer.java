@@ -3,14 +3,12 @@ package PresentationLayer;
 import DTOs.*;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class Printer {
     private static Printer instance = null;
-    private static Scanner scanner;
 
     private Printer() {
-        scanner = new Scanner(System.in);
+
     }
 
     public static Printer getInstance() {
@@ -93,17 +91,29 @@ public class Printer {
 
     public void viewAllShipments(List<ShipmentDTO> shipments) {
         for (int i = 0; i < shipments.size(); i++) {
+            System.out.println("------------------------------------------------------------");
             System.out.println("\t" + (i + 1)
                     + ". Date: " + shipments.get(i).getDate()
                     + "\t Departure Hour: " + shipments.get(i).getDepartureHour()
                     + "\t Truck Plate Number: " + shipments.get(i).getTruckPlateNumber()
                     + "\t Driver Id: " + shipments.get(i).getDriverId()
                     + "\t Shipment Weight: " + shipments.get(i).getShipmentWeight()
-                    + "\t Source: " + shipments.get(i).getSource()
-                    + "\t Arrives At: "
+                    + "\n\t Source --> "
+                    + "\t Address: " + shipments.get(i).getSource().getAddress()
+                    + "\t Phone: " + shipments.get(i).getSource().getPhoneNumber()
+                    + " ("+ shipments.get(i).getSource().getContactName() + ")"
             );
-            viewAllLocations(shipments.get(i).getLocations());
-            System.out.println("----------------------------------------------------");
+            List<LocationDTO> destination = shipments.get(i).getLocations();
+            System.out.println("\tArrived At:");
+            for (int j = 0; j < destination.size(); j++) {
+                System.out.println("\t\t" + (i + 1) + ". "
+                        + "\t Address: " + shipments.get(i).getSource().getAddress()
+                        + "\t Phone: " + shipments.get(i).getSource().getPhoneNumber()
+                        + " ("+ shipments.get(i).getSource().getContactName() + ")"
+                        + "\t Tracking Number:"
+                );
+            }
+            System.out.println("------------------------------------------------------------");
         }
     }
 

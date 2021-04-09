@@ -2,12 +2,10 @@ package PresentationLayer.Handlers;
 
 import BusinessLayer.Facade;
 import BusinessLayer.Response;
-import DTOs.TruckDTO;
 import BusinessLayer.ResponseT;
-import PresentationLayer.Printer;
+import DTOs.TruckDTO;
 
 import java.util.List;
-import java.util.Scanner;
 
 public class TrucksHandler extends Handler {
     private Facade facade;

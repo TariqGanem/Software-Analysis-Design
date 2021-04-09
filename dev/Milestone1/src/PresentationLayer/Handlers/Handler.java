@@ -1,8 +1,5 @@
 package PresentationLayer.Handlers;
 
-import BusinessLayer.Facade;
-import BusinessLayer.Objects.Location;
-import PresentationLayer.DataInitializer;
 import PresentationLayer.Printer;
 
 import java.text.SimpleDateFormat;

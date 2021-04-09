@@ -1,12 +1,6 @@
 package PresentationLayer;
 
 import BusinessLayer.Facade;
-import DTOs.TruckDTO;
-
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 public class DataInitializer {
 
@@ -25,13 +19,6 @@ public class DataInitializer {
     }
 
     public void initTrucks() {
-        try{
-            String sDate1 = "31/12/1998";
-            Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(sDate1);
-            System.out.println(date1);
-        }
-        catch (Exception e){}
-
         facade.addTruck("HRY1234", "FH16", 6000, 3000);
         facade.addTruck("HYTE779", "GH67", 5000, 2500);
         facade.addTruck("7783624", "EIF", 8000, 1560);
@@ -49,7 +36,7 @@ public class DataInitializer {
         facade.addLocation("Haifa hof hakarmel", "055853535", "Tariq");
     }
 
-    public void initShipments(){
-        facade.arrangeDelivery(null,"14:00","Beer Sheva",null ,null);
+    public void initShipments() {
+        facade.arrangeDelivery(null, "14:00", "Beer Sheva", null, null);
     }
 }

@@ -1,9 +1,10 @@
 package PresentationLayer;
 
 import BusinessLayer.Facade;
-import BusinessLayer.Objects.Driver;
-import DTOs.TruckDTO;
-import PresentationLayer.Handlers.*;
+import PresentationLayer.Handlers.DriversHandler;
+import PresentationLayer.Handlers.LocationsHandler;
+import PresentationLayer.Handlers.ShipmentsHandler;
+import PresentationLayer.Handlers.TrucksHandler;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -21,7 +22,6 @@ public class Menu {
     private LocationsHandler locationsHandler;
     private DriversHandler driversHandler;
     private ShipmentsHandler shipmentsHandler;
-
     private Facade facade;
 
     private Menu() {

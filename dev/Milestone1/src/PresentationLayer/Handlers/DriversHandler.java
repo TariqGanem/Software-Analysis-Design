@@ -4,7 +4,6 @@ import BusinessLayer.Facade;
 import BusinessLayer.Response;
 import BusinessLayer.ResponseT;
 import DTOs.DriverDTO;
-import DTOs.TruckDTO;
 
 import java.util.List;
 

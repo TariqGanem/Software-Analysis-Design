@@ -52,6 +52,7 @@ public class ShipmentsHandler extends Handler {
         if (res.errorOccured())
             printer.error(res.getMsg());
         else {
+            System.out.println(res.getValue().getDate());
             List<DocumentDTO> documents = res.getValue().getDocuments();
             for (DocumentDTO doc : documents) {
                 if (doc.getTrackingNumber() == trackingNumber) {
