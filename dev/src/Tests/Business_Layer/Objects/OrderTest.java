@@ -1,6 +1,7 @@
 package Business_Layer.Objects;
 
 import enums.Status;
+import org.junit.Test;
 import org.junit.jupiter.api.*;
 
 import java.time.LocalDate;
@@ -30,7 +31,7 @@ class OrderTest {
     }
 
     @Test
-    void getId() {  // done
+    public void getId() {  // done
         try {
             assertEquals(11, order.getId());
         }
@@ -40,7 +41,7 @@ class OrderTest {
     }
 
     @Test
-    void getStatus() { // done
+    public void getStatus() { // done
         try {
             assertEquals(Status.Active, order.getStatus());
             order.setNewStatus(Status.Canceled);
@@ -56,7 +57,7 @@ class OrderTest {
     }
 
     @Test
-    void getPlacementDate() { // done
+    public void getPlacementDate() { // done
         try {
             assertEquals(LocalDate.now(),order.getPlacementDate());
         }
@@ -66,7 +67,7 @@ class OrderTest {
     }
 
     @Test
-    void getOrderDate() { //done
+    public void getOrderDate() { //done
         try {
             assertEquals(LocalDate.now().plusDays(30),order.getOrderDate());
         }
@@ -76,7 +77,7 @@ class OrderTest {
     }
 
     @Test
-    void getItems() { // done
+    public void getItems() { // done
         try {
             assertTrue(order.getItems().isEmpty());
             Item item1 = new Item(1, "alis", 5.5);
@@ -99,7 +100,7 @@ class OrderTest {
     }
 
     @Test
-    void setNewDate() { // done
+    public void setNewDate() { // done
         try {
             Exception exception = null;
             LocalDate date = LocalDate.now();
@@ -124,7 +125,7 @@ class OrderTest {
     }
 
     @Test
-    void setNewStatus() {  // done
+    public void setNewStatus() {  // done
         try {
             order.setNewStatus(Status.Canceled);
             assertEquals(Status.Canceled, order.getStatus());
@@ -151,7 +152,7 @@ class OrderTest {
     }
 
     @Test
-    void addItem() { // done
+    public void addItem() { // done
         try {
             Item item1 = new Item(1, "alis", 5.5);
             Item item2 = new Item(2, "bob", 0.99);
@@ -170,7 +171,7 @@ class OrderTest {
     }
 
     @Test
-    void removeItem() { // done
+    public void removeItem() { // done
         try{
             Item item1 = new Item(1, "alis", 5.5);
             Item item2 = new Item(2, "bob", 0.99);
@@ -178,7 +179,7 @@ class OrderTest {
             Exception exception = null;
 
             try{
-                order.removeItem(item404);
+                order.removeItem(item404.getId());
             }
             catch (Exception e){
                 exception = e;
@@ -187,13 +188,13 @@ class OrderTest {
 
             order.addItem(item1);
             order.addItem(item2);
-            order.removeItem(item1);
+            order.removeItem(item1.getId());
             assertFalse(order.getItems().containsKey(item1.getId()));
             assertFalse(order.getItems().containsValue(item1));
             assertEquals(1, order.getItems().size());
             assertTrue(order.getItems().containsValue(item2));
             assertTrue(order.getItems().containsKey(item2.getId()));
-            order.removeItem(item2);
+            order.removeItem(item2.getId());
             assertEquals(0, order.getItems().size());
             assertFalse(order.getItems().containsKey(item2.getId()));
             assertFalse(order.getItems().containsValue(item2));
