@@ -1,5 +1,9 @@
 package Presentation_Layer;
 
+import Business_Layer.Application.Facade;
+import enums.ContactMethod;
+
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class MainMenu implements Menu {
@@ -26,7 +30,7 @@ public class MainMenu implements Menu {
                         orders.Print_Menu();
                         break;
                     case 4:
-
+                        init();
                         break;
 
                         case 5:
@@ -50,6 +54,30 @@ public class MainMenu implements Menu {
                 "2.Manage Contracts" + "\n" +
                 "3.Manage Orders" + "\n" +
                 "4.Exit" + "\n");
+    }
+
+
+    private void init(){
+        Facade facade = Facade.getInstance();
+        //entering two suppliers
+        facade.AddSupplier("aaa","aa",12,123,"none","fixed",true);
+        facade.AddSupplier("abb","ab",13,1235,"none","single",false);
+        //entering a contact persons
+        facade.AddContactPerson(12,"abc", ContactMethod.Phone,"05043423234");
+        facade.AddMethod(12,"asd", ContactMethod.Email,"mas@gmail.com");
+        //entering a quantity report
+        facade.AddQuantityReport(12);
+        //entering items
+        facade.AddItem(12,1,"kitkat",3.5);
+        facade.AddItem(12,2,"doritos",5);
+        //entering discounts
+        facade.AddDiscount(12,1,5,5);
+        facade.OpenOrder(12, LocalDate.parse("2021-08-08"));
+        facade.OpenOrder(13, LocalDate.parse("2021-11-08"));
+        facade.AddItemToOrder(1,1);
+        facade.AddItemToOrder(1,2);
+        facade.PlaceOrder(1);
+
     }
 
 }
