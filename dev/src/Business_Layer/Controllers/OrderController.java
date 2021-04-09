@@ -117,9 +117,9 @@ public class OrderController {
      * @param item item to be added to the order
      * @throws Exception cannot add item to this order
      */
-    public void addItemToOrder(int orderID, ItemDTO item) throws Exception {
+    public void addItemToOrder(int orderID, Item item) throws Exception {
         if (activeOrders.containsKey(orderID)){
-            activeOrders.get(orderID).addItem(new Item(item));
+            activeOrders.get(orderID).addItem(item);
         }
         else if(archivedOrders.containsKey(orderID))
             throw new Exception("Order is not active!");
@@ -165,13 +165,15 @@ public class OrderController {
 
     }
 
+
     /**
      * @param supplierID id of supplier to ask for order
-     * @param newOrder new order to be opened
+     * @param newOrder new order id
+     * @param dueDate due date of the order
      */
-    public void openOrder(int supplierID, OrderDTO newOrder) {
-        inPrepareOrders.put(newOrder.getId(), new Order(newOrder));
-        order_Vs_supplier.put(newOrder.getId(), supplierID);
+    public void openOrder(int supplierID, int newOrder,LocalDate dueDate) {
+        inPrepareOrders.put(newOrder, new Order(newOrder, Status.inPrepared, dueDate));
+        order_Vs_supplier.put(newOrder, supplierID);
     }
 
     /**
@@ -184,5 +186,9 @@ public class OrderController {
             return order_Vs_supplier.get(orderID);
         else
             throw new Exception("Order does not exist!");
+    }
+
+    public boolean isOrder(int orderID) {
+        return order_Vs_supplier.containsKey(orderID);
     }
 }
