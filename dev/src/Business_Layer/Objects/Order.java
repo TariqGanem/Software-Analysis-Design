@@ -62,12 +62,13 @@ public class Order {
         status = newStatus;
     }
     public void addItem(Item newItem){
+
         items.put(newItem.getId(), newItem);
     }
 
-    public void removeItem(Item newItem){
-        if(items.containsKey(newItem.getId()))
-            items.remove(newItem.getId());
+    public void removeItem(int itemID){
+        if(items.containsKey(itemID))
+            items.remove(itemID);
         else
             throw new NoSuchElementException("item doesn't exists!");
 
