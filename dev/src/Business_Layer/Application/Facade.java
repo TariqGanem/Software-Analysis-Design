@@ -1,6 +1,10 @@
 package Business_Layer.Application;
 
+import Business_Layer.Objects.Item;
+import Business_Layer.Objects.Order;
 import DTO.ContractDTO;
+import DTO.ItemDTO;
+import DTO.OrderDTO;
 import DTO.SupplierDTO;
 import Business_Layer.Application.Response.Response;
 import Business_Layer.Controllers.*;
@@ -9,6 +13,7 @@ import Business_Layer.Controllers.SupplierController;
 import com.sun.org.apache.xpath.internal.operations.Or;
 import enums.ContactMethod;
 
+import java.time.LocalDate;
 import java.util.Map;
 
 public class Facade {
@@ -323,6 +328,150 @@ public class Facade {
             return new Response<ContractDTO>(cc.PrintContract(company_id));
         } catch (Exception e) {
             return new Response<ContractDTO>(e.getMessage());
+        }
+    }
+
+    //=======================================================Orders=======================================================
+
+    /**
+     * @param orderID id of order to be printed
+     * @return  response of the order dto object to be printed
+     */
+    public Response<OrderDTO> PrintOrder (int orderID){
+        try{
+            return  new Response<OrderDTO>(new OrderDTO(oc.getOrder(orderID)));
+        }
+        catch (Exception exception){
+            return new Response<OrderDTO>(exception.getMessage());
+        }
+    }
+
+
+    /**
+     * @param orderID id of order to add item to.
+     * @param item item to be added to the order
+     * @return  response of the procedure
+     */
+    public Response AddItemToOrder(int orderID,  ItemDTO item){
+        try{
+
+            if(cc.getContract(oc.getSupplier(orderID)).isIncluding(item.getId())){
+                oc.addItemToOrder(orderID, item);
+            }
+            else {
+                throw new Exception("Contract with this supplier does not include the item!");
+            }
+            return new Response(true);
+        }
+        catch (Exception exception){
+            return new Response(exception.getMessage());
+        }
+    }
+
+    /**
+     * @param orderID id of order to remove item from.
+     * @param itemID id of item to be removed from the order.
+     * @return response of the procedure
+     */
+    public Response RemoveItemFromOrder(int orderID , int itemID){
+        try {
+            oc.removeItemFromOrder(orderID, itemID);
+            return new Response(true);
+        }
+        catch (Exception exception){
+            return new Response(exception.getMessage());
+        }
+    }
+
+    /**
+     * @param orderID id of order to be rescheduled
+     * @param newDate new date of order
+     * @return response of the procedure
+     */
+    public Response RescheduleOrder(int orderID, LocalDate newDate){
+        try {
+            oc.rescheduleAnOrder(orderID, newDate);
+            return new Response(true);
+        }
+        catch (Exception exception){
+            return new Response(exception.getMessage());
+        }
+    }
+
+    /**
+     * @param orderID id of order to be canceled
+     * @return response of the procedure
+     */
+    public Response CancelOrder(int orderID){
+        try {
+            oc.cancelAnOrder(orderID);
+            return new Response(true);
+        }
+        catch (Exception exception){
+            return new Response(exception.getMessage());
+        }
+    }
+
+    /**
+     * @param orderID id of order to be completed
+     * @return response of the procedure
+     */
+    public Response CompleteOrder(int orderID){
+        try{
+            oc.completeAnOrder(orderID);
+            return new Response(true);
+        }
+        catch (Exception exception){
+            return new Response(exception.getMessage());
+        }
+    }
+
+
+    /**
+     * @param orderID id of order to be placed
+     * @return response of the procedure
+     */
+    public Response PlaceOrder(int orderID){
+        try {
+            oc.placeAnOrder(orderID);
+            return new Response(true);
+        }
+        catch (Exception exception){
+            return new Response(exception.getMessage());
+        }
+    }
+
+
+    /**
+     * @param supplierID id of supplier to ask an order from
+     * @param newOrder a new order to be opened
+     * @return response of the procedure
+     */
+    public Response OpenOrder(int supplierID, OrderDTO newOrder) {
+        try {
+            if (sc.isSupplier(supplierID)) {
+                oc.openOrder(supplierID, newOrder);
+            }
+            else throw new Exception("Supplier does not exist!");
+
+            return new Response(true);
+        } catch (Exception exception) {
+            return new Response(exception.getMessage());
+        }
+    }
+
+    /**
+     * @param orderID id of order to edit it's item
+     * @param editedItem edited item to be updated in the order
+     * @return  response of the procedure
+     */
+    public Response EditItemInOrder(int orderID, ItemDTO editedItem){
+        try {
+            oc.editItemInOrder(orderID, new Item(editedItem));
+            return new Response(true);
+        }
+        catch (Exception exception){
+            return new Response(exception.getMessage());
         }
     }
 }
