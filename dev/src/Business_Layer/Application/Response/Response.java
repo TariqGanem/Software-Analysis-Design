@@ -1,8 +1,8 @@
 package Business_Layer.Application.Response;
 
 public class Response<T> {
-    private T value;
-    private String errorMessage;
+    private final T value;
+    private final String errorMessage;
 
     public Response(String errorMessage){
         this.errorMessage = errorMessage;
