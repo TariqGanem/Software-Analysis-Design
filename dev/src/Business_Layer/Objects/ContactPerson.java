@@ -24,7 +24,19 @@ public class ContactPerson {
         contactMethods = contact.getContactMethods();
     }
 
+    /***
+     * @return a dto object that holds the same data of the the contact object.
+     */
+    public ContactDTO DTO(){
+        return new ContactDTO(name, contactMethods);
+    }
 
+    /***
+     * Adding a new method for a current contact person.
+     * @param method is the new method that we wanna add.
+     * @param method_data is the data of the new method like the phone number.
+     * @throws Exception if the method is already founded so there is an error.
+     */
     public void AddMethod(ContactMethod method, String method_data) throws Exception {
         if (contactMethods.containsKey(method))
             throw new Exception("There's already a method such as this!");
@@ -37,6 +49,12 @@ public class ContactPerson {
         contactMethods.remove(method);
     }
 
+    /***
+     *  Editing a current method of a current contact person that is appeared on a current supplier's card.
+     * @param method is the new method that we wanna add.
+     * @param method_data is the data of the new method like the phone number.
+     * @throws Exception if the method is not founded so there is an error.
+     */
     public void EditMethod(ContactMethod method, String method_data) throws Exception {
         if (!contactMethods.containsKey(method))
             throw new Exception("There's no method such as this!");

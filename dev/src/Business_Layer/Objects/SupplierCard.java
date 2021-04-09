@@ -2,8 +2,8 @@ package Business_Layer.Objects;
 
 import DTO.ContactDTO;
 import DTO.SupplierDTO;
-import enums.ContactMethod;
 import javafx.util.Pair;
+import enums.ContactMethod;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -77,30 +77,53 @@ public class SupplierCard {
     }
 
 
-
-
-
-
+    /***
+     * Changing the payment conditions of a current supplier.
+     * @param paymentConditions the new payment conditions that is going to be added in place of the old one.
+     */
     public void ChangePaymentConditions(String paymentConditions) {
         this.paymentConditions = paymentConditions;
     }
 
+    /***
+     * Changing the payment conditions of a current supplier.
+     * @param bankAccount the new bank account that is going to be added in place of the old one.
+     */
     public void ChangeBankAccount(int bankAccount) {
         this.bankAccount = bankAccount;
     }
 
-    public void AddContactPreson(String name, Map<ContactMethod, String> contactMethods) throws Exception {
+    /***
+     * Adding a new contact person to the supplier's card.
+     * @param name is the name of the new contact.
+     * @param contactMethods are the methods that the supplier is going to contact this person with.
+     * @throws Exception if the contact is already in the supplier's contact table so the is an error.
+     */
+    public void AddContactPerson(String name, Map<ContactMethod, String> contactMethods) throws Exception {
         if (contacts.containsKey(name))
             throw new Exception("There's already a contact person with this name.");
         contacts.put(name, new ContactPerson(name, contactMethods));
     }
 
+    /***
+     * Removing a current contact person from the contacts table of a supplier.
+     * @param name is the name of the contact person.
+     * @throws Exception if there is no contact person in the supplier's contact table so the is an error.
+     */
     public void RemoveContact(String name) throws Exception {
         if (!contacts.containsKey(name))
             throw new Exception("There's no contact person with this name.");
         contacts.remove(name);
     }
 
+    /***
+     * Adding a new method for a current contact person.
+     * @param name is the name of the contact person.
+     * @param method is the new method that we wanna add.
+     * @param method_data is the data of the new method like the phone number.
+     * @throws Exception if there is no contact person in the supplier's contact table so the is an error.
+     * also if the method is already founded so there is an error.
+     */
     public void AddMethod(String name, ContactMethod method, String method_data) throws Exception {
         if (!contacts.containsKey(name))
             throw new Exception("There's no contact person with this name.");
@@ -113,6 +136,14 @@ public class SupplierCard {
         contacts.get(name).RemoveMethod(method);
     }
 
+    /***
+     *  Editing a current method of a current contact person that is appeared on a current supplier's card.
+     * @param name is the name of the contact person.
+     * @param method is the new method that we wanna add.
+     * @param method_data is the data of the new method like the phone number.
+     * @throws Exception if there is no contact person in the supplier's contact table so the is an error.
+     * also if the method is not founded so there is an error.
+     */
     public void EditMethod(String name, ContactMethod method, String method_data) throws Exception {
         if (!contacts.containsKey(name))
             throw new Exception("There's no contact person with this name.");
