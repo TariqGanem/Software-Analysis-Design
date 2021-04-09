@@ -38,8 +38,7 @@ public class MainMenu implements Menu {
                 "1.Manage Suppliers" + "\n" +
                 "2.Manage Contracts" + "\n" +
                 "3.Manage Orders" + "\n" +
-                "4.Setup inputs" + "\n" +
-                "5.Exit" + "\n");
+                "4.Exit" + "\n");
     }
 
 }
