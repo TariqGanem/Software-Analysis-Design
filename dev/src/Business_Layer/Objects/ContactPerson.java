@@ -24,6 +24,12 @@ public class ContactPerson {
         contactMethods = contact.getContactMethods();
     }
 
+    public ContactPerson(String name, ContactMethod method, String method_data) {
+        this.name = name;
+        this.contactMethods = new HashMap<>();
+        this.contactMethods.put(method, method_data);
+    }
+
     /***
      * @return a dto object that holds the same data of the the contact object.
      */

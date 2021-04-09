@@ -123,13 +123,14 @@ public class Facade {
      * Adding a new contact person to the supplier's card.
      * @param company_id is the id of the company that the supplier works with it.
      * @param name is the name of the new contact.
-     * @param contactMethods are the methods that the supplier is going to contact this person with.
+     * @param method are the methods that the supplier is going to contact this person with.
+     * @param method_data is the data of the method like the phone number.
      * @return the response of the system. if there is no supplier that works with the company with this id so there is an error.
      * also if the contact is already in the supplier's contact table so the is an error.
      */
-    public Response AddContactPerson(int company_id, String name, Map<ContactMethod, String> contactMethods) {
+    public Response AddContactPerson(int company_id, String name, ContactMethod method, String method_data) {
         try {
-            sc.AddContactPerson(company_id, name, contactMethods);
+            sc.AddContactPerson(company_id, name, method, method_data);
             return new Response();
         } catch (Exception e) {
             return new Response(e.getMessage());
