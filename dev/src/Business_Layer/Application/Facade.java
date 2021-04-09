@@ -491,4 +491,13 @@ public class Facade {
             return new Response<>(exception.getMessage());
         }
     }
+    public Response<Boolean> isSupplier(int supplierID) {
+
+        try {
+            return new Response<>(sc.isSupplier(supplierID));
+        }
+        catch (Exception exception){
+            return new Response<>(exception.getMessage());
+        }
+    }
 }

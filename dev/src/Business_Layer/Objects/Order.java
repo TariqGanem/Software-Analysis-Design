@@ -64,7 +64,7 @@ public class Order {
     }
 
     public void setNewStatus(Status newStatus) throws Exception {
-        if ((status == Status.Active && ( newStatus == Status.Completed|| newStatus==Status.Canceled) || (status == Status.Canceled && newStatus == Status.Active)))
+        if ((status == Status.Active && ( newStatus == Status.Completed|| newStatus==Status.Canceled)) || (status == Status.Canceled && newStatus == Status.Active) || (status == Status.inPrepared && newStatus == Status.Active))
             status = newStatus;
         else throw new Exception("Status cannot be changed from "+status+" to "+newStatus+"!");
     }
