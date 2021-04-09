@@ -51,7 +51,7 @@ public class OrderController {
     /**
      * @param orderID id of order to be completed
      */
-    public void completeAnOrder(int orderID){
+    public void completeAnOrder(int orderID) throws Exception {
         if (activeOrders.containsKey(orderID)){
             Order order = activeOrders.remove(orderID);
             order.setNewStatus(Status.Completed);
@@ -62,7 +62,7 @@ public class OrderController {
     /**
      * @param orderID id of order to be canceled
      */
-    public void cancelAnOrder(int orderID){
+    public void cancelAnOrder(int orderID) throws Exception {
         if (activeOrders.containsKey(orderID)){
             Order order = activeOrders.remove(orderID);
             order.setNewStatus(Status.Canceled);
@@ -75,7 +75,7 @@ public class OrderController {
      * @param orderID id of order to be rescheduled
      * @param newDate new date to be update for the order
      */
-    public void rescheduleAnOrder(int orderID, LocalDate newDate){
+    public void rescheduleAnOrder(int orderID, LocalDate newDate) throws Exception {
 
         if (activeOrders.containsKey(orderID)){
             Order order = activeOrders.remove(orderID);
