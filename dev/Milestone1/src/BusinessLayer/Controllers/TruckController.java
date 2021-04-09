@@ -40,7 +40,7 @@ public class TruckController {
             if (t.getTruckPlateNumber().equals(truckPlateNumber))
                 throw new Exception("Couldn't add new truck - truckPlateNumber already exists");
         }
-        if (maxWeight <= natoWeight)
+        if (maxWeight <= 0 || natoWeight <= 0)
             throw new Exception("Couldn't add new truck - Illegal truck weight");
         if (truckPlateNumber == null || truckPlateNumber.isEmpty() || model == null || model.isEmpty())
             throw new Exception("Couldn't add new truck - Invalid parameters");
@@ -62,9 +62,16 @@ public class TruckController {
      */
     public Truck getAvailableTruck(double weight) throws Exception {
         for (Truck t : trucks) {
-            if (t.isAvailable() && t.getMaxWeight() <= weight)
+            if (t.isAvailable() && t.getMaxWeight() >= weight)
                 return t;
         }
         throw new Exception("No truck available");
+    }
+
+    public void depositeTruck(String truckPlateNumber) {
+        for (Truck t : trucks) {
+            if (t.getTruckPlateNumber().equals(truckPlateNumber))
+                t.deposite();
+        }
     }
 }

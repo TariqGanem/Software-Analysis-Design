@@ -34,4 +34,8 @@ public class Truck {
     public boolean isAvailable() {
         return available;
     }
+
+    public void deposite() {
+        available = false;
+    }
 }

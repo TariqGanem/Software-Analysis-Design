@@ -28,4 +28,8 @@ public class Driver {
     public boolean isAvailable() {
         return available;
     }
+
+    public void deposite() {
+        available = false;
+    }
 }

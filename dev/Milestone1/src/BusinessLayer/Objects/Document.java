@@ -31,4 +31,8 @@ public class Document {
     public void updateWeight(double weight) {
         this.weight = weight;
     }
+
+    public double getWeight() {
+        return weight;
+    }
 }

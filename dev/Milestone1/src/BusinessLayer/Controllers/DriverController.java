@@ -58,10 +58,18 @@ public class DriverController {
      */
     public Driver getAvailableDriver(double weight) throws Exception {
         for (Driver d : data) {
-            if (d.isAvailable() && d.getAllowedWeight() <= weight) {
+            if (d.isAvailable() && d.getAllowedWeight() >= weight) {
                 return d;
             }
         }
         throw new Exception("No available drivers.");
+    }
+
+    public void depositeDriver(String id) {
+        for (Driver d : data) {
+            if (d.getId().equals(id)) {
+                d.deposite();
+            }
+        }
     }
 }

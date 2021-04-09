@@ -156,8 +156,8 @@ public class Facade {
             for (String item : items.keySet()) {
                 weight += (items.get(item).get(0) * items.get(item).get(0));
             }
-            DriverDTO driver = new DriverDTO(driverController.getAvailableDriver(weight));
             TruckDTO truck = new TruckDTO(truckController.getAvailableTruck(weight));
+            DriverDTO driver = new DriverDTO(driverController.getAvailableDriver(weight + truck.getNatoWeight()));
             Location s = locationController.getLocation(source);
             List<Location> d = new LinkedList<>();
             for (String loc : dests) {
@@ -168,6 +168,8 @@ public class Facade {
             for (String dest : dests) {
                 shipmentController.addDocument(date, departureHour, driver.getId(), locationController.getLocation(dest), items, realWeight);
             }
+            truckController.depositeTruck(truck.getTruckPlateNumber());
+            driverController.depositeDriver(driver.getId());
             return new Response();
         } catch (Exception e) {
             return new Response(e.getMessage());
@@ -184,7 +186,7 @@ public class Facade {
     private double weighTruck(String truckId, Date date, String departureHour, String driverId) throws Exception {
         double realWeight = truckController.getTruck(truckId).getNatoWeight();
         realWeight += shipmentController.getShipment(date, departureHour, driverId).getShipmentWeight();
-        if (realWeight > truckController.getTruck(truckId).getMaxWeight()) {
+        if (realWeight > truckController.getTruck(truckId).getMaxWeight() + truckController.getTruck(truckId).getNatoWeight()) {
             shipmentController.deleteShipment(date, departureHour, driverId);
             throw new Exception("Truck's weight exceeded the limit, shipment has been removed.");
         }

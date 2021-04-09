@@ -2,8 +2,6 @@ package DTOs;
 
 import BusinessLayer.Objects.Location;
 
-import java.util.Map;
-
 public class LocationDTO {
     private String address;
     private String phoneNumber;
