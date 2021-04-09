@@ -2,7 +2,6 @@ package Business_Layer.Objects;
 
 import DTO.ContactDTO;
 import DTO.SupplierDTO;
-import javafx.util.Pair;
 import enums.ContactMethod;
 
 import java.util.HashMap;
@@ -11,12 +10,12 @@ import java.util.Map;
 public class SupplierCard {
     private String name;
     private String manifactur;
-    private int company_id;
+    private final int company_id;
     private int bankAccount;
     private String paymentConditions;
     private String orderType;
     private boolean selfPickup;
-    private Map<String, ContactPerson> contacts;
+    private final Map<String, ContactPerson> contacts;
 
     public SupplierCard(String name, String manifactur, int company_id, int BankAccount,
                         String paymentConditions, String orderType, boolean selfPickup) {
