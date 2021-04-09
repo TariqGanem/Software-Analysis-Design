@@ -114,4 +114,8 @@ public class Contract {
     public boolean isSelfPickup() {
         return selfPickup;
     }
+
+    public boolean isIncluding(int itemID) {
+        return items.containsKey(itemID);
+    }
 }
