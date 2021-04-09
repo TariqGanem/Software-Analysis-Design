@@ -3,6 +3,7 @@ package Presentation_Layer;
 import Business_Layer.Application.Facade;
 import Business_Layer.Application.Response.Response;
 
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class OrdersMenu implements Menu{
@@ -10,36 +11,44 @@ public class OrdersMenu implements Menu{
 
 	@Override
 	public void Print_Menu() {
-		boolean terminate = false;
-		Scanner sc = new Scanner(System.in);
-		int opt;
-		while (!terminate) {
-			ordersMenu_options();
-			opt = Integer.parseInt(sc.nextLine());
-			switch (opt) {
-				case 1:
-					createOrderMenu();
-					break;
-				case 2:
-					submitOrderMenu();
-					break;
-				case 3:
-					completeOrderMenu();
-					break;
-				case 4:
-					cancelOrderMenu();
-					break;
+		try {
+			boolean terminate = false;
+			Scanner sc = new Scanner(System.in);
+			int opt;
+			while (!terminate) {
+				ordersMenu_options();
+				opt = sc.nextInt();
+				switch (opt) {
+					case 1:
+						createOrderMenu();
+						break;
+					case 2:
+						submitOrderMenu();
+						break;
+					case 3:
+						completeOrderMenu();
+						break;
+					case 4:
+						cancelOrderMenu();
+						break;
 
-				case 5:
-					manageOrderMenu_options();
-					break;
+					case 5:
+							System.out.println("Enter id of order you want to manage: ");
+							manageOrderMenu(sc.nextInt());
+							break;
 
-				case 6:
-					terminate = true;
-					break;
-				default:
-					System.out.println("Enter a number between 1 to 6.");
+
+					case 6:
+						terminate = true;
+						break;
+					default:
+						System.out.println("Enter a number between 1 to 6!");
+				}
 			}
+		}
+		catch (Exception exception){
+			System.out.println("Wrong input, try again: ");
+			Print_Menu();
 		}
 	}
 
@@ -55,75 +64,263 @@ public class OrdersMenu implements Menu{
 		);
 	}
 
-	private void createOrderMenu(){
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Enter supplier id to ask order from: \n");
-		int supplierID = Integer.parseInt(sc.nextLine());
+	private void createOrderMenu(){  // done
 
+		try {
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Enter supplier's id to ask order from: ");
+			int supplierID = sc.nextInt();
+			System.out.println("Enter due date of the order in format such as 2007-12-03: ");
+			LocalDate dueDate = LocalDate.parse(sc.next());
+			Response response = facade.OpenOrder(supplierID, dueDate);
+			if (response.isError()){
+				System.out.println(response.getErrorMessage());
+			}
+			else {
+				System.out.println("Order was submitted successfully!\n");
+			}
+
+			System.out.println("Press enter to continue");
+			try{System.in.read();}
+			catch(Exception e){}
+		}
+		catch (Exception exception){
+			System.out.println("Wrong input, try again: ");
+			createOrderMenu();
+		}
+
+	}
+
+	private void submitOrderMenu(){  // done
+		try {
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Enter order's id to submit: \n");
+			int orderID = sc.nextInt();
+
+			Response response = facade.PlaceOrder(orderID);
+			if (response.isError()){
+				System.out.println(response.getErrorMessage());
+			}
+			else {
+				System.out.println("Order was submitted successfully!\n");
+			}
+
+			System.out.println("Press enter to continue");
+			try{System.in.read();}
+			catch(Exception e){}
+		}
+		catch (Exception exception){
+			System.out.println("Wrong input, try again: ");
+			submitOrderMenu();
+		}
+
+	}
+	private void completeOrderMenu(){ // done
+
+		try {
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Enter order's id to complete: \n");
+			int orderID = sc.nextInt();
+
+			Response response = facade.CompleteOrder(orderID);
+			if (response.isError()){
+				System.out.println(response.getErrorMessage());
+			}
+			else {
+				System.out.println("Order was completed successfully!\n");
+			}
+
+			System.out.println("Press enter to continue");
+			try{System.in.read();}
+			catch(Exception e){}
+		}
+		catch (Exception exception){
+			System.out.println("Wrong input, try again: ");
+			completeOrderMenu();
+		}
+
+	}
+	private void cancelOrderMenu(){  // done
+		try{
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Enter order's id to cancel: \n");
+			int orderID = sc.nextInt();
+
+			Response response = facade.CancelOrder(orderID);
+			if (response.isError()){
+				System.out.println(response.getErrorMessage());
+			}
+			else {
+				System.out.println("Order was canceled successfully!\n");
+			}
+
+			System.out.println("Press enter to continue");
+			try{System.in.read();}
+			catch(Exception e){}
+		}
+		catch (Exception exception){
+			System.out.println("Wrong input, try again: ");
+			cancelOrderMenu();
+		}
 
 
 	}
 
-	private void submitOrderMenu(){
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Enter order's id to submit: \n");
-		int orderID = sc.nextInt();
-
-		Response response = facade.CompleteOrder(orderID);
-		if (response.isError()){
-			System.out.println(response.getErrorMessage());
-		}
-		else {
-			System.out.println("Order was canceled successfully!\n");
-		}
-
-		System.out.println("Press enter to continue");
-		try{System.in.read();}
-		catch(Exception e){}
-	}
-	private void completeOrderMenu(){
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Enter order's id to complete: \n");
-		int orderID = sc.nextInt();
-
-		Response response = facade.CompleteOrder(orderID);
-		if (response.isError()){
-			System.out.println(response.getErrorMessage());
-		}
-		else {
-			System.out.println("Order was canceled successfully!\n");
-		}
-
-		System.out.println("Press enter to continue");
-		try{System.in.read();}
-		catch(Exception e){}
-	}
-	private void cancelOrderMenu(){
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Enter order's id to cancel: \n");
-		int orderID = sc.nextInt();
-
-		Response response = facade.CancelOrder(orderID);
-		if (response.isError()){
-			System.out.println(response.getErrorMessage());
-		}
-		else {
-			System.out.println("Order was canceled successfully!\n");
-		}
-
-		System.out.println("Press enter to continue");
-		try{System.in.read();}
-		catch(Exception e){}
-	}
 	private void manageOrderMenu_options(){
 		System.out.println(
 				"======Manage Order Menu======"+"\n" +
 						"1.Add item"+"\n" +
 						"2.Remove item"+"\n" +
-						"3.Edit item"+"\n" +
-						"4.Reschedule order"+"\n" +
-						"5.Back"+"\n"
+						"3.Reschedule order"+"\n" +
+						"4.Back"+"\n"
 		);
+	}
+
+	private void addItemMenu(int orderID){  // done
+
+		try{
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Enter item's id to add to order: \n");
+			int itemID = sc.nextInt();
+
+			Response response = facade.AddItemToOrder(orderID, itemID);
+			if (response.isError()){
+				System.out.println(response.getErrorMessage());
+			}
+			else {
+				System.out.println("item was added successfully!\n");
+			}
+
+			System.out.println("Press enter to continue");
+			try{System.in.read();}
+			catch(Exception e){}
+		}
+		catch (Exception exception){
+			System.out.println("Wrong input, try again: ");
+			addItemMenu(orderID);
+		}
+
+
+	}
+	private void removeItemMenu(int orderID){  // done
+		try {
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Enter item's id to remove from order: \n");
+			int itemID = sc.nextInt();
+
+			Response response = facade.RemoveItem(orderID, itemID);
+			if (response.isError()){
+				System.out.println(response.getErrorMessage());
+			}
+			else {
+				System.out.println("item was removed successfully!\n");
+			}
+
+			System.out.println("Press enter to continue");
+			try{System.in.read();}
+			catch(Exception e){}
+		}
+		catch (Exception exception){
+			System.out.println("Wrong input, try again: ");
+			removeItemMenu(orderID);
+		}
+	}
+	//private void editItemMenu(int orderID){
+
+		//try {
+		//	Scanner sc = new Scanner(System.in);
+		//	System.out.println("Enter item's id to remove from order: \n");
+		//	int itemID = sc.nextInt();
+
+			//Response response = facade.EditItemInOrder(orderID, itemID);
+			//if (response.isError()){
+			//	System.out.println(response.getErrorMessage());
+			//}
+		//	else {
+		//		System.out.println("item was edited successfully!\n");
+		//	}
+
+			//System.out.println("Press enter to continue");
+		//	try{System.in.read();}
+		///	catch(Exception e){}
+		//}
+		//catch (Exception exception){
+		//	System.out.println("Wrong input, try again: ");
+		//	editItemMenu(orderID);
+	//	}
+
+	//}
+
+	private void rescheduleOrderMenu(int orderID){  // done
+		try {
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Enter order's id to submit: \n");
+			System.out.println("Enter new due date of the order in format such as 2007-12-03: ");
+			LocalDate dueDate = LocalDate.parse(sc.nextLine());
+			Response response = facade.RescheduleOrder(orderID, dueDate);
+			if (response.isError()){
+				System.out.println(response.getErrorMessage());
+			}
+			else {
+				System.out.println("Order was rescheduled successfully!\n");
+			}
+
+			System.out.println("Press enter to continue");
+			try{System.in.read();}
+			catch(Exception e){}
+		}
+		catch (Exception exception){
+			System.out.println("Wrong input, try again: ");
+			rescheduleOrderMenu(orderID);
+		}
+	}
+
+	private void manageOrderMenu(int orderID){  // done
+
+		try {
+			Scanner sc = new Scanner(System.in);
+			boolean terminate = false;
+
+			if (facade.isOrder(orderID).getValue()) {
+				int opt;
+				while (!terminate) {
+					manageOrderMenu_options();
+					opt = Integer.parseInt(sc.nextLine());
+					switch (opt) {
+						case 1:
+							addItemMenu(orderID);
+							break;
+						case 2:
+							removeItemMenu(orderID);
+							break;
+						//case 3:
+							//editItemMenu(orderID);
+							//break;
+						case 3:
+							rescheduleOrderMenu(orderID);
+							break;
+
+						case 4:
+							terminate = true;
+							break;
+						default:
+							System.out.println("Enter a number between 1 to 5!");
+					}
+				}
+
+			} else {
+				System.out.println("Enter a correct order's id or 0 to return back please: ");
+				orderID = sc.nextInt();
+				if (orderID == 0) {
+					return;
+				}
+				manageOrderMenu(orderID);
+			}
+		}
+		catch (Exception exception){
+			System.out.println("Wrong input, try again: ");
+			manageOrderMenu(orderID);
+		}
 	}
 
 }
