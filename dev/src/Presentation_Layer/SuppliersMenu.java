@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class SuppliersMenu implements Menu {
-    private Facade facade = Facade.getInstance();
+    private final Facade facade = Facade.getInstance();
 
     @Override
     public void Print_Menu() {
@@ -154,6 +154,37 @@ public class SuppliersMenu implements Menu {
                 "4.Return back" + "\n");
     }
 
+    private void ContactMethods_options(){
+        System.out.println(
+                "Please choose a contact method: " + "\n" +
+                        "1.Email"+"\n" +
+                        "2.Mobile"+"\n" +
+                        "3.Phone" +"\n"+
+                        "4.Fax" +"\n"
+        );
+    }
+    private ContactMethod parse(int input){
+        switch (input){
+            case 1:
+                return ContactMethod.Email;
+                break;
+
+            case 2:
+                return ContactMethod.Mobile;
+                break;
+
+            case 3:
+                return ContactMethod.Phone;
+                break;
+
+            case 4:
+                return ContactMethod.Fax;
+                break;
+            default:
+                System.out.println("Choose a number from 1 to 4, please!");
+        }
+    }
+
     private void ContactMenu(){
         boolean terminate = false;
         Scanner sc = new Scanner(System.in);
@@ -174,9 +205,9 @@ public class SuppliersMenu implements Menu {
                         String methods_inputs = sc.nextLine();
                         String[] split_methods = methods_inputs.split(":");
                         Map<ContactMethod, String> methods = new HashMap<>();
-                  //      for (ContactMethod method:split_methods) {
-                 //           methods.putIfAbsent(method.split("-")[0],method.split("-")[1]);
-                 //       }
+                        for (ContactMethod method:split_methods) {
+                            methods.putIfAbsent(method.split("-")[0],method.split("-")[1]);
+                        }
                         Response supplier = facade.AddContactPerson(company_id, name, methods);
                         if(supplier.isError())
                             System.out.println(supplier.getErrorMessage());
@@ -202,13 +233,14 @@ public class SuppliersMenu implements Menu {
                     }
                     break;
                 case 3:
-                    try {
+                    /*try {
+
                         System.out.print("Enter company id: ");
                         company_id = Integer.parseInt(sc.nextLine());
                         System.out.print("Enter the person's name: ");
                         String person_name = sc.nextLine();
-                        System.out.print("Enter the method's name: ");
-                        String method_name = sc.nextLine();
+                        ContactMethods_options();
+                        ContactMethod method_choose = sc.nextInt();
                         System.out.print("Enter the method's data: ");
                         String method_data = sc.nextLine();
                         Response supplier = facade.AddMethod(company_id, person_name, method_name, method_data);
@@ -218,7 +250,7 @@ public class SuppliersMenu implements Menu {
                             System.out.println("The new method has been added successfully!");
                     } catch (Exception e) {
                         System.out.println("Wrong inputs!!!");
-                    }
+                    }*/
                     break;
                 case 4:
                     try {
