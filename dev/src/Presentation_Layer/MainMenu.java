@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class MainMenu implements Menu {
     private Menu suppliers = new SuppliersMenu();
     private Menu contracts = new ContractsMenu();
-
+    private Menu orders = new OrdersMenu();
     @Override
     public void Print_Menu() {
         boolean terminate = false;
@@ -22,20 +22,19 @@ public class MainMenu implements Menu {
                     contracts.Print_Menu();
                     break;
                 case 3:
+                    orders.Print_Menu();
                     break;
                 case 4:
-                    break;
-                case 5:
                     terminate = true;
                     break;
                 default:
-                    System.out.println("Enter a number between 1 to 5.");
+                    System.out.println("Enter a number between 1 to 4.");
             }
         }
     }
 
     private void menu_options() {
-        System.out.println("======src.Main Menu======" + "\n" +
+        System.out.println("======Main Menu======" + "\n" +
                 "1.Manage Suppliers" + "\n" +
                 "2.Manage Contracts" + "\n" +
                 "3.Manage Orders" + "\n" +
