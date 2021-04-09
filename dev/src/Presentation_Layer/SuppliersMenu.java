@@ -163,7 +163,7 @@ public class SuppliersMenu implements Menu {
                         "4.Fax" +"\n"
         );
     }
-    private ContactMethod parse(int input){
+   /* private ContactMethod parse(int input){
         switch (input){
             case 1:
                 return ContactMethod.Email;
@@ -183,7 +183,7 @@ public class SuppliersMenu implements Menu {
             default:
                 System.out.println("Choose a number from 1 to 4, please!");
         }
-    }
+    }*/
 
     private void ContactMenu(){
         boolean terminate = false;
@@ -205,9 +205,9 @@ public class SuppliersMenu implements Menu {
                         String methods_inputs = sc.nextLine();
                         String[] split_methods = methods_inputs.split(":");
                         Map<ContactMethod, String> methods = new HashMap<>();
-                        for (ContactMethod method:split_methods) {
-                            methods.putIfAbsent(method.split("-")[0],method.split("-")[1]);
-                        }
+                        //for (ContactMethod method:split_methods) {
+                         //   methods.putIfAbsent(method.split("-")[0],method.split("-")[1]);
+                        //}
                         Response supplier = facade.AddContactPerson(company_id, name, methods);
                         if(supplier.isError())
                             System.out.println(supplier.getErrorMessage());
