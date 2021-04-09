@@ -93,14 +93,15 @@ public class SupplierController {
      * Adding a new contact person to the supplier's card.
      * @param company_id is the id of the company that the supplier works with it.
      * @param name is the name of the new contact.
-     * @param contactMethods are the methods that the supplier is going to contact this person with.
+     * @param method are the methods that the supplier is going to contact this person with.
+     * @param method_data is the data of the method like the phone number.
      * @throws Exception if there is no supplier that works with the company with this id so there is an error.
      * also if the contact is already in the supplier's contact table so the is an error.
      */
-    public void AddContactPerson(int company_id, String name, Map<ContactMethod, String> contactMethods) throws Exception {
+    public void AddContactPerson(int company_id, String name, ContactMethod method, String method_data) throws Exception {
         if (!suppliers.containsKey(company_id))
             throw new Exception("There's no supplier working with this company!!!");
-        suppliers.get(company_id).AddContactPerson(name, contactMethods);
+        suppliers.get(company_id).AddContactPerson(name, method, method_data);
     }
 
     /***

@@ -95,13 +95,14 @@ public class SupplierCard {
     /***
      * Adding a new contact person to the supplier's card.
      * @param name is the name of the new contact.
-     * @param contactMethods are the methods that the supplier is going to contact this person with.
+     * @param method are the methods that the supplier is going to contact this person with.
+     * @param method_data is the data of the method like the phone number.
      * @throws Exception if the contact is already in the supplier's contact table so the is an error.
      */
-    public void AddContactPerson(String name, Map<ContactMethod, String> contactMethods) throws Exception {
+    public void AddContactPerson(String name, ContactMethod method, String method_data) throws Exception {
         if (contacts.containsKey(name))
             throw new Exception("There's already a contact person with this name.");
-        contacts.put(name, new ContactPerson(name, contactMethods));
+        contacts.put(name, new ContactPerson(name, method, method_data));
     }
 
     /***
