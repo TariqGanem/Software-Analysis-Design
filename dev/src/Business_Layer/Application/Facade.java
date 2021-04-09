@@ -10,7 +10,6 @@ import Business_Layer.Application.Response.Response;
 import Business_Layer.Controllers.*;
 import Business_Layer.Controllers.OrderController;
 import Business_Layer.Controllers.SupplierController;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import enums.ContactMethod;
 
 import java.time.LocalDate;
@@ -18,9 +17,9 @@ import java.util.Map;
 
 public class Facade {
     private static   Facade instance;
-    private SupplierController sc;
-    private ContractController cc;
-    private OrderController oc;
+    private final SupplierController sc;
+    private final ContractController cc;
+    private final OrderController oc;
 
     public Facade() {
         sc = SupplierController.getInstance();
