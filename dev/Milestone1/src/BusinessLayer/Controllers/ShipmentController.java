@@ -35,25 +35,23 @@ public class ShipmentController {
     }
 
     /**
-     * Adding a new shipment to the system
      *
-     * @param date             - Date of the shipment to be transported
-     * @param departureHour    - The exact hour for the transportation of the shipment
-     * @param truckPlateNumber - The truck's unique id for the transportation
-     * @param driverId         - The driver's unique id
-     * @param items            - All items with quantities and weights to transport
-     * @param source           - Source location of the transportation
-     * @param dests            - All locations to transport the delivery
+     * @param date
+     * @param departureHour
+     * @param truckPlateNumber
+     * @param driverId
+     * @param items_per_location
+     * @param source
      * @throws Exception
      */
-    public void addShipment(Date date, String departureHour, String truckPlateNumber, String driverId, Map<String, List<Double>> items, Location source, List<Location> dests) throws Exception {
+    public void addShipment(Date date, String departureHour, String truckPlateNumber, String driverId, Map<Location, Map<String, List<Double>>> items_per_location, Location source) throws Exception {
         if (departureHour == null || departureHour.trim().isEmpty())
             throw new Exception("Couldn't add new shipment - Invalid parameters");
         for (Shipment s : data) {
             if (s.getDate().compareTo(date) == 0 && s.getDepartureHour().equals(departureHour) && s.getDriverId().equals(driverId))
                 throw new Exception("Couldn't add new shipment - Shipment already exists");
         }
-        data.add(new Shipment(date, departureHour, truckPlateNumber, driverId, items, source, dests));
+        data.add(new Shipment(date, departureHour, truckPlateNumber, driverId, items_per_location, source));
     }
 
     /**
@@ -99,8 +97,8 @@ public class ShipmentController {
      */
     public Shipment trackShipment(int trackingId) throws Exception {
         for (Shipment s: data) {
-            for (Document d: s.getDocuments()) {
-                if(d.getTrackingNumber() == trackingId){
+            for (int id: s.getDocuments().keySet()) {
+                if(id == trackingId){
                     return s;
                 }
             }

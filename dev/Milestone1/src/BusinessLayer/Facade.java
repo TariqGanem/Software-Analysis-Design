@@ -143,30 +143,35 @@ public class Facade {
     }
 
     /**
+     *
      * @param date
      * @param departureHour
      * @param source
-     * @param items
-     * @param dests
+     * @param items_per_location
      * @return
      */
-    public Response arrangeDelivery(Date date, String departureHour, String source, Map<String, List<Double>> items, List<String> dests) {
+    public Response arrangeDelivery(Date date, String departureHour, String source, Map<String, Map<String, List<Double>>> items_per_location) {
         try {
             double weight = 0;
-            for (String item : items.keySet()) {
-                weight += (items.get(item).get(0) * items.get(item).get(0));
+            for (String loc : items_per_location.keySet()) {
+                for (String item : items_per_location.get(loc).keySet()){
+                    weight += (items_per_location.get(loc).get(item).get(0) * items_per_location.get(loc).get(item).get(1));
+                }
             }
             TruckDTO truck = new TruckDTO(truckController.getAvailableTruck(weight));
             DriverDTO driver = new DriverDTO(driverController.getAvailableDriver(weight + truck.getNatoWeight()));
             Location s = locationController.getLocation(source);
-            List<Location> d = new LinkedList<>();
-            for (String loc : dests) {
-                d.add(locationController.getLocation(loc));
+            Map<Location, Map<String, List<Double>>> items = new HashMap<>();
+            for (String loc : items_per_location.keySet()) {
+                if(loc.equals(source)) {
+                    return new Response("Cannot deliver to destination as the same source, shipment removed.");
+                }
+                items.put(locationController.getLocation(loc), items_per_location.get(loc));
             }
-            shipmentController.addShipment(date, departureHour, truck.getTruckPlateNumber(), driver.getId(), items, s, d);
+            shipmentController.addShipment(date, departureHour, truck.getTruckPlateNumber(), driver.getId(), items, s);
             double realWeight = weighTruck(truck.getTruckPlateNumber(), date, departureHour, driver.getId());
-            for (String dest : dests) {
-                shipmentController.addDocument(date, departureHour, driver.getId(), locationController.getLocation(dest), items, realWeight);
+            for (String dest : items_per_location.keySet()) {
+                shipmentController.addDocument(date, departureHour, driver.getId(), locationController.getLocation(dest), items_per_location.get(dest), realWeight);
             }
             truckController.depositeTruck(truck.getTruckPlateNumber());
             driverController.depositeDriver(driver.getId());

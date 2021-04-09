@@ -1,13 +1,9 @@
 package DTOs;
 
-import BusinessLayer.Objects.Document;
 import BusinessLayer.Objects.Location;
 import BusinessLayer.Objects.Shipment;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ShipmentDTO {
     private Date date;
@@ -15,10 +11,11 @@ public class ShipmentDTO {
     private String truckPlateNumber;
     private String driverId;
     private double shipmentWeight;
-    private List<DocumentDTO> documents;
-    private Location source;
+    private Map<Integer, DocumentDTO> documents;
+    private LocationDTO source;
     private List<LocationDTO> destinations;
     private Map<String, List<Double>> items;
+    private Map<LocationDTO, Map<String, List<Double>>> items_per_location;
 
     public ShipmentDTO(Shipment s) {
         date = s.getDate();
@@ -26,16 +23,20 @@ public class ShipmentDTO {
         truckPlateNumber = s.getTruckPlateNumber();
         driverId = s.getDriverId();
         shipmentWeight = s.getShipmentWeight();
-        documents = new LinkedList<>();
-        for (Document d : s.getDocuments()) {
-            documents.add(new DocumentDTO(d));
+        documents = new HashMap<>();
+        for (int id : s.getDocuments().keySet()) {
+            documents.put(id, new DocumentDTO(s.getDocuments().get(id)));
         }
-        source = s.getSource();
+        source = new LocationDTO(s.getSource());
         destinations = new LinkedList<>();
         for (Location location : s.getDestinations()) {
             destinations.add(new LocationDTO(location));
         }
         items = s.getItems();
+        items_per_location = new HashMap<>();
+        for (Location loc: s.getItemsPerLocation().keySet()) {
+            items_per_location.put(new LocationDTO(loc), s.getItemsPerLocation().get(loc));
+        }
     }
 
     public Date getDate() {
@@ -58,11 +59,11 @@ public class ShipmentDTO {
         return shipmentWeight;
     }
 
-    public Location getSource() {
+    public LocationDTO getSource() {
         return source;
     }
 
-    public List<DocumentDTO> getDocuments() {
+    public Map<Integer, DocumentDTO> getDocuments() {
         return documents;
     }
 
@@ -72,5 +73,9 @@ public class ShipmentDTO {
 
     public Map<String, List<Double>> getItems() {
         return items;
+    }
+
+    public Map<LocationDTO, Map<String, List<Double>>> getItemsPerLocation() {
+        return items_per_location;
     }
 }
