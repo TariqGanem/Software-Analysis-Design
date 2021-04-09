@@ -59,7 +59,7 @@ class ContactPersonTest {
         try {
             assertEquals(2, contact.getContactMethods().size());
             contact.RemoveMethod(ContactMethod.Mobile);
-            assertTrue(contact.getContactMethods().containsKey(ContactMethod.Mobile));
+            assertFalse(contact.getContactMethods().containsKey(ContactMethod.Mobile));
             assertEquals(1, contact.getContactMethods().size());
 
         }

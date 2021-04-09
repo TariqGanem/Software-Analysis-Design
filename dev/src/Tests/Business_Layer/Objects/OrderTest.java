@@ -114,12 +114,12 @@ class OrderTest {
             }
             assertEquals(LocalDate.now().plusDays(30), order.getOrderDate());
             assertNotNull(exception);
-            date = date.plusDays(7);
+            date = LocalDate.now().plusDays(70);
             order.setNewDate(date);
             assertEquals(date, order.getOrderDate());
         }
         catch (Exception e){
-            fail("Got an unexpected exception!");
+            fail("Got an unexpected exception!"+ "\n"+e.getMessage());
         }
     }
 
