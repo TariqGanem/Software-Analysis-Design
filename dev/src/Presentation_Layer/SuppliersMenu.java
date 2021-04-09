@@ -39,7 +39,7 @@ public class SuppliersMenu implements Menu {
                         boolean selfpickup = Boolean.parseBoolean(sc.nextLine());
                         Response supplier = facade.AddSupplier(supplier_name, Manifactur_name, company_id, bank_account,
                                 payment_conditions, contract_type, selfpickup);
-                        if(supplier.isError())
+                        if (supplier.isError())
                             System.out.println(supplier.getErrorMessage());
                         else
                             System.out.println("The supplier has been added successfully!");
@@ -52,7 +52,7 @@ public class SuppliersMenu implements Menu {
                         System.out.print("Enter company id: ");
                         int company_id = Integer.parseInt(sc.nextLine());
                         Response supplier = facade.RemoveSupplier(company_id);
-                        if(supplier.isError())
+                        if (supplier.isError())
                             System.out.println(supplier.getErrorMessage());
                         else
                             System.out.println("The supplier has been removed successfully!");
@@ -68,7 +68,7 @@ public class SuppliersMenu implements Menu {
                         System.out.print("Enter company id: ");
                         int company_id = Integer.parseInt(sc.nextLine());
                         Response<SupplierDTO> supplier = facade.PrintSupplierCard(company_id);
-                        if(supplier.isError())
+                        if (supplier.isError())
                             System.out.println(supplier.getErrorMessage());
                         else
                             System.out.println(supplier.getValue().toString());
@@ -92,7 +92,7 @@ public class SuppliersMenu implements Menu {
                 "2.Delete a current Supplier" + "\n" +
                 "3.Edit a current Supplier" + "\n" +
                 "4.Print Supplier card" + "\n" +
-                "5.Return to src.Main menu" + "\n");
+                "5.Return to Main menu" + "\n");
     }
 
     private void EditSupplierMenu() {
@@ -113,7 +113,7 @@ public class SuppliersMenu implements Menu {
                         System.out.print("Enter new payment conditions: ");
                         String payment_conditions = sc.nextLine();
                         Response supplier = facade.ChangePaymentConditions(company_id, payment_conditions);
-                        if(supplier.isError())
+                        if (supplier.isError())
                             System.out.println(supplier.getErrorMessage());
                         else
                             System.out.println("The supplier's payment conditions has been changed successfully!");
@@ -128,7 +128,7 @@ public class SuppliersMenu implements Menu {
                         System.out.print("Enter new Bank account: ");
                         int bank_account = Integer.parseInt(sc.nextLine());
                         Response supplier = facade.ChangeBankAccount(company_id, bank_account);
-                        if(supplier.isError())
+                        if (supplier.isError())
                             System.out.println(supplier.getErrorMessage());
                         else
                             System.out.println("The supplier's bank account has been changed successfully!");
@@ -154,38 +154,7 @@ public class SuppliersMenu implements Menu {
                 "4.Return back" + "\n");
     }
 
-    private void ContactMethods_options(){
-        System.out.println(
-                "Please choose a contact method: " + "\n" +
-                        "1.Email"+"\n" +
-                        "2.Mobile"+"\n" +
-                        "3.Phone" +"\n"+
-                        "4.Fax" +"\n"
-        );
-    }
-   /* private ContactMethod parse(int input){
-        switch (input){
-            case 1:
-                return ContactMethod.Email;
-                break;
-
-            case 2:
-                return ContactMethod.Mobile;
-                break;
-
-            case 3:
-                return ContactMethod.Phone;
-                break;
-
-            case 4:
-                return ContactMethod.Fax;
-                break;
-            default:
-                System.out.println("Choose a number from 1 to 4, please!");
-        }
-    }*/
-
-    private void ContactMenu(){
+    private void ContactMenu() {
         boolean terminate = false;
         Scanner sc = new Scanner(System.in);
         int opt;
@@ -200,21 +169,23 @@ public class SuppliersMenu implements Menu {
                         company_id = Integer.parseInt(sc.nextLine());
                         System.out.print("Enter person's name: ");
                         String name = sc.nextLine();
-                        System.out.println("Enter methods:(enter with the following format without spaces) " + "\n" +
-                                "method's name-method's data:method's name-method's data:....:method's name-method's data");
-                        String methods_inputs = sc.nextLine();
-                        String[] split_methods = methods_inputs.split(":");
-                        Map<ContactMethod, String> methods = new HashMap<>();
-                        //for (ContactMethod method:split_methods) {
-                         //   methods.putIfAbsent(method.split("-")[0],method.split("-")[1]);
-                        //}
-                        Response supplier = facade.AddContactPerson(company_id, name, methods);
-                        if(supplier.isError())
+                        ContactMethod method = null;
+                        while(true) {
+                            ContactMethods_options();
+                            int choose = Integer.parseInt(sc.nextLine());
+                            method = parse(choose);
+                            if(method != null)
+                                break;
+                        }
+                        System.out.print("Enter the method's data: ");
+                        String method_data = sc.nextLine();
+                        Response supplier = facade.AddContactPerson(company_id, name, method, method_data);
+                        if (supplier.isError())
                             System.out.println(supplier.getErrorMessage());
                         else
                             System.out.println("The contact person has been added successfully!");
                         break;
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         System.out.println("Wrong inputs!!!");
                     }
                 case 2:
@@ -224,7 +195,7 @@ public class SuppliersMenu implements Menu {
                         System.out.print("Enter person's name: ");
                         String ContactPerson_name = sc.nextLine();
                         Response supplier = facade.RemoveContact(company_id, ContactPerson_name);
-                        if(supplier.isError())
+                        if (supplier.isError())
                             System.out.println(supplier.getErrorMessage());
                         else
                             System.out.println("The contact person has been removed successfully!");
@@ -233,24 +204,29 @@ public class SuppliersMenu implements Menu {
                     }
                     break;
                 case 3:
-                    /*try {
-
+                    try {
                         System.out.print("Enter company id: ");
                         company_id = Integer.parseInt(sc.nextLine());
                         System.out.print("Enter the person's name: ");
                         String person_name = sc.nextLine();
-                        ContactMethods_options();
-                        ContactMethod method_choose = sc.nextInt();
+                        ContactMethod method = null;
+                        while(true) {
+                            ContactMethods_options();
+                            int choose = Integer.parseInt(sc.nextLine());
+                            method = parse(choose);
+                            if(method != null)
+                                break;
+                        }
                         System.out.print("Enter the method's data: ");
                         String method_data = sc.nextLine();
-                        Response supplier = facade.AddMethod(company_id, person_name, method_name, method_data);
-                        if(supplier.isError())
+                        Response supplier = facade.AddMethod(company_id, person_name, method, method_data);
+                        if (supplier.isError())
                             System.out.println(supplier.getErrorMessage());
                         else
                             System.out.println("The new method has been added successfully!");
                     } catch (Exception e) {
                         System.out.println("Wrong inputs!!!");
-                    }*/
+                    }
                     break;
                 case 4:
                     try {
@@ -258,37 +234,19 @@ public class SuppliersMenu implements Menu {
                         company_id = Integer.parseInt(sc.nextLine());
                         System.out.print("Enter the person's name: ");
                         String person_name = sc.nextLine();
-                        System.out.print("Choose a contact method: \n" +
-                                "1.Email\n" +
-                                "2.Mobile\n" +
-                                "3.Phone\n" +
-                                "4.Fax");
-
-                        int contactMethod = sc.nextInt();
                         ContactMethod method = null;
-                        switch (contactMethod){
-                            case 1:
-                                method = ContactMethod.Email;
+                        while(true) {
+                            ContactMethods_options();
+                            int choose = Integer.parseInt(sc.nextLine());
+                            method = parse(choose);
+                            if(method != null)
                                 break;
-                            case 2:
-                                method = ContactMethod.Mobile;
-                                break;
-                            case 3:
-                                method = ContactMethod.Phone;
-                                break;
-                            case 4:
-                                method = ContactMethod.Fax;
-                                break;
-                            default:
-                                System.out.println("chosee a number from 1 till 4:");
                         }
-                        System.out.print("Enter the method's data: ");
-                        String method_data = sc.nextLine();
-                        Response supplier = facade.EditMethod(company_id, person_name, method, method_data);
-                        if(supplier.isError())
+                        Response supplier = facade.RemoveMethod(company_id, person_name, method);
+                        if (supplier.isError())
                             System.out.println(supplier.getErrorMessage());
                         else
-                            System.out.println("The contact person's method has been edited successfully!");
+                            System.out.println("The contact person's method has been removed successfully!");
                     } catch (Exception e) {
                         System.out.println("Wrong inputs!!!");
                     }
@@ -297,8 +255,33 @@ public class SuppliersMenu implements Menu {
                     try {
                         System.out.print("Enter company id: ");
                         company_id = Integer.parseInt(sc.nextLine());
+                        System.out.print("Enter the person's name: ");
+                        String person_name = sc.nextLine();
+                        ContactMethod method = null;
+                        while(true) {
+                            ContactMethods_options();
+                            int choose = Integer.parseInt(sc.nextLine());
+                            method = parse(choose);
+                            if(method != null)
+                                break;
+                        }
+                        System.out.print("Enter the method's data: ");
+                        String method_data = sc.nextLine();
+                        Response supplier = facade.EditMethod(company_id, person_name, method, method_data);
+                        if (supplier.isError())
+                            System.out.println(supplier.getErrorMessage());
+                        else
+                            System.out.println("The contact person's method has been edited successfully!");
+                    } catch (Exception e) {
+                        System.out.println("Wrong inputs!!!");
+                    }
+                    break;
+                case 6:
+                    try {
+                        System.out.print("Enter company id: ");
+                        company_id = Integer.parseInt(sc.nextLine());
                         Response<SupplierDTO> supplier = facade.PrintAllContacts(company_id);
-                        if(supplier.isError())
+                        if (supplier.isError())
                             System.out.println(supplier.getErrorMessage());
                         else
                             System.out.println(supplier.getValue().AllContacts());
@@ -306,7 +289,7 @@ public class SuppliersMenu implements Menu {
                         System.out.println("Wrong inputs!!!");
                     }
                     break;
-                case 6:
+                case 7:
                     terminate = true;
                     break;
                 default:
@@ -321,8 +304,39 @@ public class SuppliersMenu implements Menu {
                 "1.Add new Contact Person" + "\n" +
                 "2.Delete a Contact Person" + "\n" +
                 "3.Add a new method" + "\n" +
-                "4.Edit a Contact Person" + "\n" +
-                "5.Print all contacts" + "\n" +
-                "6.Return back" + "\n");
+                "4.Remove a method" + "\n" +
+                "5.Edit a Contact Person" + "\n" +
+                "6.Print all contacts" + "\n" +
+                "7.Return back" + "\n");
+    }
+
+    private void ContactMethods_options() {
+        System.out.println(
+                "Please choose a contact method: " + "\n" +
+                        "1.Email" + "\n" +
+                        "2.Mobile" + "\n" +
+                        "3.Phone" + "\n" +
+                        "4.Fax" + "\n"
+        );
+    }
+
+    private ContactMethod parse(int input) {
+        switch (input) {
+            case 1:
+                return ContactMethod.Email;
+
+            case 2:
+                return ContactMethod.Mobile;
+
+            case 3:
+                return ContactMethod.Phone;
+
+            case 4:
+                return ContactMethod.Fax;
+
+            default:
+                System.out.println("Choose a number from 1 to 4, please!");
+        }
+        return null;
     }
 }
