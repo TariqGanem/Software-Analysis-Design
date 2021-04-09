@@ -34,4 +34,8 @@ public class Item {
     public void ChangePrice(double price) {
         this.price = price;
     }
+
+    public void Replace(Item item) {
+        price = item.price;
+    }
 }
