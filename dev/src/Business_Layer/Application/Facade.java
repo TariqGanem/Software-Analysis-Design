@@ -20,11 +20,12 @@ public class Facade {
     private final SupplierController sc;
     private final ContractController cc;
     private final OrderController oc;
-
+    private int orderIDGenerator;
     public Facade() {
         sc = SupplierController.getInstance();
         cc = ContractController.getInstance();
         oc = OrderController.getInstance();
+        orderIDGenerator = 1;
     }
 
     public static Facade getInstance() {
@@ -348,13 +349,14 @@ public class Facade {
 
     /**
      * @param orderID id of order to add item to.
-     * @param item item to be added to the order
+     * @param itemID item to be added to the order
      * @return  response of the procedure
      */
-    public Response AddItemToOrder(int orderID,  ItemDTO item){
+    public Response AddItemToOrder(int orderID,  int itemID){
         try{
 
-            if(cc.getContract(oc.getSupplier(orderID)).isIncluding(item.getId())){
+            if(cc.getContract(oc.getSupplier(orderID)).isIncluding(itemID)){
+                Item item = cc.getContract(oc.getSupplier(orderID)).getItems().get(itemID);
                 oc.addItemToOrder(orderID, item);
             }
             else {
@@ -442,14 +444,15 @@ public class Facade {
 
 
     /**
+     * @param dueDate due date of the new order
      * @param supplierID id of supplier to ask an order from
-     * @param newOrder a new order to be opened
      * @return response of the procedure
      */
-    public Response OpenOrder(int supplierID, OrderDTO newOrder) {
+    public Response OpenOrder(int supplierID, LocalDate dueDate) {
         try {
             if (sc.isSupplier(supplierID)) {
-                oc.openOrder(supplierID, newOrder);
+                oc.openOrder(supplierID, orderIDGenerator, dueDate);
+                orderIDGenerator++;
             }
             else throw new Exception("Supplier does not exist!");
 
@@ -471,6 +474,20 @@ public class Facade {
         }
         catch (Exception exception){
             return new Response(exception.getMessage());
+        }
+    }
+
+    /**
+     * @param orderID id of order to check
+     * @return if order exists or not
+     */
+    public Response<Boolean> isOrder(int orderID) {
+
+        try {
+            return new Response<>(oc.isOrder(orderID));
+        }
+        catch (Exception exception){
+            return new Response<>(exception.getMessage());
         }
     }
 }
