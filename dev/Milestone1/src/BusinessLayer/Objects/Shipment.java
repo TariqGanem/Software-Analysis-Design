@@ -1,8 +1,5 @@
 package BusinessLayer.Objects;
 
-
-import DTOs.LocationDTO;
-
 import java.util.*;
 
 public class Shipment {
@@ -75,8 +72,11 @@ public class Shipment {
     }
 
     /**
-     * @param products
-     * @param dest
+     * Adding document per location to the delivery
+     * @param products - The products which is transported to the specific destination
+     * @param dest - The requested destination
+     * @param weight - The weight of the shipment for the specific location
+     * @param trackingNumber - Tracking number for the delivery as requested
      */
     public void addDocument(Map<String, List<Double>> products, Location dest, double weight, int trackingNumber) {
         Document d = new Document(trackingNumber, products, dest);

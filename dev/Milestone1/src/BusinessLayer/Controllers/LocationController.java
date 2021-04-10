@@ -4,7 +4,6 @@ import BusinessLayer.Objects.Location;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public class LocationController {
     private List<Location> data;
@@ -46,8 +45,7 @@ public class LocationController {
     }
 
     /**
-     *
-     * @return
+     * @return all locations in the system
      */
     public List<Location> getAllLocations() {
         return data;

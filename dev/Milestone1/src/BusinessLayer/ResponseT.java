@@ -11,11 +11,6 @@ public class ResponseT<T> extends Response {
         value = val;
     }
 
-    public ResponseT(T val, String msg) {
-        super(msg);
-        value = val;
-    }
-
     public T getValue() {
         return value;
     }

@@ -44,17 +44,16 @@ public class DriverController {
     }
 
     /**
-     *
-     * @return
+     * @return all drivers in the system
      */
     public List<Driver> getAlldrivers() {
         return data;
     }
 
     /**
-     * @param weight
-     * @return
-     * @throws Exception
+     * @param weight - The weight of the delivery
+     * @return an available driver if exists
+     * @throws Exception in case of there is no available driver
      */
     public Driver getAvailableDriver(double weight) throws Exception {
         for (Driver d : data) {
@@ -65,6 +64,10 @@ public class DriverController {
         throw new Exception("No available drivers.");
     }
 
+    /**
+     * Makes the driver unavailable because he is currently in work
+     * @param id - The id of the requested driver
+     */
     public void depositeDriver(String id) {
         for (Driver d : data) {
             if (d.getId().equals(id)) {

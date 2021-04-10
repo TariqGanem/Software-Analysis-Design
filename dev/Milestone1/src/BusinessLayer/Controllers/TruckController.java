@@ -32,7 +32,7 @@ public class TruckController {
      * @param truckPlateNumber - Truck unique ID
      * @param model - Truck's model
      * @param natoWeight - Truck's weight without the shipment
-     * @param maxWeight - The maximum possible weight of the truck including shipment
+     * @param maxWeight - The maximum possible weight of the shipment that truck can transport
      * @throws Exception in case of invalid parameters
      */
     public void addTruck(String truckPlateNumber, String model, double natoWeight, double maxWeight) throws Exception {
@@ -48,16 +48,15 @@ public class TruckController {
     }
 
     /**
-     *
-     * @return
+     * @return all trucks in the system
      */
     public List<Truck> getAlltrucks() {
         return trucks;
     }
 
     /**
-     * @param weight
-     * @return
+     * @param weight - The shipment weight
+     * @return an available truck which can transport a delivery of weight @param-weight
      * @throws Exception
      */
     public Truck getAvailableTruck(double weight) throws Exception {
@@ -68,6 +67,10 @@ public class TruckController {
         throw new Exception("No truck available");
     }
 
+    /**
+     * Makes the truck unavailable because it is currently in use
+     * @param truckPlateNumber - Unique id for truck
+     */
     public void depositeTruck(String truckPlateNumber) {
         for (Truck t : trucks) {
             if (t.getTruckPlateNumber().equals(truckPlateNumber))

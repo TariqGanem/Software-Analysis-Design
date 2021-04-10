@@ -1,6 +1,5 @@
 package BusinessLayer.Controllers;
 
-import BusinessLayer.Objects.Document;
 import BusinessLayer.Objects.Location;
 import BusinessLayer.Objects.Shipment;
 
@@ -35,14 +34,14 @@ public class ShipmentController {
     }
 
     /**
-     *
-     * @param date
-     * @param departureHour
-     * @param truckPlateNumber
-     * @param driverId
-     * @param items_per_location
-     * @param source
-     * @throws Exception
+     * Adding a shipment to the system
+     * @param date - Date of the shipment to be transported
+     * @param departureHour - The exact hour for the transportation of the shipment
+     * @param truckPlateNumber - The truck's id which transports the delivery
+     * @param driverId - The driver's id which transports the delivery
+     * @param items_per_location - foreach Location there is a map -> foreach item there is list[2] -> [weight, amount]
+     * @param source - The location which the delivery will start on
+     * @throws Exception in case of wrong parameters values
      */
     public void addShipment(Date date, String departureHour, String truckPlateNumber, String driverId, Map<Location, Map<String, List<Double>>> items_per_location, Location source) throws Exception {
         if (departureHour == null || departureHour.trim().isEmpty())
@@ -55,14 +54,15 @@ public class ShipmentController {
     }
 
     /**
-     * @param date
-     * @param departureHour
-     * @param driverId
-     * @param dest
-     * @param products
-     * @throws Exception
+     * Adding a document to the shipment (foreach location as requested)
+     * @param date - Date of the shipment to be transported
+     * @param departureHour - The exact hour for the transportation of the shipment
+     * @param driverId - The driver's unique id
+     * @param dest - The destination of the shipment
+     * @param products - The items that will be transported
+     * @param weight - The shipment's weight + the truck's weight
      */
-    public void addDocument(Date date, String departureHour, String driverId, Location dest, Map<String, List<Double>> products, double weight) throws Exception {
+    public void addDocument(Date date, String departureHour, String driverId, Location dest, Map<String, List<Double>> products, double weight) {
         for (Shipment s : data) {
             if (s.getDate().compareTo(date) == 0 && s.getDepartureHour().equals(departureHour) && s.getDriverId().equals(driverId)) {
                 s.addDocument(products, dest, weight, trackingNumber);
@@ -72,28 +72,24 @@ public class ShipmentController {
         }
     }
 
-    /**
-     * @param date
-     * @param departureHour
-     * @param driverId
+    /** Deleting a shipment from the system
+     * @param date - Date of the shipment to be transported
+     * @param departureHour - The exact hour for the transportation of the shipment
+     * @param driverId - The driver's unique id
      */
-    public void deleteShipment(Date date, String departureHour, String driverId) {
+    public void deleteShipment(Date date, String departureHour, String driverId) throws Exception {
         for (Shipment s : data) {
             if (s.getDate().compareTo(date) == 0 && s.getDepartureHour().equals(departureHour) && s.getDriverId().equals(driverId)) {
                 data.remove(s);
                 break;
             }
         }
-    }
-
-    public List<Shipment> getAllShipments() {
-        return data;
+        throw new Exception("Shipment not found, invalid parameters.");
     }
 
     /**
-     *
-     * @param trackingId
-     * @return
+     * @param trackingId - Document trackingNumber
+     * @return The shipment per tracking id of its document
      */
     public Shipment trackShipment(int trackingId) throws Exception {
         for (Shipment s: data) {
@@ -104,5 +100,12 @@ public class ShipmentController {
             }
         }
         throw new Exception("Invalid document id.");
+    }
+
+    /**
+     * @return all shipments in the system
+     */
+    public List<Shipment> getAllShipments() {
+        return data;
     }
 }

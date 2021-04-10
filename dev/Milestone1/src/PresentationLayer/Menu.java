@@ -62,6 +62,7 @@ public class Menu {
         addMenuItem("View All Shipment Transportations");
         addMenuItem("Track Shipment");
         addMenuItem("Arrange Shipment");
+        addMenuItem("Remove Shipment");
         addMenuItem("Exit");//Keep last
     }
 
@@ -111,6 +112,9 @@ public class Menu {
                 shipmentsHandler.arrangeShipment();
                 break;
             case 11:
+                shipmentsHandler.removeShipment();
+                break;
+            case 12:
                 exit();
                 break;
         }

@@ -29,8 +29,8 @@ public class Facade {
     }
 
     /**
-     * @param truckId
-     * @return
+     * @param truckId - the requested truck unique id
+     * @return response of type TruckDTO by the given id
      */
     public ResponseT<TruckDTO> getTruckDTO(String truckId) {
         try {
@@ -41,8 +41,8 @@ public class Facade {
     }
 
     /**
-     * @param id
-     * @return
+     * @param id - the requested driver unique id
+     * @return response of type DriverDTO by the given id
      */
     public ResponseT<DriverDTO> getDriverDTO(String id) {
         try {
@@ -53,8 +53,8 @@ public class Facade {
     }
 
     /**
-     * @param address
-     * @return
+     * @param address - the requested location unique address
+     * @return response of type LocationDTO by the given id
      */
     public ResponseT<LocationDTO> getLocationDTO(String address) {
         try {
@@ -65,10 +65,11 @@ public class Facade {
     }
 
     /**
-     * @param address
-     * @param phoneNumber
-     * @param contactName
-     * @return
+     * Adding a new location to the system
+     * @param address - location unique id
+     * @param phoneNumber - phone number of the person to contact
+     * @param contactName - the name of the person to contact
+     * @return response contains msg in case of any error
      */
     public Response addLocation(String address, String phoneNumber, String contactName) {
         try {
@@ -84,7 +85,7 @@ public class Facade {
      * @param model
      * @param natoWeight
      * @param maxWeight
-     * @return
+     * @return response contains msg in case of any error
      */
     public Response addTruck(String truckPlateNumber, String model, double natoWeight, double maxWeight) {
         try {
@@ -99,7 +100,7 @@ public class Facade {
      * @param id
      * @param name
      * @param allowedWeight
-     * @return
+     * @return response contains msg in case of any error
      */
     public Response addDriver(String id, String name, double allowedWeight) {
         try {
@@ -111,7 +112,7 @@ public class Facade {
     }
 
     /**
-     * @return
+     * @return Response of type List<DTO> containing all trucks in the system
      */
     public ResponseT<List<TruckDTO>> getAlltrucks() {
         try {
@@ -259,6 +260,16 @@ public class Facade {
             return new ResponseT<>(s);
         } catch (Exception e){
             return new ResponseT<>(e.getMessage());
+        }
+    }
+
+    public Response removeShipment(Date date, String departureHour, String driverId){
+        try{
+            shipmentController.deleteShipment(date, departureHour, driverId);
+            return new Response();
+        }
+        catch (Exception e){
+            return new Response(e.getMessage());
         }
     }
 }

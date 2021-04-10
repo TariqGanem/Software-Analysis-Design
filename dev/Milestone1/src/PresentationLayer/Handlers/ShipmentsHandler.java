@@ -67,12 +67,12 @@ public class ShipmentsHandler extends Handler {
         String hour = scanner.next();
         System.out.printf("Enter driver's id: ");
         String id = scanner.next();
-//        Response res = facade.removeShipment(date, hour, id);
-//        if (res.errorOccured()) {
-//            printer.error(res.getMsg());
-//        } else {
-//            printer.success("Shipment has been removed!");
-//        }
+        Response res = facade.removeShipment(date, hour, id);
+        if (res.errorOccured()) {
+            printer.error(res.getMsg());
+        } else {
+            printer.success("Shipment has been removed!");
+        }
     }
 
     private Map<String, List<Double>> getItems() {
