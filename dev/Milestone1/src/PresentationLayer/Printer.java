@@ -5,6 +5,7 @@ import DTOs.*;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class Printer {
     private static Printer instance = null;
@@ -76,6 +77,7 @@ public class Printer {
                     + ". Id Number: " + drivers.get(i).getId()
                     + "\t Name: " + drivers.get(i).getName()
                     + "\t Allowed Weight: " + drivers.get(i).getAllowedWeight()
+                    + "\t Available: " + drivers.get(i).isAvailable()
             );
         }
     }
@@ -138,7 +140,18 @@ public class Printer {
                         + "\n\t Source: " + shipment.getSource().getAddress()
                         + "\t\t Arrives At: " + document.getDestination().getAddress()
                         + "\t Phone: " + document.getDestination().getPhoneNumber()
-                        + "(" + document.getDestination().getPhoneNumber() + ")"
+                        + " (" + document.getDestination().getContactName() + ")"
+                        + "\n\t This shipment contains:"
         );
+        Map<String, List<Double>> products = document.getProducts();
+        int i = 0;
+        for (String pName : products.keySet()) {
+            System.out.println(
+                    "\t\t" + (i + 1) + ". " + pName + "\t"
+                            + "\tUnit Weight: " + products.get(pName).get(0)
+                            + "\tAmount: " + products.get(pName).get(1)
+            );
+            i++;
+        }
     }
 }

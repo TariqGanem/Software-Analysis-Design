@@ -53,7 +53,7 @@ public class DataInitializer {
         List<Double> items1 = new LinkedList<>();
         items1.add(4.6);
         items1.add(2.0);
-        itemInfo1.put("Milk",items1);
+        itemInfo1.put("Milk", items1);
         iPerl.put("Tel Aviv, Merkaz 53", itemInfo1);
 
 
@@ -61,7 +61,7 @@ public class DataInitializer {
         List<Double> items2 = new LinkedList<>();
         items2.add(6.7);
         items2.add(9.0);
-        itemInfo2.put("Bamba",items2);
+        itemInfo2.put("Bamba", items2);
         iPerl.put("Haifa hof hakarmel", itemInfo2);
 
 

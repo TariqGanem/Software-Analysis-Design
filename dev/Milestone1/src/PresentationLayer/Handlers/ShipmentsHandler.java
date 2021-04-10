@@ -13,6 +13,7 @@ public class ShipmentsHandler extends Handler {
     private Facade facade;
     private LocationsHandler locationsHandler;
     private List<ShipmentDTO> shipments;
+
     public ShipmentsHandler(Facade facade) {
         this.facade = facade;
         locationsHandler = new LocationsHandler(facade);
@@ -60,7 +61,7 @@ public class ShipmentsHandler extends Handler {
         }
     }
 
-    public void removeShipment(){
+    public void removeShipment() {
         System.out.printf("\nEnter shipment date [dd/MM/yyyy]: ");
         Date date = getDate();
         System.out.printf("Enter departure hour [00:00]: ");
