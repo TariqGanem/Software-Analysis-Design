@@ -28,7 +28,7 @@ public class DriverDTO {
         return allowedWeight;
     }
 
-    public boolean isAvailable(){
+    public boolean isAvailable() {
         return available;
     }
 }

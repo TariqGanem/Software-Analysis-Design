@@ -34,7 +34,7 @@ public class ShipmentDTO {
         }
         items = s.getItems();
         items_per_location = new HashMap<>();
-        for (Location loc: s.getItemsPerLocation().keySet()) {
+        for (Location loc : s.getItemsPerLocation().keySet()) {
             items_per_location.put(new LocationDTO(loc), s.getItemsPerLocation().get(loc));
         }
     }

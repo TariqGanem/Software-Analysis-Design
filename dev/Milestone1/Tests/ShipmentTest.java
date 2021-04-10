@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ShipmentTest {
     private Facade data;
@@ -26,7 +26,8 @@ public class ShipmentTest {
         Date date = null;
         try {
             date = new SimpleDateFormat("dd/MM/yyyy").parse("4/10/2021");
-        } catch (Exception e){}
+        } catch (Exception e) {
+        }
         String departureHour = "20:30";
         String source = "Beersheva, Alexander Yennai 17";
 
@@ -35,7 +36,7 @@ public class ShipmentTest {
         List<Double> items1 = new LinkedList<>();
         items1.add(3.5);
         items1.add(2.0);
-        itemInfo.put("Milk",items1);
+        itemInfo.put("Milk", items1);
         iPerl.put("Tel Aviv, Merkaz 53", itemInfo);
         data.arrangeDelivery(date, departureHour, source, iPerl);
         assertEquals(1, data.getAllShipments().getValue().size());
@@ -49,7 +50,8 @@ public class ShipmentTest {
         Date date = null;
         try {
             date = new SimpleDateFormat("dd/MM/yyyy").parse("4/10/2021");
-        } catch (Exception e){}
+        } catch (Exception e) {
+        }
         String departureHour = "20:30";
         String source = "Non available location";
 
@@ -58,7 +60,7 @@ public class ShipmentTest {
         List<Double> items1 = new LinkedList<>();
         items1.add(3.5);
         items1.add(2.0);
-        itemInfo.put("Milk",items1);
+        itemInfo.put("Milk", items1);
         iPerl.put("Tel Aviv, Merkaz 53", itemInfo);
         Response res = data.arrangeDelivery(date, departureHour, source, iPerl);
         assertEquals("No such location", res.getMsg());
