@@ -1,0 +1,34 @@
+
+											\*/ Changes Log: Delivery Model\*/
+ ______________
+| - => Removal |
+| + => Addition|
+| # => Change  |
+|--------------|
+
+	PresentationLayer:
+		+ Printer class: which is responsible for all printing cases & data to the user.
+		+ Handlers package: which contains all menu sub-handlers for better performance and cohesion.
+		- ActionsMenu class: We just recognized that there is no need for this class because Printer would take place.
+		+ Menu fields: because this class is the mapper between other classes in PL.
+
+	DTOsPackage: In order to make connection between BL and PL, we had to make the data objects foreach one,
+				   so PL has no access to the real object! Each DTO represents the real object data.
+				   + DocumentDTO
+				   + DriverDTO
+				   + TruckDTO
+				   + ShipmentDTO
+				   + LocationDTO
+
+	BusinessLayer:
+		# Facade fields: the 4 controllers were added to be the fields of this mapper class.
+		# Facade class: adding a relation(connection) between Facade and DTOs - the connection from side 2.
+		+ Response class: which is used for return values of type message error to the PL in case of error.
+		+ ResponseT class: which is responsible of returning Object values to the PL in case of success.
+		- Relations of object classes were removed and adjusted for better performance. 
+
+	TestPackage:
+		+ TruckTest class: in order to test the truck funtionality (adding, adjusting ...)
+		+ LocationTest class: in order ot test the Location functionality.
+		+ DriverTest class: in order ot test the Driver functionality.
+		+ ShipmentTest class: in order ot test the Shipment functionality.
