@@ -7,48 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7d0265e4-94ec-4bb5-9b55-146066891335" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Milestone1_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/artifacts/Milestone1_jar/Milestone1.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Milestone1/META-INF/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Milestone1/PresentationLayer/Handlers/ShipmentsHandler.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tests/DriverTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/DriverTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tests/LocationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/LocationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tests/ShipmentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/ShipmentTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tests/TruckTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/TruckTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Controllers/DriverController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Controllers/DriverController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Controllers/LocationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Controllers/LocationController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Controllers/ShipmentController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Controllers/ShipmentController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Controllers/TruckController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Controllers/TruckController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Facade.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Facade.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Objects/Document.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Objects/Document.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Objects/Driver.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Objects/Driver.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Objects/Location.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Objects/Location.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Objects/Shipment.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Objects/Shipment.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Objects/Truck.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Objects/Truck.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Response.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/Response.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/ResponseT.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/BusinessLayer/ResponseT.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/DTOs/DocumentDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/DTOs/DocumentDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/DTOs/DriverDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/DTOs/DriverDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/DTOs/LocationDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/DTOs/LocationDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/DTOs/ShipmentDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/DTOs/ShipmentDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/DTOs/TruckDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/DTOs/TruckDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/PresentationLayer/DataInitializer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/PresentationLayer/DataInitializer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/PresentationLayer/Handlers/DriversHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/PresentationLayer/Handlers/DriversHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/PresentationLayer/Handlers/Handler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/PresentationLayer/Handlers/Handler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/PresentationLayer/Handlers/LocationsHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/PresentationLayer/Handlers/LocationsHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/PresentationLayer/Handlers/TrucksHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/PresentationLayer/Handlers/TrucksHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/PresentationLayer/Menu.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/PresentationLayer/Menu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Milestone1/PresentationLayer/Printer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Milestone1/PresentationLayer/Printer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Milestone1/DriverTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Milestone1/DriverTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Milestone1/LocationTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Milestone1/LocationTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Milestone1/ShipmentTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Milestone1/ShipmentTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/Milestone1/TruckTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Milestone1/TruckTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DTOs/DriverDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DTOs/DriverDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DTOs/ShipmentDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DTOs/ShipmentDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
