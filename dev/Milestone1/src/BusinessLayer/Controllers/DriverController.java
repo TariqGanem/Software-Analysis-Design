@@ -66,12 +66,13 @@ public class DriverController {
 
     /**
      * Makes the driver unavailable because he is currently in work
+     *
      * @param id - The id of the requested driver
      */
-    public void depositeDriver(String id) {
+    public void freeDriver(String id) {
         for (Driver d : data) {
             if (d.getId().equals(id)) {
-                d.deposite();
+                d.makeAvailable();
             }
         }
     }

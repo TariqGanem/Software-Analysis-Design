@@ -24,7 +24,7 @@ public class Shipment {
         this.items_per_location = items;
         this.shipmentWeight = 0;
         for (Location location : items_per_location.keySet()) {
-            for (String item : items_per_location.get(location).keySet()){
+            for (String item : items_per_location.get(location).keySet()) {
                 shipmentWeight += (items_per_location.get(location).get(item).get(0) * items_per_location.get(location).get(item).get(1));
             }
         }
@@ -73,9 +73,10 @@ public class Shipment {
 
     /**
      * Adding document per location to the delivery
-     * @param products - The products which is transported to the specific destination
-     * @param dest - The requested destination
-     * @param weight - The weight of the shipment for the specific location
+     *
+     * @param products       - The products which is transported to the specific destination
+     * @param dest           - The requested destination
+     * @param weight         - The weight of the shipment for the specific location
      * @param trackingNumber - Tracking number for the delivery as requested
      */
     public void addDocument(Map<String, List<Double>> products, Location dest, double weight, int trackingNumber) {

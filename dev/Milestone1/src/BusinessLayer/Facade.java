@@ -4,14 +4,14 @@ import BusinessLayer.Controllers.DriverController;
 import BusinessLayer.Controllers.LocationController;
 import BusinessLayer.Controllers.ShipmentController;
 import BusinessLayer.Controllers.TruckController;
+import BusinessLayer.Objects.Driver;
 import BusinessLayer.Objects.Location;
 import BusinessLayer.Objects.Shipment;
+import BusinessLayer.Objects.Truck;
 import DTOs.DriverDTO;
 import DTOs.LocationDTO;
 import DTOs.ShipmentDTO;
 import DTOs.TruckDTO;
-import BusinessLayer.Objects.Driver;
-import BusinessLayer.Objects.Truck;
 
 import java.util.*;
 
@@ -66,7 +66,8 @@ public class Facade {
 
     /**
      * Adding a new location to the system
-     * @param address - location unique id
+     *
+     * @param address     - location unique id
      * @param phoneNumber - phone number of the person to contact
      * @param contactName - the name of the person to contact
      * @return response contains msg in case of any error
@@ -82,9 +83,9 @@ public class Facade {
 
     /**
      * @param truckPlateNumber - truck's plate number unique id
-     * @param model - Trucks model
-     * @param natoWeight - Truck's nato weight without any shipments
-     * @param maxWeight - The maximum weight which the truck can transport
+     * @param model            - Trucks model
+     * @param natoWeight       - Truck's nato weight without any shipments
+     * @param maxWeight        - The maximum weight which the truck can transport
      * @return response contains msg in case of any error
      */
     public Response addTruck(String truckPlateNumber, String model, double natoWeight, double maxWeight) {
@@ -98,8 +99,9 @@ public class Facade {
 
     /**
      * Adds a driver to the system
-     * @param id - The unique id of the requested driver
-     * @param name - The driver's name
+     *
+     * @param id            - The unique id of the requested driver
+     * @param name          - The driver's name
      * @param allowedWeight - The maximum weight he can transport in a delivery
      * @return response contains msg in case of any error
      */
@@ -146,9 +148,10 @@ public class Facade {
 
     /**
      * Arranges a delivery (adding a new delivery) to the system
-     * @param date - Date of the shipment to be transported
-     * @param departureHour - The exact hour for the transportation of the shipment
-     * @param source - The source's address unique id
+     *
+     * @param date               - Date of the shipment to be transported
+     * @param departureHour      - The exact hour for the transportation of the shipment
+     * @param source             - The source's address unique id
      * @param items_per_location - Map[ItemName, List[ItemWeight, Quantity]] foreach location
      * @return response of type msg in case of any error
      */
@@ -156,7 +159,7 @@ public class Facade {
         try {
             double weight = 0;
             for (String loc : items_per_location.keySet()) {
-                for (String item : items_per_location.get(loc).keySet()){
+                for (String item : items_per_location.get(loc).keySet()) {
                     weight += (items_per_location.get(loc).get(item).get(0) * items_per_location.get(loc).get(item).get(1));
                 }
             }
@@ -165,7 +168,7 @@ public class Facade {
             Location s = locationController.getLocation(source);
             Map<Location, Map<String, List<Double>>> items = new HashMap<>();
             for (String loc : items_per_location.keySet()) {
-                if(loc.equals(source)) {
+                if (loc.equals(source)) {
                     return new Response("Cannot deliver to destination as the same source, shipment removed.");
                 }
                 items.put(locationController.getLocation(loc), items_per_location.get(loc));
@@ -176,7 +179,7 @@ public class Facade {
                 shipmentController.addDocument(date, departureHour, driver.getId(), locationController.getLocation(dest), items_per_location.get(dest), realWeight);
             }
             truckController.depositeTruck(truck.getTruckPlateNumber());
-            driverController.depositeDriver(driver.getId());
+            driverController.freeDriver(driver.getId());
             return new Response();
         } catch (Exception e) {
             return new Response(e.getMessage());
@@ -185,12 +188,13 @@ public class Facade {
 
     /**
      * Weighs the requested truck as requested before transportation
-     * @param truckId - The truck's unique plate number
-     * @param date - Date of the shipment to be transported
+     *
+     * @param truckId       - The truck's unique plate number
+     * @param date          - Date of the shipment to be transported
      * @param departureHour - The exact hour for the transportation of the shipment
-     * @param driverId - The driver's unique id
-     * @throws Exception in case of any error occurs
+     * @param driverId      - The driver's unique id
      * @return the truck's total weight
+     * @throws Exception in case of any error occurs
      * @throws Exception in case of any error occurs
      */
     private double weighTruck(String truckId, Date date, String departureHour, String driverId) throws Exception {
@@ -237,9 +241,10 @@ public class Facade {
 
     /**
      * Getting a shipment by its unique Ids
-     * @param date - Date of the shipment to be transported
+     *
+     * @param date          - Date of the shipment to be transported
      * @param departureHour - The exact hour for the transportation of the shipment
-     * @param driverId - The driver's unique id
+     * @param driverId      - The driver's unique id
      * @return a response of type ShipmentDTO (the requested shipment)
      */
     public ResponseT<ShipmentDTO> getShipmentDTO(Date date, String departureHour, String driverId) {
@@ -252,32 +257,36 @@ public class Facade {
 
     /**
      * A shipment follow to view it to the user
+     *
      * @param trackingId - the tracking unique number foreach document(sub-shipment)
      * @return response of type ShipmentDTO in order to use in PL
      */
-    public ResponseT<ShipmentDTO> trackShipment(int trackingId){
-        try{
+    public ResponseT<ShipmentDTO> trackShipment(int trackingId) {
+        try {
             Shipment shipment = shipmentController.trackShipment(trackingId);
             ShipmentDTO s = getShipmentDTO(shipment.getDate(), shipment.getDepartureHour(), shipment.getDriverId()).getValue();
             return new ResponseT<>(s);
-        } catch (Exception e){
+        } catch (Exception e) {
             return new ResponseT<>(e.getMessage());
         }
     }
 
     /**
      * Allows removing shipment from the system
-     * @param date - Date of the shipment to be transported
+     *
+     * @param date          - Date of the shipment to be transported
      * @param departureHour - The exact hour for the transportation of the shipment
-     * @param driverId - The driver's unique id
+     * @param driverId      - The driver's unique id
      * @return response of type msg in case of any error
      */
-    public Response removeShipment(Date date, String departureHour, String driverId){
-        try{
+    public Response removeShipment(Date date, String departureHour, String driverId) {
+        try {
+            truckController.depositeTruck(shipmentController.getShipment(date, departureHour, driverId).getTruckPlateNumber());
+            driverController.freeDriver(driverId);
             shipmentController.deleteShipment(date, departureHour, driverId);
+
             return new Response();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return new Response(e.getMessage());
         }
     }

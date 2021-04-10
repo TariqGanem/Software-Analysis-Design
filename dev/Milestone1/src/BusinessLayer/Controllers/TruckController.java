@@ -69,12 +69,13 @@ public class TruckController {
 
     /**
      * Makes the truck unavailable because it is currently in use
+     *
      * @param truckPlateNumber - Unique id for truck
      */
     public void depositeTruck(String truckPlateNumber) {
         for (Truck t : trucks) {
             if (t.getTruckPlateNumber().equals(truckPlateNumber))
-                t.deposite();
+                t.makeAvailable();
         }
     }
 }

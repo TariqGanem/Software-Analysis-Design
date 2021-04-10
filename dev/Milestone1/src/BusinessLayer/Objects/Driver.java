@@ -29,7 +29,7 @@ public class Driver {
         return available;
     }
 
-    public void deposite() {
-        available = false;
+    public void makeAvailable() {
+        available = true;
     }
 }
