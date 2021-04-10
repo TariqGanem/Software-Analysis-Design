@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Milestone1:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="7d0265e4-94ec-4bb5-9b55-146066891335" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/Milestone1_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/artifacts/Milestone1_jar/Milestone1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Milestone1/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/Milestone1/PresentationLayer/Handlers/ShipmentsHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tests/DriverTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/DriverTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tests/LocationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/Tests/LocationTest.java" afterDir="false" />
@@ -36,19 +46,9 @@
       <change beforePath="$PROJECT_DIR$/out/test/Milestone1/LocationTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Milestone1/LocationTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/test/Milestone1/ShipmentTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Milestone1/ShipmentTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/test/Milestone1/TruckTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/Milestone1/TruckTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BusinessLayer/Controllers/DriverController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BusinessLayer/Controllers/DriverController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BusinessLayer/Controllers/ShipmentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BusinessLayer/Controllers/ShipmentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BusinessLayer/Controllers/TruckController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BusinessLayer/Controllers/TruckController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BusinessLayer/Facade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BusinessLayer/Facade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BusinessLayer/Objects/Driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BusinessLayer/Objects/Driver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BusinessLayer/Objects/Shipment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BusinessLayer/Objects/Shipment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/BusinessLayer/Objects/Truck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/BusinessLayer/Objects/Truck.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DTOs/DriverDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DTOs/DriverDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DTOs/ShipmentDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DTOs/ShipmentDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PresentationLayer/DataInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PresentationLayer/DataInitializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PresentationLayer/Handlers/ShipmentsHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PresentationLayer/Handlers/ShipmentsHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PresentationLayer/Printer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PresentationLayer/Printer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
