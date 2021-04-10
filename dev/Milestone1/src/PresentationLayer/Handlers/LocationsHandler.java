@@ -6,14 +6,17 @@ import BusinessLayer.Response;
 import BusinessLayer.ResponseT;
 import DTOs.LocationDTO;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class LocationsHandler extends Handler {
 
     private Facade facade;
+    private List<LocationDTO> locations;
 
     public LocationsHandler(Facade facade) {
         this.facade = facade;
+        locations = new LinkedList<>();
     }
 
 
@@ -35,10 +38,25 @@ public class LocationsHandler extends Handler {
 
     public void viewAllLocations() {
         ResponseT<List<LocationDTO>> res = facade.getAllLocations();
+        locations = res.getValue();
         if (res.errorOccured())
             printer.error(res.getMsg());
         else {
-            printer.viewAllLocations(res.getValue());
+            printer.viewAllLocations(locations);
         }
+    }
+
+    public LocationDTO chooseLocation() {
+        while (true) {
+            try {
+                return locations.get(getInt() - 1);
+            } catch (Exception e) {
+                printer.error("Invalid input!");
+            }
+        }
+    }
+
+    public List<LocationDTO> getLocations() {
+        return locations;
     }
 }

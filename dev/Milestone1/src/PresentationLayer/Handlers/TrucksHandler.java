@@ -5,13 +5,16 @@ import BusinessLayer.Response;
 import BusinessLayer.ResponseT;
 import DTOs.TruckDTO;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class TrucksHandler extends Handler {
     private Facade facade;
+    private List<TruckDTO> trucks;
 
     public TrucksHandler(Facade facade) {
         this.facade = facade;
+        trucks = new LinkedList<>();
     }
 
     public void addTruck() {
@@ -34,10 +37,11 @@ public class TrucksHandler extends Handler {
 
     public void viewAllTrucks() {
         ResponseT<List<TruckDTO>> res = facade.getAlltrucks();
+        trucks = res.getValue();
         if (res.errorOccured())
             printer.error(res.getMsg());
         else {
-            printer.viewAllTrucks(res.getValue());
+            printer.viewAllTrucks(trucks);
         }
     }
 

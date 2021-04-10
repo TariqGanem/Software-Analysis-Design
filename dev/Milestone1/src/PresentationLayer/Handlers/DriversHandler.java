@@ -5,14 +5,17 @@ import BusinessLayer.Response;
 import BusinessLayer.ResponseT;
 import DTOs.DriverDTO;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class DriversHandler extends Handler {
 
     private Facade facade;
+    List<DriverDTO> drivers;
 
     public DriversHandler(Facade facade) {
         this.facade = facade;
+        drivers = new LinkedList<>();
     }
 
     public void addDriver() {
@@ -33,10 +36,11 @@ public class DriversHandler extends Handler {
 
     public void viewAllDrivers() {
         ResponseT<List<DriverDTO>> res = facade.getAlldrivers();
+        drivers = res.getValue();
         if (res.errorOccured())
             printer.error(res.getMsg());
         else {
-            printer.viewAllDrivers(res.getValue());
+            printer.viewAllDrivers(drivers);
         }
     }
 }

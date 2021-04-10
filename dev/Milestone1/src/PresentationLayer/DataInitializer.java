@@ -1,6 +1,10 @@
 package PresentationLayer;
 
 import BusinessLayer.Facade;
+import BusinessLayer.Response;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class DataInitializer {
 
@@ -37,6 +41,32 @@ public class DataInitializer {
     }
 
     public void initShipments() {
-        facade.arrangeDelivery(null, "14:00", "Beer Sheva", null, null);
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("dd/MM/yyyy").parse("22/07/2021");
+        } catch (Exception e) {
+        }
+
+        Map<String, Map<String, List<Double>>> iPerl = new HashMap<>();
+
+        Map<String, List<Double>> itemInfo1 = new HashMap<>();
+        List<Double> items1 = new LinkedList<>();
+        items1.add(4.6);
+        items1.add(2.0);
+        itemInfo1.put("Milk",items1);
+        iPerl.put("Tel Aviv, Merkaz 53", itemInfo1);
+
+
+        Map<String, List<Double>> itemInfo2 = new HashMap<>();
+        List<Double> items2 = new LinkedList<>();
+        items2.add(6.7);
+        items2.add(9.0);
+        itemInfo2.put("Bamba",items2);
+        iPerl.put("Haifa hof hakarmel", itemInfo2);
+
+
+        Response res = facade.arrangeDelivery(date, "14:00", "Beer Sheva, Alexander Yenai 17", iPerl);
+        if (res.errorOccured())
+            System.out.println(res.getMsg());
     }
 }

@@ -11,9 +11,12 @@ import java.util.*;
 public class ShipmentsHandler extends Handler {
 
     private Facade facade;
-
+    private LocationsHandler locationsHandler;
+    private List<ShipmentDTO> shipments;
     public ShipmentsHandler(Facade facade) {
         this.facade = facade;
+        locationsHandler = new LocationsHandler(facade);
+        shipments = new LinkedList<>();
     }
 
     public void arrangeShipment() {
@@ -21,14 +24,13 @@ public class ShipmentsHandler extends Handler {
         Date date = getDate();
         System.out.printf("Enter departure hour [00:00]: ");
         String hour = scanner.next();
-        System.out.printf("Enter shipment source: ");
-        String source = scanner.next();
-        System.out.printf("Add a list of items for this shipment: \n");
-        Map<String, List<Double>> items = getItems();
+        System.out.printf("Enter shipment source: \n");
+        locationsHandler.viewAllLocations();
+        String source = locationsHandler.chooseLocation().getAddress();
         System.out.printf("Add a list of destinations in order: \n");
-        List<String> destinations = getDestinations();
+        Map<String, Map<String, List<Double>>> itemsPerDestination = getItemsPerDestination();
         System.out.println();
-        Response res = facade.arrangeDelivery(date, hour, source, items, destinations);
+        Response res = facade.arrangeDelivery(date, hour, source, itemsPerDestination);
         if (res.errorOccured())
             printer.error(res.getMsg());
         else {
@@ -38,10 +40,11 @@ public class ShipmentsHandler extends Handler {
 
     public void viewAllShipments() {
         ResponseT<List<ShipmentDTO>> res = facade.getAllShipments();
+        shipments = res.getValue();
         if (res.errorOccured())
             printer.error(res.getMsg());
         else {
-            printer.viewAllShipments(res.getValue());
+            printer.viewAllShipments(shipments);
         }
     }
 
@@ -52,15 +55,24 @@ public class ShipmentsHandler extends Handler {
         if (res.errorOccured())
             printer.error(res.getMsg());
         else {
-            System.out.println(res.getValue().getDate());
-            List<DocumentDTO> documents = res.getValue().getDocuments();
-            for (DocumentDTO doc : documents) {
-                if (doc.getTrackingNumber() == trackingNumber) {
-                    printer.viewShipment(res.getValue(), doc);
-                    break;
-                }
-            }
+            DocumentDTO doc = res.getValue().getDocuments().get(trackingNumber);
+            printer.viewShipment(res.getValue(), doc);
         }
+    }
+
+    public void removeShipment(){
+        System.out.printf("\nEnter shipment date [dd/MM/yyyy]: ");
+        Date date = getDate();
+        System.out.printf("Enter departure hour [00:00]: ");
+        String hour = scanner.next();
+        System.out.printf("Enter driver's id: ");
+        String id = scanner.next();
+//        Response res = facade.removeShipment(date, hour, id);
+//        if (res.errorOccured()) {
+//            printer.error(res.getMsg());
+//        } else {
+//            printer.success("Shipment has been removed!");
+//        }
     }
 
     private Map<String, List<Double>> getItems() {
@@ -96,22 +108,16 @@ public class ShipmentsHandler extends Handler {
         return items;
     }
 
-    private List<String> getDestinations() {
-        List<String> destinations = new LinkedList<>();
+    private Map<String, Map<String, List<Double>>> getItemsPerDestination() {
+        Map<String, Map<String, List<Double>>> itemsPerDestination = new HashMap<>();
         String address;
-        String phone;
-        String contactName;
         while (true) {
             try {
-                System.out.printf("\n\tEnter details for destination number [" + (destinations.size() + 1) + "]:\n");
-                System.out.printf("\tAddress: ");
-                address = scanner.next();
-                System.out.printf("\tPhone Number: ");
-                phone = scanner.next();
-                System.out.printf("\tContact Name: ");
-                contactName = scanner.next();
+                System.out.printf("\n\tChoose destination number [" + (itemsPerDestination.size() + 1) + "]:\n");
+                locationsHandler.viewAllLocations();
+                address = locationsHandler.chooseLocation().getAddress();
                 System.out.println();
-                destinations.add(address);
+                itemsPerDestination.put(address, getItems());
                 printer.success("Destination has been added!");
                 System.out.printf("\nAdd another destination? [y/n]: ");
                 String another = scanner.next();
@@ -122,6 +128,6 @@ public class ShipmentsHandler extends Handler {
                 printer.error("Enter valid destination details!");
             }
         }
-        return destinations;
+        return itemsPerDestination;
     }
 }

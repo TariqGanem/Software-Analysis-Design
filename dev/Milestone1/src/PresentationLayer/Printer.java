@@ -2,6 +2,8 @@ package PresentationLayer;
 
 import DTOs.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.List;
 
 public class Printer {
@@ -93,7 +95,7 @@ public class Printer {
         for (int i = 0; i < shipments.size(); i++) {
             System.out.println("------------------------------------------------------------");
             System.out.println("\t" + (i + 1)
-                    + ". Date: " + shipments.get(i).getDate()
+                    + ". Date: " + new SimpleDateFormat("dd/MM/yyyy").format(shipments.get(i).getDate())
                     + "\t Departure Hour: " + shipments.get(i).getDepartureHour()
                     + "\t Truck Plate Number: " + shipments.get(i).getTruckPlateNumber()
                     + "\t Driver Id: " + shipments.get(i).getDriverId()
@@ -101,32 +103,42 @@ public class Printer {
                     + "\n\t Source --> "
                     + "\t Address: " + shipments.get(i).getSource().getAddress()
                     + "\t Phone: " + shipments.get(i).getSource().getPhoneNumber()
-                    + " ("+ shipments.get(i).getSource().getContactName() + ")"
+                    + " (" + shipments.get(i).getSource().getContactName() + ")"
             );
             List<LocationDTO> destination = shipments.get(i).getLocations();
-            System.out.println("\tArrived At:");
+            System.out.println("\t Arrived At:");
             for (int j = 0; j < destination.size(); j++) {
-                System.out.println("\t\t" + (i + 1) + ". "
-                        + "\t Address: " + shipments.get(i).getSource().getAddress()
-                        + "\t Phone: " + shipments.get(i).getSource().getPhoneNumber()
-                        + " ("+ shipments.get(i).getSource().getContactName() + ")"
-                        + "\t Tracking Number:"
+                int tracking = -1;
+                Collection<DocumentDTO> docs = shipments.get(i).getDocuments().values();
+                for (DocumentDTO doc : docs) {
+                    if (doc.getDestination().getAddress().equals(destination.get(j).getAddress())) {
+                        tracking = doc.getTrackingNumber();
+                        break;
+                    }
+                }
+                System.out.println("\t\t" + (j + 1) + ". "
+                        + "Address: " + destination.get(j).getAddress()
+                        + "\t Phone: " + destination.get(j).getPhoneNumber()
+                        + " (" + destination.get(j).getContactName() + ")"
+                        + "\t Tracking Number:" + tracking
                 );
+
             }
             System.out.println("------------------------------------------------------------");
         }
     }
 
     public void viewShipment(ShipmentDTO shipment, DocumentDTO document) {
-//            System.out.println(
-//                    "\t Date: " + shipment.getDate()
-//                    + "\t Departure Hour: " + shipment.getDepartureHour()
-//                    + "\t Truck Plate Number: " + shipment.getTruckPlateNumber()
-//                    + "\t Driver Id: " + shipment.getDriverId()
-//                    + "\t Shipment Weight: " + document.
-//                    + "\t Source: " + shipments.get(i).getSource()
-//                    + "\t Arrives At: "
-//            );
-//            viewAllLocations(shipments.get(i).getLocations());
+        System.out.println(
+                "\t Date: " + new SimpleDateFormat("dd/MM/yyyy").format(shipment.getDate())
+                        + "\t Departure Hour: " + shipment.getDepartureHour()
+                        + "\t Truck Plate Number: " + shipment.getTruckPlateNumber()
+                        + "\t Driver Id: " + shipment.getDriverId()
+                        + "\t Shipment Weight: " + document.getWeight()
+                        + "\n\t Source: " + shipment.getSource().getAddress()
+                        + "\t\t Arrives At: " + document.getDestination().getAddress()
+                        + "\t Phone: " + document.getDestination().getPhoneNumber()
+                        + "(" + document.getDestination().getPhoneNumber() + ")"
+        );
     }
 }
