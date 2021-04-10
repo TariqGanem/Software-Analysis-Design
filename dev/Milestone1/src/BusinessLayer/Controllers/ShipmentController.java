@@ -81,7 +81,7 @@ public class ShipmentController {
         for (Shipment s : data) {
             if (s.getDate().compareTo(date) == 0 && s.getDepartureHour().equals(departureHour) && s.getDriverId().equals(driverId)) {
                 data.remove(s);
-                break;
+                return;
             }
         }
         throw new Exception("Shipment not found, invalid parameters.");

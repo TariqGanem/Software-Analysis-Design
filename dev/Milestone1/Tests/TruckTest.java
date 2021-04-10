@@ -35,7 +35,7 @@ public class TruckTest {
 
     @Test
     public void testTruckWeight() {
-        Response res1 = data.addTruck("12345", "BMW", 6.5, 6.2);
+        Response res1 = data.addTruck("12345", "BMW", 6.5, 0);
         Response res2 = data.addTruck("123456", "BMWW", -1, -3);
         assertEquals("Couldn't add new truck - Illegal truck weight", res1.getMsg());
         assertEquals("Couldn't add new truck - Illegal truck weight", res2.getMsg());

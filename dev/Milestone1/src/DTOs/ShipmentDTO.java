@@ -70,12 +70,4 @@ public class ShipmentDTO {
     public List<LocationDTO> getLocations() {
         return destinations;
     }
-
-    public Map<String, List<Double>> getItems() {
-        return items;
-    }
-
-    public Map<LocationDTO, Map<String, List<Double>>> getItemsPerLocation() {
-        return items_per_location;
-    }
 }
