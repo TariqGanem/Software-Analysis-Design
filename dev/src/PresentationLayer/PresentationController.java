@@ -198,4 +198,9 @@ public class PresentationController {
         }
         return true;
     }
+
+    public boolean isIDAlreadyRegistered(String ID) {
+        ResponseT<EmployeeDTO> res = facade.getEmployee(ID);
+        return !res.getErrorOccurred();
+    }
 }

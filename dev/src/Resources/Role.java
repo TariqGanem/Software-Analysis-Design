@@ -7,5 +7,7 @@ public enum Role {
 	StoreKeeper,
 	StoreManagerAssistant,
 	Stocker,
+	SecurityMan,
+	Driver,
 	ShiftManager
 }

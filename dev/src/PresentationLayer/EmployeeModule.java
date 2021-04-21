@@ -276,7 +276,7 @@ public class EmployeeModule {
                                 io.println("");
                                 continue;
                             }
-                            EmployeeDTO emp = presentationController.getEmployeeDTO(viewID).getValue();
+                            EmployeeDTO emp = newEmployee.getValue();
                             String oldID = emp.ID;
                             switch (updateIndex) {
                                 case 0:
@@ -289,6 +289,10 @@ public class EmployeeModule {
 
                                 case 2:
                                     emp.ID = menu.showEnterStringMenu("id");
+                                    if (!ID.matches("[0-9]+")) {
+                                        io.println("ID must contain only numbers.");
+                                        continue;
+                                    }
                                     break;
 
                                 case 3:
@@ -346,6 +350,14 @@ public class EmployeeModule {
                         name = io.getString();
                         io.print("Please enter an ID: ");
                         ID = io.getString();
+                        if (!ID.matches("[0-9]+")) {
+                            io.println("ID must contain only numbers.");
+                            continue;
+                        }
+                        if (presentationController.isIDAlreadyRegistered(ID)) {
+                            io.println("ID already registered in the system.");
+                            continue;
+                        }
                         io.print("Please enter a bank id: ");
                         bankId = io.getInt();
                         io.print("Please enter a branch id: ");
