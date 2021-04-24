@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-04-24T21:23:16.737Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36" etag="MNEtUP1NVId04HSjtc8l" version="14.6.6" type="github">
+<mxfile host="app.diagrams.net" modified="2021-04-24T21:29:51.867Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.85 Safari/537.36" etag="O8wvlLKXn2bJzDGREUF9" version="14.6.6" type="github">
   <diagram id="LiDV-n0v9y0-zee6HtvB" name="Page-1">
     <mxGraphModel dx="1666" dy="2699" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -465,7 +465,7 @@
         <mxCell id="p6ftJrB2vqRsMUstC1pW-45" value="- name: string" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="p6ftJrB2vqRsMUstC1pW-44" vertex="1">
           <mxGeometry y="26" width="261.5" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="p6ftJrB2vqRsMUstC1pW-46" value="- conactDetails : map&lt;ContactMethod,string&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="p6ftJrB2vqRsMUstC1pW-44" vertex="1">
+        <mxCell id="p6ftJrB2vqRsMUstC1pW-46" value="- contactDetails : map&lt;ContactMethod,string&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="p6ftJrB2vqRsMUstC1pW-44" vertex="1">
           <mxGeometry y="52" width="261.5" height="26" as="geometry" />
         </mxCell>
         <mxCell id="p6ftJrB2vqRsMUstC1pW-47" value="" style="endArrow=diamondThin;endFill=0;endSize=24;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="p6ftJrB2vqRsMUstC1pW-44" target="p6ftJrB2vqRsMUstC1pW-43" edge="1">
