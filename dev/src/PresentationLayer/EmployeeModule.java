@@ -308,7 +308,7 @@ public class EmployeeModule {
                                     break;
 
                                 case 7:
-                                    emp.startDate = menu.showEnterDateMenu();;
+                                    emp.startDate = menu.showEnterDateMenu();
                                     break;
 
                                 case 8:
@@ -401,4 +401,3 @@ public class EmployeeModule {
         }
     }
 }
-
