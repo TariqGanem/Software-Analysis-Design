@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 import org.junit.Before;
 
-import BusinessLayer.ShiftPackage.Shift;
+import BusinessLayer.EmployeeModule.ShiftPackage.Shift;
 import Resources.Role;
 import org.junit.Test;
 

@@ -1,7 +1,7 @@
-import BusinessLayer.EmployeePackage.Employee;
-import BusinessLayer.EmployeePackage.EmployeeController;
+import BusinessLayer.EmployeeModule.EmployeePackage.Employee;
+import BusinessLayer.EmployeeModule.EmployeePackage.EmployeeController;
 
-import DataAccessLayer.DALController;
+import DataAccessLayer.EmployeeModule.DALController;
 import Resources.Preference;
 import Resources.Role;
 import org.junit.Before;

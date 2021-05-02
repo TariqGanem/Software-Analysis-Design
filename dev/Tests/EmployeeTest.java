@@ -1,4 +1,4 @@
-import BusinessLayer.EmployeePackage.Employee;
+import BusinessLayer.EmployeeModule.EmployeePackage.Employee;
 import Resources.Preference;
 import Resources.Role;
 

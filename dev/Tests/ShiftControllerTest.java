@@ -1,7 +1,7 @@
 import static org.junit.Assert.*;
-import BusinessLayer.ShiftPackage.Shift;
-import BusinessLayer.ShiftPackage.ShiftController;
-import DataAccessLayer.DALController;
+import BusinessLayer.EmployeeModule.ShiftPackage.Shift;
+import BusinessLayer.EmployeeModule.ShiftPackage.ShiftController;
+import DataAccessLayer.EmployeeModule.DALController;
 import Resources.Role;
 import org.junit.Before;
 import org.junit.Test;

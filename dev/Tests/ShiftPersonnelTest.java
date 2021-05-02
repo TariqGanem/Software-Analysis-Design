@@ -1,6 +1,6 @@
 import static org.junit.Assert.*;
-import BusinessLayer.ShiftPackage.ShiftPersonnel;
-import DataAccessLayer.DALController;
+import BusinessLayer.EmployeeModule.ShiftPackage.ShiftPersonnel;
+import DataAccessLayer.EmployeeModule.DALController;
 import Resources.Role;
 import org.junit.Before;
 import org.junit.Test;
