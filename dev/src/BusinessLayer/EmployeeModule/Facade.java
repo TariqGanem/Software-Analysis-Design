@@ -125,9 +125,7 @@ public class Facade {
 
     public ResponseT<List<ShiftDTO>> getShifts(int daysFromToday){
         List<ShiftDTO> shiftDTOs = new ArrayList<>();
-        for (Shift shift : shiftController.getShifts()) {
-            if(shift.getDate().isAfter(LocalDate.now().plusDays(daysFromToday)) || shift.getDate().isBefore(LocalDate.now()))
-                continue;
+        for (Shift shift : shiftController.getShifts(daysFromToday)) {
             shiftDTOs.add(toShiftDTO(shift));
         }
         ResponseT<List<ShiftDTO>> res;
