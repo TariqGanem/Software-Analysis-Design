@@ -3,17 +3,20 @@ package BusinessLayer.ShiftPackage;
 import java.time.LocalDate;
 import java.util.*;
 
+import DataAccessLayer.DALController;
 import Resources.Role;
 
 public class ShiftController {
     private List<Shift> shifts;
     private ShiftPersonnel sp;
     private Shift activeShift;
+    private DALController dalController;
 
-    public ShiftController() {
+    public ShiftController(DALController dalController) {
         shifts = new ArrayList<Shift>();
-        sp = new ShiftPersonnel();
+        sp = new ShiftPersonnel(dalController);
         activeShift = null;
+        this.dalController = dalController;
     }
 
     public Shift getShift(LocalDate date, boolean isMorning) {

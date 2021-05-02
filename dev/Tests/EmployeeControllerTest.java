@@ -1,6 +1,7 @@
 import BusinessLayer.EmployeePackage.Employee;
 import BusinessLayer.EmployeePackage.EmployeeController;
 
+import DataAccessLayer.DALController;
 import Resources.Preference;
 import Resources.Role;
 import org.junit.Before;
@@ -19,13 +20,13 @@ public class EmployeeControllerTest {
 
     @Before
     public void setUp() {
-        employeeController = new EmployeeController();
+        employeeController = new EmployeeController(new DALController());
     }
 
     @Test
     public void testLoginWithNoEmployee() {
         try {
-            employeeController.login("123456789");
+            employeeController.login("1");
             fail("Expected to get an exception because there is no employee in the system.");
         } catch (Exception e) {
             assertTrue(e instanceof IllegalArgumentException);
@@ -81,7 +82,11 @@ public class EmployeeControllerTest {
                 timeFrames[i][j] = Preference.WANT;
 
         employeeController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
-        employeeController.login("123456789");
+        try {
+            employeeController.login("123456789");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
             Employee employee = employeeController.getEmployee("123456789");
@@ -150,7 +155,11 @@ public class EmployeeControllerTest {
                 timeFrames[i][j] = Preference.WANT;
 
         employeeController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
-        employeeController.login("123456789");
+        try {
+            employeeController.login("123456789");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
             employeeController.getEmployee("777777");
@@ -180,7 +189,11 @@ public class EmployeeControllerTest {
                 timeFrames[i][j] = Preference.WANT;
 
         employeeController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
-        employeeController.login("123456789");
+        try {
+            employeeController.login("123456789");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
             employeeController.getEmployee("123456789");
@@ -209,7 +222,11 @@ public class EmployeeControllerTest {
                 timeFrames[i][j] = Preference.WANT;
 
         employeeController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
-        employeeController.login("123456789");
+        try {
+            employeeController.login("123456789");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
             employeeController.getEmployee("7777777");
@@ -239,7 +256,11 @@ public class EmployeeControllerTest {
                 timeFrames[i][j] = Preference.WANT;
 
         employeeController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
-        employeeController.login("123456789");
+        try {
+            employeeController.login("123456789");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
             employeeController.updateEmployee("123456789",name, "987654321", bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
@@ -278,7 +299,11 @@ public class EmployeeControllerTest {
         employeeController.addEmployee("Sandy Cheeks", ID, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames1);
         employeeController.addEmployee("Sponge Bob", "1", bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames2);
         employeeController.addEmployee("Patrick Star", "2", bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames3);
-        employeeController.login("123456789");
+        try {
+            employeeController.login("123456789");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Map<String, String> emps = employeeController.viewAvailableEmployees(0, true, Role.Cashier);
         assertEquals(2, emps.size());

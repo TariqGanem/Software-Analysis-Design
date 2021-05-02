@@ -1,5 +1,7 @@
 package BusinessLayer.EmployeePackage;
 
+import BusinessLayer.ResponseT;
+import DataAccessLayer.DALController;
 import Resources.Preference;
 import Resources.Role;
 
@@ -10,10 +12,12 @@ import java.util.*;
 public class EmployeeController {
     private Map<String, Employee> employees;
     private Employee activeEmployee;
+    private DALController dalController;
 
-    public EmployeeController() {
+    public EmployeeController(DALController dalController) {
         employees = new HashMap<>();
         activeEmployee = null;
+        this.dalController = dalController;
     }
 
     public void logout() {
@@ -21,27 +25,32 @@ public class EmployeeController {
     }
 
     public Employee getEmployee(String ID) throws Exception {
-        if (!activeEmployee.getIsManager() && !activeEmployee.getID().equals(ID))
+        if (activeEmployee != null && !activeEmployee.getIsManager() && !activeEmployee.getID().equals(ID))
             throw new NoPermissionException("The employee currently using the system doesn't have permission to view this content.");
-        if (!isValidID(ID))
-            throw new IllegalArgumentException("No employee with the ID: " + ID + " was found in the system.");
+        if (!isValidID(ID)) {
+            ResponseT<Employee> empResponse = dalController.getEmployee(ID);
+            if (empResponse.getErrorOccurred())
+                throw new IllegalArgumentException("No employee with the ID: " + ID + " was found in the system.");
+            employees.put(ID, empResponse.getValue());
+        }
+
         return employees.get(ID);
     }
 
-    public String getName(String ID) throws IllegalArgumentException {
-        if (!isValidID(ID))
-            throw new IllegalArgumentException("No employee with the ID: " + ID + " was found in the system.");
-        return employees.get(ID).getName();
+    public String getName(String ID) {
+        try {
+            return getEmployee(ID).getName();
+        } catch (Exception ignored) { return null; }
     }
 
-    public void login(String ID) {
+    public void login(String ID) throws Exception{
         for (Employee e : employees.values()) {
             if (e.getID().equals(ID)) {
                 activeEmployee = e;
                 return;
             }
         }
-        throw new IllegalArgumentException("No employee with the ID: " + ID + " was found in the system.");
+        activeEmployee = getEmployee(ID);
     }
 
     public void updateEmployee(String oldID, String name, String newID, int bankId, int branchId, int accountNumber, float salary, LocalDate startDate,

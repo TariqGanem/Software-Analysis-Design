@@ -15,7 +15,7 @@ public class DALController {
     private ShiftMapper shiftMapper;
     private ShiftPersonnelMapper shiftPersonnelMapper;
 
-    private DALController() {
+    public DALController() {
         String dbFile = "SuperLi.db";
         String url = "jdbc:sqlite:" + dbFile;
         Connection con = null;

@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 import BusinessLayer.ShiftPackage.ShiftPersonnel;
+import DataAccessLayer.DALController;
 import Resources.Role;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +11,7 @@ public class ShiftPersonnelTest {
 
     @Before
     public void setup(){
-        sp = new ShiftPersonnel();
+        sp = new ShiftPersonnel(new DALController());
     }
 
     @Test
