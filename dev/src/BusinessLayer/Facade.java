@@ -6,6 +6,7 @@ import java.util.*;
 import BusinessLayer.EmployeePackage.*;
 import BusinessLayer.ShiftPackage.*;
 import DTOPackage.*;
+import DataAccessLayer.DALController;
 import Resources.Preference;
 import Resources.Role;
 
@@ -18,8 +19,9 @@ public class Facade {
     private ShiftController shiftController;
 
     public Facade() {
-        employeeController = new EmployeeController();
-        shiftController = new ShiftController();
+        DALController dalController = new DALController();
+        employeeController = new EmployeeController(dalController);
+        shiftController = new ShiftController(dalController);
 
         //Add the admin employee
         List roles = new ArrayList<Role>();

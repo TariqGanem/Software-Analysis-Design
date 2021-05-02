@@ -1,5 +1,6 @@
 package BusinessLayer.EmployeePackage;
 
+import DataAccessLayer.DALController;
 import Resources.Preference;
 import Resources.Role;
 
@@ -10,10 +11,12 @@ import java.util.*;
 public class EmployeeController {
     private Map<String, Employee> employees;
     private Employee activeEmployee;
+    private DALController dalController;
 
-    public EmployeeController() {
+    public EmployeeController(DALController dalController) {
         employees = new HashMap<>();
         activeEmployee = null;
+        this.dalController = dalController;
     }
 
     public void logout() {

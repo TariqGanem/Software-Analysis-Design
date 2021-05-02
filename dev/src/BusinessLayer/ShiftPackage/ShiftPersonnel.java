@@ -3,12 +3,15 @@ package BusinessLayer.ShiftPackage;
 import java.util.HashMap;
 import java.util.Map;
 
+import DataAccessLayer.DALController;
 import Resources.Role;;
 
 public class ShiftPersonnel {
     private Map<Role, Integer>[] empQtty;
+    private DALController dalController;
 
-    public ShiftPersonnel() {
+    public ShiftPersonnel(DALController dalController) {
+        this.dalController = dalController;
         empQtty = new Map[14];
         for (int i = 0; i < 11; i++) {
             empQtty[i] = new HashMap<>();
