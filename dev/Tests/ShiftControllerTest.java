@@ -1,6 +1,7 @@
 import static org.junit.Assert.*;
 import BusinessLayer.ShiftPackage.Shift;
 import BusinessLayer.ShiftPackage.ShiftController;
+import DataAccessLayer.DALController;
 import Resources.Role;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +14,7 @@ public class ShiftControllerTest {
 
     @Before
     public void setup(){
-        sc = new ShiftController();
+        sc = new ShiftController(new DALController());
     }
 
     @Test
