@@ -10,6 +10,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class EmployeeMapper {
     private static EmployeeMapper instance = null;
@@ -135,9 +136,70 @@ public class EmployeeMapper {
             }
 
             pEmployee.executeUpdate();
-            for (int i = 0; i < pEmployeeSkills.length; i++) {
-                pEmployeeSkills[i].executeUpdate();
+            for (PreparedStatement pEmployeeSkill : pEmployeeSkills) {
+                pEmployeeSkill.executeUpdate();
             }
+            for (int i = 0; i < 7; i++) {
+                for (int j = 0; j < 2; j++) {
+                    pEmployeeTimePreferences[i][j].executeUpdate();
+                }
+            }
+
+            return new Response();
+        } catch (SQLException ex) {
+            return new Response(ex.getMessage());
+        }
+    }
+
+    public Response updateEmployee(Employee emp, String oldID) {
+        try {
+            // Update Employee
+            String sqlStatement = "update Employee set ID = ?, name = ?, bankID = ?, branchID = ?, accountNumber = ?, salary = ?, startDate = ?, trustFund = ?, freeDays = ?, sickDays = ? where ID = ?";
+            PreparedStatement pEmployee = con.prepareStatement(sqlStatement);
+            pEmployee.setString(1, emp.getID());
+            pEmployee.setString(2, emp.getName());
+            pEmployee.setInt(3, emp.getBankId());
+            pEmployee.setInt(4, emp.getBranchId());
+            pEmployee.setInt(5, emp.getAccountNumber());
+            pEmployee.setFloat(6, emp.getSalary());
+            pEmployee.setString(7, emp.getStartDate().toString());
+            pEmployee.setString(8, emp.getTrustFund());
+            pEmployee.setInt(9, emp.getFreeDays());
+            pEmployee.setInt(10, emp.getSickDays());
+            pEmployee.setString(11, oldID);
+
+            // Update EmployeeSkills
+            PreparedStatement pDeleteSkillsEmployees = con.prepareStatement("delete from EmployeeSkills where ID = ?");
+            pDeleteSkillsEmployees.setString(1, oldID);
+            List<Role> empSkills = emp.getSkills();
+            PreparedStatement[] pEmployeeSkills = new PreparedStatement[empSkills.size()];
+            for (int i = 0; i < pEmployeeSkills.length; i++) {
+                pEmployeeSkills[i] = con.prepareStatement("update EmployeeSkills set ID = ?, skill = ?");
+                pEmployeeSkills[i].setString(1, emp.getID());
+                pEmployeeSkills[i].setString(2, empSkills.get(i).name());
+            }
+
+            // Update EmployeeTimeFrames
+            PreparedStatement pDeleteTimePreferencesEmployees = con.prepareStatement("delete from EmployeeTimePreferences where ID = ?");
+            pDeleteTimePreferencesEmployees.setString(1, oldID);
+            Preference[][] empTimePreferences = emp.getTimeFrames();
+            PreparedStatement[][] pEmployeeTimePreferences = new PreparedStatement[7][2];
+            for (int i = 0; i < 7; i++) {
+                for (int j = 0; j < 2; j++) {
+                    pEmployeeTimePreferences[i][j] = con.prepareStatement("insert into EmployeeTimePreferences values(?, ?, ?, ?)");
+                    pEmployeeTimePreferences[i][j].setString(1, emp.getID());
+                    pEmployeeTimePreferences[i][j].setInt(2, i);
+                    pEmployeeTimePreferences[i][j].setString(3, j == 0 ? "true" : "false");
+                    pEmployeeTimePreferences[i][j].setString(4, empTimePreferences[i][j].name());
+                }
+            }
+
+            pEmployee.executeUpdate();
+            pDeleteSkillsEmployees.executeUpdate();
+            for (PreparedStatement pEmployeeSkill : pEmployeeSkills) {
+                pEmployeeSkill.executeUpdate();
+            }
+            pDeleteTimePreferencesEmployees.executeUpdate();
             for (int i = 0; i < 7; i++) {
                 for (int j = 0; j < 2; j++) {
                     pEmployeeTimePreferences[i][j].executeUpdate();

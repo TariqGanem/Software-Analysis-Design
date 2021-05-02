@@ -1,24 +1,18 @@
 package DataAccessLayer.EmployeeModule;
 
-<<<<<<< HEAD:dev/src/DataAccessLayer/EmployeeModule/ShiftMapper.java
+import BusinessLayer.EmployeeModule.Response;
 import BusinessLayer.EmployeeModule.ResponseT;
 import BusinessLayer.EmployeeModule.ShiftPackage.Shift;
-=======
-import BusinessLayer.Response;
-import BusinessLayer.ResponseT;
-import BusinessLayer.ShiftPackage.Shift;
+
 import Resources.Role;
->>>>>>> 14077d5a507a82a5b90b2ddff7184f750ea71074:dev/src/DataAccessLayer/ShiftMapper.java
 
 import java.sql.*;
 import java.time.LocalDate;
-<<<<<<< HEAD:dev/src/DataAccessLayer/EmployeeModule/ShiftMapper.java
-=======
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
->>>>>>> 14077d5a507a82a5b90b2ddff7184f750ea71074:dev/src/DataAccessLayer/ShiftMapper.java
 
 public class ShiftMapper {
     private static ShiftMapper instance = null;

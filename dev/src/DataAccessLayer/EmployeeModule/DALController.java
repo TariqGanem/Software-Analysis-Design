@@ -37,6 +37,10 @@ public class DALController {
         return employeeMapper.setEmployee(emp);
     }
 
+    public Response updateEmployee(Employee emp, String oldID) {
+        return employeeMapper.updateEmployee(emp, oldID);
+    }
+
     public ResponseT<Shift> getShift(LocalDate date, boolean isMorning) {
         return shiftMapper.getShift(date, isMorning);
     }
