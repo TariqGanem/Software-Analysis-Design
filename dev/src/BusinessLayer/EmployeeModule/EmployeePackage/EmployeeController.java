@@ -76,6 +76,8 @@ public class EmployeeController {
             employees.remove(oldID);
             employees.put(newID, toUpdate);
         }
+
+        dalController.updateEmployee(employees.get(newID), oldID);
     }
 
     public void addEmployee(String name, String ID, int bankId, int branchId, int accountNumber,
@@ -87,6 +89,8 @@ public class EmployeeController {
         }
 
         employees.put(ID, new Employee(name, ID, bankId, branchId, accountNumber, salary, startDate, trustFund, freeDays, sickDays, skills, timeFrames));
+
+        dalController.setEmployee(employees.get(ID));
     }
 
     public boolean isValidID(String ID) {

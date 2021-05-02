@@ -1,11 +1,9 @@
 package DataAccessLayer.EmployeeModule;
 
-
 import BusinessLayer.EmployeeModule.Response;
 import BusinessLayer.EmployeeModule.ResponseT;
 import BusinessLayer.EmployeeModule.ShiftPackage.Shift;
 import Resources.Role;
-
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -14,7 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 public class ShiftMapper {
     private static ShiftMapper instance = null;
