@@ -50,19 +50,13 @@ public class Facade {
         try {
             response = new ResponseT<EmployeeDTO>(toEmployeeDTO(employeeController.getEmployee(ID)));
         } catch (Exception e) {
-            response = new ResponseT<EmployeeDTO>(e, new EmployeeDTO());
+            response = new ResponseT<EmployeeDTO>(e.getMessage(), new EmployeeDTO());
         }
         return response;
     }
 
-    public ResponseT<String> getName(String ID) {
-        ResponseT<String> response;
-        try {
-            response = new ResponseT<String>(employeeController.getName(ID));
-        } catch (Exception e) {
-            response = new ResponseT<String>(e);
-        }
-        return response;
+    public String getName(String ID) {
+        return employeeController.getName(ID);
     }
 
     public Response setEmployee(String oldID, EmployeeDTO employee) {
@@ -83,7 +77,7 @@ public class Facade {
                     employee.startDate, employee.trustFund, employee.freeDays, employee.sickDays, employee.skills, employee.timeFrames);
             response = new Response();
         } catch (Exception e) {
-            response = new Response(e);
+            response = new Response(e.getMessage());
             try {
                 employeeController.updateEmployee(rollback.getID(), rollback.getName(), rollback.getID(), rollback.getBankId(), rollback.getBranchId(), rollback.getAccountNumber(),
                         rollback.getSalary(), rollbackDate, rollback.getTrustFund(), rollback.getFreeDays(), rollback.getSickDays(), rollbackSkills, rollbackTimeFrames);
@@ -120,7 +114,7 @@ public class Facade {
             Shift shift = shiftController.getShift(date, isMorning);
             return new ResponseT<ShiftDTO>(toShiftDTO(shift));
         }catch (Exception ex){
-            return new ResponseT<ShiftDTO>(ex);
+            return new ResponseT<ShiftDTO>(ex.getMessage());
         }
     }
 
@@ -133,7 +127,7 @@ public class Facade {
         }
         ResponseT<List<ShiftDTO>> res;
         if(shiftDTOs.isEmpty())
-            return new ResponseT<>(new NullPointerException("no shift in the next " + daysFromToday + " days."));
+            return new ResponseT<>("no shift in the next " + daysFromToday + " days.");
         return new ResponseT<>(shiftDTOs);
     }
 
@@ -147,7 +141,7 @@ public class Facade {
             employeeController.login(ID);
             response = new Response();
         } catch (Exception e) {
-            response = new Response(e);
+            response = new Response(e.getMessage());
         }
         return response;
     }
@@ -158,7 +152,7 @@ public class Facade {
             employeeController.logout();
             response = new Response();
         } catch (Exception e) {
-            response = new Response(e);
+            response = new Response(e.getMessage());
         }
         return response;
     }
@@ -174,7 +168,7 @@ public class Facade {
                 throw new NoPermissionException("this employee doesn't have the correct roles.");
             shiftController.AssignToShift(id, skill);
         } catch (Exception e) {
-            return new Response(e);
+            return new Response(e.getMessage());
         }
         return new Response();
     }
@@ -187,7 +181,7 @@ public class Facade {
                 throw new NoPermissionException("this act can be performed by managers only.");
             shiftController.removeFromShift(id);
         } catch (Exception e) {
-            return new Response(e);
+            return new Response(e.getMessage());
         }
         return new Response();
     }
@@ -198,7 +192,7 @@ public class Facade {
                 throw new NoPermissionException("this act can be performed by managers only.");
             shiftController.definePersonnelForShift(day, isMorning, skill, qtty);
         } catch (Exception e) {
-            return new Response(e);
+            return new Response(e.getMessage());
         }
         return new Response();
     }
@@ -213,7 +207,7 @@ public class Facade {
                 throw new NoPermissionException("this act can be performed by managers only.");
             shiftController.addShift(date, isMorning);
         } catch (Exception e) {
-            return new Response(e);
+            return new Response(e.getMessage());
         }
         return new Response();
     }
@@ -225,7 +219,7 @@ public class Facade {
             if(!shiftController.removeShift(date, isMorning))
                 throw new IllegalArgumentException("this shift does not exists.");
         } catch (Exception e) {
-            return new Response(e);
+            return new Response(e.getMessage());
         }
         return new Response();
     }
@@ -237,7 +231,7 @@ public class Facade {
             employeeController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, startDate, trustFund, freeDays, sickDays, skills, timeFrames);
             response = new Response();
         } catch (Exception e) {
-            response = new Response(e);
+            response = new Response(e.getMessage());
         }
         return response;
     }
@@ -255,7 +249,7 @@ public class Facade {
                 employees = employeeController.viewUnavailableEmployees(day, isMorning, skill);
             response = new ResponseT<Map<String, String>>(employees);
         } catch (Exception e) {
-            response = new ResponseT<Map<String, String>>(e);
+            response = new ResponseT<Map<String, String>>(e.getMessage());
         }
         return response;
     }
@@ -268,5 +262,13 @@ public class Facade {
             ret.put(sDTO, shifts.get(shift));
         }
         return new ResponseT<>(ret);
+    }
+
+    public boolean API_isRoleAssignedToShift(LocalDate date, boolean isMorning, Role role) {
+        return shiftController.API_isRoleAssignedToShift(date, isMorning, role);
+    }
+
+    public boolean API_isDriverAssignedToShift(LocalDate date, boolean isMorning, String ID) {
+        return shiftController.API_isDriverAssignedToShift(date, isMorning, ID);
     }
 }

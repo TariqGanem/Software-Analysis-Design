@@ -7,8 +7,8 @@ public class Response {
     	errorMessage = null;
     }
 
-    public Response(Exception ex) {
-        this.errorMessage = ex.getMessage();
+    public Response(String msg) {
+        this.errorMessage = msg;
     }
 
     public boolean getErrorOccurred() {

@@ -33,9 +33,6 @@ public class Employee {
         setFreeDays(freeDays);
         setSickDays(sickDays);
         setSkills(skills);
-        timeFrames[5][1] = null;
-        timeFrames[6][0] = null;
-        timeFrames[6][1] = null;
         setTimeFrames(timeFrames);
     }
 
@@ -119,13 +116,13 @@ public class Employee {
     public void setTimeFrames(Preference[][] timeFrames) {
         if (timeFrames.length != 7 | timeFrames[0].length != 2)
             throw new IllegalArgumentException("Time preferences must correlate to the shifts in a week.");
-        if (timeFrames[5][1] != null)
-            throw new IndexOutOfBoundsException("There is no shift at friday evening.");
-        if (timeFrames[6][0] != null)
-            throw new IndexOutOfBoundsException("There is no shift at saturday morning.");
-        if (timeFrames[6][1] != null)
-            throw new IndexOutOfBoundsException("There is no shift at saturday evening.");
         this.timeFrames = timeFrames;
+        /*if (timeFrames[5][1] != null)
+            throw new IndexOutOfBoundsException("There is no shift at friday evening. But the change was recorded.");
+        if (timeFrames[6][0] != null)
+            throw new IndexOutOfBoundsException("There is no shift at saturday morning. But the change was recorded.");
+        if (timeFrames[6][1] != null)
+            throw new IndexOutOfBoundsException("There is no shift at saturday evening. But the change was recorded.");*/
     }
 
     public String getID() {

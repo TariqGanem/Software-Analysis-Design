@@ -92,4 +92,22 @@ public class ShiftController {
     public Map<Role, Integer> getPersonnelForShift(int day, boolean isMorning) {
         return sp.getQtty(day, isMorning);
     }
+
+    public boolean API_isRoleAssignedToShift(LocalDate date, boolean isMorning, Role role) {
+        try {
+            List<String> IDs = getShift(date, isMorning).getPositions().get(role);
+            return IDs != null && IDs.size() > 0;
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+
+    public boolean API_isDriverAssignedToShift(LocalDate date, boolean isMorning, String ID) {
+        try {
+            List<String> IDs = getShift(date, isMorning).getPositions().get(Role.Driver);
+            return IDs != null && IDs.size() > 0;
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
 }

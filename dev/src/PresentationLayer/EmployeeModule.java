@@ -14,7 +14,7 @@ import java.util.Map;
 public class EmployeeModule {
 
     public static void main(String[] args) {
-        PresentationController presentationController = new PresentationController();
+        PresentationController presentationController = PresentationController.getInstance();
         MenuHandler menu = new MenuHandler();
         IOController io = IOController.getInstance();
         String ID = null;

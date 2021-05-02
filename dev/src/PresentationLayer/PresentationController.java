@@ -13,11 +13,18 @@ import java.util.List;
 import java.util.Map;
 
 public class PresentationController {
+    private static PresentationController instance = null;
     private Facade facade;
     private IOController io;
     private String activeEmployee;
 
-    public PresentationController() {
+    public static PresentationController getInstance() {
+        if (instance == null)
+            instance = new PresentationController();
+        return instance;
+    }
+
+    private PresentationController() {
         facade = new Facade();
         io = IOController.getInstance();
         activeEmployee = null;
@@ -83,12 +90,12 @@ public class PresentationController {
             for (Role role : shiftDTO.positions.keySet()) {
                 io.println(role.name() + ":");
                 for (String ID : shiftDTO.positions.get(role)) {
-                    ResponseT<String> nameResponse = facade.getName(ID);
+                    String nameResponse = facade.getName(ID);
                     if (response.getErrorOccurred()) {
                         io.println(response.getErrorMessage());
                         return false;
                     }
-                    io.println("\t" + ID + " " + nameResponse.getValue());
+                    io.println("\t" + ID + " " + nameResponse);
                 }
             }
             return true;
@@ -202,5 +209,13 @@ public class PresentationController {
     public boolean isIDAlreadyRegistered(String ID) {
         ResponseT<EmployeeDTO> res = facade.getEmployee(ID);
         return !res.getErrorOccurred();
+    }
+
+    public boolean API_isRoleAssignedToShift(LocalDate date, boolean isMorning, Role role) {
+        return facade.API_isRoleAssignedToShift(date, isMorning, role);
+    }
+
+    public boolean API_isDriverAssignedToShift(LocalDate date, boolean isMorning, String ID) {
+        return facade.API_isDriverAssignedToShift(date, isMorning, ID);
     }
 }
