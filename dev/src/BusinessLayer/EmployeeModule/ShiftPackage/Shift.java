@@ -14,6 +14,12 @@ public class Shift {
 		this.isMorning = isMorning;
 		positions = new HashMap<Role, List<String>>();
 	}
+
+	public Shift(LocalDate date, boolean isMorning, Map<Role,List<String>> positions) {
+		this.date = date;
+		this.isMorning = isMorning;
+		this.positions = positions;
+	}
 	
 	public int assignEmployee(Role skill, String id) {
 		List<String> lst = positions.get(Role.ShiftManager);
