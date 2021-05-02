@@ -30,7 +30,7 @@ public class EmployeeMapper {
             String sqlStatement = "select * from Employee where ID = ?";
             PreparedStatement p = con.prepareStatement(sqlStatement);
             p.setString(1, ID);
-            ResultSet rs = p.executeQuery(sqlStatement);
+            ResultSet rs = p.executeQuery();
 
             if (!rs.next())
                 return new ResponseT<>("Employee not found in the system.");
@@ -57,32 +57,36 @@ public class EmployeeMapper {
     }
 
     private List<Role> getSkills(String ID) throws SQLException {
-        String sqlStatement = "select * from EmployeeSkills where ID = ?";
-        PreparedStatement p = con.prepareStatement(sqlStatement);
-        p.setString(1, ID);
-        ResultSet rs = p.executeQuery(sqlStatement);
+        try {
+            String sqlStatement = "select * from EmployeeSkills where ID = ?";
+            PreparedStatement p = con.prepareStatement(sqlStatement);
+            p.setString(1, ID);
+            ResultSet rs = p.executeQuery();
 
-        List<Role> skills = new ArrayList<>();
+            List<Role> skills = new ArrayList<>();
 
-        while (!rs.next()) {
-            String role = rs.getString("skill");
-            skills.add(Role.valueOf(role));
+            while (rs.next()) {
+                String role = rs.getString("skill");
+                skills.add(Role.valueOf(role));
+            }
+
+            return skills;
+        } catch (SQLException ex) {
+            throw ex;
         }
-
-        return skills;
     }
 
     private Preference[][] getTimePreferences(String ID) throws SQLException {
         String sqlStatement = "select * from EmployeeTimePreferences where ID = ?";
         PreparedStatement p = con.prepareStatement(sqlStatement);
         p.setString(1, ID);
-        ResultSet rs = p.executeQuery(sqlStatement);
+        ResultSet rs = p.executeQuery();
 
         Preference[][] preferences = new Preference[7][2];
 
-        while (!rs.next()) {
+        while (rs.next()) {
             int dayIndex = rs.getInt("dayIndex");
-            boolean isMorning = Boolean.getBoolean(rs.getString("isMorning"));
+            boolean isMorning = Boolean.parseBoolean(rs.getString("isMorning"));
             int morningIndex = isMorning ? 0 : 1;
 
             String preference = rs.getString("preference");
@@ -130,7 +134,7 @@ public class EmployeeMapper {
                 }
             }
 
-            pEmployee.executeUpdate(sqlStatement);
+            pEmployee.executeUpdate();
             for (int i = 0; i < pEmployeeSkills.length; i++) {
                 pEmployeeSkills[i].executeUpdate();
             }
@@ -144,39 +148,5 @@ public class EmployeeMapper {
         } catch (SQLException ex) {
             return new Response(ex.getMessage());
         }
-    }
-
-    public static void main(String[] args) {
-        List roles = new ArrayList<Role>();
-        roles.add(Role.StoreManager);
-        roles.add(Role.ShiftManager);
-        String name = "Mr. Krabs";
-        String ID1 = "123456789";
-        int bankId = 10;
-        int branchId = 100;
-        int accountNumber = 1000;
-        float salary = 5000;
-        LocalDate date = LocalDate.of(1999, 1, 1);
-        String trustFund = "Trust Fund";
-        int freeDays = 10;
-        int sickDays = 15;
-        Preference[][] timeFrames = new Preference[7][2];
-        for (int i = 0; i < 7; i++)
-            for (int j = 0; j < 2; j++)
-                timeFrames[i][j] = (i + j) % 2 == 0 ? Preference.WANT : Preference.CAN;
-
-        Employee emp = new Employee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
-
-        String dbFile = "SuperLi.db";
-        String url = "jdbc:sqlite:" + dbFile;
-        Connection con = null;
-        try {
-            con = DriverManager.getConnection(url);
-        } catch (Exception ignored) {
-        }
-
-        EmployeeMapper em = EmployeeMapper.getInstance(con);
-
-        em.setEmployee(emp);
     }
 }
