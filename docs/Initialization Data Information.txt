@@ -1,0 +1,287 @@
+Information about the data available in the system when initialized:
+
+When the system initializes you can pick to insert predefined data to the system, to test its functionality easily (You can also choose not to, and continue with an 
+empty system). This is information about the predefined data:
+
+Employees:
+1)
+	Name: Mr. Krabs
+	ID: 123456789
+	Bank information:
+		Bank id: 10
+		Branch id: 100
+		Account number: 1000
+	Salary: 5000.0
+	Start date: 1999-01-01
+	Trust fund: Trust Fund
+	Free days: 10
+	Sick days: 15
+	Roles: StoreManager
+	Time preferences: 
+		Sunday: 
+			Morning: WANT | Evening: CAN
+		Monday: 
+			Morning: CAN | Evening: WANT
+		Tuesday: 
+			Morning: WANT | Evening: CAN
+		Wednesday: 
+			Morning: CAN | Evening: WANT
+		Thursday: 
+			Morning: WANT | Evening: CAN
+		Friday: 
+			Morning: CAN
+
+2) 
+	Name: Squidward Tentacles
+	ID: 987654321
+	Bank information:
+		Bank id: 12
+		Branch id: 10
+		Account number: 999
+	Salary: 10.0
+	Start date: 1999-01-01
+	Trust fund: 456987
+	Free days: 0
+	Sick days: 5
+	Roles: ShiftManager, Cashier, StoreManagerAssistant
+	Time preferences: 
+		Sunday: 
+			Morning: CAN | Evening: CAN
+		Monday: 
+			Morning: CAN | Evening: CANT
+		Tuesday: 
+			Morning: CANT | Evening: CAN
+		Wednesday: 
+			Morning: CAN | Evening: CAN
+		Thursday: 
+			Morning: CAN | Evening: CAN
+		Friday: 
+			Morning: CAN
+
+3) 
+	ID: 111111111
+	Bank information:
+		Bank id: 12
+		Branch id: 55
+		Account number: 998
+	Salary: 10000.0
+	Start date: 1999-05-01
+	Trust fund: 222
+	Free days: 1000
+	Sick days: 1000
+	Roles: Cashier, Stocker, StoreKeeper
+	Time preferences: 
+		Sunday: 
+			Morning: WANT | Evening: WANT
+		Monday: 
+			Morning: WANT | Evening: WANT
+		Tuesday: 
+			Morning: WANT | Evening: WANT
+		Wednesday: 
+			Morning: WANT | Evening: WANT
+		Thursday: 
+			Morning: WANT | Evening: WANT
+		Friday: 
+			Morning: WANT
+
+4)
+	Name: Patrick Star
+	ID: 222222222
+	Bank information:
+		Bank id: 12
+		Branch id: 66
+		Account number: 997
+	Salary: 0.2
+	Start date: 2001-02-03
+	Trust fund: 111
+	Free days: 0
+	Sick days: 0
+	Roles: HRManager, Cashier
+	Time preferences: 
+		Sunday: 
+			Morning: CANT | Evening: CANT
+		Monday: 
+			Morning: CANT | Evening: CANT
+		Tuesday: 
+			Morning: CANT | Evening: CANT
+		Wednesday: 
+			Morning: CANT | Evening: CANT
+		Thursday: 
+			Morning: CANT | Evening: CANT
+		Friday: 
+			Morning: CANT
+
+5)
+	Name: Sandy Cheeks
+	ID: 333333333
+	Bank information:
+		Bank id: 12
+		Branch id: 100
+		Account number: 994
+	Salary: 100.5
+	Start date: 2021-01-01
+	Trust fund: 121
+	Free days: 0
+	Sick days: 0
+	Roles: StoreKeeper
+	Time preferences: 
+		Sunday: 
+			Morning: WANT | Evening: WANT
+		Monday: 
+			Morning: WANT | Evening: WANT
+		Tuesday: 
+			Morning: WANT | Evening: WANT
+		Wednesday: 
+			Morning: WANT | Evening: WANT
+		Thursday: 
+			Morning: WANT | Evening: WANT
+		Friday: 
+			Morning: WANT
+
+
+Shifts:
+1)
+	Date: 2021-7-4 (July 4th, not April 7th)
+	Morning/Evening: Morning
+	Employees:
+		ShiftManager:
+			123456789 Mr. Krabs
+		Cashier:
+			111111111 SpongeBob SquarePants
+			222222222 Patrick Star
+		StoreKeeper:
+			333333333 Sandy Cheeks
+
+2)
+	Date: 2021-7-5 (July 5th, not May 7th)
+	Morning/Evening: Morning
+	Employees:
+		Stocker:
+			111111111 SpongeBob SquarePants
+		ShiftManager:
+			123456789 Mr. Krabs
+		HRManager:
+			222222222 Patrick Star
+		Cashier:
+			987654321 Squidward Tentacles
+		StoreKeeper:
+			333333333 Sandy Cheeks
+
+3)
+	Date: 2021-7-6 (July 6th, not June 7th)
+	Morning/Evening: Evening
+	Employees:
+		ShiftManager:
+			123456789 Mr. Krabs
+		HRManager:
+			222222222 Patrick Star
+		Cashier:
+			111111111 SpongeBob SquarePants
+		StoreKeeper:
+			333333333 Sandy Cheeks
+
+ShiftPersonnel:
+	Sunday:
+		Morning: 
+			1) Stocker - 2 Are needed.
+			2) StoreManager - 2 Are needed.
+			3) ShiftManager - 2 Are needed.
+			4) HRManager - 2 Are needed.
+			5) StoreManagerAssistant - 2 Are needed.
+			6) Cashier - 2 Are needed.
+			7) StoreKeeper - 2 Are needed.
+
+		Evening:
+			1) Stocker - 2 Are needed.
+			2) StoreManager - 2 Are needed.
+			3) ShiftManager - 2 Are needed.
+			4) HRManager - 2 Are needed.
+			5) StoreManagerAssistant - 2 Are needed.
+			6) Cashier - 2 Are needed.
+			7) StoreKeeper - 2 Are needed.
+
+	Monday:
+		Morning: 
+			1) Stocker - 3 Are needed.
+			2) StoreManager - 3 Are needed.
+			3) ShiftManager - 3 Are needed.
+			4) HRManager - 3 Are needed.
+			5) StoreManagerAssistant - 3 Are needed.
+			6) Cashier - 3 Are needed.
+			7) StoreKeeper - 3 Are needed.
+
+		Evening:
+			1) Stocker - 1 Are needed.
+			2) StoreManager - 1 Are needed.
+			3) ShiftManager - 1 Are needed.
+			4) HRManager - 1 Are needed.
+			5) StoreManagerAssistant - 1 Are needed.
+			6) Cashier - 1 Are needed.
+			7) StoreKeeper - 1 Are needed.
+
+	Tuesday:
+		Morning: 
+			1) Stocker - 1 Are needed.
+			2) StoreManager - 1 Are needed.
+			3) ShiftManager - 1 Are needed.
+			4) HRManager - 1 Are needed.
+			5) StoreManagerAssistant - 1 Are needed.
+			6) Cashier - 1 Are needed.
+			7) StoreKeeper - 1 Are needed.
+
+		Evening:
+			1) Stocker - 2 Are needed.
+			2) StoreManager - 2 Are needed.
+			3) ShiftManager - 2 Are needed.
+			4) HRManager - 2 Are needed.
+			5) StoreManagerAssistant - 2 Are needed.
+			6) Cashier - 2 Are needed.
+			7) StoreKeeper - 2 Are needed.
+
+	Wednesday:
+		Morning: 
+			1) Stocker - 2 Are needed.
+			2) StoreManager - 2 Are needed.
+			3) ShiftManager - 2 Are needed.
+			4) HRManager - 2 Are needed.
+			5) StoreManagerAssistant - 2 Are needed.
+			6) Cashier - 2 Are needed.
+			7) StoreKeeper - 2 Are needed.
+
+		Evening:
+			1) Stocker - 3 Are needed.
+			2) StoreManager - 3 Are needed.
+			3) ShiftManager - 3 Are needed.
+			4) HRManager - 3 Are needed.
+			5) StoreManagerAssistant - 3 Are needed.
+			6) Cashier - 3 Are needed.
+			7) StoreKeeper - 3 Are needed.
+
+	Thursday:
+		Morning: 
+			1) Stocker - 3 Are needed.
+			2) StoreManager - 3 Are needed.
+			3) ShiftManager - 3 Are needed.
+			4) HRManager - 3 Are needed.
+			5) StoreManagerAssistant - 3 Are needed.
+			6) Cashier - 3 Are needed.
+			7) StoreKeeper - 3 Are needed.
+
+		Evening:
+			1) Stocker - 4 Are needed.
+			2) StoreManager - 4 Are needed.
+			3) ShiftManager - 4 Are needed.
+			4) HRManager - 4 Are needed.
+			5) StoreManagerAssistant - 4 Are needed.
+			6) Cashier - 4 Are needed.
+			7) StoreKeeper - 4 Are needed.
+
+	Friday:
+		Morning: 
+			1) Stocker - 4 Are needed.
+			2) StoreManager - 4 Are needed.
+			3) ShiftManager - 4 Are needed.
+			4) HRManager - 4 Are needed.
+			5) StoreManagerAssistant - 4 Are needed.
+			6) Cashier - 4 Are needed.
+			7) StoreKeeper - 4 Are needed.
