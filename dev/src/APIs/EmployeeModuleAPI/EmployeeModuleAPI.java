@@ -21,4 +21,9 @@ public class EmployeeModuleAPI implements iEmployeeModuleAPI {
     public boolean isDriverAssignedToShift(LocalDate date, boolean isMorning, String ID) {
         return pController.API_isDriverAssignedToShift(date, isMorning, ID);
     }
+
+    @Override
+    public boolean isShipmentManager(String ID) {
+        return pController.API_isShipmentManager(ID);
+    }
 }

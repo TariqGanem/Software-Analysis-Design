@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class EmployeeModule {
 
-    public static void main(String[] args) {
+    public void run() {
         PresentationController presentationController = PresentationController.getInstance();
         MenuHandler menu = new MenuHandler();
         IOController io = IOController.getInstance();

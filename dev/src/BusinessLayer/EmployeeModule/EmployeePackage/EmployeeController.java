@@ -166,4 +166,13 @@ public class EmployeeController {
         }
         return ret;
     }
+
+    public boolean API_isShipmentManager(String ID) {
+        try {
+            Employee emp = getEmployee(ID);
+            return emp.getSkills().contains(Role.ShipmentsManager);
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

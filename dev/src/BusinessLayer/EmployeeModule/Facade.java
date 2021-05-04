@@ -257,4 +257,8 @@ public class Facade {
     public boolean API_isDriverAssignedToShift(LocalDate date, boolean isMorning, String ID) {
         return shiftController.API_isDriverAssignedToShift(date, isMorning, ID);
     }
+
+    public boolean API_isShipmentManager(String ID) {
+        return employeeController.API_isShipmentManager(ID);
+    }
 }

@@ -8,7 +8,7 @@ public class Main {
         new dbMaker().initialize();
 
         Menu app = Menu.getInstance();
-        EmployeeModule.main(args);//TODO - replace with function
+        new EmployeeModule().run(); //TODO - replace with function
         app.run();
 
 

@@ -9,5 +9,6 @@ public enum Role {
     Stocker,
     SecurityMan,
     Driver,
-    ShiftManager
+    ShiftManager,
+    ShipmentsManager
 }
