@@ -289,7 +289,7 @@ public class EmployeeModule {
 
                                 case 2:
                                     emp.ID = menu.showEnterStringMenu("id");
-                                    if (!ID.matches("[0-9]+")) {
+                                    if (!emp.ID.matches("[0-9]+")) {
                                         io.println("ID must contain only numbers.");
                                         continue;
                                     }

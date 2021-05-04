@@ -25,25 +25,6 @@ public class Facade {
         DALController dalController = new DALController();
         employeeController = new EmployeeController(dalController);
         shiftController = new ShiftController(dalController);
-
-        //Add the admin employee
-        List roles = new ArrayList<Role>();
-        roles.add(Role.StoreManager);
-        String name = "admin";
-        String ID1 = "admin";
-        int bankId = 0;
-        int branchId = 0;
-        int accountNumber = 0;
-        float salary = 0;
-        LocalDate date = LocalDate.of(2000, 1, 1);
-        String trustFund = "admin";
-        int freeDays = 0;
-        int sickDays = 0;
-        Preference[][] timeFrames = new Preference[7][2];
-        for (int i = 0; i < 7; i++)
-            for (int j = 0; j < 2; j++)
-                timeFrames[i][j] = Preference.CANT;
-        addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
     }
 
     public boolean getIsManager() {
@@ -117,6 +98,8 @@ public class Facade {
     public ResponseT<ShiftDTO> getShift(LocalDate date, boolean isMorning) {
         try{
             Shift shift = shiftController.getShift(date, isMorning);
+            if (shift == null)
+                return new ResponseT<ShiftDTO>("Couldn't find specified shift");
             return new ResponseT<ShiftDTO>(toShiftDTO(shift));
         }catch (Exception ex){
             return new ResponseT<ShiftDTO>(ex.getMessage());

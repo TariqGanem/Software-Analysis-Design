@@ -5,29 +5,30 @@ import BusinessLayer.EmployeeModule.Response;
 import BusinessLayer.EmployeeModule.ResponseT;
 import Resources.Preference;
 import Resources.Role;
+import org.sqlite.SQLiteConfig;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class EmployeeMapper {
     private static EmployeeMapper instance = null;
-    private Connection con;
+    private String url;
 
-    public static EmployeeMapper getInstance(Connection con) {
+    public static EmployeeMapper getInstance(String url) {
         if (instance == null)
-            instance = new EmployeeMapper(con);
+            instance = new EmployeeMapper(url);
         return instance;
     }
 
-    private EmployeeMapper(Connection con) {
-        this.con = con;
+    private EmployeeMapper(String url) {
+        this.url = url;
     }
 
     public ResponseT<Employee> getEmployee(String ID) {
-        try {
+        try (Connection con = DriverManager.getConnection(url)) {
+
             String sqlStatement = "select * from Employee where ID = ?";
             PreparedStatement p = con.prepareStatement(sqlStatement);
             p.setString(1, ID);
@@ -52,13 +53,14 @@ public class EmployeeMapper {
                     trustFund, freeDays, sickDays, skills, timeFrames);
 
             return new ResponseT<>(emp);
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             return new ResponseT<>(ex.getMessage());
         }
     }
 
     private List<Role> getSkills(String ID) throws SQLException {
-        try {
+        try (Connection con = DriverManager.getConnection(url)) {
+
             String sqlStatement = "select * from EmployeeSkills where ID = ?";
             PreparedStatement p = con.prepareStatement(sqlStatement);
             p.setString(1, ID);
@@ -78,30 +80,42 @@ public class EmployeeMapper {
     }
 
     private Preference[][] getTimePreferences(String ID) throws SQLException {
-        String sqlStatement = "select * from EmployeeTimePreferences where ID = ?";
-        PreparedStatement p = con.prepareStatement(sqlStatement);
-        p.setString(1, ID);
-        ResultSet rs = p.executeQuery();
-
+        Connection con = null;
         Preference[][] preferences = new Preference[7][2];
 
-        while (rs.next()) {
-            int dayIndex = rs.getInt("dayIndex");
-            boolean isMorning = Boolean.parseBoolean(rs.getString("isMorning"));
-            int morningIndex = isMorning ? 0 : 1;
+        try {
+            con = DriverManager.getConnection(url);
 
-            String preference = rs.getString("preference");
-            if (preference.toLowerCase().equals("null"))
-                preferences[dayIndex][morningIndex] = null;
-            else
-                preferences[dayIndex][morningIndex] = Preference.valueOf(preference);
+            String sqlStatement = "select * from EmployeeTimePreferences where ID = ?";
+            PreparedStatement p = con.prepareStatement(sqlStatement);
+            p.setString(1, ID);
+            ResultSet rs = p.executeQuery();
+
+            preferences = new Preference[7][2];
+
+            while (rs.next()) {
+                int dayIndex = rs.getInt("dayIndex");
+                boolean isMorning = Boolean.parseBoolean(rs.getString("isMorning"));
+                int morningIndex = isMorning ? 0 : 1;
+
+                String preference = rs.getString("preference");
+                if (preference.toLowerCase().equals("null"))
+                    preferences[dayIndex][morningIndex] = null;
+                else
+                    preferences[dayIndex][morningIndex] = Preference.valueOf(preference);
+            }
+        } catch (SQLException ex) {
+            throw ex;
+        } finally {
+            if (con != null)
+                con.close();
         }
-
         return preferences;
     }
 
     public Response setEmployee(Employee emp) {
-        try {
+        try (Connection con = DriverManager.getConnection(url)) {
+
             String sqlStatement = "insert into Employee values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pEmployee = con.prepareStatement(sqlStatement);
             pEmployee.setString(1, emp.getID());
@@ -152,7 +166,13 @@ public class EmployeeMapper {
     }
 
     public Response updateEmployee(Employee emp, String oldID) {
+        Connection con = null;
+
         try {
+            SQLiteConfig config = new SQLiteConfig(); //I add this configuration
+            config.enforceForeignKeys(true);
+            con = DriverManager.getConnection(url, config.toProperties());
+
             // Update Employee
             String sqlStatement = "update Employee set ID = ?, name = ?, bankID = ?, branchID = ?, accountNumber = ?, salary = ?, startDate = ?, trustFund = ?, freeDays = ?, sickDays = ? where ID = ?";
             PreparedStatement pEmployee = con.prepareStatement(sqlStatement);
@@ -174,7 +194,7 @@ public class EmployeeMapper {
             List<Role> empSkills = emp.getSkills();
             PreparedStatement[] pEmployeeSkills = new PreparedStatement[empSkills.size()];
             for (int i = 0; i < pEmployeeSkills.length; i++) {
-                pEmployeeSkills[i] = con.prepareStatement("update EmployeeSkills set ID = ?, skill = ?");
+                pEmployeeSkills[i] = con.prepareStatement("insert into EmployeeSkills values(?, ?)");
                 pEmployeeSkills[i].setString(1, emp.getID());
                 pEmployeeSkills[i].setString(2, empSkills.get(i).name());
             }
@@ -209,6 +229,31 @@ public class EmployeeMapper {
             return new Response();
         } catch (SQLException ex) {
             return new Response(ex.getMessage());
+        } finally {
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException ignored) {
+                }
+            }
+        }
+    }
+
+    public ResponseT<List<String>> getEmployeeIDs() {
+        try (Connection con = DriverManager.getConnection(url)) {
+
+            String sqlStatement = "select ID from Employee";
+            PreparedStatement pEmployee = con.prepareStatement(sqlStatement);
+            ResultSet rs = pEmployee.executeQuery();
+
+            List<String> IDs = new ArrayList<>();
+            while (rs.next()) {
+                IDs.add(rs.getString("ID"));
+            }
+
+            return new ResponseT(IDs);
+        } catch (SQLException ex) {
+            return new ResponseT(ex.getMessage());
         }
     }
 }

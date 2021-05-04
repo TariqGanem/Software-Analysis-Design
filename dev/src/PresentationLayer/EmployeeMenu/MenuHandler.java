@@ -141,7 +141,7 @@ public class MenuHandler {
         do {
             io.print("Enter a number between 0 and 11: ");
             answer = io.getInt();
-        } while (answer < 0 || answer > 10);
+        } while (answer < 0 || answer > 11);
 
         return answer;
     }

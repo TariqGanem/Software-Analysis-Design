@@ -6,15 +6,12 @@ import BusinessLayer.EmployeeModule.ResponseT;
 import BusinessLayer.EmployeeModule.ShiftPackage.Shift;
 import Resources.Role;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.time.LocalDate;
 
 import java.util.List;
 import java.util.Map;
 
 public class DALController {
-    private DALController instance = null;
     private EmployeeMapper employeeMapper;
     private ShiftMapper shiftMapper;
     private ShiftPersonnelMapper shiftPersonnelMapper;
@@ -22,15 +19,10 @@ public class DALController {
     public DALController() {
         String dbFile = "SuperLi.db";
         String url = "jdbc:sqlite:" + dbFile;
-        Connection con = null;
-        try {
-            con = DriverManager.getConnection(url);
-        } catch (Exception ignored) {
-        }
 
-        employeeMapper = EmployeeMapper.getInstance(con);
-        shiftMapper = ShiftMapper.getInstance(con);
-        shiftPersonnelMapper = ShiftPersonnelMapper.getInstance(con);
+        employeeMapper = EmployeeMapper.getInstance(url);
+        shiftMapper = ShiftMapper.getInstance(url);
+        shiftPersonnelMapper = ShiftPersonnelMapper.getInstance(url);
     }
 
     public ResponseT<Employee> getEmployee(String ID) {
@@ -69,7 +61,6 @@ public class DALController {
         return shiftMapper.setShift(shift);
     }
 
-
     public Response insertToShift(Shift shift, Role role, String ID){
         return shiftMapper.insertToShift(shift,role,ID);
     }
@@ -78,11 +69,13 @@ public class DALController {
         return shiftMapper.removeFromShift(shift, ID);
     }
 
-    public void deleteShift(LocalDate date, boolean isMorning) {
-        shiftMapper.deleteShift(date, isMorning);
+    public Response deleteShift(LocalDate date, boolean isMorning) {
+        return shiftMapper.deleteShift(date, isMorning);
     }
 
     public ResponseT<Map<Shift, Role>> getEmpShifts(String id) {
         return shiftMapper.getEmpShifts(id);
     }
+
+    public ResponseT<List<String>> getEmployeeIDs() { return employeeMapper.getEmployeeIDs(); }
 }

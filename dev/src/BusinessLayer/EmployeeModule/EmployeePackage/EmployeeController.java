@@ -13,11 +13,36 @@ public class EmployeeController {
     private Map<String, Employee> employees;
     private Employee activeEmployee;
     private DALController dalController;
+    private List<String> IDs;
 
     public EmployeeController(DALController dalController) {
         employees = new HashMap<>();
         activeEmployee = null;
+        IDs = new ArrayList<>();
         this.dalController = dalController;
+
+        ResponseT<Employee> res = dalController.getEmployee("admin");
+        if (!res.getErrorOccurred())
+            employees.put("admin", res.getValue());
+        else {
+            List roles = new ArrayList<Role>();
+            roles.add(Role.StoreManager);
+            String name = "admin";
+            String ID1 = "admin";
+            int bankId = 0;
+            int branchId = 0;
+            int accountNumber = 0;
+            float salary = 0;
+            LocalDate date = LocalDate.of(2000, 1, 1);
+            String trustFund = "admin";
+            int freeDays = 0;
+            int sickDays = 0;
+            Preference[][] timeFrames = new Preference[7][2];
+            for (int i = 0; i < 7; i++)
+                for (int j = 0; j < 2; j++)
+                    timeFrames[i][j] = Preference.CANT;
+            addEmployee(name, ID1, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
+        }
     }
 
     public void logout() {
@@ -27,7 +52,7 @@ public class EmployeeController {
     public Employee getEmployee(String ID) throws Exception {
         if (activeEmployee != null && !activeEmployee.getIsManager() && !activeEmployee.getID().equals(ID))
             throw new NoPermissionException("The employee currently using the system doesn't have permission to view this content.");
-        if (!isValidID(ID)) {
+        if (!doesIDExist(ID)) {
             ResponseT<Employee> empResponse = dalController.getEmployee(ID);
             if (empResponse.getErrorOccurred())
                 throw new IllegalArgumentException("No employee with the ID: " + ID + " was found in the system.");
@@ -93,8 +118,18 @@ public class EmployeeController {
         dalController.setEmployee(employees.get(ID));
     }
 
-    public boolean isValidID(String ID) {
+    public boolean doesIDExist(String ID) {
         return employees.containsKey(ID);
+    }
+
+    public boolean isValidID(String ID) {
+        if (IDs.isEmpty()) {
+            ResponseT<List<String>> res = dalController.getEmployeeIDs();
+            if (res.getErrorOccurred())
+                return false;
+            IDs = res.getValue();
+        }
+        return IDs.contains(ID);
     }
 
     public boolean isManager() {
