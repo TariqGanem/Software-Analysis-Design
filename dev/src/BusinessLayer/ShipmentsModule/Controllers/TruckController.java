@@ -1,6 +1,6 @@
-package ShipmentsModule.Controllers;
+package BusinessLayer.ShipmentsModule.Controllers;
 
-import ShipmentsModule.Objects.Truck;
+import BusinessLayer.ShipmentsModule.Objects.Truck;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,16 +1,6 @@
-package DataAccessLayer.Mappers;
+package DataAccessLayer.ShipmentsModule.Mappers;
 
-import DTOs.LocationDTO;
-import DTOs.ShipmentDTO;
-import DTOs.TruckDTO;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.Date;
-
-public class ShipmentMapper extends Engine {
+public class ShipmentMapper {
 
 //    private static ShipmentMapper instance = null;
 //    private IdentityMap memory;

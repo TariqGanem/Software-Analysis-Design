@@ -1,21 +1,21 @@
 package BusinessLayer.EmployeeModule;
 
-import java.time.LocalDate;
-import java.util.*;
-
 import BusinessLayer.EmployeeModule.EmployeePackage.Employee;
 import BusinessLayer.EmployeeModule.EmployeePackage.EmployeeController;
 import BusinessLayer.EmployeeModule.ShiftPackage.Shift;
 import BusinessLayer.EmployeeModule.ShiftPackage.ShiftController;
-
-import DTOPackage.*;
+import DTOPackage.EmployeeDTO;
+import DTOPackage.ShiftDTO;
 import DataAccessLayer.EmployeeModule.DALController;
 import Resources.Preference;
 import Resources.Role;
 
-import java.util.List;
-
 import javax.naming.NoPermissionException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Facade {
     private EmployeeController employeeController;
@@ -96,23 +96,23 @@ public class Facade {
     }
 
     public ResponseT<ShiftDTO> getShift(LocalDate date, boolean isMorning) {
-        try{
+        try {
             Shift shift = shiftController.getShift(date, isMorning);
             if (shift == null)
                 return new ResponseT<ShiftDTO>("Couldn't find specified shift");
             return new ResponseT<ShiftDTO>(toShiftDTO(shift));
-        }catch (Exception ex){
+        } catch (Exception ex) {
             return new ResponseT<ShiftDTO>(ex.getMessage());
         }
     }
 
-    public ResponseT<List<ShiftDTO>> getShifts(int daysFromToday){
+    public ResponseT<List<ShiftDTO>> getShifts(int daysFromToday) {
         List<ShiftDTO> shiftDTOs = new ArrayList<>();
         for (Shift shift : shiftController.getShifts(daysFromToday)) {
             shiftDTOs.add(toShiftDTO(shift));
         }
         ResponseT<List<ShiftDTO>> res;
-        if(shiftDTOs.isEmpty())
+        if (shiftDTOs.isEmpty())
             return new ResponseT<>("no shift in the next " + daysFromToday + " days.");
         return new ResponseT<>(shiftDTOs);
     }
@@ -183,7 +183,7 @@ public class Facade {
         return new Response();
     }
 
-    public Map<Role, Integer> getPersonnelForShift(int day, boolean isMorning){
+    public Map<Role, Integer> getPersonnelForShift(int day, boolean isMorning) {
         return shiftController.getPersonnelForShift(day, isMorning);
     }
 
@@ -202,7 +202,7 @@ public class Facade {
         try {
             if (!employeeController.isManager())
                 throw new NoPermissionException("this act can be performed by managers only.");
-            if(!shiftController.removeShift(date, isMorning))
+            if (!shiftController.removeShift(date, isMorning))
                 throw new IllegalArgumentException("this shift does not exists.");
         } catch (Exception e) {
             return new Response(e.getMessage());

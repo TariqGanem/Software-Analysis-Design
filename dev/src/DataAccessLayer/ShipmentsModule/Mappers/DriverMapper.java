@@ -1,14 +1,15 @@
-package DataAccessLayer.Mappers;
+package DataAccessLayer.ShipmentsModule.Mappers;
 
-import DTOs.DriverDTO;
-import DataAccessLayer.IdentityMap;
+import DTOPackage.DriverDTO;
+import DataAccessLayer.ShipmentsModule.IdentityMap;
+import DataAccessLayer.dbMaker;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class DriverMapper extends Engine {
+public class DriverMapper {
 
     private static DriverMapper instance = null;
     private IdentityMap memory;
@@ -106,8 +107,8 @@ public class DriverMapper extends Engine {
 //    }
 
     private void insertDriver(String id, Double allowedWeight) throws Exception {
-        String sql = "INSERT INTO " + driversTbl + "(id, allowedWeight) VALUES (?,?)";
-        try (Connection conn = this.connect();
+        String sql = "INSERT INTO " + dbMaker.driversTbl + "(id, allowedWeight) VALUES (?,?)";
+        try (Connection conn = dbMaker.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, id);
             pstmt.setDouble(2, allowedWeight);
@@ -118,8 +119,8 @@ public class DriverMapper extends Engine {
     }
 
     private DriverDTO selectDriver(String id) throws Exception {
-        String sql = "SELECT * FROM " + driversTbl + " WHERE id=" + id;
-        try (Connection conn = this.connect();
+        String sql = "SELECT * FROM " + dbMaker.driversTbl + " WHERE id=" + id;
+        try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {

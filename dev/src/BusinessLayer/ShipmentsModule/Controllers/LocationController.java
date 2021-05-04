@@ -1,6 +1,6 @@
-package ShipmentsModule.Controllers;
+package BusinessLayer.ShipmentsModule.Controllers;
 
-import ShipmentsModule.Objects.Location;
+import BusinessLayer.ShipmentsModule.Objects.Location;
 
 import java.util.LinkedList;
 import java.util.List;

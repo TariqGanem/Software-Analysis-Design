@@ -1,17 +1,13 @@
+import DTOPackage.TruckDTO;
+import DataAccessLayer.ShipmentsModule.DalController;
+import DataAccessLayer.ShipmentsModule.Mappers.LocationMapper;
 
-import DTOs.*;
-import DataAccessLayer.DalController;
-import DataAccessLayer.Mappers.DocumentMapper;
-import DataAccessLayer.Mappers.LocationMapper;
-
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 
 public class dalTESTING {
     public static void main(String[] args) throws Exception {
         DalController dC = DalController.getInstance();
-        LocationMapper.getInstance().addLocation(9,"loc","3243","yazan");
+        LocationMapper.getInstance().addLocation(9, "loc", "3243", "yazan");
         LocationMapper.getInstance().getLocation(1);
         LocationMapper.getInstance().getLocation(3);
         LocationMapper.getInstance().getLocation(1);

@@ -1,6 +1,6 @@
-package DTOs;
+package DTOPackage;
 
-import BusinessLayer.Objects.Location;
+import BusinessLayer.ShipmentsModule.Objects.Location;
 
 public class LocationDTO {
     private int id;
@@ -15,7 +15,7 @@ public class LocationDTO {
     }
 
     public LocationDTO(int id, String address, String phoneNumber, String contactName) {
-        this.id=id;
+        this.id = id;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.contactName = contactName;

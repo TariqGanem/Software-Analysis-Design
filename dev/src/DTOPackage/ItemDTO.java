@@ -1,4 +1,4 @@
-package DTOs;
+package DTOPackage;
 
 public class ItemDTO {
 

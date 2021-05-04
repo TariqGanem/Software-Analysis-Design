@@ -1,10 +1,9 @@
-package DTOs;
+package DTOPackage;
 
-import BusinessLayer.Objects.Document;
-import BusinessLayer.Objects.Location;
+import BusinessLayer.ShipmentsModule.Objects.Document;
+import BusinessLayer.ShipmentsModule.Objects.Location;
 
 import java.util.List;
-import java.util.Map;
 
 public class DocumentDTO {
     private int trackingNumber;

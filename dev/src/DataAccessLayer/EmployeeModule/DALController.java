@@ -4,10 +4,10 @@ import BusinessLayer.EmployeeModule.EmployeePackage.Employee;
 import BusinessLayer.EmployeeModule.Response;
 import BusinessLayer.EmployeeModule.ResponseT;
 import BusinessLayer.EmployeeModule.ShiftPackage.Shift;
+import DataAccessLayer.dbMaker;
 import Resources.Role;
 
 import java.time.LocalDate;
-
 import java.util.List;
 import java.util.Map;
 
@@ -17,12 +17,9 @@ public class DALController {
     private ShiftPersonnelMapper shiftPersonnelMapper;
 
     public DALController() {
-        String dbFile = "SuperLi.db";
-        String url = "jdbc:sqlite:" + dbFile;
-
-        employeeMapper = EmployeeMapper.getInstance(url);
-        shiftMapper = ShiftMapper.getInstance(url);
-        shiftPersonnelMapper = ShiftPersonnelMapper.getInstance(url);
+        employeeMapper = EmployeeMapper.getInstance(dbMaker.path);
+        shiftMapper = ShiftMapper.getInstance(dbMaker.path);
+        shiftPersonnelMapper = ShiftPersonnelMapper.getInstance(dbMaker.path);
     }
 
     public ResponseT<Employee> getEmployee(String ID) {
@@ -41,11 +38,11 @@ public class DALController {
         return shiftPersonnelMapper.getShiftPersonnel();
     }
 
-    public Response updateShiftPersonnel(int dayIndex,Role role, int qtty) {
+    public Response updateShiftPersonnel(int dayIndex, Role role, int qtty) {
         return shiftPersonnelMapper.updateShiftPersonnel(dayIndex, role, qtty);
     }
 
-    public Response setShiftPersonnel(int dayIndex,Role role, int qtty) {
+    public Response setShiftPersonnel(int dayIndex, Role role, int qtty) {
         return shiftPersonnelMapper.setShiftPersonnel(dayIndex, role, qtty);
     }
 
@@ -61,11 +58,11 @@ public class DALController {
         return shiftMapper.setShift(shift);
     }
 
-    public Response insertToShift(Shift shift, Role role, String ID){
-        return shiftMapper.insertToShift(shift,role,ID);
+    public Response insertToShift(Shift shift, Role role, String ID) {
+        return shiftMapper.insertToShift(shift, role, ID);
     }
 
-    public Response removeFromShift(Shift shift, String ID){
+    public Response removeFromShift(Shift shift, String ID) {
         return shiftMapper.removeFromShift(shift, ID);
     }
 
@@ -77,5 +74,7 @@ public class DALController {
         return shiftMapper.getEmpShifts(id);
     }
 
-    public ResponseT<List<String>> getEmployeeIDs() { return employeeMapper.getEmployeeIDs(); }
+    public ResponseT<List<String>> getEmployeeIDs() {
+        return employeeMapper.getEmployeeIDs();
+    }
 }

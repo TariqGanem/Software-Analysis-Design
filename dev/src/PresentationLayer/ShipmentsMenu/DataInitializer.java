@@ -1,7 +1,7 @@
-package ShipmentsMenu;
+package PresentationLayer.ShipmentsMenu;
 
-import BusinessLayer.Facade;
-import BusinessLayer.Response;
+import BusinessLayer.ShipmentsModule.Facade;
+import BusinessLayer.ShipmentsModule.Response;
 
 import java.text.SimpleDateFormat;
 import java.util.*;

@@ -1,6 +1,6 @@
-package ShipmentsMenu;
+package PresentationLayer.ShipmentsMenu;
 
-import DTOs.*;
+import DTOPackage.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;

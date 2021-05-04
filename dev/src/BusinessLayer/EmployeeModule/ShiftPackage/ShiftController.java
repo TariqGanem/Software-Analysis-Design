@@ -1,12 +1,12 @@
 package BusinessLayer.EmployeeModule.ShiftPackage;
 
-import java.time.LocalDate;
-import java.util.*;
-
 import BusinessLayer.EmployeeModule.Response;
 import BusinessLayer.EmployeeModule.ResponseT;
 import DataAccessLayer.EmployeeModule.DALController;
 import Resources.Role;
+
+import java.time.LocalDate;
+import java.util.*;
 
 public class ShiftController {
     private List<Shift> shifts;
@@ -111,7 +111,7 @@ public class ShiftController {
             return false;
 
         Shift shift = getShift(date, isMorning);
-        if(shift == null)
+        if (shift == null)
             return false;
 
         boolean success = shifts.remove(shift);

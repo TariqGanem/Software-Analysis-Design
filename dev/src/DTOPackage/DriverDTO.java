@@ -1,6 +1,6 @@
-package DTOs;
+package DTOPackage;
 
-import BusinessLayer.Objects.Driver;
+import BusinessLayer.ShipmentsModule.Objects.Driver;
 
 public class DriverDTO {
     private String id;

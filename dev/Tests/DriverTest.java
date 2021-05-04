@@ -1,5 +1,5 @@
-import ShipmentsModule.Facade;
-import ShipmentsModule.Response;
+import BusinessLayer.ShipmentsModule.Facade;
+import BusinessLayer.ShipmentsModule.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

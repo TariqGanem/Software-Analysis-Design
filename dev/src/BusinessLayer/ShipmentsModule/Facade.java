@@ -1,17 +1,17 @@
-package ShipmentsModule;
+package BusinessLayer.ShipmentsModule;
 
-import ShipmentsModule.Controllers.DriverController;
-import ShipmentsModule.Controllers.LocationController;
-import ShipmentsModule.Controllers.ShipmentController;
-import ShipmentsModule.Controllers.TruckController;
-import ShipmentsModule.Objects.Driver;
-import ShipmentsModule.Objects.Location;
-import ShipmentsModule.Objects.Shipment;
-import ShipmentsModule.Objects.Truck;
-import DTOs.DriverDTO;
-import DTOs.LocationDTO;
-import DTOs.ShipmentDTO;
-import DTOs.TruckDTO;
+import BusinessLayer.ShipmentsModule.Controllers.DriverController;
+import BusinessLayer.ShipmentsModule.Controllers.LocationController;
+import BusinessLayer.ShipmentsModule.Controllers.ShipmentController;
+import BusinessLayer.ShipmentsModule.Controllers.TruckController;
+import BusinessLayer.ShipmentsModule.Objects.Driver;
+import BusinessLayer.ShipmentsModule.Objects.Location;
+import BusinessLayer.ShipmentsModule.Objects.Shipment;
+import BusinessLayer.ShipmentsModule.Objects.Truck;
+import DTOPackage.DriverDTO;
+import DTOPackage.LocationDTO;
+import DTOPackage.ShipmentDTO;
+import DTOPackage.TruckDTO;
 
 import java.util.*;
 

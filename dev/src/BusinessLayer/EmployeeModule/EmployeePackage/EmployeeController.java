@@ -7,7 +7,10 @@ import Resources.Role;
 
 import javax.naming.NoPermissionException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class EmployeeController {
     private Map<String, Employee> employees;
@@ -65,10 +68,12 @@ public class EmployeeController {
     public String getName(String ID) {
         try {
             return getEmployee(ID).getName();
-        } catch (Exception ignored) { return null; }
+        } catch (Exception ignored) {
+            return null;
+        }
     }
 
-    public void login(String ID) throws Exception{
+    public void login(String ID) throws Exception {
         for (Employee e : employees.values()) {
             if (e.getID().equals(ID)) {
                 activeEmployee = e;
@@ -83,7 +88,7 @@ public class EmployeeController {
         Employee toUpdate = getEmployee(oldID);
         toUpdate.setName(name);
         if (!oldID.equals(newID))
-            for (String empID: employees.keySet())
+            for (String empID : employees.keySet())
                 if (empID.equals(newID))
                     throw new IllegalArgumentException("There is already a user with the ID " + newID + " in the system.");
         toUpdate.setID(newID);

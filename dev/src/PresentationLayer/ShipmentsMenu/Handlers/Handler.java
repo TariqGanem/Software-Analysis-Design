@@ -1,6 +1,6 @@
-package ShipmentsMenu.Handlers;
+package PresentationLayer.ShipmentsMenu.Handlers;
 
-import ShipmentsMenu.Printer;
+import PresentationLayer.ShipmentsMenu.Printer;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

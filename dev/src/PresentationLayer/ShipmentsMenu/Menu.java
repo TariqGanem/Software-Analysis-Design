@@ -1,10 +1,10 @@
-package ShipmentsMenu;
+package PresentationLayer.ShipmentsMenu;
 
-import BusinessLayer.Facade;
-import ShipmentsMenu.Handlers.DriversHandler;
-import ShipmentsMenu.Handlers.LocationsHandler;
-import ShipmentsMenu.Handlers.ShipmentsHandler;
-import ShipmentsMenu.Handlers.TrucksHandler;
+import BusinessLayer.ShipmentsModule.Facade;
+import PresentationLayer.ShipmentsMenu.Handlers.DriversHandler;
+import PresentationLayer.ShipmentsMenu.Handlers.LocationsHandler;
+import PresentationLayer.ShipmentsMenu.Handlers.ShipmentsHandler;
+import PresentationLayer.ShipmentsMenu.Handlers.TrucksHandler;
 
 import java.util.LinkedList;
 import java.util.List;

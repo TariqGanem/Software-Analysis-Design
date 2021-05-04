@@ -1,4 +1,4 @@
-package ShipmentsModule.Objects;
+package BusinessLayer.ShipmentsModule.Objects;
 
 public class Truck {
     private String truckPlateNumber;

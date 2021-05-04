@@ -101,10 +101,10 @@ public class Employee {
         if (skills.size() == 0)
             throw new IllegalArgumentException("The role list needs to contain at least one role!");
         int i = 0, j = 0;
-        for (Role r1: skills) {
+        for (Role r1 : skills) {
             j = 0;
-            for (Role r2: skills) {
-                if(i != j &&r1.name().equals(r2.name()))
+            for (Role r2 : skills) {
+                if (i != j && r1.name().equals(r2.name()))
                     throw new IllegalArgumentException("Can't add two of the same role to an employee.");
                 j++;
             }

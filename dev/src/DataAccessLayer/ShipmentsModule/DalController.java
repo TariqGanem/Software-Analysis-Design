@@ -1,15 +1,14 @@
-package DataAccessLayer;
+package DataAccessLayer.ShipmentsModule;
 
-import DTOs.TruckDTO;
-import DataAccessLayer.Mappers.Engine;
-import DataAccessLayer.Mappers.TruckMapper;
+import DTOPackage.TruckDTO;
+import DataAccessLayer.ShipmentsModule.Mappers.TruckMapper;
 
 public class DalController {
     private static DalController instance = null;
     private TruckMapper truckMapper;
 
     private DalController() {
-        new Engine().initialize();
+        //.initialize();
         truckMapper = TruckMapper.getInstance();
     }
 

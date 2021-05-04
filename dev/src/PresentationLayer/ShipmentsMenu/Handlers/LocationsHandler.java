@@ -1,10 +1,10 @@
-package ShipmentsMenu.Handlers;
+package PresentationLayer.ShipmentsMenu.Handlers;
 
 
-import BusinessLayer.Facade;
-import BusinessLayer.Response;
-import BusinessLayer.ResponseT;
-import DTOs.LocationDTO;
+import BusinessLayer.ShipmentsModule.Facade;
+import BusinessLayer.ShipmentsModule.Response;
+import BusinessLayer.ShipmentsModule.ResponseT;
+import DTOPackage.LocationDTO;
 
 import java.util.LinkedList;
 import java.util.List;

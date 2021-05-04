@@ -1,6 +1,6 @@
-package DataAccessLayer;
+package DataAccessLayer.ShipmentsModule;
 
-import DTOs.*;
+import DTOPackage.*;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,25 +1,32 @@
-package DataAccessLayer.Mappers;
+package DataAccessLayer;
 
-import ShipmentsModule.Response;
-import ShipmentsModule.ResponseT;
+import BusinessLayer.ShipmentsModule.Response;
+import BusinessLayer.ShipmentsModule.ResponseT;
 
 import java.io.File;
 import java.sql.*;
 
-public class Engine {
-    private String dbName;
-    private String path;
+public class dbMaker {
+
+    private static String dbName;
+    public static String path;
 
     //TABLES NAMES
-    protected final String trucksTbl = "Trucks";
-    protected final String locationsTbl = "Locations";
-    protected final String driversTbl = "Drivers";
-    protected final String documentsTbl = "Documents";
-    protected final String itemsTbl = "Items";
+    public static String trucksTbl = "Trucks";
+    public static String locationsTbl = "Locations";
+    public static String driversTbl = "Drivers";
+    public static String documentsTbl = "Documents";
+    public static String itemsTbl = "Items";
+
+    public static String employeeTbl = "Employee";
+    public static String employeeSkillsTbl = "EmployeeSkills";
+    public static String shiftTbl = "Shift";
+    public static String shiftPersonnelTbl = "ShiftPersonnel";
+    public static String empTimePrefTbl = "EmployeeTimePreferences";
 
     protected Connection conn = null;
 
-    public Engine() {
+    public dbMaker() {
         dbName = "superLee.db";
         path = "jdbc:sqlite:" + dbName;
     }
@@ -33,6 +40,12 @@ public class Engine {
             createLocationsTbl();
             createItemsTbl();
             createShipmentsTbl();
+
+            createEmployeeTbl();
+            createEmpTimePrefTbl();
+            createShiftTbl();
+            createShiftPersonnelTbl();
+            createEmployeeSkillsTbl();
         }
     }
 
@@ -52,22 +65,14 @@ public class Engine {
         }
     }
 
-    protected Connection connect() {
+    public static Connection connect() {
+        Connection conn = null;
         try {
             conn = DriverManager.getConnection(path);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return conn;
-    }
-
-    protected void close() {
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
     }
 
     private void createTrucksTbl() {
@@ -168,4 +173,87 @@ public class Engine {
         }
     }
 
+    private void createEmployeeTbl() {
+        String sql = "CREATE TABLE \"Employee\" (\n" +
+                "\t\"ID\"\tTEXT,\n" +
+                "\t\"name\"\tTEXT,\n" +
+                "\t\"bankID\"\tINTEGER,\n" +
+                "\t\"branchID\"\tINTEGER,\n" +
+                "\t\"accountNumber\"\tINTEGER,\n" +
+                "\t\"salary\"\tREAL,\n" +
+                "\t\"startDate\"\tTEXT,\n" +
+                "\t\"trustFund\"\tTEXT,\n" +
+                "\t\"freeDays\"\tINTEGER,\n" +
+                "\t\"sickDays\"\tINTEGER,\n" +
+                "\tPRIMARY KEY(\"ID\")\n" +
+                ");";
+        try {
+            Statement stmt = connect().createStatement();
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void createEmployeeSkillsTbl() {
+        String sql = "CREATE TABLE \"EmployeeSkills\" (\n" +
+                "\t\"ID\"\tTEXT,\n" +
+                "\t\"skill\"\tTEXT,\n" +
+                "\tPRIMARY KEY(\"ID\",\"skill\")\n" +
+                ");";
+        try {
+            Statement stmt = connect().createStatement();
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void createEmpTimePrefTbl() {
+        String sql = "CREATE TABLE \"EmployeeTimePreferences\" (\n" +
+                "\t\"ID\"\tTEXT,\n" +
+                "\t\"dayIndex\"\tINTEGER,\n" +
+                "\t\"isMorning\"\tTEXT,\n" +
+                "\t\"preference\"\tTEXT,\n" +
+                "\tPRIMARY KEY(\"ID\",\"dayIndex\",\"isMorning\")\n" +
+                ");";
+        try {
+            Statement stmt = connect().createStatement();
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void createShiftTbl() {
+        String sql = "CREATE TABLE \"Shift\" (\n" +
+                "\t\"date\"\tTEXT,\n" +
+                "\t\"isMorning\"\tTEXT,\n" +
+                "\t\"role\"\tTEXT,\n" +
+                "\t\"ID\"\tTEXT,\n" +
+                "\tPRIMARY KEY(\"date\",\"isMorning\",\"ID\"),\n" +
+                "\tFOREIGN KEY(\"ID\") REFERENCES \"Employee\"(\"ID\") ON UPDATE CASCADE\n" +
+                ");";
+        try {
+            Statement stmt = connect().createStatement();
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void createShiftPersonnelTbl() {
+        String sql = "CREATE TABLE \"ShiftPersonnel\" (\n" +
+                "\t\"weekIndex\"\tINTEGER,\n" +
+                "\t\"role\"\tTEXT,\n" +
+                "\t\"amount\"\tINTEGER,\n" +
+                "\tPRIMARY KEY(\"weekIndex\",\"role\")\n" +
+                ");";
+        try {
+            Statement stmt = connect().createStatement();
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

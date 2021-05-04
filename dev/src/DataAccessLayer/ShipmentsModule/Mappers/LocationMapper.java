@@ -1,11 +1,15 @@
-package DataAccessLayer.Mappers;
+package DataAccessLayer.ShipmentsModule.Mappers;
 
-import DTOs.LocationDTO;
-import DataAccessLayer.IdentityMap;
+import DTOPackage.LocationDTO;
+import DataAccessLayer.ShipmentsModule.IdentityMap;
+import DataAccessLayer.dbMaker;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
-public class LocationMapper extends Engine {
+public class LocationMapper {
     private static LocationMapper instance = null;
     private IdentityMap memory;
 
@@ -50,8 +54,8 @@ public class LocationMapper extends Engine {
     }
 
     private void insertLocation(int id, String address, String phone, String contactName) throws Exception {
-        String sql = "INSERT INTO " + locationsTbl + " (id, address, phone, contactName) VALUES (?,?,?,?)";
-        try (Connection conn = this.connect();
+        String sql = "INSERT INTO " + dbMaker.locationsTbl + " (id, address, phone, contactName) VALUES (?,?,?,?)";
+        try (Connection conn = dbMaker.connect();
              PreparedStatement pStmt = conn.prepareStatement(sql)) {
             pStmt.setInt(1, id);
             pStmt.setString(2, address);
@@ -64,8 +68,8 @@ public class LocationMapper extends Engine {
     }
 
     private LocationDTO selectLocation(int id) throws Exception {
-        String sql = "SELECT * FROM " + locationsTbl + " WHERE id=" + id;
-        try (Connection conn = this.connect();
+        String sql = "SELECT * FROM " + dbMaker.locationsTbl + " WHERE id=" + id;
+        try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {

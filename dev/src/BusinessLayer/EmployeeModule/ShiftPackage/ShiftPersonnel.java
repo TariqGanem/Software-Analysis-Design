@@ -1,11 +1,13 @@
 package BusinessLayer.EmployeeModule.ShiftPackage;
 
+import BusinessLayer.EmployeeModule.ResponseT;
+import DataAccessLayer.EmployeeModule.DALController;
+import Resources.Role;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import BusinessLayer.EmployeeModule.ResponseT;
-import DataAccessLayer.EmployeeModule.DALController;
-import Resources.Role;;
+;
 
 public class ShiftPersonnel {
     private Map<Role, Integer>[] empQtty;

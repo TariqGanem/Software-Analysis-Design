@@ -1,8 +1,9 @@
-package DataAccessLayer.Mappers;
+package DataAccessLayer.ShipmentsModule.Mappers;
 
-import DTOs.DocumentDTO;
-import DTOs.ItemDTO;
-import DataAccessLayer.IdentityMap;
+import DTOPackage.DocumentDTO;
+import DTOPackage.ItemDTO;
+import DataAccessLayer.ShipmentsModule.IdentityMap;
+import DataAccessLayer.dbMaker;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +12,7 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DocumentMapper extends Engine {
+public class DocumentMapper {
     private static DocumentMapper instance = null;
     private IdentityMap memory;
 
@@ -108,8 +109,8 @@ public class DocumentMapper extends Engine {
 //    }
 
     private void insertDocument(int tracking, int destinationId, int shipmentId, List<ItemDTO> items) throws Exception {
-        String sql = "INSERT INTO " + documentsTbl + "(trackingNumber, destinationId, shipmentId) VALUES (?,?,?)";
-        try (Connection conn = this.connect();
+        String sql = "INSERT INTO " + dbMaker.documentsTbl + "(trackingNumber, destinationId, shipmentId) VALUES (?,?,?)";
+        try (Connection conn = dbMaker.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, tracking);
             pstmt.setInt(2, destinationId);
@@ -124,8 +125,8 @@ public class DocumentMapper extends Engine {
     }
 
     private void insertItem(int tracking, String name, double amount, double weight) throws Exception {
-        String sql = "INSERT INTO " + itemsTbl + "(documentId, name, amount, weight) VALUES (?,?,?,?)";
-        try (Connection conn = this.connect();
+        String sql = "INSERT INTO " + dbMaker.itemsTbl + "(documentId, name, amount, weight) VALUES (?,?,?,?)";
+        try (Connection conn = dbMaker.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, tracking);
             pstmt.setString(2, name);
@@ -138,8 +139,8 @@ public class DocumentMapper extends Engine {
     }
 
     private DocumentDTO selectDocument(int tracking) throws Exception {
-        String sql = "SELECT * FROM " + documentsTbl + " WHERE trackingNumber=" + tracking;
-        try (Connection conn = this.connect();
+        String sql = "SELECT * FROM " + dbMaker.documentsTbl + " WHERE trackingNumber=" + tracking;
+        try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
@@ -157,8 +158,8 @@ public class DocumentMapper extends Engine {
 
     private List<ItemDTO> selectItems(int tracking) throws Exception {
         List<ItemDTO> items = new LinkedList<>();
-        String sql = "SELECT * FROM " + itemsTbl + " WHERE documentId=" + tracking;
-        try (Connection conn = this.connect();
+        String sql = "SELECT * FROM " + dbMaker.itemsTbl + " WHERE documentId=" + tracking;
+        try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {

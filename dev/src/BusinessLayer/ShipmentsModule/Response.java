@@ -1,4 +1,4 @@
-package ShipmentsModule;
+package BusinessLayer.ShipmentsModule;
 
 public class Response {
     private String errMsg;

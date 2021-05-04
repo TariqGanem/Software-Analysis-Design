@@ -1,7 +1,7 @@
-package DTOs;
+package DTOPackage;
 
-import BusinessLayer.Objects.Location;
-import BusinessLayer.Objects.Shipment;
+import BusinessLayer.ShipmentsModule.Objects.Location;
+import BusinessLayer.ShipmentsModule.Objects.Shipment;
 
 import java.util.*;
 

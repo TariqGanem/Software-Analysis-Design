@@ -1,6 +1,6 @@
-package DTOs;
+package DTOPackage;
 
-import BusinessLayer.Objects.Truck;
+import BusinessLayer.ShipmentsModule.Objects.Truck;
 
 public class TruckDTO {
     private String truckPlateNumber;

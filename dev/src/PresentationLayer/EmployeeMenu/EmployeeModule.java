@@ -156,8 +156,8 @@ public class EmployeeModule {
                                 }
                             }
                             io.println("");
-                            if (option == 4){
-                                if(date.isBefore(LocalDate.now())) {
+                            if (option == 4) {
+                                if (date.isBefore(LocalDate.now())) {
                                     gotShift = menu.showConfirmationMenu("this date already past.");
                                 }
                                 gotShift = gotShift && presentationController.addShift(date, isMorning);

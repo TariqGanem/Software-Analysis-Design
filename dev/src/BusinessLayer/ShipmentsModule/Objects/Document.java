@@ -1,4 +1,4 @@
-package ShipmentsModule.Objects;
+package BusinessLayer.ShipmentsModule.Objects;
 
 import java.util.List;
 import java.util.Map;

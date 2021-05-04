@@ -1,13 +1,16 @@
-package DataAccessLayer.Mappers;
+package DataAccessLayer.ShipmentsModule.Mappers;
 
-import DTOs.LocationDTO;
-import DTOs.TruckDTO;
-import DataAccessLayer.IdentityMap;
+import DTOPackage.TruckDTO;
+import DataAccessLayer.ShipmentsModule.IdentityMap;
+import DataAccessLayer.dbMaker;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.List;
 
-public class TruckMapper extends Engine {
+public class TruckMapper {
     private static TruckMapper instance = null;
     private IdentityMap memory;
 
@@ -72,8 +75,8 @@ public class TruckMapper extends Engine {
     }
 
     private TruckDTO _getAvailableTruck(double weight) throws Exception {
-        String sql = "SELECT * FROM " + trucksTbl + " WHERE maxWeight>=" + weight + " AND available=TRUE";
-        try (Connection conn = this.connect();
+        String sql = "SELECT * FROM " + dbMaker.trucksTbl + " WHERE maxWeight>=" + weight + " AND available=TRUE";
+        try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
@@ -91,9 +94,9 @@ public class TruckMapper extends Engine {
     }
 
     private void _updateTruck(String plateNumber, boolean available) throws Exception {
-        String sql = "UPDATE " + trucksTbl + " SET available = ? "
+        String sql = "UPDATE " + dbMaker.trucksTbl + " SET available = ? "
                 + "WHERE plateNumber = ?";
-        try (Connection conn = this.connect();
+        try (Connection conn = dbMaker.connect();
              PreparedStatement pStmt = conn.prepareStatement(sql)) {
             pStmt.setBoolean(1, available);
             pStmt.setString(2, plateNumber);
@@ -104,8 +107,8 @@ public class TruckMapper extends Engine {
     }
 
     private void insertTruck(String plateNumber, String model, Double natoWeight, Double maxWeight, boolean available) throws Exception {
-        String sql = "INSERT INTO " + trucksTbl + "(plateNumber, model, natoWeight, maxWeight, available) VALUES (?,?,?,?,?)";
-        try (Connection conn = this.connect();
+        String sql = "INSERT INTO " + dbMaker.trucksTbl + "(plateNumber, model, natoWeight, maxWeight, available) VALUES (?,?,?,?,?)";
+        try (Connection conn = dbMaker.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, plateNumber);
             pstmt.setString(2, model);
@@ -119,8 +122,8 @@ public class TruckMapper extends Engine {
     }
 
     private TruckDTO selectTruck(String plateNumber) throws Exception {
-        String sql = "SELECT * FROM " + trucksTbl + " WHERE plateNumber=" + plateNumber;
-        try (Connection conn = this.connect();
+        String sql = "SELECT * FROM " + dbMaker.trucksTbl + " WHERE plateNumber=" + plateNumber;
+        try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
