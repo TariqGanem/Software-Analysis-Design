@@ -143,6 +143,14 @@ public class EmployeeController {
 
     public Map<String, String> viewAvailableEmployees(int day, boolean isMorning, Role skill) {
         Map<String, String> ret = new HashMap<>();
+        ResponseT<List<Employee>> employeesFromDB = dalController.getAvailableEmployees(day, isMorning, skill, true);
+        if (!employeesFromDB.getErrorOccurred()) {
+            for (Employee e: employeesFromDB.getValue()) {
+                if (!employees.containsKey(e.getID()))
+                    employees.put(e.getID(), e);
+            }
+        }
+
         for (Employee e : employees.values()) {
             if (e.hasSkill(skill)) {
                 Preference p = e.getPreference(day, isMorning);
@@ -157,6 +165,14 @@ public class EmployeeController {
 
     public Map<String, String> viewUnavailableEmployees(int day, boolean isMorning, Role skill) {
         Map<String, String> ret = new HashMap<>();
+        ResponseT<List<Employee>> employeesFromDB = dalController.getAvailableEmployees(day, isMorning, skill, false);
+        if (!employeesFromDB.getErrorOccurred()) {
+            for (Employee e: employeesFromDB.getValue()) {
+                if (!employees.containsKey(e.getID()))
+                    employees.put(e.getID(), e);
+            }
+        }
+
         for (Employee e : employees.values()) {
             if (e.hasSkill(skill)) {
                 Preference p = e.getPreference(day, isMorning);

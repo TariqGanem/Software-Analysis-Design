@@ -3,6 +3,7 @@ package DataAccessLayer.EmployeeModule;
 import BusinessLayer.EmployeeModule.EmployeePackage.Employee;
 import BusinessLayer.EmployeeModule.Response;
 import BusinessLayer.EmployeeModule.ResponseT;
+import DataAccessLayer.dbMaker;
 import Resources.Preference;
 import Resources.Role;
 import org.sqlite.SQLiteConfig;
@@ -252,6 +253,31 @@ public class EmployeeMapper {
             }
 
             return new ResponseT(IDs);
+        } catch (SQLException ex) {
+            return new ResponseT(ex.getMessage());
+        }
+    }
+
+    public ResponseT<List<Employee>> getAvailableEmployees(int day, boolean isMorning, Role skill, boolean getAvailable) {
+        try (Connection con = DriverManager.getConnection(url)) {
+            String sqlStatement;
+            if (getAvailable)
+                sqlStatement = "select E.ID from ((" + dbMaker.employeeTbl + " as E join " + dbMaker.employeeSkillsTbl + " as ES on E.ID = ES.ID) as EES join " + dbMaker.empTimePrefTbl + " AS ETP on EES.ID = ETP.ID) where ES.skill = ? and (ETP.preference = \"WANT\" or ETP.preference = \"CAN\") and ETP.dayIndex = ? and ETP.isMorning = ? GROUP by E.ID";
+            else
+                sqlStatement = "select E.ID from ((" + dbMaker.employeeTbl + " as E join " + dbMaker.employeeSkillsTbl + " as ES on E.ID = ES.ID) as EES join " + dbMaker.empTimePrefTbl + " AS ETP on EES.ID = ETP.ID) where ES.skill = ? and ETP.preference = \"CANT\" and ETP.dayIndex = ? and ETP.isMorning = ? GROUP by E.ID";
+
+            PreparedStatement p = con.prepareStatement(sqlStatement);
+            p.setString(1, skill.name());
+            p.setInt(2, day);
+            p.setString(3, String.valueOf(isMorning));
+            ResultSet rs = p.executeQuery();
+
+            List<Employee> employees = new ArrayList<>();
+            while (rs.next()) {
+                employees.add(getEmployee(rs.getString("ID")).getValue());
+            }
+
+            return new ResponseT(employees);
         } catch (SQLException ex) {
             return new ResponseT(ex.getMessage());
         }
