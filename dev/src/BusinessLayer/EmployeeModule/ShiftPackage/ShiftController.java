@@ -127,12 +127,22 @@ public class ShiftController {
     }
 
     public Map<Shift, Role> getEmpShifts(String id) {
-        ResponseT<Map<Shift, Role>> res = dalController.getEmpShifts(id);
         Map<Shift, Role> empShifts = new HashMap();
+        ResponseT<Map<Shift, Role>> res = dalController.getEmpShifts(id);
+
         for (Shift shift : shifts) {
             Role role = shift.isAssignedToShift(id);
             if (role != null)
                 empShifts.put(shift, role);
+        }
+
+        if (!res.getErrorOccurred()) {
+            for (Shift s: res.getValue().keySet()) {
+                if (shifts.stream().noneMatch(x -> x.getDate().equals(s.getDate()) && x.isMorning() == s.isMorning())) {
+                    shifts.add(s);
+                    empShifts.put(s, res.getValue().get(s));
+                }
+            }
         }
         return empShifts;
     }

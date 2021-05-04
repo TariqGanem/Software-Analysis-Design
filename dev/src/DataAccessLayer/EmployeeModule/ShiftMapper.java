@@ -148,9 +148,7 @@ public class ShiftMapper {
     }
 
     public ResponseT<Map<Shift, Role>> getEmpShifts(String id) {
-
         try (Connection con = DriverManager.getConnection(url)) {
-
             String sqlStatement = "select date, isMorning, role from Shift where ID = ?";
             PreparedStatement p = con.prepareStatement(sqlStatement);
             p.setString(1, id);
