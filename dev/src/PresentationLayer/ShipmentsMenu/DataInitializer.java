@@ -15,7 +15,7 @@ public class DataInitializer {
     }
 
 
-    public void initialize() {
+   /* public void initialize() {
         initTrucks();
         initDrivers();
         initLocations();
@@ -68,5 +68,5 @@ public class DataInitializer {
         Response res = facade.arrangeDelivery(date, "14:00", "Beer Sheva, Alexander Yenai 17", iPerl);
         if (res.errorOccured())
             System.out.println(res.getMsg());
-    }
+    }*/
 }

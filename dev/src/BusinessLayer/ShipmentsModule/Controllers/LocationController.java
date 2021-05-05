@@ -7,20 +7,22 @@ import java.util.List;
 
 public class LocationController {
     private List<Location> data;
+    private int id;
 
     public LocationController() {
         data = new LinkedList<>();
+        id = 0;
     }
 
     /***
      * Returns the needed location
-     * @param address - unique id for the location
+     * @param addressId - unique id for the location
      * @return wanted location
      * @throws Exception in case of invalid parameters
      */
-    public Location getLocation(String address) throws Exception {
+    public Location getLocation(int addressId) throws Exception {
         for (Location location : data) {
-            if (location.getAddress().equals(address))
+            if (location.getId() == addressId)
                 return location;
         }
         throw new Exception("No such location");
@@ -40,8 +42,9 @@ public class LocationController {
         }
         if (address == null || address.trim().isEmpty() || phoneNumber == null || phoneNumber.trim().isEmpty() || contactName == null || contactName.trim().isEmpty())
             throw new Exception("Couldn't add new location - Invalid parameters");
-        Location loc = new Location(address, phoneNumber, contactName);
+        Location loc = new Location(id, address, phoneNumber, contactName);
         data.add(loc);
+        id++;
     }
 
     /**

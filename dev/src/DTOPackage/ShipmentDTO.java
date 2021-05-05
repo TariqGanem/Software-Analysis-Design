@@ -10,32 +10,22 @@ public class ShipmentDTO {
     private String departureHour;
     private String truckPlateNumber;
     private String driverId;
-    private double shipmentWeight; //TODO - we can implement a function that calculates all items weight.
+    private double shipmentWeight;
     private Map<Integer, DocumentDTO> documents;
     private LocationDTO source;
     private List<LocationDTO> destinations;
-    private Map<String, List<Double>> items; //TODO we don't actually need this.
-    private Map<LocationDTO, Map<String, List<Double>>> items_per_location;//TODO Map<locationId, List<Item>>
 
     public ShipmentDTO(Shipment s) {
-        date = s.getDate();
-        departureHour = s.getDepartureHour();
-        truckPlateNumber = s.getTruckPlateNumber();
-        driverId = s.getDriverId();
-        shipmentWeight = s.getShipmentWeight();
-        documents = new HashMap<>();
-        for (int id : s.getDocuments().keySet()) {
-            documents.put(id, new DocumentDTO(s.getDocuments().get(id)));
-        }
-        source = new LocationDTO(s.getSource());
-        destinations = new LinkedList<>();
-        for (Location location : s.getDestinations()) {
-            destinations.add(new LocationDTO(location));
-        }
-        items = s.getItems();
-        items_per_location = new HashMap<>();
-        for (Location loc : s.getItemsPerLocation().keySet()) {
-            items_per_location.put(new LocationDTO(loc), s.getItemsPerLocation().get(loc));
+        this.date = s.getDate();
+        this.departureHour = s.getDepartureHour();
+        this.truckPlateNumber = s.getTruckPlateNumber();
+        this.driverId = s.getDriverId();
+        this.source = new LocationDTO(s.getSource());
+        this.documents = new HashMap<>();
+        this.shipmentWeight = 0;
+        this.destinations = new LinkedList<>();
+        for (int i =0; i < s.getDestinations().size(); i++){
+            destinations.add(new LocationDTO(s.getDestinations().get(i)));
         }
     }
 

@@ -7,7 +7,7 @@ import DTOPackage.*;
 public class Builder {
 
     public Document build(DocumentDTO doc) {
-        return new Document(doc.getTrackingNumber(), null, doc.getDestination());
+        return new Document(doc.getTrackingNumber(), null, doc.getDestination()); // TODO
     }
 
     public Truck build(TruckDTO truck) {
@@ -15,7 +15,7 @@ public class Builder {
     }
 
     public Location build(LocationDTO loc) {
-        return new Location(loc.getAddress(), loc.getPhoneNumber(), loc.getContactName());
+        return new Location(loc.getId(), loc.getAddress(), loc.getPhoneNumber(), loc.getContactName());
 
     }
 
