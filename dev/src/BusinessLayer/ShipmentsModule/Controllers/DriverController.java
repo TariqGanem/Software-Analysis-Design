@@ -1,15 +1,16 @@
 package BusinessLayer.ShipmentsModule.Controllers;
 
+import BusinessLayer.ShipmentsModule.Builder;
 import BusinessLayer.ShipmentsModule.Objects.Driver;
+import DataAccessLayer.ShipmentsModule.Mappers.DriverMapper;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class DriverController {
-    private List<Driver> data;
+    private DriverMapper mapper;
 
     public DriverController() {
-        data = new LinkedList<>();
+        mapper = DriverMapper.getInstance();
     }
 
     /***
@@ -19,11 +20,7 @@ public class DriverController {
      * @throws Exception in case driver not found in the system
      */
     public Driver getDriver(String driverID) throws Exception {
-        for (Driver d : data) {
-            if (d.getId().equals(driverID))
-                return d;
-        }
-        throw new Exception("No such driver id");
+        return Builder.build(mapper.getDriver(driverID));
     }
 
     /***
@@ -34,20 +31,16 @@ public class DriverController {
      * @throws Exception in case of invalid parameters
      */
     public void addDriver(String id, String name, double allowedWeight) throws Exception {
-        for (Driver d : data) {
-            if (d.getId().equals(id))
-                throw new Exception("Couldn't add new driver - driverId already exists");
-        }
         if (id == null || id.trim().isEmpty() || name == null || name.trim().isEmpty() || allowedWeight <= 0)
             throw new Exception("Couldn't add new driver - Invalid parameters");
-        data.add(new Driver(id, name, allowedWeight));
+        mapper.addDriver(id, allowedWeight, true);
     }
 
     /**
      * @return all drivers in the system
      */
     public List<Driver> getAlldrivers() {
-        return data;
+        return null;
     }
 
     /**
@@ -56,12 +49,7 @@ public class DriverController {
      * @throws Exception in case of there is no available driver
      */
     public Driver getAvailableDriver(double weight) throws Exception {
-        for (Driver d : data) {
-            if (d.isAvailable() && d.getAllowedWeight() >= weight) {
-                return d;
-            }
-        }
-        throw new Exception("No available drivers.");
+        return null; // TODO
     }
 
     /**
@@ -70,10 +58,10 @@ public class DriverController {
      * @param id - The id of the requested driver
      */
     public void freeDriver(String id) {
-        for (Driver d : data) {
+        /*for (Driver d : data) {
             if (d.getId().equals(id)) {
                 d.makeAvailable();
             }
-        }
+        }*/ // TODO
     }
 }

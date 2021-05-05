@@ -4,7 +4,6 @@ import BusinessLayer.ShipmentsModule.Builder;
 import BusinessLayer.ShipmentsModule.Objects.Truck;
 import DataAccessLayer.ShipmentsModule.Mappers.TruckMapper;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class TruckController {
