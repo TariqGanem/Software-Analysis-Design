@@ -94,6 +94,7 @@ public class dbMaker {
         String sql = "CREATE TABLE \"Drivers\" (\n" +
                 "\t\"id\"\tTEXT,\n" +
                 "\t\"allowedWeight\"\tREAL,\n" +
+                "\t\"available\"\tINTEGER,\n" +
                 "\tPRIMARY KEY(\"id\")\n" +
                 ");";
         try {
