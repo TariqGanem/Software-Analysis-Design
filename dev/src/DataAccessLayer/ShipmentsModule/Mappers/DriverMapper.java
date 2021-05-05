@@ -25,18 +25,21 @@ public class DriverMapper {
         return instance;
     }
 
-    public DriverDTO addDriver(String id, Double allowedWeight) throws Exception {
+    public DriverDTO addDriver(String id, Double allowedWeight, boolean available) throws Exception {
         DriverDTO driver;
         for (DriverDTO d : memory.getDrivers()) {
             if (d.getId().equals(id))
                 throw new Exception("Driver already exists!");
         }
-        driver = new DriverDTO(id, "Yazan", allowedWeight, true); //TODO - Replace when employees db is available with us.
+        String driverName = getDriverName(id);
+        if (getDriverName(id).equals(null))
+            throw new Exception("No such driver in employees");
+        driver = new DriverDTO(id, driverName, allowedWeight, true);
         if (driverExists(id)) {
             memory.getDrivers().add(driver);
             throw new Exception("Driver already exists in the database!");
         }
-        insertDriver(id, allowedWeight);
+        insertDriver(id, allowedWeight, available);
         memory.getDrivers().add(driver);
         return driver;
     }
@@ -54,64 +57,13 @@ public class DriverMapper {
         throw new Exception("There is no such driver in the database!");
     }
 
-//    public TruckDTO updateTruck(String plateNumber, boolean available) throws Exception {
-//        TruckDTO truck = getTruck(plateNumber);
-//        truck.setAvailable(available);
-//        _updateTruck(plateNumber, available);
-//        return truck;
-//    }
-
-//    public TruckDTO getAvailableTruck(double weight) throws Exception {
-//        for (TruckDTO t : memory.getTrucks()) {
-//            if (t.isAvailable() && t.getMaxWeight() >= weight)
-//                return t;
-//        }
-//        TruckDTO truck = _getAvailableTruck(weight);
-//        if (truck != null) {
-//            memory.getTrucks().add(truck);
-//            return truck;
-//        }
-//        throw new Exception("There is no such available truck in the database!");
-//    }
-
-//    private TruckDTO _getAvailableTruck(double weight) throws Exception {
-//        String sql = "SELECT * FROM " + trucksTbl + " WHERE maxWeight>=" + weight + " AND available=TRUE";
-//        try (Connection conn = this.connect();
-//             Statement stmt = conn.createStatement()) {
-//            ResultSet rs = stmt.executeQuery(sql);
-//            if (rs.next()) {
-//                return new TruckDTO(rs.getString(1),
-//                        rs.getString(2),
-//                        rs.getDouble(3),
-//                        rs.getDouble(4),
-//                        rs.getBoolean(5)
-//                );
-//            }
-//        } catch (Exception e) {
-//            throw new Exception(e.getMessage());
-//        }
-//        return null;
-//    }
-
-//    private void _updateTruck(String plateNumber, boolean available) throws Exception {
-//        String sql = "UPDATE " + trucksTbl + " SET available = ? "
-//                + "WHERE plateNumber = ?";
-//        try (Connection conn = this.connect();
-//             PreparedStatement pStmt = conn.prepareStatement(sql)) {
-//            pStmt.setBoolean(1, available);
-//            pStmt.setString(2, plateNumber);
-//            pStmt.executeUpdate();
-//        } catch (Exception e) {
-//            throw new Exception(e.getMessage());
-//        }
-//    }
-
-    private void insertDriver(String id, Double allowedWeight) throws Exception {
-        String sql = "INSERT INTO " + dbMaker.driversTbl + "(id, allowedWeight) VALUES (?,?)";
+    private void insertDriver(String id, Double allowedWeight, boolean available) throws Exception {
+        String sql = "INSERT INTO " + dbMaker.driversTbl + "(id, allowedWeight) VALUES (?,?,?)";
         try (Connection conn = dbMaker.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, id);
             pstmt.setDouble(2, allowedWeight);
+            pstmt.setBoolean(3, available);
             pstmt.executeUpdate();
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -124,11 +76,28 @@ public class DriverMapper {
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
+                String driverName = getDriverName(id);
+                if (getDriverName(id).equals(null))
+                    throw new Exception("No such driver in employees");
                 return new DriverDTO(rs.getString(1),
-                        "Yazan",
+                        driverName,
                         rs.getDouble(2),
-                        true
+                        rs.getBoolean(3)
                 );
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        return null;
+    }
+
+    private String getDriverName(String id) throws Exception {
+        String sql = "SELECT name FROM " + dbMaker.employeeTbl + " WHERE ID=" + id;
+        try (Connection conn = dbMaker.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                return rs.getString(1);
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());

@@ -55,8 +55,6 @@ public class dbMaker {
             Connection conn = DriverManager.getConnection(path);
             if (conn != null) {
                 DatabaseMetaData meta = conn.getMetaData();
-                System.out.println("The driver name is " + meta.getDriverName());
-                System.out.println("A new database has been created.");
                 return new ResponseT<>("A new database has been created.");
             }
             return new ResponseT<>("Connection is null!");
@@ -96,6 +94,7 @@ public class dbMaker {
         String sql = "CREATE TABLE \"Drivers\" (\n" +
                 "\t\"id\"\tTEXT,\n" +
                 "\t\"allowedWeight\"\tREAL,\n" +
+                "\t\"available\"\tINTEGER,\n" +
                 "\tPRIMARY KEY(\"id\")\n" +
                 ");";
         try {

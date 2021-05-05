@@ -78,5 +78,7 @@ public class DALController {
         return employeeMapper.getEmployeeIDs();
     }
 
-    public ResponseT<List<Employee>> getAvailableEmployees(int day, boolean isMorning, Role skill, boolean getAvailable) { return employeeMapper.getAvailableEmployees(day, isMorning, skill, getAvailable); }
+    public ResponseT<List<Employee>> getAvailableEmployees(int day, boolean isMorning, Role skill, boolean getAvailable) {
+        return employeeMapper.getAvailableEmployees(day, isMorning, skill, getAvailable);
+    }
 }

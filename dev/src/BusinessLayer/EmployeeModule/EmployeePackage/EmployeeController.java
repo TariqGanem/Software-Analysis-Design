@@ -145,7 +145,7 @@ public class EmployeeController {
         Map<String, String> ret = new HashMap<>();
         ResponseT<List<Employee>> employeesFromDB = dalController.getAvailableEmployees(day, isMorning, skill, true);
         if (!employeesFromDB.getErrorOccurred()) {
-            for (Employee e: employeesFromDB.getValue()) {
+            for (Employee e : employeesFromDB.getValue()) {
                 if (!employees.containsKey(e.getID()))
                     employees.put(e.getID(), e);
             }
@@ -167,7 +167,7 @@ public class EmployeeController {
         Map<String, String> ret = new HashMap<>();
         ResponseT<List<Employee>> employeesFromDB = dalController.getAvailableEmployees(day, isMorning, skill, false);
         if (!employeesFromDB.getErrorOccurred()) {
-            for (Employee e: employeesFromDB.getValue()) {
+            for (Employee e : employeesFromDB.getValue()) {
                 if (!employees.containsKey(e.getID()))
                     employees.put(e.getID(), e);
             }
