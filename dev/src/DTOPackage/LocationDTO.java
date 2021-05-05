@@ -9,6 +9,7 @@ public class LocationDTO {
     private String contactName;
 
     public LocationDTO(Location location) {
+        id = 0; //TODO -> location.getId();
         address = location.getAddress();
         phoneNumber = location.getPhoneNumber();
         contactName = location.getContactName();

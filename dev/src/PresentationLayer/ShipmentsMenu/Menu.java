@@ -45,7 +45,7 @@ public class Menu {
      * Activating the menu for the user
      */
     public void run() {
-        printer.printBanner();
+        //printer.printBanner();
         addItems();
         viewMenuItems();
         selectItem();
@@ -63,7 +63,7 @@ public class Menu {
         addMenuItem("Track Shipment");
         addMenuItem("Arrange Shipment");
         addMenuItem("Remove Shipment");
-        addMenuItem("Exit");//Keep last
+        addMenuItem("Go back to main menu");//Keep last
     }
 
 
@@ -74,6 +74,8 @@ public class Menu {
             if (validInput(inputL)) {
                 int input = Integer.parseInt(inputL);
                 handleSelection(input);
+                if(input == 12)
+                    return;
                 viewMenuItems();
             }
         } while (true);
@@ -114,9 +116,9 @@ public class Menu {
             case 11:
                 shipmentsHandler.removeShipment();
                 break;
-            case 12:
-                exit();
-                break;
+//            case 12:
+//                exit();
+//                break;
         }
     }
 
@@ -135,10 +137,10 @@ public class Menu {
             return true;
     }
 
-    private void exit() {
-        System.out.println("The application exited successfully!");
-        System.exit(0);
-    }
+//    private void exit() {
+//        System.out.println("The application exited successfully!");
+//        System.exit(0);
+//    }
 
     private void viewMenuItems() {
         printer.viewOptions(items);
