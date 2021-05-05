@@ -137,7 +137,7 @@ public class ShiftController {
         }
 
         if (!res.getErrorOccurred()) {
-            for (Shift s: res.getValue().keySet()) {
+            for (Shift s : res.getValue().keySet()) {
                 if (shifts.stream().noneMatch(x -> x.getDate().equals(s.getDate()) && x.isMorning() == s.isMorning())) {
                     shifts.add(s);
                     empShifts.put(s, res.getValue().get(s));

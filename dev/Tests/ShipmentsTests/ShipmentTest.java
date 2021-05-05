@@ -1,3 +1,5 @@
+package ShipmentsTests;
+
 import BusinessLayer.ShipmentsModule.Facade;
 import BusinessLayer.ShipmentsModule.Response;
 import org.junit.After;

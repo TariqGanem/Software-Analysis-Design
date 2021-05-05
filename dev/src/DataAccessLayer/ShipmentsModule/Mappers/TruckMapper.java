@@ -8,7 +8,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.List;
 
 public class TruckMapper {
     private static TruckMapper instance = null;
@@ -145,9 +144,5 @@ public class TruckMapper {
         if (truck != null)
             return true;
         return false;
-    }
-
-    public List<TruckDTO> getMemory() {
-        return memory.getTrucks();
     }
 }

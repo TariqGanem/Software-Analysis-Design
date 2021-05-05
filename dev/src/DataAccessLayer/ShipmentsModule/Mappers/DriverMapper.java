@@ -54,58 +54,6 @@ public class DriverMapper {
         throw new Exception("There is no such driver in the database!");
     }
 
-//    public TruckDTO updateTruck(String plateNumber, boolean available) throws Exception {
-//        TruckDTO truck = getTruck(plateNumber);
-//        truck.setAvailable(available);
-//        _updateTruck(plateNumber, available);
-//        return truck;
-//    }
-
-//    public TruckDTO getAvailableTruck(double weight) throws Exception {
-//        for (TruckDTO t : memory.getTrucks()) {
-//            if (t.isAvailable() && t.getMaxWeight() >= weight)
-//                return t;
-//        }
-//        TruckDTO truck = _getAvailableTruck(weight);
-//        if (truck != null) {
-//            memory.getTrucks().add(truck);
-//            return truck;
-//        }
-//        throw new Exception("There is no such available truck in the database!");
-//    }
-
-//    private TruckDTO _getAvailableTruck(double weight) throws Exception {
-//        String sql = "SELECT * FROM " + trucksTbl + " WHERE maxWeight>=" + weight + " AND available=TRUE";
-//        try (Connection conn = this.connect();
-//             Statement stmt = conn.createStatement()) {
-//            ResultSet rs = stmt.executeQuery(sql);
-//            if (rs.next()) {
-//                return new TruckDTO(rs.getString(1),
-//                        rs.getString(2),
-//                        rs.getDouble(3),
-//                        rs.getDouble(4),
-//                        rs.getBoolean(5)
-//                );
-//            }
-//        } catch (Exception e) {
-//            throw new Exception(e.getMessage());
-//        }
-//        return null;
-//    }
-
-//    private void _updateTruck(String plateNumber, boolean available) throws Exception {
-//        String sql = "UPDATE " + trucksTbl + " SET available = ? "
-//                + "WHERE plateNumber = ?";
-//        try (Connection conn = this.connect();
-//             PreparedStatement pStmt = conn.prepareStatement(sql)) {
-//            pStmt.setBoolean(1, available);
-//            pStmt.setString(2, plateNumber);
-//            pStmt.executeUpdate();
-//        } catch (Exception e) {
-//            throw new Exception(e.getMessage());
-//        }
-//    }
-
     private void insertDriver(String id, Double allowedWeight) throws Exception {
         String sql = "INSERT INTO " + dbMaker.driversTbl + "(id, allowedWeight) VALUES (?,?)";
         try (Connection conn = dbMaker.connect();

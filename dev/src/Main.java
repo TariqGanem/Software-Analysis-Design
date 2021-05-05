@@ -1,16 +1,10 @@
-import DataAccessLayer.dbMaker;
-import PresentationLayer.EmployeeMenu.EmployeeModule;
-import PresentationLayer.ShipmentsMenu.Menu;
+import PresentationLayer.MainMenu;
 
 public class Main {
     public static void main(String[] args) {
 
-        new dbMaker().initialize();
-
-        Menu app = Menu.getInstance();
-        new EmployeeModule().run(); //TODO - replace with function
+        //Running the application [Shipments-Employees Module]
+        MainMenu app = MainMenu.getInstance();
         app.run();
-
-
     }
 }
