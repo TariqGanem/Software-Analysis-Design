@@ -136,11 +136,13 @@ public class DocumentMapper {
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                items.add(new ItemDTO(rs.getInt(1),
+                ItemDTO item = new ItemDTO(
                         rs.getString(2),
                         rs.getDouble(3),
                         rs.getDouble(4)
-                ));
+                );
+                item.setDocumentId(rs.getInt(1));
+                items.add(item);
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());

@@ -1,6 +1,7 @@
 package DTOPackage;
 
 import BusinessLayer.ShipmentsModule.Objects.Document;
+import BusinessLayer.ShipmentsModule.Objects.Item;
 import BusinessLayer.ShipmentsModule.Objects.Shipment;
 
 import java.util.Date;
@@ -27,8 +28,11 @@ public class ShipmentDTO {
         for (Integer key : s.getDocuments().keySet()) {
             Document d = s.getDocuments().get(key);
             List<ItemDTO> items = new LinkedList<>();
-            d.getProducts().forEach(i -> items.add(new ItemDTO(i.getDocumentId(),
-                    i.getName(), i.getAmount(), i.getWeight())));
+            for (Item i : d.getProducts()) {
+                ItemDTO item = new ItemDTO(i.getName(), i.getAmount(), i.getWeight());
+                item.setDocumentId(d.getTrackingNumber());
+                items.add(item);
+            }
             this.documents.put(key, new DocumentDTO(d.getTrackingNumber(),
                     items, new LocationDTO(d.getDestination())));
         }
@@ -62,7 +66,8 @@ public class ShipmentDTO {
     public String getDriverId() {
         return driverId;
     }
-    public void addDocument(int trackingNumber, List<ItemDTO> products, LocationDTO dest){
+
+    public void addDocument(int trackingNumber, List<ItemDTO> products, LocationDTO dest) {
         DocumentDTO d = new DocumentDTO(trackingNumber, products, dest);
         documents.put(trackingNumber, d);
     }

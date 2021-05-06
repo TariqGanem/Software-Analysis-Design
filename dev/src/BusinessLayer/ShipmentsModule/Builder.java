@@ -63,7 +63,7 @@ public class Builder {
 
     public static List<ItemDTO> buildItemsListDTO(List<Item> products) {
         List<ItemDTO> items = new LinkedList<>();
-        products.forEach(p -> items.add(new ItemDTO(p.getDocumentId(), p.getName(), p.getAmount(), p.getWeight())));
+        products.forEach(p -> items.add(new ItemDTO(p.getName(), p.getAmount(), p.getWeight())));
         return items;
     }
 

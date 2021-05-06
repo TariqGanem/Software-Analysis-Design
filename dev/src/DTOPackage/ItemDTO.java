@@ -7,8 +7,7 @@ public class ItemDTO {
     private double amount;
     private double weight;
 
-    public ItemDTO(int documentId, String name, double amount, double weight) {
-        this.documentId = documentId;
+    public ItemDTO(String name, double amount, double weight) {
         this.name = name;
         this.amount = amount;
         this.weight = weight;
@@ -27,6 +26,9 @@ public class ItemDTO {
         return amount;
     }
 
+    public void setDocumentId(int documentId) {
+        this.documentId = documentId;
+    }
 
     public double getWeight() {
         return weight;

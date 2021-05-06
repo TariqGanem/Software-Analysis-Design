@@ -4,6 +4,7 @@ import BusinessLayer.ShipmentsModule.Facade;
 import BusinessLayer.ShipmentsModule.Response;
 import BusinessLayer.ShipmentsModule.ResponseT;
 import DTOPackage.DocumentDTO;
+import DTOPackage.ItemDTO;
 import DTOPackage.ShipmentDTO;
 
 import java.util.*;
@@ -20,16 +21,16 @@ public class ShipmentsHandler extends Handler {
         shipments = new LinkedList<>();
     }
 
-   /* public void arrangeShipment() {
+    public void arrangeShipment() {
         System.out.printf("\nEnter shipment date [dd/MM/yyyy]: ");
         Date date = getDate();
         System.out.printf("Enter departure hour [00:00]: ");
         String hour = scanner.next();
         System.out.printf("Enter shipment source: \n");
         locationsHandler.viewAllLocations();
-        String source = locationsHandler.chooseLocation().getAddress();
+        int source = locationsHandler.chooseLocation().getId();
         System.out.printf("Add a list of destinations in order: \n");
-        Map<String, Map<String, List<Double>>> itemsPerDestination = getItemsPerDestination();
+        Map<Integer, List<ItemDTO>> itemsPerDestination = getItemsPerDestination();
         System.out.println();
         Response res = facade.arrangeDelivery(date, hour, source, itemsPerDestination);
         if (res.errorOccured())
@@ -76,12 +77,11 @@ public class ShipmentsHandler extends Handler {
         }
     }
 
-    private Map<String, List<Double>> getItems() {
-        Map<String, List<Double>> items = new HashMap<>();
+    private List<ItemDTO> getItems() {
+        List<ItemDTO> items = new LinkedList<>();
         String itemName;
         double weight;
-        Integer amount;
-        List<Double> amountAndWight;
+        double amount;
         while (true) {
             try {
                 System.out.printf("\n\tEnter details for item number [" + (items.size() + 1) + "]:\n");
@@ -92,10 +92,7 @@ public class ShipmentsHandler extends Handler {
                 System.out.printf("\tItem's Amount: ");
                 amount = getInt();
                 System.out.println();
-                amountAndWight = new LinkedList<>();
-                amountAndWight.add(weight);
-                amountAndWight.add(Double.parseDouble(amount.toString()));
-                items.put(itemName, amountAndWight);
+                items.add(new ItemDTO(itemName, amount, weight));
                 printer.success("Item has been added!");
                 System.out.printf("\nAdd another item? [y/n]: ");
                 String another = scanner.next();
@@ -109,16 +106,16 @@ public class ShipmentsHandler extends Handler {
         return items;
     }
 
-    private Map<String, Map<String, List<Double>>> getItemsPerDestination() {
-        Map<String, Map<String, List<Double>>> itemsPerDestination = new HashMap<>();
-        String address;
+    private Map<Integer, List<ItemDTO>> getItemsPerDestination() {
+        Map<Integer, List<ItemDTO>> itemsPerDestination = new HashMap<>();
+        int locId;
         while (true) {
             try {
                 System.out.printf("\n\tChoose destination number [" + (itemsPerDestination.size() + 1) + "]:\n");
                 locationsHandler.viewAllLocations();
-                address = locationsHandler.chooseLocation().getAddress();
+                locId = locationsHandler.chooseLocation().getId();
                 System.out.println();
-                itemsPerDestination.put(address, getItems());
+                itemsPerDestination.put(locId, getItems());
                 printer.success("Destination has been added!");
                 System.out.printf("\nAdd another destination? [y/n]: ");
                 String another = scanner.next();
@@ -130,5 +127,5 @@ public class ShipmentsHandler extends Handler {
             }
         }
         return itemsPerDestination;
-    }*/
+    }
 }

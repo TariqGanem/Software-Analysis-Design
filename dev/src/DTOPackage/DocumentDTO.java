@@ -16,7 +16,9 @@ public class DocumentDTO {
         trackingNumber = d.getTrackingNumber();
         products = new LinkedList<>();
         for (Item i : d.getProducts()) {
-            products.add(new ItemDTO(i.getDocumentId(), i.getName(), i.getAmount(), i.getWeight()));
+            ItemDTO item = new ItemDTO(i.getName(), i.getAmount(), i.getWeight());
+            item.setDocumentId(i.getDocumentId());
+            products.add(item);
         }
         destination = new LocationDTO(d.getDestination());
         weight = d.getWeight();
