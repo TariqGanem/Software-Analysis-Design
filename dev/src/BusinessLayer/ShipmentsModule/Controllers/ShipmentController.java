@@ -1,5 +1,6 @@
 package BusinessLayer.ShipmentsModule.Controllers;
 
+import BusinessLayer.ShipmentsModule.Objects.Item;
 import BusinessLayer.ShipmentsModule.Objects.Location;
 import BusinessLayer.ShipmentsModule.Objects.Shipment;
 
@@ -44,7 +45,7 @@ public class ShipmentController {
      * @param source             - The location which the delivery will start on
      * @throws Exception in case of wrong parameters values
      */
-    public void addShipment(Date date, String departureHour, String truckPlateNumber, String driverId, Map<Location, Map<String, List<Double>>> items_per_location, Location source) throws Exception {
+    public void addShipment(Date date, String departureHour, String truckPlateNumber, String driverId, Map<Location, List<Item>> items_per_location, Location source) throws Exception {
         if (departureHour == null || departureHour.trim().isEmpty())
             throw new Exception("Couldn't add new shipment - Invalid parameters");
         for (Shipment s : data) {
@@ -64,7 +65,7 @@ public class ShipmentController {
      * @param products      - The items that will be transported
      * @param weight        - The shipment's weight + the truck's weight
      */
-    public void addDocument(Date date, String departureHour, String driverId, Location dest, Map<String, List<Double>> products, double weight) {
+    public void addDocument(Date date, String departureHour, String driverId, Location dest, List<Item> products, double weight) {
         for (Shipment s : data) {
             if (s.getDate().compareTo(date) == 0 && s.getDepartureHour().equals(departureHour) && s.getDriverId().equals(driverId)) {
                 s.addDocument(products, dest, weight, trackingNumber);

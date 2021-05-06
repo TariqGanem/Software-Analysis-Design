@@ -4,14 +4,8 @@ import BusinessLayer.ShipmentsModule.Controllers.DriverController;
 import BusinessLayer.ShipmentsModule.Controllers.LocationController;
 import BusinessLayer.ShipmentsModule.Controllers.ShipmentController;
 import BusinessLayer.ShipmentsModule.Controllers.TruckController;
-import BusinessLayer.ShipmentsModule.Objects.Driver;
-import BusinessLayer.ShipmentsModule.Objects.Location;
-import BusinessLayer.ShipmentsModule.Objects.Shipment;
-import BusinessLayer.ShipmentsModule.Objects.Truck;
-import DTOPackage.DriverDTO;
-import DTOPackage.LocationDTO;
-import DTOPackage.ShipmentDTO;
-import DTOPackage.TruckDTO;
+import BusinessLayer.ShipmentsModule.Objects.*;
+import DTOPackage.*;
 
 import java.util.*;
 
@@ -53,12 +47,12 @@ public class Facade {
     }
 
     /**
-     * @param address - the requested location unique address
+     * @param addressId - the requested location unique address
      * @return response of type LocationDTO by the given id
      */
-    public ResponseT<LocationDTO> getLocationDTO(String address) {
+    public ResponseT<LocationDTO> getLocationDTO(int addressId) {
         try {
-            return new ResponseT<>(new LocationDTO(locationController.getLocation(address)));
+            return new ResponseT<>(new LocationDTO(locationController.getLocation(addressId)));
         } catch (Exception e) {
             return new ResponseT<>(e.getMessage());
         }
@@ -151,32 +145,36 @@ public class Facade {
      *
      * @param date               - Date of the shipment to be transported
      * @param departureHour      - The exact hour for the transportation of the shipment
-     * @param source             - The source's address unique id
+     * @param sourceId             - The source's address unique id
      * @param items_per_location - Map[ItemName, List[ItemWeight, Quantity]] foreach location
      * @return response of type msg in case of any error
      */
-    public Response arrangeDelivery(Date date, String departureHour, String source, Map<String, Map<String, List<Double>>> items_per_location) {
+    public Response arrangeDelivery(Date date, String departureHour, int sourceId, Map<Integer, List<ItemDTO>> items_per_location) {
         try {
             double weight = 0;
-            for (String loc : items_per_location.keySet()) {
-                for (String item : items_per_location.get(loc).keySet()) {
-                    weight += (items_per_location.get(loc).get(item).get(0) * items_per_location.get(loc).get(item).get(1));
+            for (Integer loc : items_per_location.keySet()) {
+                for (ItemDTO item : items_per_location.get(loc)) {
+                    weight += item.getWeight() * item.getAmount();
                 }
             }
             TruckDTO truck = new TruckDTO(truckController.getAvailableTruck(weight));
             DriverDTO driver = new DriverDTO(driverController.getAvailableDriver(weight + truck.getNatoWeight()));
-            Location s = locationController.getLocation(source);
-            Map<Location, Map<String, List<Double>>> items = new HashMap<>();
-            for (String loc : items_per_location.keySet()) {
-                if (loc.equals(source)) {
+            Location s = locationController.getLocation(sourceId);
+            Map<Location, List<Item>> items = new HashMap<>();
+            for (int loc : items_per_location.keySet()) {
+                if (loc == sourceId) {
                     return new Response("Cannot deliver to destination as the same source, shipment removed.");
                 }
-                items.put(locationController.getLocation(loc), items_per_location.get(loc));
+                List<Item> l = new LinkedList<>();
+                for (ItemDTO i: items_per_location.get(loc)) {
+                    l.add(new Item(i.getDocumentId(), i.getName(), i.getAmount(), i.getWeight()));
+                }
+                items.put(locationController.getLocation(loc), l);
             }
             shipmentController.addShipment(date, departureHour, truck.getTruckPlateNumber(), driver.getId(), items, s);
             double realWeight = weighTruck(truck.getTruckPlateNumber(), date, departureHour, driver.getId());
-            for (String dest : items_per_location.keySet()) {
-                shipmentController.addDocument(date, departureHour, driver.getId(), locationController.getLocation(dest), items_per_location.get(dest), realWeight);
+            for (int destId : items_per_location.keySet()) {
+                shipmentController.addDocument(date, departureHour, driver.getId(), locationController.getLocation(destId), items.get(locationController.getLocation(destId)), realWeight);
             }
             truckController.depositeTruck(truck.getTruckPlateNumber());
             driverController.freeDriver(driver.getId());
@@ -215,7 +213,7 @@ public class Facade {
             List<Location> locations = locationController.getAllLocations();
             List<LocationDTO> locationsDTO = new LinkedList<>();
             for (Location d : locations) {
-                locationsDTO.add(getLocationDTO(d.getAddress()).getValue());
+                locationsDTO.add(getLocationDTO(d.getId()).getValue());
             }
             return new ResponseT<>(locationsDTO);
         } catch (Exception e) {

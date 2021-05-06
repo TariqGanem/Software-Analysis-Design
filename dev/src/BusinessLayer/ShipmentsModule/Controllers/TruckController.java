@@ -1,15 +1,16 @@
 package BusinessLayer.ShipmentsModule.Controllers;
 
+import BusinessLayer.ShipmentsModule.Builder;
 import BusinessLayer.ShipmentsModule.Objects.Truck;
+import DataAccessLayer.ShipmentsModule.Mappers.TruckMapper;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class TruckController {
-    private List<Truck> trucks;
+    private TruckMapper mapper;
 
     public TruckController() {
-        trucks = new LinkedList<>();
+        mapper = TruckMapper.getInstance();
     }
 
 
@@ -20,11 +21,7 @@ public class TruckController {
      * @throws Exception in case truck not found in the system
      */
     public Truck getTruck(String truckID) throws Exception {
-        for (Truck t : trucks) {
-            if (t.getTruckPlateNumber().equals(truckID))
-                return t;
-        }
-        throw new Exception("No such truck id");
+        return Builder.build(mapper.getTruck(truckID));
     }
 
     /***
@@ -36,22 +33,18 @@ public class TruckController {
      * @throws Exception in case of invalid parameters
      */
     public void addTruck(String truckPlateNumber, String model, double natoWeight, double maxWeight) throws Exception {
-        for (Truck t : trucks) {
-            if (t.getTruckPlateNumber().equals(truckPlateNumber))
-                throw new Exception("Couldn't add new truck - truckPlateNumber already exists");
-        }
         if (maxWeight <= 0 || natoWeight <= 0)
             throw new Exception("Couldn't add new truck - Illegal truck weight");
         if (truckPlateNumber == null || truckPlateNumber.isEmpty() || model == null || model.isEmpty())
             throw new Exception("Couldn't add new truck - Invalid parameters");
-        trucks.add(new Truck(truckPlateNumber, model, natoWeight, maxWeight));
+        mapper.addTruck(truckPlateNumber, model, natoWeight, maxWeight, true);
     }
 
     /**
      * @return all trucks in the system
      */
     public List<Truck> getAlltrucks() {
-        return trucks;
+        return null; //TODO
     }
 
     /**
@@ -60,11 +53,7 @@ public class TruckController {
      * @throws Exception
      */
     public Truck getAvailableTruck(double weight) throws Exception {
-        for (Truck t : trucks) {
-            if (t.isAvailable() && t.getMaxWeight() >= weight)
-                return t;
-        }
-        throw new Exception("No truck available");
+        return Builder.build(mapper.getAvailableTruck(weight));
     }
 
     /**
@@ -72,10 +61,7 @@ public class TruckController {
      *
      * @param truckPlateNumber - Unique id for truck
      */
-    public void depositeTruck(String truckPlateNumber) {
-        for (Truck t : trucks) {
-            if (t.getTruckPlateNumber().equals(truckPlateNumber))
-                t.makeAvailable();
-        }
+    public void depositeTruck(String truckPlateNumber) throws Exception {
+        mapper.updateTruck(truckPlateNumber, true);
     }
 }

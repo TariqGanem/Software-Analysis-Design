@@ -11,10 +11,9 @@ public class Shipment {
     private Map<Integer, Document> documents;
     private Location source;
     private List<Location> destinations;
-    private Map<String, List<Double>> items;
-    private Map<Location, Map<String, List<Double>>> items_per_location;
+    private Map<Location, List<Item>> items_per_location;
 
-    public Shipment(Date date, String departureHour, String truckPlateNumber, String driverId, Map<Location, Map<String, List<Double>>> items, Location source) {
+    public Shipment(Date date, String departureHour, String truckPlateNumber, String driverId, Map<Location, List<Item>> items, Location source) {
         this.date = date;
         this.departureHour = departureHour;
         this.truckPlateNumber = truckPlateNumber;
@@ -23,19 +22,13 @@ public class Shipment {
         this.documents = new HashMap<>();
         this.items_per_location = items;
         this.shipmentWeight = 0;
-        for (Location location : items_per_location.keySet()) {
-            for (String item : items_per_location.get(location).keySet()) {
-                shipmentWeight += (items_per_location.get(location).get(item).get(0) * items_per_location.get(location).get(item).get(1));
+        for (Location l: items_per_location.keySet()) {
+            for ( Item i: items_per_location.get(l)) {
+                shipmentWeight += i.getWeight()*i.getAmount();
             }
         }
         this.destinations = new LinkedList<>();
         destinations.addAll(items_per_location.keySet());
-        this.items = new HashMap<>();
-        for (Location location : items_per_location.keySet()) {
-            for (String item : items_per_location.get(location).keySet()) {
-                this.items.put(item, items_per_location.get(location).get(item));
-            }
-        }
     }
 
 
@@ -79,17 +72,21 @@ public class Shipment {
      * @param weight         - The weight of the shipment for the specific location
      * @param trackingNumber - Tracking number for the delivery as requested
      */
-    public void addDocument(Map<String, List<Double>> products, Location dest, double weight, int trackingNumber) {
+    public void addDocument(List<Item> products, Location dest, double weight, int trackingNumber) {
         Document d = new Document(trackingNumber, products, dest);
         d.updateWeight(weight);
         documents.put(trackingNumber, d);
     }
 
-    public Map<String, List<Double>> getItems() {
-        return items;
+    public List<Item> getItems() {
+        List<Item> l = new LinkedList<>();
+        for (Location loc: items_per_location.keySet()) {
+            l.addAll(items_per_location.get(loc));
+        }
+        return l;
     }
 
-    public Map<Location, Map<String, List<Double>>> getItemsPerLocation() {
-        return items_per_location;
-    }
+//    public Map<Location, Map<String, List<Double>>> getItemsPerLocation() {
+//        return items_per_location;
+//    }
 }

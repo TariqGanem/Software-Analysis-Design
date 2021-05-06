@@ -20,7 +20,7 @@ public class ShipmentsHandler extends Handler {
         shipments = new LinkedList<>();
     }
 
-    public void arrangeShipment() {
+   /* public void arrangeShipment() {
         System.out.printf("\nEnter shipment date [dd/MM/yyyy]: ");
         Date date = getDate();
         System.out.printf("Enter departure hour [00:00]: ");
@@ -130,5 +130,5 @@ public class ShipmentsHandler extends Handler {
             }
         }
         return itemsPerDestination;
-    }
+    }*/
 }

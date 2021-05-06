@@ -45,7 +45,7 @@ public class Menu {
      * Activating the menu for the user
      */
     public void run() {
-        printer.printBanner();
+        //printer.printBanner();
         addItems();
         viewMenuItems();
         selectItem();
@@ -63,7 +63,7 @@ public class Menu {
         addMenuItem("Track Shipment");
         addMenuItem("Arrange Shipment");
         addMenuItem("Remove Shipment");
-        addMenuItem("Exit");//Keep last
+        addMenuItem("Go back to main menu");//Keep last
     }
 
 
@@ -74,6 +74,8 @@ public class Menu {
             if (validInput(inputL)) {
                 int input = Integer.parseInt(inputL);
                 handleSelection(input);
+                if(input == 12)
+                    return;
                 viewMenuItems();
             }
         } while (true);
@@ -82,7 +84,7 @@ public class Menu {
     private void handleSelection(int input) {
         switch (input) {
             case 1:
-                (new DataInitializer(facade)).initialize();
+                //(new DataInitializer(facade)).initialize();
                 break;
             case 2:
                 trucksHandler.addTruck();
@@ -102,7 +104,7 @@ public class Menu {
             case 7:
                 locationsHandler.viewAllLocations();
                 break;
-            case 8:
+          /*  case 8:
                 shipmentsHandler.viewAllShipments();
                 break;
             case 9:
@@ -113,10 +115,10 @@ public class Menu {
                 break;
             case 11:
                 shipmentsHandler.removeShipment();
-                break;
-            case 12:
-                exit();
-                break;
+                break;*/
+//            case 12:
+//                exit();
+//                break;
         }
     }
 
@@ -135,10 +137,10 @@ public class Menu {
             return true;
     }
 
-    private void exit() {
-        System.out.println("The application exited successfully!");
-        System.exit(0);
-    }
+//    private void exit() {
+//        System.out.println("The application exited successfully!");
+//        System.exit(0);
+//    }
 
     private void viewMenuItems() {
         printer.viewOptions(items);

@@ -1,8 +1,10 @@
 package DTOPackage;
 
 import BusinessLayer.ShipmentsModule.Objects.Document;
+import BusinessLayer.ShipmentsModule.Objects.Item;
 import BusinessLayer.ShipmentsModule.Objects.Location;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class DocumentDTO {
@@ -13,7 +15,10 @@ public class DocumentDTO {
 
     public DocumentDTO(Document d) {
         trackingNumber = d.getTrackingNumber();
-        products = null;//TODO -> d.getProducts();
+        products = new LinkedList<>();
+        for (Item i : d.getProducts()) {
+            products.add(new ItemDTO(i.getDocumentId(), i.getName(), i.getAmount(), i.getWeight()));
+        }
         destination = d.getDestination();
         weight = d.getWeight();
     }
