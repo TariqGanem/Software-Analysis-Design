@@ -93,40 +93,40 @@ public class Printer {
     }
 
     public void viewAllShipments(List<ShipmentDTO> shipments) {
-        for (int i = 0; i < shipments.size(); i++) {
-            System.out.println("------------------------------------------------------------");
-            System.out.println("\t" + (i + 1)
-                    + ". Date: " + new SimpleDateFormat("dd/MM/yyyy").format(shipments.get(i).getDate())
-                    + "\t Departure Hour: " + shipments.get(i).getDepartureHour()
-                    + "\t Truck Plate Number: " + shipments.get(i).getTruckPlateNumber()
-                    + "\t Driver Id: " + shipments.get(i).getDriverId()
-                    + "\t Shipment Weight: " + shipments.get(i).getShipmentWeight()
-                    + "\n\t Source --> "
-                    + "\t Address: " + shipments.get(i).getSource().getAddress()
-                    + "\t Phone: " + shipments.get(i).getSource().getPhoneNumber()
-                    + " (" + shipments.get(i).getSource().getContactName() + ")"
-            );
-            List<LocationDTO> destination = shipments.get(i).getLocations();
-            System.out.println("\t Arrived At:");
-            for (int j = 0; j < destination.size(); j++) {
-                int tracking = -1;
-                Collection<DocumentDTO> docs = shipments.get(i).getDocuments().values();
-                for (DocumentDTO doc : docs) {
-                    if (doc.getDestination().getAddress().equals(destination.get(j).getAddress())) {
-                        tracking = doc.getTrackingNumber();
-                        break;
-                    }
-                }
-                System.out.println("\t\t" + (j + 1) + ". "
-                        + "Address: " + destination.get(j).getAddress()
-                        + "\t Phone: " + destination.get(j).getPhoneNumber()
-                        + " (" + destination.get(j).getContactName() + ")"
-                        + "\t Tracking Number:" + tracking
-                );
-
-            }
-            System.out.println("------------------------------------------------------------");
-        }
+//        for (int i = 0; i < shipments.size(); i++) {
+//            System.out.println("------------------------------------------------------------");
+//            System.out.println("\t" + (i + 1)
+//                    + ". Date: " + new SimpleDateFormat("dd/MM/yyyy").format(shipments.get(i).getDate())
+//                    + "\t Departure Hour: " + shipments.get(i).getDepartureHour()
+//                    + "\t Truck Plate Number: " + shipments.get(i).getTruckPlateNumber()
+//                    + "\t Driver Id: " + shipments.get(i).getDriverId()
+//                    + "\t Shipment Weight: " + shipments.get(i).getShipmentWeight()
+//                    + "\n\t Source --> "
+//                    + "\t Address: " + shipments.get(i).getSource().getAddress()
+//                    + "\t Phone: " + shipments.get(i).getSource().getPhoneNumber()
+//                    + " (" + shipments.get(i).getSource().getContactName() + ")"
+//            );
+//            List<LocationDTO> destination = shipments.get(i).getDestinations();
+//            System.out.println("\t Arrived At:");
+//            for (int j = 0; j < destination.size(); j++) {
+//                int tracking = -1;
+//                Collection<DocumentDTO> docs = shipments.get(i).getDocuments().values();
+//                for (DocumentDTO doc : docs) {
+//                    if (doc.getDestination().getAddress().equals(destination.get(j).getAddress())) {
+//                        tracking = doc.getTrackingNumber();
+//                        break;
+//                    }
+//                }
+//                System.out.println("\t\t" + (j + 1) + ". "
+//                        + "Address: " + destination.get(j).getAddress()
+//                        + "\t Phone: " + destination.get(j).getPhoneNumber()
+//                        + " (" + destination.get(j).getContactName() + ")"
+//                        + "\t Tracking Number:" + tracking
+//                );
+//
+//            }
+//            System.out.println("------------------------------------------------------------");
+//        }
     }
 
     public void viewShipment(ShipmentDTO shipment, DocumentDTO document) {

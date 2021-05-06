@@ -29,7 +29,7 @@ public class Driver {
         return available;
     }
 
-    public void makeAvailable() {
-        available = true;
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 }

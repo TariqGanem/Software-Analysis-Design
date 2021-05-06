@@ -39,8 +39,8 @@ public class DriverController {
     /**
      * @return all drivers in the system
      */
-    public List<Driver> getAlldrivers() {
-        return null;
+    public List<Driver> getAllDrivers() throws Exception {
+        return Builder.buildDriversList(mapper.getAllDrivers());
     }
 
     /**
@@ -57,11 +57,11 @@ public class DriverController {
      *
      * @param id - The id of the requested driver
      */
-    public void freeDriver(String id) {
-        /*for (Driver d : data) {
-            if (d.getId().equals(id)) {
-                d.makeAvailable();
-            }
-        }*/ // TODO
+    public void freeDriver(String id) throws Exception {
+        mapper.updateDriver(id, true);
+    }
+
+    public void makeUnavailableDriver(String id) throws Exception {
+        mapper.updateDriver(id, false);
     }
 }

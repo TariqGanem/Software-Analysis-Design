@@ -42,7 +42,7 @@ public class LocationController {
     /**
      * @return all locations in the system
      */
-    public List<Location> getAllLocations() {
-        return null;
+    public List<Location> getAllLocations() throws Exception {
+        return Builder.buildLocationsList(mapper.getAllLocations());
     }
 }

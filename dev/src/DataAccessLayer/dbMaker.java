@@ -17,6 +17,7 @@ public class dbMaker {
     public static String driversTbl = "Drivers";
     public static String documentsTbl = "Documents";
     public static String itemsTbl = "Items";
+    public static String shipmentsTbl = "Shipments";
 
     public static String employeeTbl = "Employee";
     public static String employeeSkillsTbl = "EmployeeSkills";

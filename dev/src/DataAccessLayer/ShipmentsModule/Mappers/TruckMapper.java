@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TruckMapper {
     private static TruckMapper instance = null;
@@ -51,6 +53,12 @@ public class TruckMapper {
             return truck;
         }
         throw new Exception("There is no such truck in the database!");
+    }
+
+    public List<TruckDTO> getAllTrucks() throws Exception {
+        List<TruckDTO> trucks = selectAllTrucks();
+        memory.setTrucks(trucks);
+        return memory.getTrucks();
     }
 
     public TruckDTO updateTruck(String plateNumber, boolean available) throws Exception {
@@ -132,6 +140,26 @@ public class TruckMapper {
                         rs.getDouble(4),
                         rs.getBoolean(5)
                 );
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        return null;
+    }
+
+    private List<TruckDTO> selectAllTrucks() throws Exception {
+        String sql = "SELECT * FROM " + dbMaker.trucksTbl;
+        List<TruckDTO> trucks = new LinkedList<>();
+        try (Connection conn = dbMaker.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                trucks.add(new TruckDTO(rs.getString(1),
+                        rs.getString(2),
+                        rs.getDouble(3),
+                        rs.getDouble(4),
+                        rs.getBoolean(5)
+                ));
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());

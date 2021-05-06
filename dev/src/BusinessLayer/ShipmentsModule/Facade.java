@@ -113,7 +113,7 @@ public class Facade {
      */
     public ResponseT<List<TruckDTO>> getAlltrucks() {
         try {
-            List<Truck> trucks = truckController.getAlltrucks();
+            List<Truck> trucks = truckController.getAllTrucks();
             List<TruckDTO> trucksDTO = new LinkedList<>();
             for (Truck t : trucks) {
                 trucksDTO.add(getTruckDTO(t.getTruckPlateNumber()).getValue());
@@ -129,7 +129,7 @@ public class Facade {
      */
     public ResponseT<List<DriverDTO>> getAlldrivers() {
         try {
-            List<Driver> drivers = driverController.getAlldrivers();
+            List<Driver> drivers = driverController.getAllDrivers();
             List<DriverDTO> driversDTO = new LinkedList<>();
             for (Driver d : drivers) {
                 driversDTO.add(getDriverDTO(d.getId()).getValue());
@@ -145,39 +145,45 @@ public class Facade {
      *
      * @param date               - Date of the shipment to be transported
      * @param departureHour      - The exact hour for the transportation of the shipment
-     * @param sourceId             - The source's address unique id
+     * @param sourceId           - The source's address unique id
      * @param items_per_location - Map[ItemName, List[ItemWeight, Quantity]] foreach location
      * @return response of type msg in case of any error
      */
     public Response arrangeDelivery(Date date, String departureHour, int sourceId, Map<Integer, List<ItemDTO>> items_per_location) {
         try {
-            double weight = 0;
+            double shipmentWeight = 0;
             for (Integer loc : items_per_location.keySet()) {
                 for (ItemDTO item : items_per_location.get(loc)) {
-                    weight += item.getWeight() * item.getAmount();
+                    shipmentWeight += item.getWeight() * item.getAmount();
                 }
             }
-            TruckDTO truck = new TruckDTO(truckController.getAvailableTruck(weight));
-            DriverDTO driver = new DriverDTO(driverController.getAvailableDriver(weight + truck.getNatoWeight()));
-            Location s = locationController.getLocation(sourceId);
+
+            TruckDTO truck = new TruckDTO(truckController.getAvailableTruck(shipmentWeight));
+            DriverDTO driver = new DriverDTO(driverController.getAvailableDriver(
+                    weighTruck(truck.getTruckPlateNumber(), shipmentWeight)
+            ));
+
+            Location source = locationController.getLocation(sourceId);
+
             Map<Location, List<Item>> items = new HashMap<>();
             for (int loc : items_per_location.keySet()) {
                 if (loc == sourceId) {
                     return new Response("Cannot deliver to destination as the same source, shipment removed.");
                 }
                 List<Item> l = new LinkedList<>();
-                for (ItemDTO i: items_per_location.get(loc)) {
+                for (ItemDTO i : items_per_location.get(loc)) {
                     l.add(new Item(i.getDocumentId(), i.getName(), i.getAmount(), i.getWeight()));
                 }
                 items.put(locationController.getLocation(loc), l);
             }
-            shipmentController.addShipment(date, departureHour, truck.getTruckPlateNumber(), driver.getId(), items, s);
-            double realWeight = weighTruck(truck.getTruckPlateNumber(), date, departureHour, driver.getId());
+
+            int shipmentId = shipmentController.addShipment(date, departureHour, truck.getTruckPlateNumber(), driver.getId(), source);
+
             for (int destId : items_per_location.keySet()) {
-                shipmentController.addDocument(date, departureHour, driver.getId(), locationController.getLocation(destId), items.get(locationController.getLocation(destId)), realWeight);
+                shipmentController.addDocument(shipmentId, locationController.getLocation(destId), items.get(destId));
             }
-            truckController.depositeTruck(truck.getTruckPlateNumber());
-            driverController.freeDriver(driver.getId());
+            truckController.makeUnavailableTruck(truck.getTruckPlateNumber());
+            driverController.makeUnavailableDriver(driver.getId());
             return new Response();
         } catch (Exception e) {
             return new Response(e.getMessage());
@@ -187,19 +193,15 @@ public class Facade {
     /**
      * Weighs the requested truck as requested before transportation
      *
-     * @param truckId       - The truck's unique plate number
-     * @param date          - Date of the shipment to be transported
-     * @param departureHour - The exact hour for the transportation of the shipment
-     * @param driverId      - The driver's unique id
+     * @param truckId - The truck's unique plate number
      * @return the truck's total weight
      * @throws Exception in case of any error occurs
      * @throws Exception in case of any error occurs
      */
-    private double weighTruck(String truckId, Date date, String departureHour, String driverId) throws Exception {
+    private double weighTruck(String truckId, double shipmentWeight) throws Exception {
         double realWeight = truckController.getTruck(truckId).getNatoWeight();
-        realWeight += shipmentController.getShipment(date, departureHour, driverId).getShipmentWeight();
+        realWeight += shipmentWeight;
         if (realWeight > truckController.getTruck(truckId).getMaxWeight() + truckController.getTruck(truckId).getNatoWeight()) {
-            shipmentController.deleteShipment(date, departureHour, driverId);
             throw new Exception("Truck's weight exceeded the limit, shipment has been removed.");
         }
         return realWeight;
@@ -279,9 +281,10 @@ public class Facade {
      */
     public Response removeShipment(Date date, String departureHour, String driverId) {
         try {
-            truckController.depositeTruck(shipmentController.getShipment(date, departureHour, driverId).getTruckPlateNumber());
+            Shipment shipment = shipmentController.getShipment(date, departureHour, driverId);
+            truckController.depositTruck(shipment.getTruckPlateNumber());
             driverController.freeDriver(driverId);
-            shipmentController.deleteShipment(date, departureHour, driverId);
+            shipmentController.deleteShipment(shipment.getShipmentId());
 
             return new Response();
         } catch (Exception e) {

@@ -2,7 +2,6 @@ package DTOPackage;
 
 import BusinessLayer.ShipmentsModule.Objects.Document;
 import BusinessLayer.ShipmentsModule.Objects.Item;
-import BusinessLayer.ShipmentsModule.Objects.Location;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.List;
 public class DocumentDTO {
     private int trackingNumber;
     private List<ItemDTO> products;
-    private Location destination;
+    private LocationDTO destination;
     private double weight;
 
     public DocumentDTO(Document d) {
@@ -19,11 +18,11 @@ public class DocumentDTO {
         for (Item i : d.getProducts()) {
             products.add(new ItemDTO(i.getDocumentId(), i.getName(), i.getAmount(), i.getWeight()));
         }
-        destination = d.getDestination();
+        destination = new LocationDTO(d.getDestination());
         weight = d.getWeight();
     }
 
-    public DocumentDTO(int trackingNumber, List<ItemDTO> products, Location destination, double weight) {
+    public DocumentDTO(int trackingNumber, List<ItemDTO> products, LocationDTO destination) {
         this.trackingNumber = trackingNumber;
         this.products = products;
         this.destination = destination;
@@ -38,7 +37,7 @@ public class DocumentDTO {
         return products;
     }
 
-    public Location getDestination() {
+    public LocationDTO getDestination() {
         return destination;
     }
 

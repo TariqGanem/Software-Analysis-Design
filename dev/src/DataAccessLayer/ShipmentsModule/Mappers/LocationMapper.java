@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.List;
 
 public class LocationMapper {
     private static LocationMapper instance = null;
@@ -35,6 +37,12 @@ public class LocationMapper {
             return location;
         }
         throw new Exception("There is no such location in the database!");
+    }
+
+    public List<LocationDTO> getAllLocations() throws Exception {
+        List<LocationDTO> locations = selectAllLocations();
+        memory.setLocations(locations);
+        return memory.getLocations();
     }
 
     public LocationDTO addLocation(int id, String address, String phone, String contactName) throws Exception {
@@ -78,6 +86,25 @@ public class LocationMapper {
                         rs.getString(3),
                         rs.getString(4)
                 );
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        return null;
+    }
+
+    private List<LocationDTO> selectAllLocations() throws Exception {
+        String sql = "SELECT * FROM " + dbMaker.locationsTbl;
+        List<LocationDTO> locations = new LinkedList<>();
+        try (Connection conn = dbMaker.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                locations.add(new LocationDTO(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4)
+                ));
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());

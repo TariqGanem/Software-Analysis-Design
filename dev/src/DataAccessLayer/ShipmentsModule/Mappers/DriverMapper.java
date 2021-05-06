@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.List;
 
 public class DriverMapper {
 
@@ -57,6 +59,19 @@ public class DriverMapper {
         throw new Exception("There is no such driver in the database!");
     }
 
+    public List<DriverDTO> getAllDrivers() throws Exception {
+        List<DriverDTO> drivers = selectAllDrivers();
+        memory.setDrivers(drivers);
+        return memory.getDrivers();
+    }
+
+    public DriverDTO updateDriver(String id, boolean available) throws Exception {
+        DriverDTO driver = getDriver(id);
+        driver.setAvailable(available);
+        _updateDriver(id, available);
+        return driver;
+    }
+
     private void insertDriver(String id, Double allowedWeight, boolean available) throws Exception {
         String sql = "INSERT INTO " + dbMaker.driversTbl + "(id, allowedWeight) VALUES (?,?,?)";
         try (Connection conn = dbMaker.connect();
@@ -89,6 +104,37 @@ public class DriverMapper {
             throw new Exception(e.getMessage());
         }
         return null;
+    }
+
+    private List<DriverDTO> selectAllDrivers() throws Exception {
+        String sql = "SELECT * FROM " + dbMaker.driversTbl;
+        List<DriverDTO> drivers = new LinkedList<>();
+        try (Connection conn = dbMaker.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                String driverName = getDriverName(rs.getString(1));
+                drivers.add(new DriverDTO(rs.getString(1),
+                        driverName,
+                        rs.getDouble(2),
+                        rs.getBoolean(3)
+                ));
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        return null;
+    }
+
+    private void _updateDriver(String id, boolean available) throws Exception {
+        String sql = "UPDATE " + dbMaker.driversTbl + " SET available = ? ";
+        try (Connection conn = dbMaker.connect();
+             PreparedStatement pStmt = conn.prepareStatement(sql)) {
+            pStmt.setBoolean(1, available);
+            pStmt.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
     private String getDriverName(String id) throws Exception {

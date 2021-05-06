@@ -32,7 +32,6 @@ public class IdentityMap {
         return trucks;
     }
 
-
     public List<LocationDTO> getLocations() {
         return locations;
     }
@@ -47,5 +46,25 @@ public class IdentityMap {
 
     public List<ShipmentDTO> getShipments() {
         return shipments;
+    }
+
+    public void setTrucks(List<TruckDTO> trucks) {
+        this.trucks = trucks;
+    }
+
+    public void setDrivers(List<DriverDTO> drivers) {
+        this.drivers = drivers;
+    }
+
+    public void setDocuments(List<DocumentDTO> documents) {
+        this.documents = documents;
+    }
+
+    public void setLocations(List<LocationDTO> locations) {
+        this.locations = locations;
+    }
+
+    public void setShipments(List<ShipmentDTO> shipments) {
+        this.shipments = shipments;
     }
 }
