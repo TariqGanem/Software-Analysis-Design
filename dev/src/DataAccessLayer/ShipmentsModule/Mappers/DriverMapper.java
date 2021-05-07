@@ -56,6 +56,10 @@ public class DriverMapper {
         throw new Exception("There is no such driver in the database!");
     }
 
+//    public  getAvailableDriver(){
+//
+//    }
+
     public List<DriverDTO> getAllDrivers() throws Exception {
         List<DriverDTO> drivers = selectAllDrivers();
         memory.setDrivers(drivers);
@@ -120,10 +124,11 @@ public class DriverMapper {
     }
 
     private void _updateDriver(String id, boolean available) throws Exception {
-        String sql = "UPDATE " + dbMaker.driversTbl + " SET available = ? ";
+        String sql = "UPDATE " + dbMaker.driversTbl + " SET available = ? WHERE id= ?";
         try (Connection conn = dbMaker.connect();
              PreparedStatement pStmt = conn.prepareStatement(sql)) {
             pStmt.setBoolean(1, available);
+            pStmt.setString(2,id);
             pStmt.executeUpdate();
         } catch (Exception e) {
             throw new Exception(e.getMessage());

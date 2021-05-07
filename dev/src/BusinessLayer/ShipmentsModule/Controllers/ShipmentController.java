@@ -8,6 +8,7 @@ import DataAccessLayer.ShipmentsModule.Mappers.DocumentMapper;
 import DataAccessLayer.ShipmentsModule.Mappers.ShipmentMapper;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ShipmentController {
@@ -58,8 +59,8 @@ public class ShipmentController {
      * @param dest       - The destination of the shipment
      * @param products   - The items that will be transported
      */
-    public void addDocument(int shipmentId, Location dest, List<Item> products) throws Exception {
-        docMapper.addDocument(trackingNumber, dest.getId(), shipmentId, Builder.buildItemsListDTO(products));
+    public void addDocument(int shipmentId, int dest, List<Item> products) throws Exception {
+        docMapper.addDocument(trackingNumber, dest, shipmentId, Builder.buildItemsListDTO(products));
         trackingNumber++;
     }
 

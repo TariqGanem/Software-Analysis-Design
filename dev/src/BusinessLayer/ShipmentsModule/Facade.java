@@ -150,31 +150,23 @@ public class Facade {
                 }
             }
             Truck truck = truckController.getAvailableTruck(shipmentWeight);
-            Driver driver = driverController.getAvailableDriver(
-                    weighTruck(truck.getTruckPlateNumber(), shipmentWeight)
-            );
-
+            Driver driver = driverController.getAvailableDriver(weighTruck(truck.getTruckPlateNumber(),
+                    shipmentWeight), date, departureHour);
             Location source = locationController.getLocation(sourceId);
-
             Map<Location, List<Item>> items = new HashMap<>();
             for (int loc : items_per_location.keySet()) {
                 if (loc == sourceId) {
                     return new Response("Cannot deliver to destination as the same source, shipment removed.");
                 }
-                List<Item> l = new LinkedList<>();
-                for (ItemDTO i : items_per_location.get(loc)) {
-                    l.add(Builder.build(i));
-                }
-                items.put(locationController.getLocation(loc), l);
+                items.put(locationController.getLocation(loc), Builder.buildItemsList(items_per_location.get(loc)));
             }
-
-            int shipmentId = shipmentController.addShipment(date, departureHour, truck.getTruckPlateNumber(), driver.getId(), source);
-
-            for (int destId : items_per_location.keySet()) {
-                shipmentController.addDocument(shipmentId, locationController.getLocation(destId), items.get(destId));
+            //TODO -> The id is 222222222 till we update the function of get available driver
+            int shipmentId = shipmentController.addShipment(date, departureHour, truck.getTruckPlateNumber(), "222222222", source);
+            for(Location loc: items.keySet()){
+                shipmentController.addDocument(shipmentId, loc.getId(), items.get(loc));
             }
             truckController.makeUnavailableTruck(truck.getTruckPlateNumber());
-            driverController.makeUnavailableDriver(driver.getId());
+            driverController.makeUnavailableDriver("222222222");
             return new Response();
         } catch (Exception e) {
             return new Response(e.getMessage());

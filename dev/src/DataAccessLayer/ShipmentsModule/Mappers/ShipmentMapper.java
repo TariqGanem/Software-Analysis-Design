@@ -37,10 +37,10 @@ public class ShipmentMapper {
                 throw new Exception("Shipment already exists!");
         }
         shipment = new ShipmentDTO(id, date, depHour, truckPlateNumber, driverId, LocationMapper.getInstance().getLocation(sourceId));
-//        if (shipmentExist(id)) {
-//            memory.getShipments().add(shipment);
-//            throw new Exception("Shipment already exists in the database!");
-//        }
+        if (shipmentExist(id)) {
+            memory.getShipments().add(shipment);
+            throw new Exception("Shipment already exists in the database!");
+        }
         insertShipment(id, date, depHour, truckPlateNumber, driverId, sourceId);
         memory.getShipments().add(shipment);
         return shipment;

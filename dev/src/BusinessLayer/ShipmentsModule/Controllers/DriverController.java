@@ -4,6 +4,8 @@ import BusinessLayer.ShipmentsModule.Builder;
 import BusinessLayer.ShipmentsModule.Objects.Driver;
 import DataAccessLayer.ShipmentsModule.Mappers.DriverMapper;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.List;
 
 public class DriverController {
@@ -48,7 +50,9 @@ public class DriverController {
      * @return an available driver if exists
      * @throws Exception in case of there is no available driver
      */
-    public Driver getAvailableDriver(double weight) throws Exception {
+    public Driver getAvailableDriver(double weight, Date date, String hour) throws Exception {
+        // return Builder.build(mapper.getAvailableDriver(weight, date));
+        // check the hour for morning and evening
         return null; // TODO
     }
 
