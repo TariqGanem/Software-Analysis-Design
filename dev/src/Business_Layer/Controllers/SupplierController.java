@@ -2,18 +2,17 @@ package Business_Layer.Controllers;
 
 import DTO.SupplierDTO;
 import Business_Layer.Objects.SupplierCard;
+import Data_Access_Layer.Mappers.SuppliersMapper;
 import enums.ContactMethod;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class SupplierController {
     private static SupplierController instance;
-    private final Map<Integer, SupplierCard> suppliers;
+    private SuppliersMapper mapper;
 
 
     private SupplierController() {
-        suppliers = new HashMap<>();
+        mapper = new SuppliersMapper();
     }
 
     public static SupplierController getInstance() {
@@ -35,10 +34,10 @@ public class SupplierController {
      */
     public void AddSupplier(String name, String manifactur, int company_id, int BankAccount,
                             String paymentConditions, String orderType, boolean selfPickup) throws Exception {
-        if (suppliers.containsKey(company_id))
+        if (mapper.getSupplier(company_id) != null)
             throw new Exception("There's already supplier working with this company!!!");
-        suppliers.put(company_id, new SupplierCard(name, manifactur, company_id,
-                BankAccount, paymentConditions, orderType, selfPickup));
+        mapper.add(new SupplierDTO(new SupplierCard(name, manifactur, company_id,
+                BankAccount, paymentConditions, orderType, selfPickup)));
     }
 
     /***
@@ -47,9 +46,9 @@ public class SupplierController {
      * @throws Exception if there is no supplier that works with the company with this id so there is an error.
      */
     public void RemoveSupplier(int company_id) throws Exception {
-        if (!suppliers.containsKey(company_id))
+        if (mapper.getSupplier(company_id) == null)
             throw new Exception("There's no supplier working with this company!!!");
-        suppliers.remove(company_id);
+        mapper.removeSupplier(company_id);
     }
 
     /***
@@ -59,9 +58,9 @@ public class SupplierController {
      * @throws Exception if there is no supplier that works with the company with this id so there is an error.
      */
     public void ChangePaymentConditions(int company_id, String paymentConditions) throws Exception {
-        if (!suppliers.containsKey(company_id))
+        if (mapper.getSupplier(company_id) == null)
             throw new Exception("There's no supplier working with this company!!!");
-        suppliers.get(company_id).ChangePaymentConditions(paymentConditions);
+        mapper.update(company_id,"paymentConditions",paymentConditions);
     }
 
     /***
@@ -72,10 +71,9 @@ public class SupplierController {
      * @throws Exception if there is no supplier that works with the company with this id so there is an error.
      */
     public void ChangeBankAccount(int company_id, int bankAccount) throws Exception {
-        if (!suppliers.containsKey(company_id))
+        if (mapper.getSupplier(company_id) == null)
             throw new Exception("There's no supplier working with this company!!!");
-        suppliers.get(company_id).ChangeBankAccount(bankAccount);
-    }
+        mapper.update(company_id,"bankAccount",bankAccount);    }
 
     /***
      * Printing the Card of a current supplier.
@@ -84,9 +82,10 @@ public class SupplierController {
      * @throws Exception if there is no supplier that works with the company with this id so there is an error.
      */
     public SupplierDTO PrintSupplierCard(int company_id) throws Exception {
-        if (!suppliers.containsKey(company_id))
+        SupplierDTO supplier = mapper.getSupplier(company_id);
+        if (supplier == null)
             throw new Exception("There's no supplier working with this company!!!");
-        return new SupplierDTO(suppliers.get(company_id));
+        return supplier;
     }
 
     /***
@@ -99,9 +98,11 @@ public class SupplierController {
      * also if the contact is already in the supplier's contact table so the is an error.
      */
     public void AddContactPerson(int company_id, String name, ContactMethod method, String method_data) throws Exception {
-        if (!suppliers.containsKey(company_id))
+        if (mapper.getSupplier(company_id) == null)
             throw new Exception("There's no supplier working with this company!!!");
-        suppliers.get(company_id).AddContactPerson(name, method, method_data);
+        SupplierCard card = new SupplierCard(mapper.getSupplier(company_id));
+        card.AddContactPerson(name, method, method_data);
+        mapper.addContact(company_id, name, method, method_data);
     }
 
     /***
@@ -112,9 +113,11 @@ public class SupplierController {
      * also if there is no contact person in the supplier's contact table so the is an error.
      */
     public void RemoveContact(int company_id, String name) throws Exception {
-        if (!suppliers.containsKey(company_id))
+        if (mapper.getSupplier(company_id) == null)
             throw new Exception("There's no supplier working with this company!!!");
-        suppliers.get(company_id).RemoveContact(name);
+        SupplierCard card = new SupplierCard(mapper.getSupplier(company_id));
+        card.RemoveContact(name);
+        mapper.removeContact(company_id,name);
     }
 
     /***
@@ -124,9 +127,9 @@ public class SupplierController {
      * @throws Exception if there is no supplier that works with the company with this id so there is an error.
      */
     public SupplierDTO PrintAllContacts(int company_id) throws Exception {
-        if (!suppliers.containsKey(company_id))
+        if (mapper.getSupplier(company_id) == null)
             throw new Exception("There's no supplier working with this company!!!");
-        return new SupplierDTO(suppliers.get(company_id));
+        return mapper.getSupplier(company_id);
     }
 
     /***
@@ -140,9 +143,11 @@ public class SupplierController {
      * also if the method is already founded so there is an error.
      */
     public void AddMethod(int company_id, String name, ContactMethod method, String method_data) throws Exception {
-        if (!suppliers.containsKey(company_id))
+        if (mapper.getSupplier(company_id) == null)
             throw new Exception("There's no supplier working with this company!!!");
-        suppliers.get(company_id).AddMethod(name, method, method_data);
+        SupplierCard card = new SupplierCard(mapper.getSupplier(company_id));
+        card.AddMethod(name, method, method_data);
+        mapper.addMethod(company_id, name, method, method_data);
     }
 
     /***
@@ -153,9 +158,11 @@ public class SupplierController {
      * @throws Exception
      */
     public void RemoveMethod(int company_id, String name, ContactMethod method) throws Exception {
-        if (!suppliers.containsKey(company_id))
+        if (mapper.getSupplier(company_id) == null)
             throw new Exception("There's no supplier working with this company!!!");
-        suppliers.get(company_id).RemoveMethod(name, method);
+        SupplierCard card = new SupplierCard(mapper.getSupplier(company_id));
+        card.RemoveMethod(name, method);
+        mapper.removeMethod(company_id, name, method);
     }
 
     /***
@@ -169,12 +176,14 @@ public class SupplierController {
      * also if the method is not founded so there is an error.
      */
     public void EditMethod(int company_id, String name, ContactMethod method, String method_data) throws Exception {
-        if (!suppliers.containsKey(company_id))
+        if (mapper.getSupplier(company_id) == null)
             throw new Exception("There's no supplier working with this company!!!");
-        suppliers.get(company_id).EditMethod(name, method, method_data);
+        SupplierCard card = new SupplierCard(mapper.getSupplier(company_id));
+        card.EditMethod(name, method, method_data);
+        mapper.updateMethod(company_id, name, method, method_data);
     }
 
     public boolean isSupplier(int supplierID) {
-        return suppliers.containsKey(supplierID);
+        return mapper.getSupplier(supplierID) != null;
     }
 }

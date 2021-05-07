@@ -41,6 +41,9 @@ public class QuantityReport {
         discounts.remove(item_id);
     }
 
+    public boolean hasDiscount(int item_id){
+        return discounts.containsKey(item_id);
+    }
     public Map<Integer, Map<Integer, Double>> getDiscounts() {
         return discounts;
     }

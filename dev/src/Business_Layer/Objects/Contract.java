@@ -12,6 +12,7 @@ public class Contract {
 
     public Contract(boolean selfPickup) {
         this.items = new HashMap<>();
+        this.report = new QuantityReport();
         this.selfPickup = selfPickup;
     }
 
@@ -23,16 +24,6 @@ public class Contract {
         }
         report = new QuantityReport(contract.getReport());
         selfPickup = contract.isSelfPickup();
-    }
-
-    /***
-     * Adding a quantity report.
-     * @throws Exception if there is already a quantity report so that's an error.
-     */
-    public void AddQuantityReport() throws Exception {
-        if(report != null)
-            throw new Exception("There's already a quantity report!!!");
-        report = new QuantityReport();
     }
 
     /***
@@ -87,7 +78,7 @@ public class Contract {
         if (!items.containsKey(item_id))
             throw new Exception("The contract doesn't have an item with this id!!!");
         items.remove(item_id);
-        if (report != null)
+        if (report.hasDiscount(item_id))
             report.RemoveItemQuantity(item_id);
     }
 

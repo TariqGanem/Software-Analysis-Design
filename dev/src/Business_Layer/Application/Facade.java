@@ -16,11 +16,12 @@ import java.time.LocalDate;
 import java.util.Map;
 
 public class Facade {
-    private static   Facade instance;
+    private static Facade instance;
     private final SupplierController sc;
     private final ContractController cc;
     private final OrderController oc;
     private int orderIDGenerator;
+
     public Facade() {
         sc = SupplierController.getInstance();
         cc = ContractController.getInstance();
@@ -49,7 +50,7 @@ public class Facade {
      * @return the response of the system. if the there is already a supplier that works with the same company so that's an error.
      */
     public Response AddSupplier(String name, String Manifactur, int company_id, int BankAccount,
-                            String PaymentConditions, String OrderType, boolean SelfPickup) {
+                                String PaymentConditions, String OrderType, boolean SelfPickup) {
         try {
             sc.AddSupplier(name, Manifactur, company_id, BankAccount,
                     PaymentConditions, OrderType, SelfPickup);
@@ -62,6 +63,7 @@ public class Facade {
 
     /**
      * Removing a current supplier in the system.
+     *
      * @param company_id is the id of the company that the supplier works with it.
      * @return the response of the system. if there is no supplier that works with the company with this id so there is an error.
      */
@@ -217,21 +219,6 @@ public class Facade {
     //=======================================================Contracts=======================================================
 
     /***
-     * Adding a quantity report.
-     * @param company_id is the id of the company that the supplier works with it.
-     * @return the response of the system. if the there is no a supplier that works with the same company so that's an error.
-     * also if there is already a quantity report so that's an error.
-     */
-    public Response AddQuantityReport(int company_id) {
-        try {
-            cc.AddQuantityReport(company_id);
-            return new Response();
-        } catch (Exception e) {
-            return new Response(e.getMessage());
-        }
-    }
-
-    /***
      * Adding a new discount to the quantity report.
      * @param company_id is the id of the company that the supplier works with it.
      * @param item_id is the id of the item.
@@ -258,9 +245,9 @@ public class Facade {
      * also if there is no a quantity report so that's an error.
      * also if there is no discount for this item with this id so that's an error.
      */
-    public Response RemoveItemQuantity(int company_id, int item_id) {
+    public Response RemoveItemQuantity(int company_id, int item_id, int quantity) {
         try {
-            cc.RemoveItemQuantity(company_id, item_id);
+            cc.RemoveItemQuantity(company_id, item_id, quantity);
             return new Response();
         } catch (Exception e) {
             return new Response(e.getMessage());
@@ -324,7 +311,7 @@ public class Facade {
      * @return the response of the system. if there is no supplier that works with the company with this id so there is an error.
      * and if everything is okay the so the returned response holds an object with the same data of the contract.
      */
-    public Response<ContractDTO> PrintContract(int company_id){
+    public Response<ContractDTO> PrintContract(int company_id) {
         try {
             return new Response<ContractDTO>(cc.PrintContract(company_id));
         } catch (Exception e) {
@@ -336,13 +323,12 @@ public class Facade {
 
     /**
      * @param orderID id of order to be printed
-     * @return  response of the order dto object to be printed
+     * @return response of the order dto object to be printed
      */
-    public Response<OrderDTO> PrintOrder (int orderID){
-        try{
-            return  new Response<OrderDTO>(new OrderDTO(oc.getOrder(orderID)));
-        }
-        catch (Exception exception){
+    public Response<OrderDTO> PrintOrder(int orderID) {
+        try {
+            return new Response<OrderDTO>(new OrderDTO(oc.getOrder(orderID)));
+        } catch (Exception exception) {
             return new Response<OrderDTO>(exception.getMessage());
         }
     }
@@ -350,37 +336,34 @@ public class Facade {
 
     /**
      * @param orderID id of order to add item to.
-     * @param itemID item to be added to the order
-     * @return  response of the procedure
+     * @param itemID  item to be added to the order
+     * @return response of the procedure
      */
-    public Response AddItemToOrder(int orderID,  int itemID){
-        try{
+    public Response AddItemToOrder(int orderID, int itemID) {
+        try {
 
-            if(cc.getContract(oc.getSupplier(orderID)).isIncluding(itemID)){
+            if (cc.getContract(oc.getSupplier(orderID)).isIncluding(itemID)) {
                 Item item = cc.getContract(oc.getSupplier(orderID)).getItems().get(itemID);
                 oc.addItemToOrder(orderID, item);
-            }
-            else {
+            } else {
                 throw new Exception("Contract with this supplier does not include the item!");
             }
             return new Response(true);
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             return new Response(exception.getMessage());
         }
     }
 
     /**
      * @param orderID id of order to remove item from.
-     * @param itemID id of item to be removed from the order.
+     * @param itemID  id of item to be removed from the order.
      * @return response of the procedure
      */
-    public Response RemoveItemFromOrder(int orderID , int itemID){
+    public Response RemoveItemFromOrder(int orderID, int itemID) {
         try {
             oc.removeItemFromOrder(orderID, itemID);
             return new Response(true);
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             return new Response(exception.getMessage());
         }
     }
@@ -390,12 +373,11 @@ public class Facade {
      * @param newDate new date of order
      * @return response of the procedure
      */
-    public Response RescheduleOrder(int orderID, LocalDate newDate){
+    public Response RescheduleOrder(int orderID, LocalDate newDate) {
         try {
             oc.rescheduleAnOrder(orderID, newDate);
             return new Response(true);
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             return new Response(exception.getMessage());
         }
     }
@@ -404,12 +386,11 @@ public class Facade {
      * @param orderID id of order to be canceled
      * @return response of the procedure
      */
-    public Response CancelOrder(int orderID){
+    public Response CancelOrder(int orderID) {
         try {
             oc.cancelAnOrder(orderID);
             return new Response(true);
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             return new Response(exception.getMessage());
         }
     }
@@ -418,12 +399,11 @@ public class Facade {
      * @param orderID id of order to be completed
      * @return response of the procedure
      */
-    public Response CompleteOrder(int orderID){
-        try{
+    public Response CompleteOrder(int orderID) {
+        try {
             oc.completeAnOrder(orderID);
             return new Response(true);
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             return new Response(exception.getMessage());
         }
     }
@@ -433,19 +413,18 @@ public class Facade {
      * @param orderID id of order to be placed
      * @return response of the procedure
      */
-    public Response PlaceOrder(int orderID){
+    public Response PlaceOrder(int orderID) {
         try {
             oc.placeAnOrder(orderID);
             return new Response(true);
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             return new Response(exception.getMessage());
         }
     }
 
 
     /**
-     * @param dueDate due date of the new order
+     * @param dueDate    due date of the new order
      * @param supplierID id of supplier to ask an order from
      * @return response of the procedure
      */
@@ -454,8 +433,7 @@ public class Facade {
             if (sc.isSupplier(supplierID)) {
                 oc.openOrder(supplierID, orderIDGenerator, dueDate);
                 orderIDGenerator++;
-            }
-            else throw new Exception("Supplier does not exist!");
+            } else throw new Exception("Supplier does not exist!");
 
             return new Response(true);
         } catch (Exception exception) {
@@ -464,16 +442,15 @@ public class Facade {
     }
 
     /**
-     * @param orderID id of order to edit it's item
+     * @param orderID    id of order to edit it's item
      * @param editedItem edited item to be updated in the order
-     * @return  response of the procedure
+     * @return response of the procedure
      */
-    public Response EditItemInOrder(int orderID, ItemDTO editedItem){
+    public Response EditItemInOrder(int orderID, ItemDTO editedItem) {
         try {
             oc.editItemInOrder(orderID, new Item(editedItem));
             return new Response(true);
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             return new Response(exception.getMessage());
         }
     }
@@ -486,17 +463,16 @@ public class Facade {
 
         try {
             return new Response<>(oc.isOrder(orderID));
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             return new Response<>(exception.getMessage());
         }
     }
+
     public Response<Boolean> isSupplier(int supplierID) {
 
         try {
             return new Response<>(sc.isSupplier(supplierID));
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             return new Response<>(exception.getMessage());
         }
     }

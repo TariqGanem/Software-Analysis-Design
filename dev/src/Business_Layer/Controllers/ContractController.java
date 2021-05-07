@@ -2,16 +2,17 @@ package Business_Layer.Controllers;
 
 import DTO.ContractDTO;
 import Business_Layer.Objects.Contract;
+import Data_Access_Layer.Mappers.ContractsMapper;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ContractController {
     private static ContractController instance;
-    private final Map<Integer, Contract> contracts;
+    private ContractsMapper mapper;
 
     private ContractController() {
-        contracts = new HashMap<>();
+        mapper = new ContractsMapper();
     }
 
     public static ContractController getInstance(){
@@ -27,21 +28,9 @@ public class ContractController {
      * @throws Exception
      */
     public void AddContract(int company_id, boolean selfPickup) throws Exception {
-        if (contracts.containsKey(company_id))
+        if (mapper.getContract(company_id) != null)
             throw new Exception("There's already supplier working with this company!!!");
-        contracts.putIfAbsent(company_id, new Contract(selfPickup));
-    }
-
-    /***
-     * Adding a quantity report.
-     * @param company_id is the id of the company that the supplier works with it.
-     * @throws Exception if the there is no a supplier that works with the same company so that's an error.
-     * also if there is already a quantity report so that's an error.
-     */
-    public void AddQuantityReport(int company_id) throws Exception {
-        if (!contracts.containsKey(company_id))
-            throw new Exception("There's no contract with this company id!!!");
-        contracts.get(company_id).AddQuantityReport();
+        mapper.addContract(company_id, selfPickup);
     }
 
     /***
@@ -55,9 +44,11 @@ public class ContractController {
      * also if there is a discount with this quantity then that's an error.
      */
     public void AddDiscount(int company_id, int item_id, int quantity, double new_price) throws Exception {
-        if (!contracts.containsKey(company_id))
+        if (mapper.getContract(company_id) == null)
             throw new Exception("There's no contract with this company id!!!");
-        contracts.get(company_id).AddDiscount(item_id, quantity, new_price);
+        Contract contract = new Contract(mapper.getContract(company_id));
+        contract.AddDiscount(item_id, quantity, new_price);
+        mapper.addDiscount(company_id, item_id, quantity, new_price);
     }
 
     /***
@@ -68,10 +59,12 @@ public class ContractController {
      * also if there is no a quantity report so that's an error.
      * also if there is no discount for this item with this id so that's an error.
      */
-    public void RemoveItemQuantity(int company_id, int item_id) throws Exception {
-        if (!contracts.containsKey(company_id))
+    public void RemoveItemQuantity(int company_id, int item_id,int quantity) throws Exception {
+        if (mapper.getContract(company_id) == null)
             throw new Exception("There's no contract with this company id!!!");
-        contracts.get(company_id).RemoveItemQuantity(item_id);
+        Contract contract = new Contract(mapper.getContract(company_id));
+        contract.RemoveItemQuantity(item_id);
+        mapper.removeDiscount(company_id,item_id,quantity);
     }
 
     /***
@@ -84,9 +77,11 @@ public class ContractController {
      * also if there is already an item with this id in the contract so that's an error.
      */
     public void AddItem(int company_id, int item_id, String name, double price) throws Exception {
-        if (!contracts.containsKey(company_id))
+        if (mapper.getContract(company_id) == null)
             throw new Exception("There's no contract with this company id!!!");
-        contracts.get(company_id).AddItem(item_id, name, price);
+        Contract contract = new Contract(mapper.getContract(company_id));
+        contract.AddItem(item_id, name, price);
+        mapper.addItem(company_id, item_id, name, price);
     }
 
     /***
@@ -97,9 +92,11 @@ public class ContractController {
      * also if there is already an item with this id in the contract so that's an error.
      */
     public void RemoveItem(int company_id, int item_id) throws Exception {
-        if (!contracts.containsKey(company_id))
+        if (mapper.getContract(company_id) == null)
             throw new Exception("There's no contract with this company id!!!");
-        contracts.get(company_id).RemoveItem(item_id);
+        Contract contract = new Contract(mapper.getContract(company_id));
+        contract.RemoveItem(item_id);
+        mapper.removeItem(company_id,item_id);
     }
 
     /***
@@ -111,9 +108,11 @@ public class ContractController {
      * also if there is already an item with this id in the contract so that's an error.
      */
     public void ChangePrice(int company_id, int item_id, double price) throws Exception {
-        if (!contracts.containsKey(company_id))
+        if (mapper.getContract(company_id) == null)
             throw new Exception("There's no contract with this company id!!!");
-        contracts.get(company_id).ChangePrice(item_id, price);
+        Contract contract = new Contract(mapper.getContract(company_id));
+        contract.ChangePrice(item_id, price);
+        mapper.updatePrice(company_id, item_id, price);
     }
 
     /***
@@ -124,9 +123,9 @@ public class ContractController {
      * and if everything is okay the so the returned response holds an object with the same data of the contract.
      */
     public ContractDTO PrintContract(int company_id) throws Exception {
-        if (!contracts.containsKey(company_id))
+        if (mapper.getContract(company_id) == null)
             throw new Exception("There's no contract with this company id!!!");
-        return new ContractDTO(contracts.get(company_id));
+        return mapper.getContract(company_id);
     }
 
     /***
@@ -135,14 +134,14 @@ public class ContractController {
      * @throws Exception if the there is no a supplier that works with the same company so that's an error.
      */
     public void RemoveContract(int company_id) throws Exception {
-        if (!contracts.containsKey(company_id))
+        if (mapper.getContract(company_id) == null)
             throw new Exception("There's no contract with this company id!!!");
-        contracts.remove(company_id);
+        mapper.removeContract(company_id);
     }
 
     public Contract getContract(Integer supplierID) throws Exception {
-        if (contracts.containsKey(supplierID))
-            return contracts.get(supplierID);
+        if (mapper.getContract(supplierID) == null)
+            return new Contract(mapper.getContract(supplierID));
         else
             throw new Exception("supplier does not exist!");
     }

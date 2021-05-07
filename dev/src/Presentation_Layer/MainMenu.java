@@ -67,7 +67,6 @@ public class MainMenu implements Menu {
         facade.AddContactPerson(12,"abc", ContactMethod.Phone,"05043423234");
         facade.AddMethod(12,"asd", ContactMethod.Email,"mas@gmail.com");
         //entering a quantity report
-        facade.AddQuantityReport(12);
         //entering items
         facade.AddItem(12,1,"kitkat",3.5);
         facade.AddItem(12,2,"doritos",5);

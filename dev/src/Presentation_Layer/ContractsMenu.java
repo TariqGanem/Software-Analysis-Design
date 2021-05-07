@@ -69,19 +69,6 @@ public class ContractsMenu implements Menu {
                     try {
                         System.out.print("Please enter a Supplier's company id: ");
                         company_id = Integer.parseInt(sc.nextLine());
-                        Response contract = facade.AddQuantityReport(company_id);
-                        if (contract.isError())
-                            System.out.println(contract.getErrorMessage());
-                        else
-                            System.out.println("Quantity report is added successfully!");
-                    } catch (Exception e) {
-                        System.out.println("Wrong inputs!!!");
-                    }
-                    break;
-                case 2:
-                    try {
-                        System.out.print("Please enter a Supplier's company id: ");
-                        company_id = Integer.parseInt(sc.nextLine());
                         System.out.print("Please enter Item's id to discounts: ");
                         int item_id = Integer.parseInt(sc.nextLine());
                         System.out.print("Please enter Item's quantity to discounts: ");
@@ -97,13 +84,15 @@ public class ContractsMenu implements Menu {
                         System.out.println("Wrong inputs!!!");
                     }
                     break;
-                case 3:
+                case 2:
                     try {
                         System.out.print("Please enter a Supplier's company id: ");
                         company_id = Integer.parseInt(sc.nextLine());
                         System.out.print("Please enter Item's id: ");
                         int item_id = Integer.parseInt(sc.nextLine());
-                        Response contract = facade.RemoveItemQuantity(company_id, item_id);
+                        System.out.print("Please enter Discount's quantity: ");
+                        int quantity = Integer.parseInt(sc.nextLine());
+                        Response contract = facade.RemoveItemQuantity(company_id, item_id, quantity);
                         if (contract.isError())
                             System.out.println(contract.getErrorMessage());
                         else
@@ -112,11 +101,11 @@ public class ContractsMenu implements Menu {
                         System.out.println("Wrong inputs!!!");
                     }
                     break;
-                case 4:
+                case 3:
                     terminate = true;
                     break;
                 default:
-                    System.out.println("Enter a number between 1 to 4.");
+                    System.out.println("Enter a number between 1 to 3.");
             }
             System.out.println("");
         }
@@ -124,10 +113,9 @@ public class ContractsMenu implements Menu {
 
     private void QuantityMenu_options() {
         System.out.println("Please choose a function:" + "\n" +
-                "1.Add a quantity report" + "\n" +
-                "2.Add item discount to report" + "\n" +
-                "3.Remove item from report" + "\n" +
-                "4.Return back" + "\n");
+                "1.Add item discount to report" + "\n" +
+                "2.Remove item from report" + "\n" +
+                "3.Return back" + "\n");
     }
 
     public void ItemPrint_Menu() {
