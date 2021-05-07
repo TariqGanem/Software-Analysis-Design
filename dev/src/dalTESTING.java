@@ -2,6 +2,7 @@ import DTOPackage.ItemDTO;
 import DTOPackage.ShipmentDTO;
 import DataAccessLayer.ShipmentsModule.Mappers.ShipmentMapper;
 import DataAccessLayer.dbMaker;
+import PresentationLayer.ShipmentsMenu.Printer;
 
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
@@ -36,19 +37,19 @@ public class dalTESTING {
 //            DocumentMapper.getInstance().getDocument(2).getProducts().forEach(p -> p(p.getName()));
 //            DocumentMapper.getInstance().getShipmentDocuments(3).forEach(d->p(d.getTrackingNumber() + ""));
 
-//            ShipmentDTO shipment = ShipmentMapper.getInstance().addShipment(3,new SimpleDateFormat("dd/MM/yyyy").parse("01/09/2033"), "14:34","123","admin",2);
+            //ShipmentDTO shipment = ShipmentMapper.getInstance().addShipment(3,new SimpleDateFormat("dd/MM/yyyy").parse("01/09/2033"), "14:34","123","admin",2);
 //            System.out.println(shipment.getShipmentId() + " \t " + new SimpleDateFormat("dd/MM/yyyy").format(shipment.getDate()));
 
-            ShipmentDTO shipment1 = ShipmentMapper.getInstance().getShipment(new SimpleDateFormat("dd/MM/yyyy").parse("01/09/2033"), "14:34", "admin");
-            ShipmentDTO shipment2 = ShipmentMapper.getInstance().getShipment(new SimpleDateFormat("dd/MM/yyyy").parse("01/09/2033"), "14:34", "admin");
-            System.out.println(shipment1.getShipmentId() + " \t " + new SimpleDateFormat("dd/MM/yyyy").format(shipment1.getDate()) + " \t " + shipment1);
-            System.out.println(shipment2.getShipmentId() + " \t " + new SimpleDateFormat("dd/MM/yyyy").format(shipment2.getDate()) + " \t " + shipment2);
-            ShipmentMapper.getInstance().trackShipment(2).getDocuments().get(2).getProducts().forEach(p -> System.out.println(p.getName()));
-            ShipmentMapper.getInstance().getAllShipments().forEach(s -> System.out.println(s.getDate()));
-            ShipmentMapper.getInstance().deleteShipment(3);
+          ShipmentDTO shipment1 = ShipmentMapper.getInstance().getShipment(new SimpleDateFormat("dd/MM/yyyy").parse("01/09/2033"), "14:34", "admin");
+//            ShipmentDTO shipment2 = ShipmentMapper.getInstance().getShipment(new SimpleDateFormat("dd/MM/yyyy").parse("01/09/2033"), "14:34", "admin");
+//            System.out.println(shipment1.getShipmentId() + " \t " + new SimpleDateFormat("dd/MM/yyyy").format(shipment1.getDate()) + " \t " + shipment1);
+//            System.out.println(shipment2.getShipmentId() + " \t " + new SimpleDateFormat("dd/MM/yyyy").format(shipment2.getDate()) + " \t " + shipment2);
+//            ShipmentMapper.getInstance().trackShipment(2).getDocuments().get(2).getProducts().forEach(p -> System.out.println(p.getName()));
+//            ShipmentMapper.getInstance().getAllShipments().forEach(s -> System.out.println(s.getDate()));
+//            ShipmentMapper.getInstance().deleteShipment(3);
 
 //            p(shipment1.getDocuments().get(1).getTrackingNumber()+"");
-//            shipment1.getDocuments().values().forEach(d->Printer.getInstance().viewShipment(shipment1, d));
+            //shipment1.getDocuments().values().forEach(d-> Printer.getInstance().viewShipment(shipment1, d));
         } catch (Exception e) {
             p(e.getMessage());
         }

@@ -40,7 +40,7 @@ public class Facade {
      */
     public ResponseT<DriverDTO> getDriverDTO(String id) {
         try {
-            return new ResponseT<>(new DriverDTO(driverController.getDriver(id)));
+            return new ResponseT<>(Builder.buildDTO(driverController.getDriver(id)));
         } catch (Exception e) {
             return new ResponseT<>(e.getMessage());
         }
@@ -52,7 +52,7 @@ public class Facade {
      */
     public ResponseT<LocationDTO> getLocationDTO(int addressId) {
         try {
-            return new ResponseT<>(new LocationDTO(locationController.getLocation(addressId)));
+            return new ResponseT<>(Builder.buildDTO(locationController.getLocation(addressId)));
         } catch (Exception e) {
             return new ResponseT<>(e.getMessage());
         }
@@ -111,14 +111,10 @@ public class Facade {
     /**
      * @return Response of type List<DTO> containing all trucks in the system
      */
-    public ResponseT<List<TruckDTO>> getAlltrucks() {
+    public ResponseT<List<TruckDTO>> getAllTrucks() {
         try {
             List<Truck> trucks = truckController.getAllTrucks();
-            List<TruckDTO> trucksDTO = new LinkedList<>();
-            for (Truck t : trucks) {
-                trucksDTO.add(getTruckDTO(t.getTruckPlateNumber()).getValue());
-            }
-            return new ResponseT<>(trucksDTO);
+            return new ResponseT<>(Builder.buildTrucksListDTO(trucks));
         } catch (Exception e) {
             return new ResponseT<>(e.getMessage());
         }
@@ -127,14 +123,10 @@ public class Facade {
     /**
      * @return all drivers in the system
      */
-    public ResponseT<List<DriverDTO>> getAlldrivers() {
+    public ResponseT<List<DriverDTO>> getAllDrivers() {
         try {
             List<Driver> drivers = driverController.getAllDrivers();
-            List<DriverDTO> driversDTO = new LinkedList<>();
-            for (Driver d : drivers) {
-                driversDTO.add(getDriverDTO(d.getId()).getValue());
-            }
-            return new ResponseT<>(driversDTO);
+            return new ResponseT<>(Builder.buildDriversListDTO(drivers));
         } catch (Exception e) {
             return new ResponseT<>(e.getMessage());
         }
@@ -157,11 +149,10 @@ public class Facade {
                     shipmentWeight += item.getWeight() * item.getAmount();
                 }
             }
-
-            TruckDTO truck = new TruckDTO(truckController.getAvailableTruck(shipmentWeight));
-            DriverDTO driver = new DriverDTO(driverController.getAvailableDriver(
+            Truck truck = truckController.getAvailableTruck(shipmentWeight);
+            Driver driver = driverController.getAvailableDriver(
                     weighTruck(truck.getTruckPlateNumber(), shipmentWeight)
-            ));
+            );
 
             Location source = locationController.getLocation(sourceId);
 
@@ -172,7 +163,7 @@ public class Facade {
                 }
                 List<Item> l = new LinkedList<>();
                 for (ItemDTO i : items_per_location.get(loc)) {
-                    l.add(new Item(i.getDocumentId(), i.getName(), i.getAmount(), i.getWeight()));
+                    l.add(Builder.build(i));
                 }
                 items.put(locationController.getLocation(loc), l);
             }
@@ -213,11 +204,7 @@ public class Facade {
     public ResponseT<List<LocationDTO>> getAllLocations() {
         try {
             List<Location> locations = locationController.getAllLocations();
-            List<LocationDTO> locationsDTO = new LinkedList<>();
-            for (Location d : locations) {
-                locationsDTO.add(getLocationDTO(d.getId()).getValue());
-            }
-            return new ResponseT<>(locationsDTO);
+            return new ResponseT<>(Builder.buildLocationsListDTO(locations));
         } catch (Exception e) {
             return new ResponseT<>(e.getMessage());
         }
@@ -229,11 +216,7 @@ public class Facade {
     public ResponseT<List<ShipmentDTO>> getAllShipments() {
         try {
             List<Shipment> shipments = shipmentController.getAllShipments();
-            List<ShipmentDTO> shipmentsDTO = new LinkedList<>();
-            for (Shipment d : shipments) {
-                shipmentsDTO.add(getShipmentDTO(d.getDate(), d.getDepartureHour(), d.getDriverId()).getValue());
-            }
-            return new ResponseT<>(shipmentsDTO);
+            return new ResponseT<>(Builder.buildShipmentsListDTO(shipments));
         } catch (Exception e) {
             return new ResponseT<>(e.getMessage());
         }
@@ -249,7 +232,7 @@ public class Facade {
      */
     public ResponseT<ShipmentDTO> getShipmentDTO(Date date, String departureHour, String driverId) {
         try {
-            return new ResponseT<>(new ShipmentDTO(shipmentController.getShipment(date, departureHour, driverId)));
+            return new ResponseT<>(Builder.buildDTO(shipmentController.getShipment(date, departureHour, driverId)));
         } catch (Exception e) {
             return new ResponseT<>(e.getMessage());
         }
@@ -264,8 +247,7 @@ public class Facade {
     public ResponseT<ShipmentDTO> trackShipment(int trackingId) {
         try {
             Shipment shipment = shipmentController.trackShipment(trackingId);
-            ShipmentDTO s = getShipmentDTO(shipment.getDate(), shipment.getDepartureHour(), shipment.getDriverId()).getValue();
-            return new ResponseT<>(s);
+            return new ResponseT<>(Builder.buildDTO(shipment));
         } catch (Exception e) {
             return new ResponseT<>(e.getMessage());
         }

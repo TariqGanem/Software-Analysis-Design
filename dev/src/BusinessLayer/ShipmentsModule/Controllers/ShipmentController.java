@@ -19,8 +19,8 @@ public class ShipmentController {
     public ShipmentController() {
         mapper = ShipmentMapper.getInstance();
         docMapper = DocumentMapper.getInstance();
-        trackingNumber = 0;
-        shipmentId = 0;
+        trackingNumber = docMapper.getMaxID()+1;
+        shipmentId = mapper.getMaxID()+1;
     }
 
     /***

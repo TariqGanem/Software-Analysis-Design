@@ -118,4 +118,19 @@ public class LocationMapper {
             return true;
         return false;
     }
+
+    public int getMaxID() {
+        String sql = "SELECT MAX(id) FROM " + dbMaker.locationsTbl;
+        try (Connection conn = dbMaker.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            //throw new Exception(e.getMessage());
+        }
+        return -1;
+        //throw new Exception("Error in indexing!");
+    }
 }

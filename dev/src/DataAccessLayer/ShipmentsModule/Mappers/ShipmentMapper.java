@@ -37,10 +37,10 @@ public class ShipmentMapper {
                 throw new Exception("Shipment already exists!");
         }
         shipment = new ShipmentDTO(id, date, depHour, truckPlateNumber, driverId, LocationMapper.getInstance().getLocation(sourceId));
-        if (shipmentExist(id)) {
-            memory.getShipments().add(shipment);
-            throw new Exception("Shipment already exists in the database!");
-        }
+//        if (shipmentExist(id)) {
+//            memory.getShipments().add(shipment);
+//            throw new Exception("Shipment already exists in the database!");
+//        }
         insertShipment(id, date, depHour, truckPlateNumber, driverId, sourceId);
         memory.getShipments().add(shipment);
         return shipment;
@@ -140,7 +140,7 @@ public class ShipmentMapper {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        throw new Exception("There is no such shipment in the database!");
+        return null;
     }
 
     private ShipmentDTO selectShipment(Date date, String departureHour, String driverId) throws Exception {
@@ -189,5 +189,20 @@ public class ShipmentMapper {
         if (shipment != null)
             return true;
         return false;
+    }
+
+    public int getMaxID() {
+        String sql = "SELECT MAX(id) FROM " + dbMaker.shipmentsTbl;
+        try (Connection conn = dbMaker.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            //throw new Exception(e.getMessage());
+        }
+        return -1;
+        //throw new Exception("Error in indexing!");
     }
 }

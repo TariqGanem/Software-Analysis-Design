@@ -22,6 +22,7 @@ public class ShipmentDTO {
         this.truckPlateNumber = s.getTruckPlateNumber();
         this.driverId = s.getDriverId();
         this.source = new LocationDTO(s.getSource());
+        documents = new HashMap<>();
         for (Integer key : s.getDocuments().keySet()) {
             Document d = s.getDocuments().get(key);
             List<ItemDTO> items = new LinkedList<>();

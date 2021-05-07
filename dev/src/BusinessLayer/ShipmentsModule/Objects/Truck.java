@@ -7,12 +7,12 @@ public class Truck {
     private double maxWeight;
     private boolean available;
 
-    public Truck(String truckPlateNumber, String model, double natoWeight, double maxWeight) {
+    public Truck(String truckPlateNumber, String model, double natoWeight, double maxWeight, boolean available) {
         this.truckPlateNumber = truckPlateNumber;
         this.model = model;
         this.natoWeight = natoWeight;
         this.maxWeight = maxWeight;
-        available = true;
+        this.available = available;
     }
 
     public String getTruckPlateNumber() {

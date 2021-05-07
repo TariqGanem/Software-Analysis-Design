@@ -36,7 +36,7 @@ public class TrucksHandler extends Handler {
     }
 
     public void viewAllTrucks() {
-        ResponseT<List<TruckDTO>> res = facade.getAlltrucks();
+        ResponseT<List<TruckDTO>> res = facade.getAllTrucks();
         trucks = res.getValue();
         if (res.errorOccured())
             printer.error(res.getMsg());

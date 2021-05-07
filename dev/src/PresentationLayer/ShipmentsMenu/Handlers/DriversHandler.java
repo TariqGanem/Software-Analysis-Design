@@ -35,7 +35,7 @@ public class DriversHandler extends Handler {
     }
 
     public void viewAllDrivers() {
-        ResponseT<List<DriverDTO>> res = facade.getAlldrivers();
+        ResponseT<List<DriverDTO>> res = facade.getAllDrivers();
         drivers = res.getValue();
         if (res.errorOccured())
             printer.error(res.getMsg());

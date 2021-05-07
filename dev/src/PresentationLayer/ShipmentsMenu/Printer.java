@@ -76,7 +76,7 @@ public class Printer {
                     + ". Id Number: " + drivers.get(i).getId()
                     + "\t Name: " + drivers.get(i).getName()
                     + "\t Allowed Weight: " + drivers.get(i).getAllowedWeight()
-                    + "\t Available: " + drivers.get(i).isAvailable()
+                    + "\t Available: " + (drivers.get(i).isAvailable()? "Yes" : "No")
             );
         }
     }
