@@ -5,7 +5,6 @@ import DTOPackage.*;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public class Printer {
     private static Printer instance = null;

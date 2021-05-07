@@ -106,10 +106,10 @@ public class LocationMapper {
                         rs.getString(4)
                 ));
             }
+            return locations;
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        return null;
     }
 
     private boolean locationExists(int id) throws Exception {

@@ -28,7 +28,7 @@ public class Document {
     public double getWeight() {
         double weight = 0;
         for (Item item : products) {
-            weight += item.getWeight();
+            weight += item.getWeight() * item.getAmount();
         }
         return weight;
     }

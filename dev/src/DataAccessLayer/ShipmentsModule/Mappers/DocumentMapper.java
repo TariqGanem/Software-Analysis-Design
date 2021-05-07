@@ -45,9 +45,10 @@ public class DocumentMapper {
 
     public List<DocumentDTO> getShipmentDocuments(int shipmentId) throws Exception {
         List<DocumentDTO> docs = selectShipmentDocuments(shipmentId);
-        if (docs != null)
+        if (docs != null) {
             for (DocumentDTO doc : docs)
                 memory.getDocuments().add(doc);
+        }
         return docs;
     }
 
@@ -126,7 +127,7 @@ public class DocumentMapper {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        return null;
+        return docs;
     }
 
     private List<ItemDTO> selectItems(int tracking) throws Exception {

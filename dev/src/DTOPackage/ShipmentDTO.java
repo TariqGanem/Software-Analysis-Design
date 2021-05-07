@@ -4,10 +4,7 @@ import BusinessLayer.ShipmentsModule.Objects.Document;
 import BusinessLayer.ShipmentsModule.Objects.Item;
 import BusinessLayer.ShipmentsModule.Objects.Shipment;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ShipmentDTO {
     private int shipmentId;
@@ -45,6 +42,7 @@ public class ShipmentDTO {
         this.truckPlateNumber = truckPlateNumber;
         this.driverId = driverId;
         this.source = source;
+        documents = new HashMap<>();
     }
 
     public int getShipmentId() {

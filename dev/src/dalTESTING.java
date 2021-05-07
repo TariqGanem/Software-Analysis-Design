@@ -1,88 +1,58 @@
+import DTOPackage.ItemDTO;
+import DTOPackage.ShipmentDTO;
+import DataAccessLayer.ShipmentsModule.Mappers.ShipmentMapper;
+import DataAccessLayer.dbMaker;
+
+import java.text.SimpleDateFormat;
+import java.util.LinkedList;
+import java.util.List;
+
 public class dalTESTING {
+
+
     public static void main(String[] args) throws Exception {
-////        DalController dC = DalController.getInstance();
-////        LocationMapper.getInstance().addLocation(9, "loc", "3243", "yazan");
-////        LocationMapper.getInstance().getLocation(1);
-////        LocationMapper.getInstance().getLocation(3);
-////        LocationMapper.getInstance().getLocation(1);
-////        DataAccessLayer.IdentityMap.getInstance().getLocations().forEach(l-> System.out.println(l.getId() + " \t "+ l));
-//////        DocumentDTO doc = DocumentMapper.getInstance().getDocument(2);
-////        List<ItemDTO> items = new LinkedList<>();
-////        items.add(new ItemDTO(2, "colaaa", 5.5, 6.7));
-////        items.add(new ItemDTO(2, "blue", 51.3, 77.7));
-////        DocumentDTO doc1 = DocumentMapper.getInstance().addDocument(99, 1, 1, items);
-////        IdentityMap.getInstance().getDocuments().forEach(l -> p("\t Document Address: \t " + l.getTrackingNumber() + " \t " + l));
-////        doc1.getProducts().forEach(p -> System.out.println(p.getName()));
-//
-////
-////        LocationDTO loc2 = LocationMapper.getInstance().getLocation("yyyyy", "030443", "dsfds");
-////       IdentityMap.getInstance().getLocations().forEach(l -> p("\t Location Address: \t " + l.getAddress() + " \t " + l));
-////
-//
-//        Scanner scanner = new Scanner(System.in);
-//        int input;
-//        while (true) {
-//            try {
-//
-////                LocationDTO loc1 = LocationMapper.getInstance().addLocation("beer sheva", "43343", "yazna");
-////                IdentityMap.getInstance().getLocations().forEach(l -> p("\t Location Address: \t " + l.getAddress() + " \t " + l));
-//
-//
-//                System.out.println("\n1.Add truck\n2.Get truck\n3.Update truck\n4.View trucks in memory\n5.Exit\n6.Get available truck");
-//                input = Integer.parseInt(scanner.nextLine());
-//                switch (input) {
-//                    case 1:
-//                        System.out.println("Truck plateNumber [autoComplete]: ");
-//                        TruckDTO t1 = dC.addNewTruck(scanner.nextLine(), "F16", 6000.5, 4500.0, true);
-//                        p("truck added! \t plateNumber: " + t1.getTruckPlateNumber() + " \t " + t1);
-//                        break;
-//                    case 2:
-//                        System.out.println("Truck plateNumber [autoComplete]: ");
-//                        TruckDTO t3 = dC.getTruck(scanner.nextLine());
-//                        p("truck found! \t plateNumber: " + t3.getTruckPlateNumber() + " \t " + t3);
-//                        break;
-//                    case 3:
-//                        System.out.println("Truck plateNumber & isAvailable: ");
-//                        TruckDTO t4 = dC.updateTruck(scanner.nextLine(), scanner.nextBoolean());
-//                        p("truck updated! \t plateNumber: " + t4.getTruckPlateNumber() + " \t " + t4.isAvailable() + " \t " + t4);
-//                        break;
-//                    case 4:
-//                        System.out.println("Trucks in memory: " + dC.getTruckMapper().getMemory().size() + " \t ");
-//                        dC.getTruckMapper().getMemory().forEach(t -> p("\t Truck Address: \t " + t));
-//                        break;
-//                    case 5:
-//                        System.exit(0);
-//                    case 6:
-//                        TruckDTO t5 = dC.getAvailableTruck(3500.0);
-//                        p("Getting available truck \t plateNumber: " + t5.getTruckPlateNumber() + " \t " + t5);
-//                        break;
-//                }
-//            } catch (Exception e) {
-//                System.out.println("Error->\t" + e.getMessage());
-//            }
+        try {
+            new dbMaker().initialize();
+
+            //TruckMapper.getInstance().addTruck("3e", "volvo", 324.4, 423.4, true);
+//            p(TruckMapper.getInstance().getTruck("fyt").toString());
+//            p(TruckMapper.getInstance().getTruck("123").toString());
+//            p(TruckMapper.getInstance().getTruck("123").toString());
+//            System.out.println(TruckMapper.getInstance().updateTruck("1",false).isAvailable());
+//            TruckMapper.getInstance().getAllTrucks().forEach(t-> System.out.println((t.getTruckPlateNumber() + " \t " + t.isAvailable())));
+//            p(TruckMapper.getInstance().getAvailableTruck(334).getTruckPlateNumber());
+            //p(DriverMapper.getInstance().addDriver("admin",23.4,false).toString());
+//            p(DriverMapper.getInstance().getDriver("111111111").toString());
+//            p(DriverMapper.getInstance().getDriver("123456789").toString());
+//            p(DriverMapper.getInstance().getDriver("111111111").toString());
+//            System.out.println(DriverMapper.getInstance().updateDriver("111111111", true).isAvailable());
+//            System.out.println(DriverMapper.getInstance().getDriver("111111111").isAvailable() + " \t " + DriverMapper.getInstance().getDriver("111111111").toString());
+            //DriverMapper.getInstance().getAllDrivers().forEach(d->p(d.toString()));
+            List<ItemDTO> items = new LinkedList<>();
+            items.add(new ItemDTO("bmba", 2, 34));
+            items.add(new ItemDTO("coca", 4, 22));
+            //DocumentMapper.getInstance().addDocument(2, 2, 3, new LinkedList<>());
+//            p(DocumentMapper.getInstance().getDocument(1).toString());
+//            DocumentMapper.getInstance().getDocument(2).getProducts().forEach(p -> p(p.getName()));
+//            DocumentMapper.getInstance().getShipmentDocuments(3).forEach(d->p(d.getTrackingNumber() + ""));
+
+//            ShipmentDTO shipment = ShipmentMapper.getInstance().addShipment(3,new SimpleDateFormat("dd/MM/yyyy").parse("01/09/2033"), "14:34","123","admin",2);
+//            System.out.println(shipment.getShipmentId() + " \t " + new SimpleDateFormat("dd/MM/yyyy").format(shipment.getDate()));
+
+            ShipmentDTO shipment1 = ShipmentMapper.getInstance().getShipment(new SimpleDateFormat("dd/MM/yyyy").parse("01/09/2033"), "14:34", "admin");
+            ShipmentDTO shipment2 = ShipmentMapper.getInstance().getShipment(new SimpleDateFormat("dd/MM/yyyy").parse("01/09/2033"), "14:34", "admin");
+            System.out.println(shipment1.getShipmentId() + " \t " + new SimpleDateFormat("dd/MM/yyyy").format(shipment1.getDate()) + " \t " + shipment1);
+            System.out.println(shipment2.getShipmentId() + " \t " + new SimpleDateFormat("dd/MM/yyyy").format(shipment2.getDate()) + " \t " + shipment2);
+            ShipmentMapper.getInstance().trackShipment(2).getDocuments().get(2).getProducts().forEach(p -> System.out.println(p.getName()));
+            ShipmentMapper.getInstance().getAllShipments().forEach(s -> System.out.println(s.getDate()));
+            ShipmentMapper.getInstance().deleteShipment(3);
+
+//            p(shipment1.getDocuments().get(1).getTrackingNumber()+"");
+//            shipment1.getDocuments().values().forEach(d->Printer.getInstance().viewShipment(shipment1, d));
+        } catch (Exception e) {
+            p(e.getMessage());
+        }
     }
-
-//        try {
-//
-////            TruckDTO t1 = dC.addNewTruck("2", "F16", 6000.5, 4500.0, true);
-////            p("truck added! \t plateNumber: " + t1.getTruckPlateNumber() + " \t " + t1);
-//
-//            TruckDTO t2 = dC.getTruck("2");
-//            p("truck found! \t plateNumber: " + t2.getTruckPlateNumber() + " \t " + t2);
-//
-//            p("Trucks in memory: " + dC.getTruckMapper().getMemory().size());
-//
-//            TruckDTO t3 = dC.getTruck("1");
-//            p("truck found! \t plateNumber: " + t3.getTruckPlateNumber() + " \t " + t3);
-//
-//            System.out.println("Trucks in memory: " + dC.getTruckMapper().getMemory().size() + " \t ");
-//            dC.getTruckMapper().getMemory().forEach(t -> p("\t Truck Address: \t " + t));
-//
-//        } catch (Exception e) {
-//            System.out.println("Error->\t" + e.getMessage());
-//        }
-
-//    }
 
 
     public static void p(String msg) {

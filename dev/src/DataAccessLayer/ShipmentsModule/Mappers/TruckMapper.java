@@ -114,7 +114,7 @@ public class TruckMapper {
     }
 
     private void insertTruck(String plateNumber, String model, Double natoWeight, Double maxWeight, boolean available) throws Exception {
-        String sql = "INSERT INTO " + dbMaker.trucksTbl + "(plateNumber, model, natoWeight, maxWeight, available) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO " + dbMaker.trucksTbl + " (plateNumber, model, natoWeight, maxWeight, available) VALUES (?,?,?,?,?)";
         try (Connection conn = dbMaker.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, plateNumber);
@@ -129,7 +129,7 @@ public class TruckMapper {
     }
 
     private TruckDTO selectTruck(String plateNumber) throws Exception {
-        String sql = "SELECT * FROM " + dbMaker.trucksTbl + " WHERE plateNumber=" + plateNumber;
+        String sql = "SELECT * FROM " + dbMaker.trucksTbl + " WHERE plateNumber= '" + plateNumber + "'";
         try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
@@ -161,10 +161,10 @@ public class TruckMapper {
                         rs.getBoolean(5)
                 ));
             }
+            return trucks;
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        return null;
     }
 
     private boolean truckExists(String plateNumber) throws Exception {

@@ -1,10 +1,6 @@
 package PresentationLayer.ShipmentsMenu;
 
 import BusinessLayer.ShipmentsModule.Facade;
-import BusinessLayer.ShipmentsModule.Response;
-
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 public class DataInitializer {
 

@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -61,7 +62,7 @@ public class ShipmentMapper {
             memory.getShipments().add(shipment);
             return shipment;
         }
-        throw new Exception("There is no such shipment in the database!");
+        return null;
     }
 
     public ShipmentDTO trackShipment(int trackingId) throws Exception {
@@ -90,7 +91,6 @@ public class ShipmentMapper {
         for (ShipmentDTO shipment : memory.getShipments()) {
             if (shipment.getShipmentId() == shipmentId) {
                 memory.getShipments().remove(shipment);
-                _deleteShipment(shipmentId);
                 return;
             }
         }
@@ -98,11 +98,11 @@ public class ShipmentMapper {
     }
 
     private void insertShipment(int id, Date date, String depHour, String truckPlateNumber, String driverId, int sourceId) throws Exception {
-        String sql = "INSERT INTO " + dbMaker.shipmentsTbl + "(id, Date, departureHour, truckPlateNumber, driverId, sourceId) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO " + dbMaker.shipmentsTbl + " (id, Date, departureHour, truckPlateNumber, driverId, sourceId) VALUES (?,?,?,?,?,?)";
         try (Connection conn = dbMaker.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
-            pstmt.setDate(2, (java.sql.Date) date);
+            pstmt.setString(2, new SimpleDateFormat("dd/MM/yyyy").format(date));
             pstmt.setString(3, depHour);
             pstmt.setString(4, truckPlateNumber);
             pstmt.setString(5, driverId);
@@ -131,7 +131,7 @@ public class ShipmentMapper {
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
                 return new ShipmentDTO(rs.getInt(1),
-                        rs.getDate(2),
+                        new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString(2)),
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
@@ -140,18 +140,19 @@ public class ShipmentMapper {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        return null;
+        throw new Exception("There is no such shipment in the database!");
     }
 
     private ShipmentDTO selectShipment(Date date, String departureHour, String driverId) throws Exception {
-        String sql = "SELECT * FROM " + dbMaker.shipmentsTbl + " WHERE date=" + date + " AND departureHour="
-                + departureHour + " AND driverId=" + driverId;
+        String sql = "SELECT * FROM " + dbMaker.shipmentsTbl + " WHERE date='" +
+                new SimpleDateFormat("dd/MM/yyyy").format(date) + "' AND departureHour='"
+                + departureHour + "' AND driverId='" + driverId + "'";
         try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
                 return new ShipmentDTO(rs.getInt(1),
-                        rs.getDate(2),
+                        new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString(2)),
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
@@ -160,7 +161,7 @@ public class ShipmentMapper {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        return null;
+        throw new Exception("There is no such shipment in the database!");
     }
 
     private List<ShipmentDTO> selectAllShipments() throws Exception {
@@ -171,7 +172,7 @@ public class ShipmentMapper {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 shipments.add(new ShipmentDTO(rs.getInt(1),
-                        rs.getDate(2),
+                        new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString(2)),
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
@@ -180,7 +181,7 @@ public class ShipmentMapper {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        return null;
+        return shipments;
     }
 
     private boolean shipmentExist(int id) throws Exception {

@@ -10,7 +10,6 @@ public class DocumentDTO {
     private int trackingNumber;
     private List<ItemDTO> products;
     private LocationDTO destination;
-    private double weight;
 
     public DocumentDTO(Document d) {
         trackingNumber = d.getTrackingNumber();
@@ -21,14 +20,12 @@ public class DocumentDTO {
             products.add(item);
         }
         destination = new LocationDTO(d.getDestination());
-        weight = d.getWeight();
     }
 
     public DocumentDTO(int trackingNumber, List<ItemDTO> products, LocationDTO destination) {
         this.trackingNumber = trackingNumber;
         this.products = products;
         this.destination = destination;
-        this.weight = weight;
     }
 
     public int getTrackingNumber() {
@@ -44,6 +41,10 @@ public class DocumentDTO {
     }
 
     public double getWeight() {
+        double weight = 0;
+        for (ItemDTO item : products) {
+            weight += item.getWeight() * item.getAmount();
+        }
         return weight;
     }
 }

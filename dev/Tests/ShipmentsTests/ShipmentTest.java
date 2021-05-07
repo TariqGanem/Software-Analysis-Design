@@ -1,15 +1,9 @@
 package ShipmentsTests;
 
 import BusinessLayer.ShipmentsModule.Facade;
-import BusinessLayer.ShipmentsModule.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.text.SimpleDateFormat;
-import java.util.*;
-
-import static org.junit.Assert.assertEquals;
 
 public class ShipmentTest {
     private Facade data;
