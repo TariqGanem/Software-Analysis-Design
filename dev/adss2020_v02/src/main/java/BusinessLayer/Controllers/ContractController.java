@@ -7,8 +7,6 @@ import DataAccessLayer.Mappers.ContractsMapper;
 import Enums.Status;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ContractController {
     private static ContractController instance;
@@ -149,11 +147,6 @@ public class ContractController {
             throw new Exception("supplier does not exist!");
     }
 
-    public int addFixedOrder(int supplierID, LocalDate dueDate) throws Exception {
-            FixedOrder fixedOrder = new FixedOrder(Status.Fixed, LocalDate.now(), dueDate);
-            getContract(supplierID).openFixedOrder(fixedOrder);
-            int orderID = fixedOrder.store();
-            return orderID;
-    }
+
 
 }
