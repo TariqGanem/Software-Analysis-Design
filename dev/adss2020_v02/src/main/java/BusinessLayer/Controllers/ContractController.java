@@ -149,7 +149,11 @@ public class ContractController {
             throw new Exception("supplier does not exist!");
     }
 
-    public void addFixedOrder(int supplierID, int orderID , LocalDate dueDate) throws Exception {
-            getContract(supplierID).openFixedOrder(new FixedOrder(orderID, Status.Fixed, LocalDate.now(), dueDate));
+    public int addFixedOrder(int supplierID, LocalDate dueDate) throws Exception {
+            FixedOrder fixedOrder = new FixedOrder(Status.Fixed, LocalDate.now(), dueDate);
+            getContract(supplierID).openFixedOrder(fixedOrder);
+            int orderID = fixedOrder.store();
+            return orderID;
     }
+
 }

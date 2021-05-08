@@ -4,6 +4,7 @@ import BusinessLayer.Objects.Item;
 import BusinessLayer.Objects.Order;
 import DTO.ItemDTO;
 import DTO.OrderDTO;
+import DataAccessLayer.Mappers.OrdersMapper;
 import Enums.Status;
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 public class OrderController {
     private static OrderController instance = null;
+    private OrdersMapper mapper;
 
     Map<Integer, Order> inPrepareOrders;
     Map<Integer, Order> activeOrders;
@@ -23,6 +25,7 @@ public class OrderController {
         archivedOrders = new HashMap<>();
         inPrepareOrders = new HashMap<>();
         order_Vs_supplier = new HashMap<>();
+        mapper = new OrdersMapper();
     }
 
     public static OrderController getInstance(){

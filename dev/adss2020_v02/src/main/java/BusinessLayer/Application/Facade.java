@@ -417,20 +417,22 @@ public class Facade {
         try {
             if (sc.isSupplier(supplierID)){
                 cc.addFixedOrder(supplierID, orderIDGenerator, dueDate);
-            }
+            } else throw new Exception("Supplier does not exist!");
             return new Response(true);
         } catch (Exception exception) {
             return new Response(exception.getMessage());
         }
     }
 
-    public Response addFixedOrderToContract(int supplierID, LocalDate dueDate){
+    public Response openFixedOrder(int supplierID, LocalDate dueDate){
+
         try{
             if (sc.isSupplier(supplierID)){
-                cc.addFixedOrder(supplierID, orderIDGenerator, dueDate);
+                int id = cc.addFixedOrder(supplierID, dueDate);
+                return new Response(id);
             }
             else throw new Exception("Supplier does not exist!");
-            return new Response(true);
+
         }
         catch (Exception exception){
             return new Response(exception.getMessage());

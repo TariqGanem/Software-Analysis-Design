@@ -55,10 +55,10 @@ public class OrdersMenu implements Menu{
 	private void ordersMenu_options(){
 		System.out.println(
 				"======Orders Menu======"+"\n" +
-						"1.Create order"+"\n" +
+						"1.Open new fixed order"+"\n" +
 						"2.Submit order"+"\n" +
-						"3.Complete order"+"\n" +
-						"4.Cancel order"+"\n" +
+						"3.Complete single order"+"\n" +
+						"4.Cancel single order"+"\n" +
 						"5.Manage order"+"\n" +
 						"6.Back"
 		);

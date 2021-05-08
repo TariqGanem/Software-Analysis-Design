@@ -30,7 +30,7 @@ public class OrdersMapper extends Mapper{
 
     }
 
-    public void storeFixedOrder(){
+    public int storeFixedOrder(){
         try {
             Statement statement = connection.createStatement();
             String sql = "";
@@ -41,8 +41,10 @@ public class OrdersMapper extends Mapper{
         catch (SQLException exception) {
             exception.printStackTrace();
         }
+        return getNewOrderID();
+
     }
-    public void storeSingleOrder(){
+    public int storeSingleOrder(){
         try {
             Statement statement = connection.createStatement();
             String sql = "";
@@ -53,6 +55,8 @@ public class OrdersMapper extends Mapper{
         catch (SQLException exception) {
             exception.printStackTrace();
         }
+        return getNewOrderID();
+
     }
     public void LoadOrders(){
         try {

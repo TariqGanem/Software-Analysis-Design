@@ -9,14 +9,13 @@ import java.util.*;
 
 
 public class Order {
-    private final int id;
-    private Status status;
-    private LocalDate placementDate;
-    private LocalDate orderDate;
-    private Map<Integer, Item> items;
+    protected int id;
+    protected Status status;
+    protected LocalDate placementDate;
+    protected LocalDate orderDate;
+    protected Map<Integer, Item> items;
 
-    public Order(int Id,Status Status, LocalDate placementDate,LocalDate OrderDate) {
-        this.id = Id;
+    public Order(Status Status, LocalDate placementDate,LocalDate OrderDate) {
         this.status = Status;
         this.placementDate = placementDate;
         this.orderDate = OrderDate;
