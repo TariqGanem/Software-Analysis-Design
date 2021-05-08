@@ -75,7 +75,7 @@ public class OrdersMenu implements Menu{
 				if(facade.isSupplier(supplierID).getValue()) {
 				System.out.println("Enter due date of the order in format such as 2007-12-03: ");
 				LocalDate dueDate = LocalDate.parse(sc.next());
-				Response response = facade.OpenOrder(supplierID, dueDate);
+				Response response = facade.OpenFixedOrder(supplierID, dueDate);
 				if (response.isError()) {
 					System.out.println(response.getErrorMessage());
 				} else {
@@ -113,11 +113,11 @@ public class OrdersMenu implements Menu{
 				System.out.println("Enter order's id to submit: \n");
 				orderID = sc.nextInt();
 				if(facade.isOrder(orderID).getValue()) {
-				Response response = facade.PlaceOrder(orderID);
+				Response response = facade.submitOrder(orderID);
 				if (response.isError()) {
 					System.out.println(response.getErrorMessage());
 				} else {
-					System.out.println("Order was submitted successfully!\n");
+					System.out.println(response.getValue());
 				}
 
 				System.out.println("Press enter to continue");
@@ -156,7 +156,7 @@ public class OrdersMenu implements Menu{
 				if (response.isError()) {
 					System.out.println(response.getErrorMessage());
 				} else {
-					System.out.println("Order was completed successfully!\n");
+					System.out.println(response.getValue());
 				}
 
 				System.out.println("Press enter to continue");

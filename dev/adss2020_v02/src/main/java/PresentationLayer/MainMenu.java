@@ -72,11 +72,11 @@ public class MainMenu implements Menu {
         facade.AddItem(12,2,"doritos",5);
         //entering discounts
         facade.AddDiscount(12,1,5,5);
-        facade.OpenOrder(12, LocalDate.parse("2021-08-08"));
-        facade.OpenOrder(13, LocalDate.parse("2021-11-08"));
+        facade.OpenFixedOrder(12, LocalDate.parse("2021-08-08"));
+        facade.OpenFixedOrder(13, LocalDate.parse("2021-11-08"));
         facade.AddItemToOrder(1,1);
         facade.AddItemToOrder(1,2);
-        facade.PlaceOrder(1);
+        facade.submitOrder(1);
 
     }
 
