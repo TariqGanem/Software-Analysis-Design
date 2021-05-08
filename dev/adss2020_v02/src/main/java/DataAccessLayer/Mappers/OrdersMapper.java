@@ -73,7 +73,7 @@ public class OrdersMapper extends Mapper{
     }
     public int getNewOrderID(){
         int output = -1;
-        try {
+       /* try {
             Statement statement = connection.createStatement();
             String sql = "";
 
@@ -83,8 +83,8 @@ public class OrdersMapper extends Mapper{
         }
         catch (SQLException exception) {
             exception.printStackTrace();
-        }
-        return output;
+        }*/
+        return 1;
     }
     public void updateFixedOrder(){
         try {
