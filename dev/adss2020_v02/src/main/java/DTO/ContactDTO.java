@@ -1,6 +1,8 @@
 package DTO;
 
 import BusinessLayer.Objects.ContactPerson;
+import DataAccessLayer.Objects.Contact;
+import DataAccessLayer.Objects.Contract;
 import Enums.ContactMethod;
 
 import java.util.Map;
@@ -17,6 +19,11 @@ public class ContactDTO {
     public ContactDTO(ContactPerson contactPerson){
         name = contactPerson.getName();
         contactMethods = contactPerson.getContactMethods();
+    }
+
+    public ContactDTO(Contact contract){
+        this.name = contract.getName();
+        this.contactMethods = contract.getContactMethods();
     }
 
     @Override

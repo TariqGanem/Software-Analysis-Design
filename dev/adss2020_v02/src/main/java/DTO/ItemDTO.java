@@ -1,7 +1,5 @@
 package DTO;
 
-import BusinessLayer.Objects.Item;
-
 public class ItemDTO {
     private final int id;
     private final String name;
@@ -26,7 +24,7 @@ public class ItemDTO {
         this.price = price;
     }
 
-    public ItemDTO(Item item){
+    public ItemDTO(BusinessLayer.Objects.Item item){
         id = item.getId();
         name = item.getName();
         price = item.getPrice();

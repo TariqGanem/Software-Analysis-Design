@@ -2,6 +2,7 @@ package DTO;
 
 import BusinessLayer.Objects.Contract;
 import BusinessLayer.Objects.Item;
+import DataAccessLayer.Objects.Contact;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +26,18 @@ public class ContractDTO {
         }
         report = new QuantityReportDTO(contract.getReport());
         selfPickup = contract.isSelfPickup();
+    }
+
+    public ContractDTO(DataAccessLayer.Objects.Contract contract){
+        this.items = new HashMap<>();
+
+        for (Map.Entry<Integer, DataAccessLayer.Objects.Item> itemEntry: contract.getItems().entrySet()) {
+            this.items.put(itemEntry.getKey(), new ItemDTO(itemEntry.getValue()));
+
+        }
+
+        this.selfPickup = contract.isSelfPickup();
+        this.report = new QuantityReportDTO(contract.getReport());
     }
 
     @Override

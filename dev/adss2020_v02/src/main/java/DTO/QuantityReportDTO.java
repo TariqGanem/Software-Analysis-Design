@@ -2,7 +2,6 @@ package DTO;
 
 import BusinessLayer.Objects.QuantityReport;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class QuantityReportDTO {

@@ -38,7 +38,7 @@ public class OrderDTO {
         return placementDate;
     }
 
-    public LocalDate getOrderDate() {
+    public LocalDate getDueDate() {
         return orderDate;
     }
 
