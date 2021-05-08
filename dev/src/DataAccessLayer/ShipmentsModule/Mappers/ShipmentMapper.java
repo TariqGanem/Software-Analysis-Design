@@ -74,8 +74,9 @@ public class ShipmentMapper {
         List<ShipmentDTO> shipments = selectAllShipments();
         for (ShipmentDTO shipment : shipments) {
             for (DocumentDTO doc : shipment.getDocuments().values())
-                if (doc.getTrackingNumber() == trackingId)
+                if (doc.getTrackingNumber() == trackingId) {
                     return shipment;
+                }
         }
         throw new Exception("No such tracking number in the database!");
     }
@@ -130,12 +131,17 @@ public class ShipmentMapper {
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
-                return new ShipmentDTO(rs.getInt(1),
+                ShipmentDTO shipment = new ShipmentDTO(rs.getInt(1),
                         new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString(2)),
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
                         LocationMapper.getInstance().getLocation(rs.getInt(6)));
+                List<DocumentDTO> docs = DocumentMapper.getInstance().getShipmentDocuments(shipment.getShipmentId());
+                for (DocumentDTO doc : docs) {
+                    shipment.addDocument(doc.getTrackingNumber(), doc.getProducts(), doc.getDestination());
+                }
+                return shipment;
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -151,12 +157,17 @@ public class ShipmentMapper {
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
-                return new ShipmentDTO(rs.getInt(1),
+                ShipmentDTO shipment = new ShipmentDTO(rs.getInt(1),
                         new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString(2)),
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
                         LocationMapper.getInstance().getLocation(rs.getInt(6)));
+                List<DocumentDTO> docs = DocumentMapper.getInstance().getShipmentDocuments(shipment.getShipmentId());
+                for (DocumentDTO doc : docs) {
+                    shipment.addDocument(doc.getTrackingNumber(), doc.getProducts(), doc.getDestination());
+                }
+                return shipment;
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -171,12 +182,17 @@ public class ShipmentMapper {
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                shipments.add(new ShipmentDTO(rs.getInt(1),
+                ShipmentDTO shipment = new ShipmentDTO(rs.getInt(1),
                         new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString(2)),
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
-                        LocationMapper.getInstance().getLocation(rs.getInt(6))));
+                        LocationMapper.getInstance().getLocation(rs.getInt(6)));
+                List<DocumentDTO> docs = DocumentMapper.getInstance().getShipmentDocuments(shipment.getShipmentId());
+                for (DocumentDTO doc : docs) {
+                    shipment.addDocument(doc.getTrackingNumber(), doc.getProducts(), doc.getDestination());
+                }
+                shipments.add(shipment);
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());

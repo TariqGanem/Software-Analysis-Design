@@ -8,7 +8,6 @@ import DataAccessLayer.ShipmentsModule.Mappers.DocumentMapper;
 import DataAccessLayer.ShipmentsModule.Mappers.ShipmentMapper;
 
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 public class ShipmentController {
@@ -20,8 +19,8 @@ public class ShipmentController {
     public ShipmentController() {
         mapper = ShipmentMapper.getInstance();
         docMapper = DocumentMapper.getInstance();
-        trackingNumber = docMapper.getMaxID()+1;
-        shipmentId = mapper.getMaxID()+1;
+        trackingNumber = docMapper.getMaxID() + 1;
+        shipmentId = mapper.getMaxID() + 1;
     }
 
     /***

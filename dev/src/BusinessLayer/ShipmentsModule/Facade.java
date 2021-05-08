@@ -7,7 +7,10 @@ import BusinessLayer.ShipmentsModule.Controllers.TruckController;
 import BusinessLayer.ShipmentsModule.Objects.*;
 import DTOPackage.*;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Facade {
     private DriverController driverController;
@@ -162,7 +165,7 @@ public class Facade {
             }
             //TODO -> The id is 222222222 till we update the function of get available driver
             int shipmentId = shipmentController.addShipment(date, departureHour, truck.getTruckPlateNumber(), "222222222", source);
-            for(Location loc: items.keySet()){
+            for (Location loc : items.keySet()) {
                 shipmentController.addDocument(shipmentId, loc.getId(), items.get(loc));
             }
             truckController.makeUnavailableTruck(truck.getTruckPlateNumber());

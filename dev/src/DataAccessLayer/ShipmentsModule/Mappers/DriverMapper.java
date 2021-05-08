@@ -128,7 +128,7 @@ public class DriverMapper {
         try (Connection conn = dbMaker.connect();
              PreparedStatement pStmt = conn.prepareStatement(sql)) {
             pStmt.setBoolean(1, available);
-            pStmt.setString(2,id);
+            pStmt.setString(2, id);
             pStmt.executeUpdate();
         } catch (Exception e) {
             throw new Exception(e.getMessage());

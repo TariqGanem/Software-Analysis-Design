@@ -3,7 +3,6 @@ package PresentationLayer.ShipmentsMenu.Handlers;
 import BusinessLayer.ShipmentsModule.Facade;
 import BusinessLayer.ShipmentsModule.Response;
 import BusinessLayer.ShipmentsModule.ResponseT;
-import DTOPackage.DocumentDTO;
 import DTOPackage.ItemDTO;
 import DTOPackage.ShipmentDTO;
 
@@ -57,8 +56,7 @@ public class ShipmentsHandler extends Handler {
         if (res.errorOccured())
             printer.error(res.getMsg());
         else {
-            DocumentDTO doc = res.getValue().getDocuments().get(trackingNumber);
-            printer.viewShipment(res.getValue(), doc);
+            printer.viewShipment(res.getValue(), trackingNumber);
         }
     }
 

@@ -10,9 +10,9 @@ public class LocationController {
     private LocationMapper mapper;
     private int id;
 
-    public LocationController(){
+    public LocationController() {
         mapper = LocationMapper.getInstance();
-        id = mapper.getMaxID()+1;
+        id = mapper.getMaxID() + 1;
     }
 
     /***

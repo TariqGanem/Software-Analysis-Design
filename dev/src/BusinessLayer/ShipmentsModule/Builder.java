@@ -31,8 +31,8 @@ public class Builder {
     public static Shipment build(ShipmentDTO shipment) {
         Shipment s = new Shipment(shipment.getShipmentId(), shipment.getDate(), shipment.getDepartureHour(),
                 shipment.getTruckPlateNumber(), shipment.getDriverId(), build(shipment.getSource()));
-        for (Document doc : s.getDocuments().values()) {
-            shipment.addDocument(doc.getTrackingNumber(), Builder.buildItemsListDTO(doc.getProducts()), buildDTO(doc.getDestination()));
+        for (DocumentDTO doc : shipment.getDocuments().values()) {
+            s.addDocument(Builder.buildItemsList(doc.getProducts()), build(doc.getDestination()), doc.getTrackingNumber());
         }
         return s;
     }
@@ -40,8 +40,9 @@ public class Builder {
     public static ShipmentDTO buildDTO(Shipment shipment) {
         ShipmentDTO s = new ShipmentDTO(shipment.getShipmentId(), shipment.getDate(), shipment.getDepartureHour(),
                 shipment.getTruckPlateNumber(), shipment.getDriverId(), buildDTO(shipment.getSource()));
-        for (DocumentDTO doc : s.getDocuments().values()) {
-            shipment.addDocument(Builder.buildItemsList(doc.getProducts()), Builder.build(doc.getDestination()), doc.getTrackingNumber());
+        for (Document doc : shipment.getDocuments().values()) {
+            ;
+            s.addDocument(doc.getTrackingNumber(), buildItemsListDTO(doc.getProducts()), buildDTO(doc.getDestination()));
         }
         return s;
     }
