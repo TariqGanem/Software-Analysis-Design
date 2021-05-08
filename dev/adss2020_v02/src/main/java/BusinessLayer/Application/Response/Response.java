@@ -4,8 +4,8 @@ public class Response<T> {
     private final T value;
     private final String errorMessage;
 
-    public Response(String errorMessage){
-        this.errorMessage = errorMessage;
+    public Response(Exception exception){
+        this.errorMessage = exception.getMessage();
         this.value = null;
     }
 
