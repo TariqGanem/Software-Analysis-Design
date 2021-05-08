@@ -41,7 +41,6 @@ public class dbMaker {
             createLocationsTbl();
             createItemsTbl();
             createShipmentsTbl();
-            createSchedulerTbl();
 
             createEmployeeTbl();
             createEmpTimePrefTbl();
@@ -258,18 +257,5 @@ public class dbMaker {
         }
     }
 
-    private void createSchedulerTbl() {
-        String sql = "CREATE TABLE \"Scheduler\" (\n" +
-                "            \"driverId\"\tINTEGER,\n" +
-                "            \"date\"\tDate,\n" +
-                "    PRIMARY KEY(\"driverId\",\"date\")\n" +
-                ");";
-        try {
-            Statement stmt = connect().createStatement();
-            stmt.execute(sql);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
 
 }

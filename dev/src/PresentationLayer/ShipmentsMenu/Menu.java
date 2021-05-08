@@ -84,7 +84,7 @@ public class Menu {
     private void handleSelection(int input) {
         switch (input) {
             case 1:
-                //(new DataInitializer(facade)).initialize();
+                (new DataInitializer(facade)).initialize();
                 break;
             case 2:
                 trucksHandler.addTruck();
