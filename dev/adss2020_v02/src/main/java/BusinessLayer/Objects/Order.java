@@ -15,9 +15,10 @@ public class Order {
     protected LocalDate orderDate;
     protected Map<Integer, Item> items;
 
-    public Order(Status Status, LocalDate placementDate,LocalDate OrderDate) {
+    public Order(int id, Status Status,LocalDate OrderDate) {
+        this.id = id;
         this.status = Status;
-        this.placementDate = placementDate;
+        this.placementDate = LocalDate.now();
         this.orderDate = OrderDate;
         this.items = new HashMap<>();
     }
