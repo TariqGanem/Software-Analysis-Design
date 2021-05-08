@@ -1,23 +1,26 @@
-package Data_Access_Layer.Mappers;
+package DataAccessLayer.Mappers;
 
 import DTO.*;
-import Data_Access_Layer.Objects.ContactDAL;
-import Data_Access_Layer.Objects.ContractDAL;
-import Data_Access_Layer.Objects.SupplierDAL;
-import enums.ContactMethod;
+import DataAccessLayer.DAO.Contact;
+import DataAccessLayer.DAO.Supplier;
+import DataAccessLayer.DAO.Contact;
+import DataAccessLayer.DAO.Contract;
+import DataAccessLayer.DAO.Supplier;
+import Enums.ContactMethod;
+import Enums.ContactMethod;
 
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SuppliersMapper extends Mapper{
-    private Map<Integer, SupplierDAL> suppliers;
+    private Map<Integer, Supplier> suppliers;
 
     public SuppliersMapper(){
         super();
         suppliers = new HashMap<>();
         try {
-            Statement stmt = c.createStatement();
+            Statement stmt = connection.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS suppliers " +
                     "(companyId INT PRIMARY KEY    NOT NULL," +
                     "name                 TEXT    NOT NULL, " +
@@ -28,7 +31,7 @@ public class SuppliersMapper extends Mapper{
                     "selfPickup           INT     NOT NULL)";
             stmt.executeUpdate(sql);
             //====================================================
-            stmt = c.createStatement();
+            stmt = connection.createStatement();
             sql = "CREATE TABLE IF NOT EXISTS contacts " +
                     "(companyId INT  NOT NULL," +
                     "name           TEXT        NOT NULL," +
@@ -39,9 +42,9 @@ public class SuppliersMapper extends Mapper{
             stmt.executeUpdate(sql);
             //====================================================
             stmt.close();
-            c.close();
+            connection.close();
             stmt = null;
-            c = null;
+            connection = null;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -58,22 +61,22 @@ public class SuppliersMapper extends Mapper{
     }
     //==================================================================================================================
     public SupplierDTO getSupplier(int companyid){
-        SupplierDAL s = null;
-        Map<String, ContactDAL> contacts = new HashMap<>();
+        Supplier s = null;
+        Map<String, Contact> contacts = new HashMap<>();
         Map<ContactMethod,String> methods = new HashMap<>();
 
         if(!suppliers.containsKey(companyid)){
             String sql_contact = "SELECT * FROM contacts WHERE companyId = " + companyid;
             try {
-                c = connect();
-                Statement stmt_contact = c.createStatement();
+                connection = connect();
+                Statement stmt_contact = connection.createStatement();
                 ResultSet rs1 = stmt_contact.executeQuery(sql_contact);
                 String sql_method;
                 PreparedStatement stmt_method;
                 ResultSet r;
                 while(rs1.next()){
                     sql_method = "SELECT * FROM contacts WHERE companyId = ? AND name = ?";
-                    stmt_method = c.prepareStatement(sql_method);
+                    stmt_method = connection.prepareStatement(sql_method);
                     stmt_method.setInt(1,companyid);
                     stmt_method.setString(2,rs1.getString("name"));
                     r = stmt_method.executeQuery();
@@ -84,17 +87,17 @@ public class SuppliersMapper extends Mapper{
                                             ContactMethod.Mobile,r.getString("data"));
                     }
                     //===========================================================================================================
-                    contacts.putIfAbsent(rs1.getString("name"),new ContactDAL(rs1.getString("name"),methods));
+                    contacts.putIfAbsent(rs1.getString("name"),new Contact(rs1.getString("name"),methods));
                     methods = new HashMap<>();
                 }
                 //====================================================================================
                 String sql_supplier = "SELECT * FROM suppliers WHERE companyId = ?";
-                PreparedStatement stmt_supplier = c.prepareStatement(sql_supplier);
+                PreparedStatement stmt_supplier = connection.prepareStatement(sql_supplier);
                 stmt_supplier.setInt(1,companyid);
                 ResultSet rs2 = stmt_supplier.executeQuery();
                 while(rs2.next()){
                     suppliers.putIfAbsent(rs2.getInt("companyId"),
-                            new SupplierDAL(rs2.getString("name"),
+                            new Supplier(rs2.getString("name"),
                                     rs2.getString("manifactur"),
                                     rs2.getInt("companyId"),
                                     rs2.getInt("bankAccount"),
@@ -106,8 +109,8 @@ public class SuppliersMapper extends Mapper{
                 //==============================================================
                 stmt_contact.close();
                 stmt_supplier.close();
-                c.close();
-                c = null;
+                connection.close();
+                connection = null;
             } catch (Exception e) {
                 s = null;
             }
@@ -126,10 +129,10 @@ public class SuppliersMapper extends Mapper{
         try {
             String sql = "INSERT INTO suppliers (companyId,name,manifactur,bankAccount,paymentConditions,orderType,selfPickup) " +
                     "VALUES (?,?,?,?,?,?,?)";
-            c = connect();
+            connection = connect();
             //====================================================
             //entering values
-            PreparedStatement pstmt = c.prepareStatement(sql);
+            PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1,supplier.getCompany_id());
             pstmt.setString(2,supplier.getName());
             pstmt.setString(3, supplier.getManifactur());
@@ -140,11 +143,11 @@ public class SuppliersMapper extends Mapper{
             pstmt.executeUpdate();
             //====================================================
             //updating in the HashMap
-            suppliers.putIfAbsent(supplier.getCompany_id(),new SupplierDAL(supplier));
+            suppliers.putIfAbsent(supplier.getCompany_id(),new Supplier(supplier));
             //====================================================
             pstmt.close();
-            c.close();
-            c = null;
+            connection.close();
+            connection = null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -154,10 +157,10 @@ public class SuppliersMapper extends Mapper{
         try {
             String sql = "INSERT INTO contacts (companyId,name,method,data) " +
                     "VALUES (?,?,?,?)";
-            c = connect();
+            connection = connect();
             //====================================================
             //entering values
-            PreparedStatement pstmt = c.prepareStatement(sql);
+            PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1,companyid);
             pstmt.setString(2,name);
             pstmt.setString(3,method == ContactMethod.Phone? "phone":method == ContactMethod.Email? "email":method == ContactMethod.Fax? "fax":"mobile");
@@ -170,8 +173,8 @@ public class SuppliersMapper extends Mapper{
             }
             //====================================================
             pstmt.close();
-            c.close();
-            c = null;
+            connection.close();
+            connection = null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -181,10 +184,10 @@ public class SuppliersMapper extends Mapper{
         try {
             String sql = "INSERT INTO contacts (companyId,name,method,data) " +
                     "VALUES (?,?,?,?)";
-            c = connect();
+            connection = connect();
             //====================================================
             //entering values
-            PreparedStatement pstmt = c.prepareStatement(sql);
+            PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1,companyid);
             pstmt.setString(2,name);
             pstmt.setString(3,method == ContactMethod.Phone? "phone":method == ContactMethod.Email? "email":method == ContactMethod.Fax? "fax":"mobile");
@@ -197,8 +200,8 @@ public class SuppliersMapper extends Mapper{
             }
             //====================================================
             pstmt.close();
-            c.close();
-            c = null;
+            connection.close();
+            connection = null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -209,10 +212,10 @@ public class SuppliersMapper extends Mapper{
     public void removeSupplier(int companyid){
         try {
             String sql = "DELETE FROM suppliers WHERE companyId = ?";
-            c = connect();
+            connection = connect();
             //====================================================
             //entering values
-            PreparedStatement pstmt = c.prepareStatement(sql);
+            PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1,companyid);
             pstmt.executeUpdate();
             //====================================================
@@ -222,8 +225,8 @@ public class SuppliersMapper extends Mapper{
             }
             //====================================================
             pstmt.close();
-            c.close();
-            c = null;
+            connection.close();
+            connection = null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -232,10 +235,10 @@ public class SuppliersMapper extends Mapper{
     public void removeContact(int companyid, String name){
         try {
             String sql = "DELETE FROM contacts WHERE companyId = ? AND name = ?";
-            c = connect();
+            connection = connect();
             //====================================================
             //entering values
-            PreparedStatement pstmt = c.prepareStatement(sql);
+            PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1,companyid);
             pstmt.setString(2,name);
             pstmt.executeUpdate();
@@ -246,8 +249,8 @@ public class SuppliersMapper extends Mapper{
             }
             //====================================================
             pstmt.close();
-            c.close();
-            c = null;
+            connection.close();
+            connection = null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -256,10 +259,10 @@ public class SuppliersMapper extends Mapper{
     public void removeMethod(int companyid, String name, ContactMethod method){
         try {
             String sql = "DELETE FROM contacts WHERE companyId = ? AND name = ? AND method = ?";
-            c = connect();
+            connection = connect();
             //====================================================
             //entering values
-            PreparedStatement pstmt = c.prepareStatement(sql);
+            PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1,companyid);
             pstmt.setString(2,name);
             pstmt.setString(3,method == ContactMethod.Phone? "phone":method == ContactMethod.Email? "email":method == ContactMethod.Fax? "fax":"mobile");
@@ -271,8 +274,8 @@ public class SuppliersMapper extends Mapper{
             }
             //====================================================
             pstmt.close();
-            c.close();
-            c = null;
+            connection.close();
+            connection = null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -284,25 +287,25 @@ public class SuppliersMapper extends Mapper{
         try{
             String sql = "UPDATE suppliers SET " + field + " = ? WHERE companyId = ?";
 
-            c = connect();
+            connection = connect();
             //====================================================
             //entering values
-            PreparedStatement pstmt = c.prepareStatement(sql);
+            PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1, data);
             pstmt.setInt(2, companyid);
             pstmt.executeUpdate();
             //====================================================
             //updating in the HashMap
             if(suppliers.containsKey(companyid)){
-                SupplierDAL supplier = suppliers.get(companyid);
+                Supplier supplier = suppliers.get(companyid);
                 if(supplier != null){
                     supplier.update(data);
                 }
             }
             //====================================================
             pstmt.close();
-            c.close();
-            c = null;
+            connection.close();
+            connection = null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -312,25 +315,25 @@ public class SuppliersMapper extends Mapper{
         try{
             String sql = "UPDATE suppliers SET " + field + " = ? WHERE companyId = ?";
 
-            c = connect();
+            connection = connect();
             //====================================================
             //entering values
-            PreparedStatement pstmt = c.prepareStatement(sql);
+            PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, data);
             pstmt.setInt(2, companyid);
             pstmt.executeUpdate();
             //====================================================
             //updating in the HashMap
             if(suppliers.containsKey(companyid)){
-                SupplierDAL supplier = suppliers.get(companyid);
+                Supplier supplier = suppliers.get(companyid);
                 if(supplier != null){
                     supplier.update(data);
                 }
             }
             //====================================================
             pstmt.close();
-            c.close();
-            c = null;
+            connection.close();
+            connection = null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -340,10 +343,10 @@ public class SuppliersMapper extends Mapper{
         try{
             String sql = "UPDATE contacts SET data = ? WHERE companyId = ? AND method = ?";
 
-            c = connect();
+            connection = connect();
             //====================================================
             //entering values
-            PreparedStatement pstmt = c.prepareStatement(sql);
+            PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, data);
             pstmt.setInt(2, companyid);
             pstmt.setString(3,method == ContactMethod.Phone? "phone":method == ContactMethod.Email? "email":method == ContactMethod.Fax? "fax":"mobile");
@@ -351,15 +354,15 @@ public class SuppliersMapper extends Mapper{
             //====================================================
             //updating in the HashMap
             if(suppliers.containsKey(companyid)){
-                ContactDAL contact = suppliers.get(companyid).getContact(name);
+                Contact contact = suppliers.get(companyid).getContact(name);
                 if(contact != null){
                     contact.updateMethod(method,data);
                 }
             }
             //====================================================
             pstmt.close();
-            c.close();
-            c = null;
+            connection.close();
+            connection = null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
