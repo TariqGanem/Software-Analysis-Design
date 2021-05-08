@@ -1,6 +1,6 @@
 package DataAccessLayer.Mappers;
 
-import DataAccessLayer.DAO.Order;
+import DataAccessLayer.Objects.Order;
 
 import java.sql.*;
 import java.util.HashMap;

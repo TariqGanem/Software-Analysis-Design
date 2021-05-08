@@ -1,12 +1,8 @@
 package DataAccessLayer.Mappers;
 
 import DTO.*;
-import DataAccessLayer.DAO.Contact;
-import DataAccessLayer.DAO.Supplier;
-import DataAccessLayer.DAO.Contact;
-import DataAccessLayer.DAO.Contract;
-import DataAccessLayer.DAO.Supplier;
-import Enums.ContactMethod;
+import DataAccessLayer.Objects.Contact;
+import DataAccessLayer.Objects.Supplier;
 import Enums.ContactMethod;
 
 import java.sql.*;

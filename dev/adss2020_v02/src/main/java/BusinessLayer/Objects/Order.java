@@ -26,7 +26,7 @@ public class Order {
         id = order.getId();
         status = order.getStatus();
         placementDate = order.getPlacementDate();
-        orderDate = order.getOrderDate();
+        orderDate = order.getDueDate();
         this.items = new HashMap<>();
         for (Map.Entry<Integer, ItemDTO> items:
              order.getItems().entrySet()) {

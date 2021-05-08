@@ -1,12 +1,8 @@
 package BusinessLayer.Controllers;
 
-import BusinessLayer.Objects.FixedOrder;
 import DTO.ContractDTO;
 import BusinessLayer.Objects.Contract;
 import DataAccessLayer.Mappers.ContractsMapper;
-import Enums.Status;
-
-import java.time.LocalDate;
 
 public class ContractController {
     private static ContractController instance;

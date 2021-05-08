@@ -1,11 +1,9 @@
 package DataAccessLayer.Mappers;
 
 import DTO.ContractDTO;
-import DTO.ItemDTO;
-import DTO.SupplierDTO;
-import DataAccessLayer.DAO.Contract;
-import DataAccessLayer.DAO.Item;
-import DataAccessLayer.DAO.QuantityReport;
+import DataAccessLayer.Objects.Contract;
+import DataAccessLayer.Objects.Item;
+import DataAccessLayer.Objects.QuantityReport;
 
 import java.sql.*;
 import java.util.HashMap;
