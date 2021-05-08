@@ -1,7 +1,9 @@
 package BusinessLayer.Controllers;
 
+import BusinessLayer.Objects.FixedOrder;
 import BusinessLayer.Objects.Item;
 import BusinessLayer.Objects.Order;
+import BusinessLayer.Objects.SingleOrder;
 import DTO.ItemDTO;
 import DTO.OrderDTO;
 import DataAccessLayer.Mappers.OrdersMapper;
@@ -19,12 +21,13 @@ public class OrderController {
     Map<Integer, Order> activeOrders;
     Map<Integer, Order> archivedOrders;
     Map<Integer, Integer> order_Vs_supplier;
-
+   // Map<Integer, Integer> supplier_Vs_FixedOrder;
     private OrderController(){
         activeOrders = new HashMap<>();
         archivedOrders = new HashMap<>();
         inPrepareOrders = new HashMap<>();
         order_Vs_supplier = new HashMap<>();
+    //    supplier_Vs_FixedOrder = new HashMap<>();
         mapper = new OrdersMapper();
     }
 
@@ -60,6 +63,7 @@ public class OrderController {
             order.setNewStatus(Status.Completed);
             archive(order);
         }
+        else throw new Exception("Cannot complete non active order!");
     }
 
     /**
@@ -71,7 +75,7 @@ public class OrderController {
             order.setNewStatus(Status.Canceled);
             archive(order);
         }
-
+        else throw new Exception("Cannot cancel non active order!");
     }
 
     /**
@@ -97,7 +101,7 @@ public class OrderController {
     private void archive(Order order) {
         if (order != null) {
             archivedOrders.put(order.getId(), order);
-        }
+        } else throw new NullPointerException();
     }
 
     /**
@@ -170,13 +174,15 @@ public class OrderController {
 
 
     /**
-     * @param supplierID id of supplier to ask for order
-     * @param newOrder new order id
-     * @param dueDate due date of the order
+     * @param supplierID id of supplier to ask fixed order from
+     * @param dueDate due-date of the order
+     * @return fixed order object
      */
-    public void openOrder(int supplierID, int newOrder,LocalDate dueDate) {
-        inPrepareOrders.put(newOrder, new Order(newOrder, Status.inPrepared, dueDate));
-        order_Vs_supplier.put(newOrder, supplierID);
+    public FixedOrder openFixedOrder(int supplierID, LocalDate dueDate) {
+        FixedOrder fixedOrder = new FixedOrder(mapper.getNewOrderID(), Status.inPrepared, LocalDate.now(), dueDate);
+        inPrepareOrders.put(fixedOrder.getId(), fixedOrder);
+        order_Vs_supplier.put(fixedOrder.getId(), supplierID);
+        return fixedOrder;
     }
 
     /**
@@ -191,7 +197,23 @@ public class OrderController {
             throw new Exception("Order does not exist!");
     }
 
+    /**
+     * @param orderID id of order to check
+     * @return true if the order with the given id exists, otherwise it returns false.
+     */
     public boolean isOrder(int orderID) {
         return order_Vs_supplier.containsKey(orderID);
+    }
+
+    /**
+     * @param supplierID id of supplier to ask order from
+     * @param dueDate due-date of the order
+     * @return single order object
+     */
+    public SingleOrder openSingleOrder(int supplierID, LocalDate dueDate) {
+        SingleOrder singleOrder = new SingleOrder(mapper.getNewOrderID(), Status.inPrepared, LocalDate.now(), dueDate);
+        inPrepareOrders.put(singleOrder.getId(), singleOrder);
+        order_Vs_supplier.put(singleOrder.getId(), supplierID);
+        return singleOrder;
     }
 }

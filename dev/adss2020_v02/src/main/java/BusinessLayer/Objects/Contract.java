@@ -19,16 +19,13 @@ public class Contract {
         fixedOrder = null;
     }
 
-    public void openFixedOrder(FixedOrder fixedOrder) throws Exception {
+    public void setFixedOrder(FixedOrder fixedOrder) throws Exception {
         if (this.fixedOrder == null)
             this.fixedOrder = fixedOrder;
         else
             throw new Exception("Order already exists!");
     }
 
-    public void submitFixedOrder() throws Exception {
-        this.fixedOrder.setNewStatus(Status.Active);
-    }
 
 
 
