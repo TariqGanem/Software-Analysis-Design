@@ -1,7 +1,8 @@
 package BusinessLayer.Application;
 
+import BusinessLayer.Objects.FixedOrder;
 import BusinessLayer.Objects.Item;
-import BusinessLayer.Objects.Order;
+import BusinessLayer.Objects.SingleOrder;
 import DTO.ContractDTO;
 import DTO.ItemDTO;
 import DTO.OrderDTO;
@@ -13,7 +14,6 @@ import BusinessLayer.Controllers.SupplierController;
 import Enums.ContactMethod;
 
 import java.time.LocalDate;
-import java.util.Map;
 
 public class Facade {
     private static Facade instance;
@@ -88,7 +88,7 @@ public class Facade {
             sc.ChangePaymentConditions(company_id, paymentConditions);
             return new Response();
         } catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e);
         }
     }
 
@@ -103,7 +103,7 @@ public class Facade {
             sc.ChangeBankAccount(company_id, bankAccount);
             return new Response();
         } catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e);
         }
     }
 
@@ -117,7 +117,7 @@ public class Facade {
         try {
             return new Response<SupplierDTO>(sc.PrintSupplierCard(company_id));
         } catch (Exception e) {
-            return new Response<SupplierDTO>(e.getMessage());
+            return new Response<SupplierDTO>(e);
         }
     }
 
@@ -135,7 +135,7 @@ public class Facade {
             sc.AddContactPerson(company_id, name, method, method_data);
             return new Response();
         } catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e);
         }
     }
 
@@ -151,7 +151,7 @@ public class Facade {
             sc.RemoveContact(company_id, name);
             return new Response();
         } catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e);
         }
     }
 
@@ -170,7 +170,7 @@ public class Facade {
             sc.AddMethod(company_id, name, method, method_data);
             return new Response();
         } catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e);
         }
     }
 
@@ -179,7 +179,7 @@ public class Facade {
             sc.RemoveMethod(company_id, name, method);
             return new Response();
         } catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e);
         }
     }
 
@@ -198,7 +198,7 @@ public class Facade {
             sc.EditMethod(company_id, name, method, method_data);
             return new Response();
         } catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e);
         }
     }
 
@@ -212,7 +212,7 @@ public class Facade {
         try {
             return new Response<SupplierDTO>(sc.PrintAllContacts(company_id));
         } catch (Exception e) {
-            return new Response<SupplierDTO>(e.getMessage());
+            return new Response<SupplierDTO>(e);
         }
     }
 
@@ -315,7 +315,7 @@ public class Facade {
         try {
             return new Response<ContractDTO>(cc.PrintContract(company_id));
         } catch (Exception e) {
-            return new Response<ContractDTO>(e.getMessage());
+            return new Response<ContractDTO>(e);
         }
     }
 
@@ -329,7 +329,7 @@ public class Facade {
         try {
             return new Response<OrderDTO>(new OrderDTO(oc.getOrder(orderID)));
         } catch (Exception exception) {
-            return new Response<OrderDTO>(exception.getMessage());
+            return new Response<OrderDTO>(exception);
         }
     }
 
@@ -350,7 +350,7 @@ public class Facade {
             }
             return new Response(true);
         } catch (Exception exception) {
-            return new Response(exception.getMessage());
+            return new Response(exception);
         }
     }
 
@@ -364,7 +364,7 @@ public class Facade {
             oc.removeItemFromOrder(orderID, itemID);
             return new Response(true);
         } catch (Exception exception) {
-            return new Response(exception.getMessage());
+            return new Response(exception);
         }
     }
 
@@ -378,7 +378,7 @@ public class Facade {
             oc.rescheduleAnOrder(orderID, newDate);
             return new Response(true);
         } catch (Exception exception) {
-            return new Response(exception.getMessage());
+            return new Response(exception);
         }
     }
 
@@ -391,7 +391,7 @@ public class Facade {
             oc.cancelAnOrder(orderID);
             return new Response(true);
         } catch (Exception exception) {
-            return new Response(exception.getMessage());
+            return new Response(exception);
         }
     }
 
@@ -404,41 +404,45 @@ public class Facade {
             oc.completeAnOrder(orderID);
             return new Response(true);
         } catch (Exception exception) {
-            return new Response(exception.getMessage());
+            return new Response(exception);
         }
     }
 
 
     /**
-     * @param orderID id of order to be placed
-     * @return response of the procedure
+     * @param supplierID id of supplier to ask an order from
+     * @param dueDate due-date of the order
+     * @return response if opening single order succeeded or not.
      */
-    public Response PlaceSingleOrder(int orderID) {
+    public Response OpenSingleOrder(int supplierID, LocalDate dueDate) {
         try {
-            if (sc.isSupplier(supplierID)){
-                cc.addFixedOrder(supplierID, orderIDGenerator, dueDate);
+            if (sc.isSupplier(supplierID)) {
+                SingleOrder singleOrder = oc.openSingleOrder(supplierID, dueDate);
+                return new Response("Single order NO."+singleOrder.getId() + " was opened successfully!");
             } else throw new Exception("Supplier does not exist!");
-            return new Response(true);
+
         } catch (Exception exception) {
-            return new Response(exception.getMessage());
+            return new Response(exception);
         }
     }
 
-    public Response openFixedOrder(int supplierID, LocalDate dueDate){
 
+    /**
+     * @param orderID id of order to submit
+     * @return response if order submission succeeded
+     */
+    public Response submitOrder(int orderID){
         try{
-            if (sc.isSupplier(supplierID)){
-                int id = cc.addFixedOrder(supplierID, dueDate);
-                return new Response(id);
+            if(isOrder(orderID).getValue()) {
+                oc.placeAnOrder(orderID);
+                return new Response("Order NO."+orderID + " was submitted successfully!");
             }
-            else throw new Exception("Supplier does not exist!");
-
+            else throw new Exception("non-valid order id!");
         }
         catch (Exception exception){
-            return new Response(exception.getMessage());
+            return new Response(exception);
         }
     }
-
 
 
     /**
@@ -446,16 +450,16 @@ public class Facade {
      * @param supplierID id of supplier to ask an order from
      * @return response of the procedure
      */
-    public Response OpenOrder(int supplierID, LocalDate dueDate) {
+    public Response OpenFixedOrder(int supplierID, LocalDate dueDate) {
         try {
             if (sc.isSupplier(supplierID)) {
-                oc.openOrder(supplierID, orderIDGenerator, dueDate);
-                orderIDGenerator++; // no need
+                FixedOrder fixedOrder = oc.openFixedOrder(supplierID, dueDate);
+                cc.getContract(supplierID).setFixedOrder(fixedOrder);
+                return new Response("Fixed order NO."+fixedOrder.getId() + " was opened successfully!");
             } else throw new Exception("Supplier does not exist!");
 
-            return new Response(true);
         } catch (Exception exception) {
-            return new Response(exception.getMessage());
+            return new Response(exception);
         }
     }
 
@@ -469,7 +473,7 @@ public class Facade {
             oc.editItemInOrder(orderID, new Item(editedItem));
             return new Response(true);
         } catch (Exception exception) {
-            return new Response(exception.getMessage());
+            return new Response(exception);
         }
     }
 
@@ -482,7 +486,7 @@ public class Facade {
         try {
             return new Response<>(oc.isOrder(orderID));
         } catch (Exception exception) {
-            return new Response<>(exception.getMessage());
+            return new Response<>(exception);
         }
     }
 
@@ -491,7 +495,7 @@ public class Facade {
         try {
             return new Response<>(sc.isSupplier(supplierID));
         } catch (Exception exception) {
-            return new Response<>(exception.getMessage());
+            return new Response<>(exception);
         }
     }
 }
