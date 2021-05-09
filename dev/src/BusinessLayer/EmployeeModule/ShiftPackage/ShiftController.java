@@ -149,4 +149,8 @@ public class ShiftController {
             return false;
         }
     }
+
+    public void API_getAvailableDrivers(LocalDate date, boolean isMorning) {
+        dalController.API_get
+    }
 }

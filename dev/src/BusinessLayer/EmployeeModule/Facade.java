@@ -274,4 +274,8 @@ public class Facade {
     public boolean API_isDriverAssignedToShift(LocalDate date, boolean isMorning, String ID) {
         return shiftController.API_isDriverAssignedToShift(date, isMorning, ID);
     }
+
+    public void API_getAvailableDrivers(LocalDate date, boolean isMorning) {
+        return shiftController.API_getAvailableDrivers(date, isMorning);
+    }
 }

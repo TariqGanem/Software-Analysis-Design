@@ -218,4 +218,8 @@ public class PresentationController {
     public boolean API_isDriverAssignedToShift(LocalDate date, boolean isMorning, String ID) {
         return facade.API_isDriverAssignedToShift(date, isMorning, ID);
     }
+
+    public void API_getAvailableDrivers(LocalDate date, boolean isMorning) {
+        return facade.API_getAvailableDrivers(date, isMorning);
+    }
 }
