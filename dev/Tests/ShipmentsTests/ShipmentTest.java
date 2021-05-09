@@ -13,7 +13,7 @@ public class ShipmentTest {
         data = new Facade();
         data.addLocation("Beersheva, Alexander Yennai 17", "000", "Tariq");
         data.addLocation("Tel Aviv, Merkaz 53", "1111", "Yazan");
-        data.addDriver("315526640", "Tariq", 10000);
+        //data.addDriver("315526640", "Tariq", 10000);
         data.addTruck("00000", "BMW", 1000, 2000);
     }
 

@@ -7,8 +7,8 @@ public class ShipmentsAPI {
     public ShipmentsAPI() {
     }
 
-    public void addDriver(String driverId, String name, double allowedWeight) {
-        Menu.getInstance().getDriversHandler().addDriver(driverId, name, allowedWeight);
+    public void addDriver(String driverId) {
+        Menu.getInstance().getDriversHandler().addDriver(driverId);
     }
 
 }

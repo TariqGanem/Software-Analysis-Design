@@ -56,6 +56,19 @@ public class DriverMapper {
         throw new Exception("There is no such driver in the database!");
     }
 
+    public DriverDTO getAvailableDriver(String id, double weight) throws Exception {
+        for (DriverDTO d : memory.getDrivers()) {
+            if (d.getId().equals(id) && d.getAllowedWeight() >= weight)
+                return d;
+        }
+        DriverDTO driver = selectAvailableDriver(id, weight);
+        if (driver != null) {
+            memory.getDrivers().add(driver);
+            return driver;
+        }
+        return null;
+    }
+
 //    public  getAvailableDriver(){
 //
 //    }
@@ -86,6 +99,23 @@ public class DriverMapper {
 
     private DriverDTO selectDriver(String id) throws Exception {
         String sql = "SELECT * FROM " + dbMaker.driversTbl + " WHERE id= '" + id + "'";
+        try (Connection conn = dbMaker.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                return new DriverDTO(rs.getString(1),
+                        getDriverName(id),
+                        rs.getDouble(2)
+                );
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        return null;
+    }
+
+    private DriverDTO selectAvailableDriver(String id, double weight) throws Exception {
+        String sql = "SELECT * FROM " + dbMaker.driversTbl + " WHERE id= '" + id + "'" + " AND allowedWeight >= " + weight ;
         try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);

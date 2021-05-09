@@ -17,8 +17,9 @@ public class DriversHandler extends Handler {
         drivers = new LinkedList<>();
     }
 
-    public void addDriver(String Id, String name, double allowedWeight) {
-        facade.addDriver(Id, name, allowedWeight);
+    public void addDriver(String Id) {
+        double allowedWeight = getDouble();
+        facade.addDriver(Id, allowedWeight);
     }
 
     public void viewAllDrivers() {

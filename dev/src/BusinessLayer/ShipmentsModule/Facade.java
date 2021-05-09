@@ -98,13 +98,12 @@ public class Facade {
      * Adds a driver to the system
      *
      * @param id            - The unique id of the requested driver
-     * @param name          - The driver's name
      * @param allowedWeight - The maximum weight he can transport in a delivery
      * @return response contains msg in case of any error
      */
-    public Response addDriver(String id, String name, double allowedWeight) {
+    public Response addDriver(String id, double allowedWeight) {
         try {
-            driverController.addDriver(id, name, allowedWeight);
+            driverController.addDriver(id, allowedWeight);
             return new Response();
         } catch (Exception e) {
             return new Response(e.getMessage());
