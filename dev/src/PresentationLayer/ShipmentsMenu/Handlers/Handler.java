@@ -20,9 +20,9 @@ public class Handler {
     protected double getDouble() {
         while (true) {
             try {
-                Double output = Double.parseDouble(scanner.next());
+                double output = Double.parseDouble(scanner.next());
                 if (output > 0)
-                    return Double.parseDouble(scanner.next());
+                    return output;
                 else
                     printer.error("Weight must be positive");
             } catch (Exception e) {

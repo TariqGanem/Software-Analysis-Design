@@ -1,6 +1,7 @@
 package PresentationLayer.ShipmentsMenu.Handlers;
 
 import BusinessLayer.ShipmentsModule.Facade;
+import BusinessLayer.ShipmentsModule.Response;
 import BusinessLayer.ShipmentsModule.ResponseT;
 import DTOPackage.DriverDTO;
 
@@ -18,8 +19,11 @@ public class DriversHandler extends Handler {
     }
 
     public void addDriver(String Id) {
+        System.out.println("Enter Allowed Weight for Driver:");
         double allowedWeight = getDouble();
-        facade.addDriver(Id, allowedWeight);
+        Response res =  facade.addDriver(Id, allowedWeight);
+        if(res.errorOccured())
+            System.out.println(res.getMsg());
     }
 
     public void viewAllDrivers() {

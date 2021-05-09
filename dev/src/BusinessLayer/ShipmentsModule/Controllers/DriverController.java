@@ -56,13 +56,18 @@ public class DriverController {
     public Driver getAvailableDriver(double weight, Date date, String hour) throws Exception {
         boolean isMorning = handleHour(hour);
         List<String> ids = new EmployeeModuleAPI().getAvailableDrivers(convertToLocalDateViaInstant(date), isMorning);
+        System.out.println("LENGTH OF IDS : +++++++"+ids.size());
+        System.out.println("WEIGHT ====" + weight);
         List<Driver> availableDrivers = new LinkedList<>();
         for (String id : ids) {
+            System.out.println("ID=" + id);
             DriverDTO driver = mapper.getAvailableDriver(id, weight);
             if (driver != null) {
                 availableDrivers.add(Builder.build(driver));
             }
         }
+        if (availableDrivers.isEmpty())
+            throw new Exception("No available drivers");
         return availableDrivers.get(0);
     }
 

@@ -162,13 +162,12 @@ public class Facade {
                 }
                 items.put(locationController.getLocation(loc), Builder.buildItemsList(items_per_location.get(loc)));
             }
-            //TODO -> The id is 222222222 till we update the function of get available driver
-            int shipmentId = shipmentController.addShipment(date, departureHour, truck.getTruckPlateNumber(), "222222222", source);
+            int shipmentId = shipmentController.addShipment(date, departureHour, truck.getTruckPlateNumber(), driver.getId(), source);
             for (Location loc : items.keySet()) {
                 shipmentController.addDocument(shipmentId, loc.getId(), items.get(loc));
             }
             truckController.makeUnavailableTruck(truck.getTruckPlateNumber());
-            driverController.makeUnavailableDriver("222222222");
+            //driverController.makeUnavailableDriver("222222222");
             return new Response();
         } catch (Exception e) {
             return new Response(e.getMessage());

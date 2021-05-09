@@ -65,7 +65,7 @@ public class ShiftMapper {
                     String sqlStatement = "insert into Shift values(?,?,?,?)";
                     PreparedStatement p = con.prepareStatement(sqlStatement);
                     p.setString(1, shift.getDate().toString());
-                    p.setBoolean(2, shift.isMorning());
+                    p.setString(2, String.valueOf(shift.isMorning()));
                     p.setString(3, role.toString());
                     p.setString(4, id);
                     p.executeUpdate();
@@ -85,7 +85,7 @@ public class ShiftMapper {
             String sqlStatement = "insert into Shift values(?, ?, ?, ?)";
             PreparedStatement p = con.prepareStatement(sqlStatement);
             p.setString(1, shift.getDate().toString());
-            p.setBoolean(2, shift.isMorning());
+            p.setString(2, String.valueOf(shift.isMorning()));
             p.setString(3, role.toString());
             p.setString(4, ID);
             p.executeUpdate();
@@ -112,21 +112,25 @@ public class ShiftMapper {
     }
 
     public ResponseT<List<Shift>> getShifts(int daysFromToday) {
-
+        System.out.println("MEOOOW1");
         try (Connection con = DriverManager.getConnection(url)) {
-
+            System.out.println("MEOOOW2");
             String sqlStatement = "select date, isMorning from Shift where date(date) BETWEEN date('now') and date('now','+" + daysFromToday + " days') group by date, isMorning";
             Statement p = con.createStatement();
             ResultSet rs = p.executeQuery(sqlStatement);
             List<Shift> lst = new ArrayList<>();
             while (rs.next()) {
+                System.out.println("MEOOOW3");
                 ResponseT<Shift> res = getShift(LocalDate.parse(rs.getString("date")), Boolean.parseBoolean(rs.getString("isMorning")));
-                if (res.getErrorOccurred())
+                if (res.getErrorOccurred()) {
+                    System.out.println("MEOOOW4");
                     throw new SQLException(res.getErrorMessage());
+                }
                 lst.add(res.getValue());
             }
             return new ResponseT<>(lst);
         } catch (SQLException ex) {
+            System.out.println("MEOOOW5");
             return new ResponseT<>(ex.getMessage());
         }
     }
@@ -171,8 +175,12 @@ public class ShiftMapper {
 
     public ResponseT<List<String>> getAvailableDrivers(LocalDate date, boolean isMorning) {
         try (Connection con = DriverManager.getConnection(url)) {
-            String sqlStatement = "select ID from " + dbMaker.shiftTbl + " where Role = " + Role.Driver.name();
+            String sqlStatement = "select ID from " + dbMaker.shiftTbl + " where role = ?"
+                    + " AND isMorning=? AND date=?";
             PreparedStatement p = con.prepareStatement(sqlStatement);
+            p.setString(1,Role.Driver.name());
+            p.setString(2,String.valueOf(isMorning));
+            p.setString(3, date.toString());
             ResultSet rs = p.executeQuery();
             List<String> IDs = new ArrayList<>();
             while (rs.next()) {
