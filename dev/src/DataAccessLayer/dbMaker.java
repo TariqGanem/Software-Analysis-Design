@@ -8,8 +8,8 @@ import java.sql.*;
 
 public class dbMaker {
 
-    private static String dbName;
-    public static String path;
+    private static String dbName = "superLee.db";
+    public static String path = "jdbc:sqlite:" + dbName;
 
     //TABLES NAMES
     public static String trucksTbl = "Trucks";
