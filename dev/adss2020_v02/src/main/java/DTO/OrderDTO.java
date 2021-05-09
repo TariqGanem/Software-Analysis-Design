@@ -7,7 +7,7 @@ import BusinessLayer.Objects.Order;
 import Enums.Status;
 
 public class OrderDTO {
-    private final int id;
+    private int id;
     private final Status status;
     private final LocalDate placementDate;
     private final LocalDate dueDate;
@@ -57,6 +57,10 @@ public class OrderDTO {
 
     public Map<Integer, ItemDTO> getItems() {
         return items;
+    }
+
+    public void setId(int id){
+        this.id = id;
     }
 
     @Override
