@@ -33,6 +33,7 @@ public class Menu {
         locationsHandler = new LocationsHandler(facade);
         driversHandler = new DriversHandler(facade);
         shipmentsHandler = new ShipmentsHandler(facade);
+        addItems();
     }
 
     public static Menu getInstance() {
@@ -46,7 +47,6 @@ public class Menu {
      */
     public void run() {
         //printer.printBanner();
-        addItems();
         viewMenuItems();
         selectItem();
     }
@@ -74,7 +74,7 @@ public class Menu {
             if (validInput(inputL)) {
                 int input = Integer.parseInt(inputL);
                 handleSelection(input);
-                if(input == 12)
+                if (input == 12)
                     return;
                 viewMenuItems();
             }
@@ -84,7 +84,7 @@ public class Menu {
     private void handleSelection(int input) {
         switch (input) {
             case 1:
-                //(new DataInitializer(facade)).initialize();
+                (new DataInitializer(facade)).initialize();
                 break;
             case 2:
                 trucksHandler.addTruck();
@@ -104,7 +104,7 @@ public class Menu {
             case 7:
                 locationsHandler.viewAllLocations();
                 break;
-          /*  case 8:
+            case 8:
                 shipmentsHandler.viewAllShipments();
                 break;
             case 9:
@@ -115,10 +115,7 @@ public class Menu {
                 break;
             case 11:
                 shipmentsHandler.removeShipment();
-                break;*/
-//            case 12:
-//                exit();
-//                break;
+                break;
         }
     }
 
@@ -136,11 +133,6 @@ public class Menu {
         } else
             return true;
     }
-
-//    private void exit() {
-//        System.out.println("The application exited successfully!");
-//        System.exit(0);
-//    }
 
     private void viewMenuItems() {
         printer.viewOptions(items);

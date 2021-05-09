@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.List;
 
 public class DriverMapper {
 
@@ -31,10 +33,7 @@ public class DriverMapper {
             if (d.getId().equals(id))
                 throw new Exception("Driver already exists!");
         }
-        String driverName = getDriverName(id);
-        if (getDriverName(id).equals(null))
-            throw new Exception("No such driver in employees");
-        driver = new DriverDTO(id, driverName, allowedWeight, true);
+        driver = new DriverDTO(id, getDriverName(id), allowedWeight, true);
         if (driverExists(id)) {
             memory.getDrivers().add(driver);
             throw new Exception("Driver already exists in the database!");
@@ -57,8 +56,25 @@ public class DriverMapper {
         throw new Exception("There is no such driver in the database!");
     }
 
+//    public  getAvailableDriver(){
+//
+//    }
+
+    public List<DriverDTO> getAllDrivers() throws Exception {
+        List<DriverDTO> drivers = selectAllDrivers();
+        memory.setDrivers(drivers);
+        return memory.getDrivers();
+    }
+
+    public DriverDTO updateDriver(String id, boolean available) throws Exception {
+        DriverDTO driver = getDriver(id);
+        driver.setAvailable(available);
+        _updateDriver(id, available);
+        return driver;
+    }
+
     private void insertDriver(String id, Double allowedWeight, boolean available) throws Exception {
-        String sql = "INSERT INTO " + dbMaker.driversTbl + "(id, allowedWeight) VALUES (?,?,?)";
+        String sql = "INSERT INTO " + dbMaker.driversTbl + "(id, allowedWeight, available) VALUES (?,?,?)";
         try (Connection conn = dbMaker.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, id);
@@ -71,16 +87,13 @@ public class DriverMapper {
     }
 
     private DriverDTO selectDriver(String id) throws Exception {
-        String sql = "SELECT * FROM " + dbMaker.driversTbl + " WHERE id=" + id;
+        String sql = "SELECT * FROM " + dbMaker.driversTbl + " WHERE id= '" + id + "'";
         try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
-                String driverName = getDriverName(id);
-                if (getDriverName(id).equals(null))
-                    throw new Exception("No such driver in employees");
                 return new DriverDTO(rs.getString(1),
-                        driverName,
+                        getDriverName(id),
                         rs.getDouble(2),
                         rs.getBoolean(3)
                 );
@@ -91,8 +104,39 @@ public class DriverMapper {
         return null;
     }
 
+    private List<DriverDTO> selectAllDrivers() throws Exception {
+        String sql = "SELECT * FROM " + dbMaker.driversTbl;
+        List<DriverDTO> drivers = new LinkedList<>();
+        try (Connection conn = dbMaker.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                drivers.add(new DriverDTO(rs.getString(1),
+                        getDriverName(rs.getString(1)),
+                        rs.getDouble(2),
+                        rs.getBoolean(3)
+                ));
+            }
+            return drivers;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    private void _updateDriver(String id, boolean available) throws Exception {
+        String sql = "UPDATE " + dbMaker.driversTbl + " SET available = ? WHERE id= ?";
+        try (Connection conn = dbMaker.connect();
+             PreparedStatement pStmt = conn.prepareStatement(sql)) {
+            pStmt.setBoolean(1, available);
+            pStmt.setString(2, id);
+            pStmt.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
     private String getDriverName(String id) throws Exception {
-        String sql = "SELECT name FROM " + dbMaker.employeeTbl + " WHERE ID=" + id;
+        String sql = "SELECT name FROM " + dbMaker.employeeTbl + " WHERE ID= '" + id + "'";
         try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
@@ -102,7 +146,7 @@ public class DriverMapper {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        return null;
+        throw new Exception("No such driver in employees!");
     }
 
     private boolean driverExists(String id) throws Exception {

@@ -43,8 +43,8 @@ public class TruckController {
     /**
      * @return all trucks in the system
      */
-    public List<Truck> getAlltrucks() {
-        return null; //TODO
+    public List<Truck> getAllTrucks() throws Exception {
+        return Builder.buildTrucksList(mapper.getAllTrucks());
     }
 
     /**
@@ -61,7 +61,11 @@ public class TruckController {
      *
      * @param truckPlateNumber - Unique id for truck
      */
-    public void depositeTruck(String truckPlateNumber) throws Exception {
+    public void depositTruck(String truckPlateNumber) throws Exception {
         mapper.updateTruck(truckPlateNumber, true);
+    }
+
+    public void makeUnavailableTruck(String truckPlateNumber) throws Exception {
+        mapper.updateTruck(truckPlateNumber, false);
     }
 }

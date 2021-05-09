@@ -33,7 +33,7 @@ public class DocumentMapper {
             if (d.getTrackingNumber() == tracking)
                 throw new Exception("Document already exists!");
         }
-        document = new DocumentDTO(tracking, items, null, 0); //TODO finding destination
+        document = new DocumentDTO(tracking, items, LocationMapper.getInstance().getLocation(destinationId));
         if (documentExists(tracking)) {
             memory.getDocuments().add(document);
             throw new Exception("Document already exists in the database!");
@@ -41,6 +41,15 @@ public class DocumentMapper {
         insertDocument(tracking, destinationId, shipmentId, items);
         memory.getDocuments().add(document);
         return document;
+    }
+
+    public List<DocumentDTO> getShipmentDocuments(int shipmentId) throws Exception {
+        List<DocumentDTO> docs = selectShipmentDocuments(shipmentId);
+        if (docs != null) {
+            for (DocumentDTO doc : docs)
+                memory.getDocuments().add(doc);
+        }
+        return docs;
     }
 
     public DocumentDTO getDocument(int tracking) throws Exception {
@@ -94,14 +103,31 @@ public class DocumentMapper {
             if (rs.next()) {
                 return new DocumentDTO(rs.getInt(1),
                         selectItems(tracking),
-                        null, //TODO - locationID
-                        rs.getInt(3)
+                        LocationMapper.getInstance().getLocation(rs.getInt(2))
                 );
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
         return null;
+    }
+
+    private List<DocumentDTO> selectShipmentDocuments(int shipmentId) throws Exception {
+        String sql = "SELECT * FROM " + dbMaker.documentsTbl + " WHERE shipmentId=" + shipmentId;
+        List<DocumentDTO> docs = new LinkedList<>();
+        try (Connection conn = dbMaker.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                docs.add(new DocumentDTO(rs.getInt(1),
+                        selectItems(rs.getInt(1)),
+                        LocationMapper.getInstance().getLocation(rs.getInt(2))
+                ));
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        return docs;
     }
 
     private List<ItemDTO> selectItems(int tracking) throws Exception {
@@ -111,11 +137,13 @@ public class DocumentMapper {
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                items.add(new ItemDTO(rs.getInt(1),
+                ItemDTO item = new ItemDTO(
                         rs.getString(2),
                         rs.getDouble(3),
                         rs.getDouble(4)
-                ));
+                );
+                item.setDocumentId(rs.getInt(1));
+                items.add(item);
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -128,5 +156,20 @@ public class DocumentMapper {
         if (document != null)
             return true;
         return false;
+    }
+
+    public int getMaxID() {
+        String sql = "SELECT MAX(trackingNumber) FROM " + dbMaker.documentsTbl;
+        try (Connection conn = dbMaker.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            //throw new Exception(e.getMessage());
+        }
+        return -1;
+        //throw new Exception("Error in indexing!");
     }
 }

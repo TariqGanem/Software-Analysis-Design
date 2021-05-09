@@ -1,3 +1,5 @@
+package ShipmentsTests;
+
 import BusinessLayer.ShipmentsModule.Facade;
 import BusinessLayer.ShipmentsModule.Response;
 import org.junit.After;
@@ -29,7 +31,7 @@ public class LocationTest {
         data.addLocation("Beersheva, Alexander Yennai 17", "0509991523", "Tariq");
         Response res = data.addLocation("Beersheva, Alexander Yennai 17", "0509991523", "Tariq");
         assertEquals("Couldn't add new location - address already exists", res.getMsg());
-        assertNotEquals(2, data.getAlldrivers().getValue().size());
+        assertNotEquals(2, data.getAllDrivers().getValue().size());
     }
 
     @Test

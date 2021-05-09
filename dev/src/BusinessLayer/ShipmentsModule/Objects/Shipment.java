@@ -3,34 +3,27 @@ package BusinessLayer.ShipmentsModule.Objects;
 import java.util.*;
 
 public class Shipment {
+    private int shipmentId;
     private Date date;
     private String departureHour;
     private String truckPlateNumber;
     private String driverId;
-    private double shipmentWeight;
     private Map<Integer, Document> documents;
     private Location source;
-    private List<Location> destinations;
-    private Map<Location, List<Item>> items_per_location;
 
-    public Shipment(Date date, String departureHour, String truckPlateNumber, String driverId, Map<Location, List<Item>> items, Location source) {
+    public Shipment(int shipmentId, Date date, String departureHour, String truckPlateNumber, String driverId, Location source) {
+        this.shipmentId = shipmentId;
         this.date = date;
         this.departureHour = departureHour;
         this.truckPlateNumber = truckPlateNumber;
         this.driverId = driverId;
         this.source = source;
         this.documents = new HashMap<>();
-        this.items_per_location = items;
-        this.shipmentWeight = 0;
-        for (Location l: items_per_location.keySet()) {
-            for ( Item i: items_per_location.get(l)) {
-                shipmentWeight += i.getWeight()*i.getAmount();
-            }
-        }
-        this.destinations = new LinkedList<>();
-        destinations.addAll(items_per_location.keySet());
     }
 
+    public int getShipmentId() {
+        return shipmentId;
+    }
 
     public Date getDate() {
         return date;
@@ -49,6 +42,10 @@ public class Shipment {
     }
 
     public double getShipmentWeight() {
+        int shipmentWeight = 0;
+        for (Document doc : documents.values()) {
+            shipmentWeight += doc.getWeight();
+        }
         return shipmentWeight;
     }
 
@@ -57,6 +54,8 @@ public class Shipment {
     }
 
     public List<Location> getDestinations() {
+        List<Location> destinations = new LinkedList<>();
+        documents.values().forEach(d -> destinations.add(d.getDestination()));
         return destinations;
     }
 
@@ -69,24 +68,11 @@ public class Shipment {
      *
      * @param products       - The products which is transported to the specific destination
      * @param dest           - The requested destination
-     * @param weight         - The weight of the shipment for the specific location
      * @param trackingNumber - Tracking number for the delivery as requested
      */
-    public void addDocument(List<Item> products, Location dest, double weight, int trackingNumber) {
+    public void addDocument(List<Item> products, Location dest, int trackingNumber) {
         Document d = new Document(trackingNumber, products, dest);
-        d.updateWeight(weight);
         documents.put(trackingNumber, d);
     }
 
-    public List<Item> getItems() {
-        List<Item> l = new LinkedList<>();
-        for (Location loc: items_per_location.keySet()) {
-            l.addAll(items_per_location.get(loc));
-        }
-        return l;
-    }
-
-//    public Map<Location, Map<String, List<Double>>> getItemsPerLocation() {
-//        return items_per_location;
-//    }
 }

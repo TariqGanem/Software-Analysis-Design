@@ -76,7 +76,7 @@ public class Printer {
                     + ". Id Number: " + drivers.get(i).getId()
                     + "\t Name: " + drivers.get(i).getName()
                     + "\t Allowed Weight: " + drivers.get(i).getAllowedWeight()
-                    + "\t Available: " + drivers.get(i).isAvailable()
+                    + "\t Available: " + (drivers.get(i).isAvailable() ? "Yes" : "No")
             );
         }
     }
@@ -106,7 +106,7 @@ public class Printer {
                     + "\t Phone: " + shipments.get(i).getSource().getPhoneNumber()
                     + " (" + shipments.get(i).getSource().getContactName() + ")"
             );
-            List<LocationDTO> destination = shipments.get(i).getLocations();
+            List<LocationDTO> destination = shipments.get(i).getDestinations();
             System.out.println("\t Arrived At:");
             for (int j = 0; j < destination.size(); j++) {
                 int tracking = -1;
@@ -129,28 +129,28 @@ public class Printer {
         }
     }
 
-    public void viewShipment(ShipmentDTO shipment, DocumentDTO document) {
-//        System.out.println(
-//                "\t Date: " + new SimpleDateFormat("dd/MM/yyyy").format(shipment.getDate())
-//                        + "\t Departure Hour: " + shipment.getDepartureHour()
-//                        + "\t Truck Plate Number: " + shipment.getTruckPlateNumber()
-//                        + "\t Driver Id: " + shipment.getDriverId()
-//                        + "\t Shipment Weight: " + document.getWeight()
-//                        + "\n\t Source: " + shipment.getSource().getAddress()
-//                        + "\t\t Arrives At: " + document.getDestination().getAddress()
-//                        + "\t Phone: " + document.getDestination().getPhoneNumber()
-//                        + " (" + document.getDestination().getContactName() + ")"
-//                        + "\n\t This shipment contains:"
-//        );
-//        Map<String, List<Double>> products = document.getProducts();
-//        int i = 0;
-//        for (String pName : products.keySet()) {
-//            System.out.println(
-//                    "\t\t" + (i + 1) + ". " + pName + "\t"
-//                            + "\tUnit Weight: " + products.get(pName).get(0)
-//                            + "\tAmount: " + products.get(pName).get(1)
-//            );
-//            i++;
-//        }
+    public void viewShipment(ShipmentDTO shipment, int tracking) {
+        System.out.println(
+                "\t Date: " + new SimpleDateFormat("dd/MM/yyyy").format(shipment.getDate())
+                        + "\t Departure Hour: " + shipment.getDepartureHour()
+                        + "\t Truck Plate Number: " + shipment.getTruckPlateNumber()
+                        + "\t Driver Id: " + shipment.getDriverId()
+                        + "\t Shipment Weight: " + shipment.getDocuments().get(tracking).getTrackingNumber()
+                        + "\n\t Source: " + shipment.getSource().getAddress()
+                        + "\t\t Arrives At: " + shipment.getDocuments().get(tracking).getDestination().getAddress()
+                        + "\t Phone: " + shipment.getDocuments().get(tracking).getDestination().getPhoneNumber()
+                        + " (" + shipment.getDocuments().get(tracking).getDestination().getContactName() + ")"
+        );
+        List<ItemDTO> products = shipment.getDocuments().get(tracking).getProducts();
+        System.out.println(products.size() != 0 ? "\t This shipment contains:" : "This shipment has no items :(");
+        int i = 0;
+        for (ItemDTO item : products) {
+            System.out.println(
+                    "\t\t" + (i + 1) + ". " + item.getName() + "\t"
+                            + "\tUnit Weight: " + item.getWeight()
+                            + "\tAmount: " + item.getAmount()
+            );
+            i++;
+        }
     }
 }

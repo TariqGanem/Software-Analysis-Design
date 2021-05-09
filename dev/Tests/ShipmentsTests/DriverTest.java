@@ -1,3 +1,5 @@
+package ShipmentsTests;
+
 import BusinessLayer.ShipmentsModule.Facade;
 import BusinessLayer.ShipmentsModule.Response;
 import org.junit.After;
@@ -20,10 +22,10 @@ public class DriverTest {
     @Test
     public void testAddDriver() {
         data.addDriver("315526640", "Tariq", 12);
-        assertEquals(1, data.getAlldrivers().getValue().size());
-        assertEquals("315526640", data.getAlldrivers().getValue().get(0).getId());
-        assertEquals("Tariq", data.getAlldrivers().getValue().get(0).getName());
-        assertEquals(12, data.getAlldrivers().getValue().get(0).getAllowedWeight(), 0.0);
+        assertEquals(1, data.getAllDrivers().getValue().size());
+        assertEquals("315526640", data.getAllDrivers().getValue().get(0).getId());
+        assertEquals("Tariq", data.getAllDrivers().getValue().get(0).getName());
+        assertEquals(12, data.getAllDrivers().getValue().get(0).getAllowedWeight(), 0.0);
     }
 
     @Test
@@ -31,7 +33,7 @@ public class DriverTest {
         data.addDriver("315526640", "Tariq", 12);
         Response res = data.addDriver("315526640", "Yazan", 8);
         assertEquals("Couldn't add new driver - driverId already exists", res.getMsg());
-        assertNotEquals(2, data.getAlldrivers().getValue().size());
+        assertNotEquals(2, data.getAllDrivers().getValue().size());
     }
 
     @Test
@@ -42,7 +44,7 @@ public class DriverTest {
         assertEquals("Couldn't add new driver - Invalid parameters", res1.getMsg());
         assertEquals("Couldn't add new driver - Invalid parameters", res2.getMsg());
         assertEquals("Couldn't add new driver - Invalid parameters", res3.getMsg());
-        assertEquals(0, data.getAlldrivers().getValue().size());
+        assertEquals(0, data.getAllDrivers().getValue().size());
     }
 
     @After

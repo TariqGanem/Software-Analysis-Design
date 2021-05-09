@@ -6,11 +6,11 @@ public class Driver {
     private double allowedWeight;
     private boolean available;
 
-    public Driver(String id, String name, double allowedWeight) {
+    public Driver(String id, String name, double allowedWeight, boolean available) {
         this.id = id;
         this.name = name;
         this.allowedWeight = allowedWeight;
-        this.available = true;
+        this.available = available;
     }
 
     public String getId() {
@@ -29,7 +29,7 @@ public class Driver {
         return available;
     }
 
-    public void makeAvailable() {
-        available = true;
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 }

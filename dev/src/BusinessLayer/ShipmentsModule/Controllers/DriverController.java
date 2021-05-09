@@ -4,6 +4,7 @@ import BusinessLayer.ShipmentsModule.Builder;
 import BusinessLayer.ShipmentsModule.Objects.Driver;
 import DataAccessLayer.ShipmentsModule.Mappers.DriverMapper;
 
+import java.util.Date;
 import java.util.List;
 
 public class DriverController {
@@ -39,8 +40,8 @@ public class DriverController {
     /**
      * @return all drivers in the system
      */
-    public List<Driver> getAlldrivers() {
-        return null;
+    public List<Driver> getAllDrivers() throws Exception {
+        return Builder.buildDriversList(mapper.getAllDrivers());
     }
 
     /**
@@ -48,7 +49,9 @@ public class DriverController {
      * @return an available driver if exists
      * @throws Exception in case of there is no available driver
      */
-    public Driver getAvailableDriver(double weight) throws Exception {
+    public Driver getAvailableDriver(double weight, Date date, String hour) throws Exception {
+        // return Builder.build(mapper.getAvailableDriver(weight, date));
+        // check the hour for morning and evening
         return null; // TODO
     }
 
@@ -57,11 +60,11 @@ public class DriverController {
      *
      * @param id - The id of the requested driver
      */
-    public void freeDriver(String id) {
-        /*for (Driver d : data) {
-            if (d.getId().equals(id)) {
-                d.makeAvailable();
-            }
-        }*/ // TODO
+    public void freeDriver(String id) throws Exception {
+        mapper.updateDriver(id, true);
+    }
+
+    public void makeUnavailableDriver(String id) throws Exception {
+        mapper.updateDriver(id, false);
     }
 }

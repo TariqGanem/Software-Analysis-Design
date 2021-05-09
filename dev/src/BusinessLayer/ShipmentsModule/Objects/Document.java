@@ -6,7 +6,6 @@ public class Document {
     private int trackingNumber;
     private List<Item> products;
     private Location destination;
-    private double weight;
 
     public int getTrackingNumber() {
         return trackingNumber;
@@ -16,7 +15,6 @@ public class Document {
         this.trackingNumber = trackingNumber;
         this.products = products;
         this.destination = destination;
-        weight = 0;
     }
 
     public List<Item> getProducts() {
@@ -27,11 +25,11 @@ public class Document {
         return destination;
     }
 
-    public void updateWeight(double weight) {
-        this.weight = weight;
-    }
-
     public double getWeight() {
+        double weight = 0;
+        for (Item item : products) {
+            weight += item.getWeight() * item.getAmount();
+        }
         return weight;
     }
 }

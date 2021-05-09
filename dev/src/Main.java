@@ -6,5 +6,6 @@ public class Main {
         //Running the application [Shipments-Employees Module]
         MainMenu app = MainMenu.getInstance();
         app.run();
+
     }
 }
