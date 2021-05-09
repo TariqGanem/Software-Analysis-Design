@@ -174,7 +174,7 @@ public class ShiftMapper {
             ResultSet rs = p.executeQuery();
             List<String> IDs = new ArrayList<>();
             while (rs.next()) {
-                IDs.add(rs.getString("ID");
+                IDs.add(rs.getString("ID"));
             }
             return new ResponseT<>(IDs);
         } catch (SQLException ex) {
