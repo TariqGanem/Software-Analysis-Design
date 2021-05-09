@@ -4,6 +4,7 @@ import BusinessLayer.Objects.FixedOrder;
 import BusinessLayer.Objects.Item;
 import BusinessLayer.Objects.Order;
 import BusinessLayer.Objects.SingleOrder;
+import DTO.OrderDTO;
 import DataAccessLayer.Mappers.OrdersMapper;
 import Enums.Status;
 import java.time.DateTimeException;
@@ -84,8 +85,10 @@ public class OrderController {
 
         if (activeOrders.containsKey(orderID)){
             Order order = activeOrders.remove(orderID);
-            if (newDate.isAfter(order.getOrderDate()))
+            if (newDate.isAfter(order.getOrderDate())){
                 order.setNewDate(newDate);
+            }
+
             else
                 throw new DateTimeException("date should be more later than: "+ order.getOrderDate());
 
@@ -99,6 +102,7 @@ public class OrderController {
     private void archive(Order order) {
         if (order != null) {
             archivedOrders.put(order.getId(), order);
+            mapper.updateStatus(order.getId(), Status.Active);
         } else throw new NullPointerException();
     }
 
@@ -109,7 +113,8 @@ public class OrderController {
      */
     public void removeItemFromOrder(int orderID, int itemID) throws Exception {
         if (activeOrders.containsKey(orderID)){
-            activeOrders.get(orderID).removeItem(itemID);
+            activeOrders.get(orderID).removeItem(itemID); // delete
+            mapper.removeItem(orderID, itemID);
         }
         else if(archivedOrders.containsKey(orderID))
             throw new Exception("Order is not active!");
@@ -125,6 +130,7 @@ public class OrderController {
     public void addItemToOrder(int orderID, Item item) throws Exception {
         if (activeOrders.containsKey(orderID)){
             activeOrders.get(orderID).addItem(item);
+            mapper.storeItemInOrder(orderID, item.getId(), item.getAmount());
         }
         else if(archivedOrders.containsKey(orderID))
             throw new Exception("Order is not active!");
@@ -151,7 +157,7 @@ public class OrderController {
      * @param item edited item to updated
      * @throws Exception cannot update item in this order
      */
-    public void editItemInOrder(int orderID, Item item) throws Exception {
+    public void editItemInOrder(int orderID, Item item) throws Exception { // reconsider
         if (activeOrders.containsKey(orderID)) {
             if (activeOrders.get(orderID).getItems().containsKey(item.getId())) {
                 activeOrders.get(orderID).getItems().get(item.getId()).Replace(item);
@@ -180,6 +186,7 @@ public class OrderController {
         FixedOrder fixedOrder = new FixedOrder(mapper.getNewOrderID(), Status.inPrepared, LocalDate.now(), dueDate);
         inPrepareOrders.put(fixedOrder.getId(), fixedOrder);
         order_Vs_supplier.put(fixedOrder.getId(), supplierID);
+        mapper.storeFixedOrder(new OrderDTO(fixedOrder));
         return fixedOrder;
     }
 
@@ -212,6 +219,7 @@ public class OrderController {
         SingleOrder singleOrder = new SingleOrder(mapper.getNewOrderID(), Status.inPrepared, LocalDate.now(), dueDate);
         inPrepareOrders.put(singleOrder.getId(), singleOrder);
         order_Vs_supplier.put(singleOrder.getId(), supplierID);
+        mapper.storeSingleOrder(new OrderDTO(singleOrder));
         return singleOrder;
     }
 }
