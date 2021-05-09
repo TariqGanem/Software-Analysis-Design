@@ -3,6 +3,7 @@ package DataAccessLayer.EmployeeModule;
 import BusinessLayer.EmployeeModule.Response;
 import BusinessLayer.EmployeeModule.ResponseT;
 import BusinessLayer.EmployeeModule.ShiftPackage.Shift;
+import DataAccessLayer.dbMaker;
 import Resources.Role;
 
 import java.sql.*;
@@ -161,6 +162,21 @@ public class ShiftMapper {
                 map.put(res.getValue(), Role.valueOf(rs.getString("role")));
             }
             return new ResponseT<>(map);
+        } catch (SQLException ex) {
+            return new ResponseT<>(ex.getMessage());
+        }
+    }
+
+    public ResponseT<List<String>> getAvailableDrivers(LocalDate date, boolean isMorning) {
+        try (Connection con = DriverManager.getConnection(url)) {
+            String sqlStatement = "select ID from " + dbMaker.shiftTbl + " where Role = " + Role.Driver.name();
+            PreparedStatement p = con.prepareStatement(sqlStatement);
+            ResultSet rs = p.executeQuery();
+            List<String> IDs = new ArrayList<>();
+            while (rs.next()) {
+                IDs.add(rs.getString("ID");
+            }
+            return new ResponseT<>(IDs);
         } catch (SQLException ex) {
             return new ResponseT<>(ex.getMessage());
         }

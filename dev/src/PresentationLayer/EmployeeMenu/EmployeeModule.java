@@ -377,7 +377,13 @@ public class EmployeeModule {
                         skills = menu.showEnterRoleList();
                         timeFrames = menu.showEnterPreferenceArray();
 
-                        presentationController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, skills, timeFrames);
+                        boolean addEmployeeError = presentationController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, skills, timeFrames);
+                        if (!addEmployeeError) {
+                            /*
+                            ShipmentsManagerAPI.addDriver(ID);
+                             */
+                        }
+
                         io.println("");
                         break;
 

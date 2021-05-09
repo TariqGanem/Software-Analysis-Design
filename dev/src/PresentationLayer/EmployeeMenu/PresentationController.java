@@ -155,13 +155,14 @@ public class PresentationController {
             activeEmployee = employee.ID;
     }
 
-    public void addEmployee(String name, String ID, int bankId, int branchId, int accountNumber, float salary,
+    public boolean addEmployee(String name, String ID, int bankId, int branchId, int accountNumber, float salary,
                             LocalDate startDate, String trustFund, int freeDays, int sickDays, List<Role> skills, Preference[][] timeFrames) {
         Response response = facade.addEmployee(name, ID, bankId, branchId, accountNumber, salary, startDate, trustFund, freeDays, sickDays, skills, timeFrames);
         if (response.getErrorOccurred())
             io.println(response.getErrorMessage());
         else
             io.println("Employee added successfully.");
+        return response.getErrorOccurred();
     }
 
     public void defineShiftPersonnel(int day, boolean isMorning, Role role, int qtty) {
