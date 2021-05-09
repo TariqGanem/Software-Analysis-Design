@@ -48,11 +48,11 @@ public class Builder {
     }
 
     public static Driver build(DriverDTO driver) {
-        return new Driver(driver.getId(), driver.getName(), driver.getAllowedWeight(), driver.isAvailable());
+        return new Driver(driver.getId(), driver.getName(), driver.getAllowedWeight());
     }
 
     public static DriverDTO buildDTO(Driver driver) {
-        return new DriverDTO(driver.getId(), driver.getName(), driver.getAllowedWeight(), driver.isAvailable());
+        return new DriverDTO(driver.getId(), driver.getName(), driver.getAllowedWeight());
     }
 
     public static Item build(ItemDTO item) {
@@ -74,7 +74,7 @@ public class Builder {
 
     public static List<Driver> buildDriversList(List<DriverDTO> driversDTO) {
         List<Driver> drivers = new LinkedList<>();
-        driversDTO.forEach(d -> drivers.add(new Driver(d.getId(), d.getName(), d.getAllowedWeight(), d.isAvailable())));
+        driversDTO.forEach(d -> drivers.add(new Driver(d.getId(), d.getName(), d.getAllowedWeight())));
         return drivers;
     }
 
@@ -115,7 +115,7 @@ public class Builder {
 
     public static List<DriverDTO> buildDriversListDTO(List<Driver> drivers) {
         List<DriverDTO> driversDTO = new LinkedList<>();
-        drivers.forEach(d -> driversDTO.add(new DriverDTO(d.getId(), d.getName(), d.getAllowedWeight(), d.isAvailable())));
+        drivers.forEach(d -> driversDTO.add(new DriverDTO(d.getId(), d.getName(), d.getAllowedWeight())));
         return driversDTO;
     }
 

@@ -27,18 +27,18 @@ public class DriverMapper {
         return instance;
     }
 
-    public DriverDTO addDriver(String id, Double allowedWeight, boolean available) throws Exception {
+    public DriverDTO addDriver(String id, Double allowedWeight) throws Exception {
         DriverDTO driver;
         for (DriverDTO d : memory.getDrivers()) {
             if (d.getId().equals(id))
                 throw new Exception("Driver already exists!");
         }
-        driver = new DriverDTO(id, getDriverName(id), allowedWeight, true);
+        driver = new DriverDTO(id, getDriverName(id), allowedWeight);
         if (driverExists(id)) {
             memory.getDrivers().add(driver);
             throw new Exception("Driver already exists in the database!");
         }
-        insertDriver(id, allowedWeight, available);
+        insertDriver(id, allowedWeight);
         memory.getDrivers().add(driver);
         return driver;
     }
@@ -68,18 +68,16 @@ public class DriverMapper {
 
     public DriverDTO updateDriver(String id, boolean available) throws Exception {
         DriverDTO driver = getDriver(id);
-        driver.setAvailable(available);
         _updateDriver(id, available);
         return driver;
     }
 
-    private void insertDriver(String id, Double allowedWeight, boolean available) throws Exception {
-        String sql = "INSERT INTO " + dbMaker.driversTbl + "(id, allowedWeight, available) VALUES (?,?,?)";
+    private void insertDriver(String id, Double allowedWeight) throws Exception {
+        String sql = "INSERT INTO " + dbMaker.driversTbl + "(id, allowedWeight) VALUES (?,?,?)";
         try (Connection conn = dbMaker.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, id);
             pstmt.setDouble(2, allowedWeight);
-            pstmt.setBoolean(3, available);
             pstmt.executeUpdate();
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -94,8 +92,7 @@ public class DriverMapper {
             if (rs.next()) {
                 return new DriverDTO(rs.getString(1),
                         getDriverName(id),
-                        rs.getDouble(2),
-                        rs.getBoolean(3)
+                        rs.getDouble(2)
                 );
             }
         } catch (Exception e) {
@@ -113,8 +110,7 @@ public class DriverMapper {
             while (rs.next()) {
                 drivers.add(new DriverDTO(rs.getString(1),
                         getDriverName(rs.getString(1)),
-                        rs.getDouble(2),
-                        rs.getBoolean(3)
+                        rs.getDouble(2)
                 ));
             }
             return drivers;

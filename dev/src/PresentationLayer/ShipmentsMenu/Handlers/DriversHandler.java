@@ -1,7 +1,6 @@
 package PresentationLayer.ShipmentsMenu.Handlers;
 
 import BusinessLayer.ShipmentsModule.Facade;
-import BusinessLayer.ShipmentsModule.Response;
 import BusinessLayer.ShipmentsModule.ResponseT;
 import DTOPackage.DriverDTO;
 
@@ -18,20 +17,8 @@ public class DriversHandler extends Handler {
         drivers = new LinkedList<>();
     }
 
-    public void addDriver() {
-        System.out.printf("\nEnter driver's Id: ");
-        String Id = scanner.next();
-        System.out.printf("\nEnter driver's name: ");
-        String name = scanner.next();
-        System.out.printf("\nEnter driver license max weight: ");
-        double allowedWeight = getDouble();
-        System.out.println();
-        Response res = facade.addDriver(Id, name, allowedWeight);
-        if (res.errorOccured())
-            printer.error(res.getMsg());
-        else {
-            printer.success("Driver has been added!");
-        }
+    public void addDriver(String Id, String name, double allowedWeight) {
+        facade.addDriver(Id, name, allowedWeight);
     }
 
     public void viewAllDrivers() {
