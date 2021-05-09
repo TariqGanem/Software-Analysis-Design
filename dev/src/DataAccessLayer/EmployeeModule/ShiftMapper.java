@@ -46,11 +46,9 @@ public class ShiftMapper {
                 positions.get(role).add(rs.getString("ID"));
             }
 
-            if (positions.isEmpty())
-                return new ResponseT<>("this shift doesn't exist");
-            else
-                return new ResponseT<>(new Shift(date, isMorning, positions));
-
+            if(positions.isEmpty())
+                return new ResponseT<>("this shift does not exists.");
+            return new ResponseT<>(new Shift(date, isMorning, positions));
         } catch (SQLException ex) {
             return new ResponseT<>(ex.getMessage());
         }
@@ -67,7 +65,7 @@ public class ShiftMapper {
                     String sqlStatement = "insert into Shift values(?,?,?,?)";
                     PreparedStatement p = con.prepareStatement(sqlStatement);
                     p.setString(1, shift.getDate().toString());
-                    p.setString(2, String.valueOf(shift.isMorning()));
+                    p.setBoolean(2, shift.isMorning());
                     p.setString(3, role.toString());
                     p.setString(4, id);
                     p.executeUpdate();
@@ -87,7 +85,7 @@ public class ShiftMapper {
             String sqlStatement = "insert into Shift values(?, ?, ?, ?)";
             PreparedStatement p = con.prepareStatement(sqlStatement);
             p.setString(1, shift.getDate().toString());
-            p.setString(2, String.valueOf(shift.isMorning()));
+            p.setBoolean(2, shift.isMorning());
             p.setString(3, role.toString());
             p.setString(4, ID);
             p.executeUpdate();

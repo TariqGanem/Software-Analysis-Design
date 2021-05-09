@@ -46,7 +46,6 @@ public class Menu {
      * Activating the menu for the user
      */
     public void run() {
-        //printer.printBanner();
         viewMenuItems();
         selectItem();
     }
@@ -54,7 +53,6 @@ public class Menu {
     private void addItems() {
         addMenuItem("Initialize System Data");
         addMenuItem("Add Truck");
-        addMenuItem("Add Driver");
         addMenuItem("Add Location");
         addMenuItem("View All Trucks");
         addMenuItem("View All Drivers");
@@ -90,30 +88,27 @@ public class Menu {
                 trucksHandler.addTruck();
                 break;
             case 3:
-                driversHandler.addDriver();
-                break;
-            case 4:
                 locationsHandler.addLocation();
                 break;
-            case 5:
+            case 4:
                 trucksHandler.viewAllTrucks();
                 break;
-            case 6:
+            case 5:
                 driversHandler.viewAllDrivers();
                 break;
-            case 7:
+            case 6:
                 locationsHandler.viewAllLocations();
                 break;
-            case 8:
+            case 7:
                 shipmentsHandler.viewAllShipments();
                 break;
-            case 9:
+            case 8:
                 shipmentsHandler.trackShipment();
                 break;
-            case 10:
+            case 9:
                 shipmentsHandler.arrangeShipment();
                 break;
-            case 11:
+            case 10:
                 shipmentsHandler.removeShipment();
                 break;
         }
@@ -134,6 +129,8 @@ public class Menu {
             return true;
     }
 
+
+
     private void viewMenuItems() {
         printer.viewOptions(items);
     }
@@ -142,4 +139,7 @@ public class Menu {
         items.add(item);
     }
 
+    public DriversHandler getDriversHandler() {
+        return driversHandler;
+    }
 }

@@ -34,7 +34,7 @@ public class DriverController {
     public void addDriver(String id, String name, double allowedWeight) throws Exception {
         if (id == null || id.trim().isEmpty() || name == null || name.trim().isEmpty() || allowedWeight <= 0)
             throw new Exception("Couldn't add new driver - Invalid parameters");
-        mapper.addDriver(id, allowedWeight, true);
+        mapper.addDriver(id, allowedWeight);
     }
 
     /**
