@@ -3,6 +3,7 @@ package DataAccessLayer.EmployeeModule;
 import BusinessLayer.EmployeeModule.Response;
 import BusinessLayer.EmployeeModule.ResponseT;
 import BusinessLayer.EmployeeModule.ShiftPackage.Shift;
+import DataAccessLayer.dbMaker;
 import Resources.Role;
 
 import java.sql.*;
@@ -44,7 +45,8 @@ public class ShiftMapper {
                     positions.put(role, new ArrayList<>());
                 positions.get(role).add(rs.getString("ID"));
             }
-
+            if(positions.isEmpty())
+                return new ResponseT<>("this shift does not exists.");
             return new ResponseT<>(new Shift(date, isMorning, positions));
         } catch (SQLException ex) {
             return new ResponseT<>(ex.getMessage());
@@ -62,7 +64,7 @@ public class ShiftMapper {
                     String sqlStatement = "insert into Shift values(?,?,?,?)";
                     PreparedStatement p = con.prepareStatement(sqlStatement);
                     p.setString(1, shift.getDate().toString());
-                    p.setString(2, String.valueOf(shift.isMorning()));
+                    p.setBoolean(2, shift.isMorning());
                     p.setString(3, role.toString());
                     p.setString(4, id);
                     p.executeUpdate();
@@ -82,7 +84,7 @@ public class ShiftMapper {
             String sqlStatement = "insert into Shift values(?, ?, ?, ?)";
             PreparedStatement p = con.prepareStatement(sqlStatement);
             p.setString(1, shift.getDate().toString());
-            p.setString(2, String.valueOf(shift.isMorning()));
+            p.setBoolean(2, shift.isMorning());
             p.setString(3, role.toString());
             p.setString(4, ID);
             p.executeUpdate();
@@ -161,6 +163,21 @@ public class ShiftMapper {
                 map.put(res.getValue(), Role.valueOf(rs.getString("role")));
             }
             return new ResponseT<>(map);
+        } catch (SQLException ex) {
+            return new ResponseT<>(ex.getMessage());
+        }
+    }
+
+    public ResponseT<List<String>> getAvailableDrivers(LocalDate date, boolean isMorning) {
+        try (Connection con = DriverManager.getConnection(url)) {
+            String sqlStatement = "select ID from " + dbMaker.shiftTbl + " where Role = " + Role.Driver.name();
+            PreparedStatement p = con.prepareStatement(sqlStatement);
+            ResultSet rs = p.executeQuery();
+            List<String> IDs = new ArrayList<>();
+            while (rs.next()) {
+                IDs.add(rs.getString("ID"));
+            }
+            return new ResponseT<>(IDs);
         } catch (SQLException ex) {
             return new ResponseT<>(ex.getMessage());
         }

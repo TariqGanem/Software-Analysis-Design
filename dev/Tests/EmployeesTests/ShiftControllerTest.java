@@ -1,5 +1,6 @@
 package EmployeesTests;
 
+import BusinessLayer.EmployeeModule.EmployeePackage.Employee;
 import BusinessLayer.EmployeeModule.ShiftPackage.Shift;
 import BusinessLayer.EmployeeModule.ShiftPackage.ShiftController;
 import DataAccessLayer.EmployeeModule.DALController;
@@ -8,12 +9,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import static org.junit.Assert.*;
 
 public class ShiftControllerTest {
     private ShiftController sc;
+    private Employee emp;
 
     @Before
     public void setup() {
@@ -25,8 +28,8 @@ public class ShiftControllerTest {
         Shift shift;
         sc.addShift(LocalDate.now(), false);
         try {
-            sc.getShift(LocalDate.now(), true);
-            fail("there shoud not be such shift");
+            Shift s = sc.getShift(LocalDate.now(), true);
+            assertNull(s);
         } catch (Exception ignored) {
         }
         shift = sc.getShift(LocalDate.now(), false);
@@ -98,11 +101,8 @@ public class ShiftControllerTest {
         int day = cal.get(Calendar.DAY_OF_WEEK);
         LocalDate date = LocalDate.now().plusDays(5 - day);
         sc.addShift(date, true);
+        sc.AssignToShift("admin",Role.ShiftManager);
         assertTrue(sc.removeShift(date, true));
-        try {
-            sc.removeShift(date, true);
-            fail("Removed shift which doesn't exist.");
-        } catch (Exception ignored) {
-        }
+        assertFalse(sc.removeShift(date, true));
     }
 }

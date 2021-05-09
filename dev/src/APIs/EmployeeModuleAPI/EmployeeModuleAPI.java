@@ -4,6 +4,7 @@ import PresentationLayer.EmployeeMenu.PresentationController;
 import Resources.Role;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class EmployeeModuleAPI implements iEmployeeModuleAPI {
     private PresentationController pController;
@@ -20,6 +21,11 @@ public class EmployeeModuleAPI implements iEmployeeModuleAPI {
     @Override
     public boolean isDriverAssignedToShift(LocalDate date, boolean isMorning, String ID) {
         return pController.API_isDriverAssignedToShift(date, isMorning, ID);
+    }
+
+    @Override
+    public List<String> getAvailableDrivers(LocalDate date, boolean isMorning) {
+        return pController.API_getAvailableDrivers(date, isMorning);
     }
 
     @Override

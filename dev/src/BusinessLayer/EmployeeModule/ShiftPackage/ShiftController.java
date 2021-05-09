@@ -168,4 +168,11 @@ public class ShiftController {
             return false;
         }
     }
+
+    public List<String> API_getAvailableDrivers(LocalDate date, boolean isMorning) {
+        ResponseT<List<String>> res = dalController.getAvailableDrivers(date, isMorning);
+        if(!res.getErrorOccurred())
+            return res.getValue();
+        return new ArrayList<>();
+    }
 }
