@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 import static org.junit.Assert.*;
@@ -98,10 +97,10 @@ public class ShiftControllerTest {
     public void testRemoveShift() {
         Calendar cal = Calendar.getInstance();
         cal.setTime(cal.getTime());
-        int day = cal.get(Calendar.DAY_OF_WEEK);
+        int day = cal.get(Calendar.DAY_OF_WEEK) + 7;
         LocalDate date = LocalDate.now().plusDays(5 - day);
         sc.addShift(date, true);
-        sc.AssignToShift("admin",Role.ShiftManager);
+        sc.AssignToShift("admin", Role.ShiftManager);
         assertTrue(sc.removeShift(date, true));
         assertFalse(sc.removeShift(date, true));
     }

@@ -130,7 +130,6 @@ public class Menu {
     }
 
 
-
     private void viewMenuItems() {
         printer.viewOptions(items);
     }

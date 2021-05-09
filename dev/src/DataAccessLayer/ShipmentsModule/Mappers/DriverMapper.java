@@ -115,7 +115,7 @@ public class DriverMapper {
     }
 
     private DriverDTO selectAvailableDriver(String id, double weight) throws Exception {
-        String sql = "SELECT * FROM " + dbMaker.driversTbl + " WHERE id= '" + id + "'" + " AND allowedWeight >= " + weight ;
+        String sql = "SELECT * FROM " + dbMaker.driversTbl + " WHERE id= '" + id + "'" + " AND allowedWeight >= " + weight;
         try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);

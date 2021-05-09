@@ -45,7 +45,8 @@ public class ShiftMapper {
                     positions.put(role, new ArrayList<>());
                 positions.get(role).add(rs.getString("ID"));
             }
-            if(positions.isEmpty())
+
+            if (positions.isEmpty())
                 return new ResponseT<>("this shift does not exists.");
             return new ResponseT<>(new Shift(date, isMorning, positions));
         } catch (SQLException ex) {

@@ -73,9 +73,9 @@ public class Printer {
     public void viewAllDrivers(List<DriverDTO> drivers) {
         for (int i = 0; i < drivers.size(); i++) {
             System.out.println("\t" + (i + 1)
-                    + ". Id Number: " + drivers.get(i).getId()
-                    + "\t Name: " + drivers.get(i).getName()
-                    + "\t Allowed Weight: " + drivers.get(i).getAllowedWeight()
+                            + ". Id Number: " + drivers.get(i).getId()
+                            + "\t Name: " + drivers.get(i).getName()
+                            + "\t Allowed Weight: " + drivers.get(i).getAllowedWeight()
 //                    + "\t Available: " + (drivers.get(i).isAvailable() ? "Yes" : "No")
             );
         }
