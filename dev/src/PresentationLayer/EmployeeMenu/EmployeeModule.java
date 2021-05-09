@@ -1,5 +1,6 @@
 package PresentationLayer.EmployeeMenu;
 
+import APIs.EmployeeModuleAPI.ShipmentsAPI;
 import BusinessLayer.EmployeeModule.ResponseT;
 import DTOPackage.EmployeeDTO;
 import DTOPackage.ShiftDTO;
@@ -15,7 +16,7 @@ public class EmployeeModule {
 
     public void run() {
         PresentationController presentationController = PresentationController.getInstance();
-        //ShipmentModuleAPI shipmentModuleAPI = new ShipmentModuleAPI();
+        ShipmentsAPI shipmentModuleAPI = new ShipmentsAPI();
         MenuHandler menu = new MenuHandler();
         IOController io = IOController.getInstance();
         String ID = null;
@@ -380,9 +381,7 @@ public class EmployeeModule {
 
                         boolean addEmployeeError = presentationController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, skills, timeFrames);
                         if (!addEmployeeError && skills.contains(Role.Driver)) {
-                            /*
-                            shipmentsModuleAPI.addDriver(ID);
-                             */
+                            shipmentModuleAPI.addDriver(ID);
                         }
 
                         io.println("");
