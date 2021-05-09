@@ -81,4 +81,8 @@ public class DALController {
     public ResponseT<List<Employee>> getAvailableEmployees(int day, boolean isMorning, Role skill, boolean getAvailable) {
         return employeeMapper.getAvailableEmployees(day, isMorning, skill, getAvailable);
     }
+
+    public ResponseT<List<String>> getAvailableDrivers(LocalDate date, boolean isMorning) {
+        return shiftMapper.getAvailableDrivers(date, isMorning);
+    }
 }
