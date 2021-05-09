@@ -10,7 +10,7 @@ public class OrderDTO {
     private final int id;
     private final Status status;
     private final LocalDate placementDate;
-    private final LocalDate orderDate;
+    private final LocalDate dueDate;
     private final Map<Integer, ItemDTO> items;
 
 
@@ -18,12 +18,25 @@ public class OrderDTO {
         id = order.getId();
         status = order.getStatus();
         placementDate = order.getPlacementDate();
-        orderDate = order.getOrderDate();
+        dueDate = order.getOrderDate();
         items = new HashMap<>();
         for (Map.Entry<Integer, Item> items:
              order.getItems().entrySet()) {
             this.items.put(items.getKey(), new ItemDTO(items.getValue()));
         }
+    }
+
+    public OrderDTO(DataAccessLayer.Objects.Order order){
+        this.id = order.getId();
+        this.status = order.getStatus();
+        this.placementDate = order.getPlacementDate();
+        this.dueDate = order.getDuedate();
+        this.items = new HashMap<>();
+        for (Map.Entry<Integer, DataAccessLayer.Objects.Item> items:
+                order.getItems().entrySet()) {
+            this.items.put(items.getKey(), new ItemDTO(items.getValue()));
+        }
+
     }
 
     public int getId() {
@@ -39,7 +52,7 @@ public class OrderDTO {
     }
 
     public LocalDate getDueDate() {
-        return orderDate;
+        return dueDate;
     }
 
     public Map<Integer, ItemDTO> getItems() {
@@ -52,7 +65,7 @@ public class OrderDTO {
                 new StringBuilder("Order id: " + id + "\n"
                         + "Status: " + status + "\n"
                         + "Placement date: " + placementDate + "\n"
-                        + "Order date: " + orderDate + "\n"
+                        + "Order date: " + dueDate + "\n"
                         + "Items: " + "\n");
 
         for (Map.Entry<Integer, ItemDTO> item

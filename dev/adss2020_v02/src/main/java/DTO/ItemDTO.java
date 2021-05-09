@@ -1,5 +1,7 @@
 package DTO;
 
+import DataAccessLayer.Objects.Item;
+
 public class ItemDTO {
     private final int id;
     private final String name;
@@ -30,6 +32,11 @@ public class ItemDTO {
         price = item.getPrice();
     }
 
+    public ItemDTO(DataAccessLayer.Objects.Item item){
+        this.id = item.getId();
+        this.price = item.getPrice();
+        this.name = item.getName();
+    }
     @Override
     public String toString() {
         return "Item's id: " + id + ", Item's name: " + name + ", Item's price: " + price + "\n";

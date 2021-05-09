@@ -13,6 +13,10 @@ public class QuantityReportDTO {
     public QuantityReportDTO(QuantityReport quantityReport){
         discounts = quantityReport.getDiscounts();
     }
+
+    public QuantityReportDTO(DataAccessLayer.Objects.QuantityReport quantityReport){
+        this.discounts = quantityReport.getDiscounts();
+    }
     @Override
     public String toString() {
         String output = "--------------------Quantity Report--------------------\n";

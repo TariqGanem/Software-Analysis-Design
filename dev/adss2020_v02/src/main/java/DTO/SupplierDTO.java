@@ -2,6 +2,8 @@ package DTO;
 
 import BusinessLayer.Objects.ContactPerson;
 import BusinessLayer.Objects.SupplierCard;
+import DataAccessLayer.Objects.Contact;
+import DataAccessLayer.Objects.Supplier;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +45,22 @@ public class SupplierDTO {
         }
 
     }
+
+    public SupplierDTO(Supplier supplier){
+        this.name = supplier.getName();
+        this.manifactur = supplier.getManifactur();
+        this.company_id = supplier.getCompany_id();
+        this.bankAccount = supplier.getBankAccount();
+        this.orderType = supplier.getOrderType();
+        this.selfPickup = supplier.isSelfPickup();
+        this.paymentConditions = supplier.getPaymentConditions();
+        this.contacts = new HashMap<>();
+        for (Map.Entry<String, Contact> contacts :
+                supplier.getContacts().entrySet()) {
+            this.contacts.put(contacts.getKey(), new ContactDTO(contacts.getValue()));
+        }
+    }
+
     @Override
     public String toString() {
         String output = "============================================" + '\n' +
