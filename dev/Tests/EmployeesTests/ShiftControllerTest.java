@@ -25,8 +25,8 @@ public class ShiftControllerTest {
         Shift shift;
         sc.addShift(LocalDate.now(), false);
         try {
-            sc.getShift(LocalDate.now(), true);
-            fail("there shoud not be such shift");
+            Shift s =sc.getShift(LocalDate.now(), true);
+            assertNull(s);
         } catch (Exception ignored) {
         }
         shift = sc.getShift(LocalDate.now(), false);
@@ -95,9 +95,10 @@ public class ShiftControllerTest {
     public void testRemoveShift() {
         Calendar cal = Calendar.getInstance();
         cal.setTime(cal.getTime());
-        int day = cal.get(Calendar.DAY_OF_WEEK);
+        int day = cal.get(Calendar.DAY_OF_WEEK) + 7;
         LocalDate date = LocalDate.now().plusDays(5 - day);
         sc.addShift(date, true);
+        sc.AssignToShift("admin", Role.ShiftManager);
         assertTrue(sc.removeShift(date, true));
         try {
             sc.removeShift(date, true);
