@@ -114,7 +114,7 @@ public class SuppliersMapper extends Mapper{
             s = suppliers.get(companyid);
         }
         if(s!=null)
-            return s.DTO();
+            return new SupplierDTO(s);
         else
             return null;
     }

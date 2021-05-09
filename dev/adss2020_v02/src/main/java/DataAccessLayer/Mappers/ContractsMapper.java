@@ -118,7 +118,7 @@ public class ContractsMapper extends Mapper{
             contract = contracts.get(companyid);
         }
         if(contract!=null)
-            return contract.DTO();
+            return new ContractDTO(contract);
         else
             return null;
     }

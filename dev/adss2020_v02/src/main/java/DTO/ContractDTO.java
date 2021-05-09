@@ -32,8 +32,7 @@ public class ContractDTO {
         this.items = new HashMap<>();
 
         for (Map.Entry<Integer, DataAccessLayer.Objects.Item> itemEntry: contract.getItems().entrySet()) {
-            this.items.put(itemEntry.getKey(), new ItemDTO(itemEntry.getValue()));
-
+            this.items.put(itemEntry.getKey(), new ItemDTO(itemEntry.getValue ()));
         }
 
         this.selfPickup = contract.isSelfPickup();

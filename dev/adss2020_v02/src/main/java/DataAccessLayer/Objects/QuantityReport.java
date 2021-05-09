@@ -17,10 +17,9 @@ public class QuantityReport {
         this.discounts = discounts;
     }
 
-    public QuantityReport(QuantityReportDTO quantityReportDTO) {
+    public QuantityReport(QuantityReportDTO quantityReportDTO){
         this.discounts = quantityReportDTO.getDiscounts();
     }
-
 
     public void addDiscount(int itemid, int quant, double disc) {
         if(discounts.containsKey(itemid)){
