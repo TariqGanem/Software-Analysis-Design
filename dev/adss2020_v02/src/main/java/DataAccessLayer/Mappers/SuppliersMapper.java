@@ -99,7 +99,7 @@ public class SuppliersMapper extends Mapper{
                                     rs2.getInt("bankAccount"),
                                     rs2.getString("paymentConditions"),
                                     rs2.getString("orderType"),
-                                    rs2.getInt("selfPickup") == 1?true:false,contacts));
+                                    rs2.getInt("selfPickup") == 1,contacts));
                 }
                 s = suppliers.get(companyid);
                 //==============================================================
