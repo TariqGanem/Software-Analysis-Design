@@ -15,6 +15,7 @@ public class EmployeeModule {
 
     public void run() {
         PresentationController presentationController = PresentationController.getInstance();
+        //ShipmentModuleAPI shipmentModuleAPI = new ShipmentModuleAPI();
         MenuHandler menu = new MenuHandler();
         IOController io = IOController.getInstance();
         String ID = null;
@@ -378,9 +379,9 @@ public class EmployeeModule {
                         timeFrames = menu.showEnterPreferenceArray();
 
                         boolean addEmployeeError = presentationController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, skills, timeFrames);
-                        if (!addEmployeeError) {
+                        if (!addEmployeeError && skills.contains(Role.Driver)) {
                             /*
-                            ShipmentsManagerAPI.addDriver(ID);
+                            shipmentsModuleAPI.addDriver(ID);
                              */
                         }
 
