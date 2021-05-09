@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class EmployeeModule {
 
-    public static void main(String[] args) {
+    public void run() {
         PresentationController presentationController = PresentationController.getInstance();
         MenuHandler menu = new MenuHandler();
         IOController io = IOController.getInstance();
@@ -156,8 +156,8 @@ public class EmployeeModule {
                                 }
                             }
                             io.println("");
-                            if (option == 4){
-                                if(date.isBefore(LocalDate.now())) {
+                            if (option == 4) {
+                                if (date.isBefore(LocalDate.now())) {
                                     gotShift = menu.showConfirmationMenu("this date already past.");
                                 }
                                 gotShift = gotShift && presentationController.addShift(date, isMorning);
@@ -289,7 +289,7 @@ public class EmployeeModule {
 
                                 case 2:
                                     emp.ID = menu.showEnterStringMenu("id");
-                                    if (!ID.matches("[0-9]+")) {
+                                    if (!emp.ID.matches("[0-9]+")) {
                                         io.println("ID must contain only numbers.");
                                         continue;
                                     }
@@ -377,7 +377,13 @@ public class EmployeeModule {
                         skills = menu.showEnterRoleList();
                         timeFrames = menu.showEnterPreferenceArray();
 
-                        presentationController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, skills, timeFrames);
+                        boolean addEmployeeError = presentationController.addEmployee(name, ID, bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, skills, timeFrames);
+                        if (!addEmployeeError) {
+                            /*
+                            ShipmentsManagerAPI.addDriver(ID);
+                             */
+                        }
+
                         io.println("");
                         break;
 

@@ -4,33 +4,22 @@ import BusinessLayer.EmployeeModule.EmployeePackage.Employee;
 import BusinessLayer.EmployeeModule.Response;
 import BusinessLayer.EmployeeModule.ResponseT;
 import BusinessLayer.EmployeeModule.ShiftPackage.Shift;
+import DataAccessLayer.dbMaker;
 import Resources.Role;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.time.LocalDate;
-
 import java.util.List;
 import java.util.Map;
 
 public class DALController {
-    private DALController instance = null;
     private EmployeeMapper employeeMapper;
     private ShiftMapper shiftMapper;
     private ShiftPersonnelMapper shiftPersonnelMapper;
 
     public DALController() {
-        String dbFile = "SuperLi.db";
-        String url = "jdbc:sqlite:" + dbFile;
-        Connection con = null;
-        try {
-            con = DriverManager.getConnection(url);
-        } catch (Exception ignored) {
-        }
-
-        employeeMapper = EmployeeMapper.getInstance(con);
-        shiftMapper = ShiftMapper.getInstance(con);
-        shiftPersonnelMapper = ShiftPersonnelMapper.getInstance(con);
+        employeeMapper = EmployeeMapper.getInstance(dbMaker.path);
+        shiftMapper = ShiftMapper.getInstance(dbMaker.path);
+        shiftPersonnelMapper = ShiftPersonnelMapper.getInstance(dbMaker.path);
     }
 
     public ResponseT<Employee> getEmployee(String ID) {
@@ -49,11 +38,11 @@ public class DALController {
         return shiftPersonnelMapper.getShiftPersonnel();
     }
 
-    public Response updateShiftPersonnel(int dayIndex,Role role, int qtty) {
+    public Response updateShiftPersonnel(int dayIndex, Role role, int qtty) {
         return shiftPersonnelMapper.updateShiftPersonnel(dayIndex, role, qtty);
     }
 
-    public Response setShiftPersonnel(int dayIndex,Role role, int qtty) {
+    public Response setShiftPersonnel(int dayIndex, Role role, int qtty) {
         return shiftPersonnelMapper.setShiftPersonnel(dayIndex, role, qtty);
     }
 
@@ -69,20 +58,31 @@ public class DALController {
         return shiftMapper.setShift(shift);
     }
 
-
-    public Response insertToShift(Shift shift, Role role, String ID){
-        return shiftMapper.insertToShift(shift,role,ID);
+    public Response insertToShift(Shift shift, Role role, String ID) {
+        return shiftMapper.insertToShift(shift, role, ID);
     }
 
-    public Response removeFromShift(Shift shift, String ID){
+    public Response removeFromShift(Shift shift, String ID) {
         return shiftMapper.removeFromShift(shift, ID);
     }
 
-    public void deleteShift(LocalDate date, boolean isMorning) {
-        shiftMapper.deleteShift(date, isMorning);
+    public Response deleteShift(LocalDate date, boolean isMorning) {
+        return shiftMapper.deleteShift(date, isMorning);
     }
 
     public ResponseT<Map<Shift, Role>> getEmpShifts(String id) {
         return shiftMapper.getEmpShifts(id);
+    }
+
+    public ResponseT<List<String>> getEmployeeIDs() {
+        return employeeMapper.getEmployeeIDs();
+    }
+
+    public ResponseT<List<Employee>> getAvailableEmployees(int day, boolean isMorning, Role skill, boolean getAvailable) {
+        return employeeMapper.getAvailableEmployees(day, isMorning, skill, getAvailable);
+    }
+
+    public ResponseT<List<String>> getAvailableDrivers(LocalDate date, boolean isMorning) {
+        return shiftMapper.getAvailableDrivers(date, isMorning);
     }
 }

@@ -10,5 +10,9 @@ public interface iEmployeeModuleAPI {
 
     boolean isDriverAssignedToShift(LocalDate date, boolean isMorning, String ID);
 
+
     List<String> getAvailableDrivers(LocalDate date, boolean isMorning);
+
+    boolean isShipmentManager(String ID);
+
 }

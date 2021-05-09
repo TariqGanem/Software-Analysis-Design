@@ -1,6 +1,7 @@
+package EmployeesTests;
+
 import BusinessLayer.EmployeeModule.EmployeePackage.Employee;
 import BusinessLayer.EmployeeModule.EmployeePackage.EmployeeController;
-
 import DataAccessLayer.EmployeeModule.DALController;
 import Resources.Preference;
 import Resources.Role;
@@ -263,7 +264,7 @@ public class EmployeeControllerTest {
         }
 
         try {
-            employeeController.updateEmployee("123456789",name, "987654321", bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
+            employeeController.updateEmployee("123456789", name, "987654321", bankId, branchId, accountNumber, salary, date, trustFund, freeDays, sickDays, roles, timeFrames);
         } catch (Exception e) {
             fail("Tried to change an employee ID but failed.");
         }

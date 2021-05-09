@@ -24,7 +24,12 @@ public class EmployeeModuleAPI implements iEmployeeModuleAPI {
     }
 
     @Override
-    List<String> getAvailableDrivers(LocalDate date, boolean isMorning){
-        pController.API_getAvailableDrivers(date, isMorning);
+    public List<String> getAvailableDrivers(LocalDate date, boolean isMorning) {
+        return pController.API_getAvailableDrivers(date, isMorning);
+    }
+
+    @Override
+    public boolean isShipmentManager(String ID) {
+        return pController.API_isShipmentManager(ID);
     }
 }

@@ -1,7 +1,8 @@
+package EmployeesTests;
+
 import BusinessLayer.EmployeeModule.EmployeePackage.Employee;
 import Resources.Preference;
 import Resources.Role;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -135,12 +136,12 @@ public class EmployeeTest {
     }
 
     @Test
-    public void testHasSkill(){
+    public void testHasSkill() {
         assertTrue(employee.hasSkill(Role.Cashier));
     }
 
     @Test
-    public void testHasSkillAfterChange(){
+    public void testHasSkillAfterChange() {
         List<Role> roles = new ArrayList<>();
         roles.add(Role.StoreManager);
         employee.setSkills(roles);

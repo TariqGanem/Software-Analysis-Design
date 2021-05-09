@@ -3,6 +3,8 @@
 # => Change            |
 _______________________|
 
+First Assignment-
+
 # BackendController renamed to PresentationController.
 + Public enum Role in BusinessLayer: Instead of using strings to describe the roles of each employee, we can use a list of Roles.
 + Public enum Preference in BusinessLayer: Instead of using the numbers 0, 1, 2 to describe whether an employee CAN/WANT/CANT at a certain shift, we will use this enum.
@@ -25,3 +27,14 @@ _______________________|
 + public class EmployeeModule: contains main and responsible for displaying the menus and getting user input
 + public class MenuHandler: Helps EmployeeModule to display the menus. In order not to clutter main and not to use static functions we built this class.
 + public class InitializeData: This class loads the hardcoded data into the system.
+
+Second Assignment-
+
++ ID is now Primary Key in Shift
++ Field in EmployeeController: List<String> IDs (Helps to know all of the IDs of the employees)
++ Function in iEmployeeModuleAPI and EmployeeModuleAPI: isShipmentManager(String) (Helps Shipment Module to know if the user connected to them is a shipment manager or not)
++ Functions in PresentationController, Facade, shiftController, employeeController that are for the API implementaion, such as API_isShipmentManager(String) in Presentation Controller
+# DAL now returns the employees and shifts as Business Layer Objects
++ Added Driver, SecurityMan and ShipmentManager to the Role enum.
+# Merged Employee Module and Shipment Module
++ Added Class dbMaker to help create the db and initialize it.

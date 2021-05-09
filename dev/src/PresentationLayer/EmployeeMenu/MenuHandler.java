@@ -54,7 +54,7 @@ public class MenuHandler {
         return YES_NO.equals("y");
     }
 
-    public LocalDate showEnterDateMenu(){
+    public LocalDate showEnterDateMenu() {
         int year, month, day;
         boolean success = false;
         LocalDate date = null;
@@ -65,10 +65,11 @@ public class MenuHandler {
             month = io.getInt();
             io.print("Please enter a day: ");
             day = io.getInt();
-            try{
+            try {
                 date = LocalDate.of(year, month, day);
                 success = true;
-            }catch(Exception ignored){}
+            } catch (Exception ignored) {
+            }
         } while (!success);
         return date;
     }
@@ -141,7 +142,7 @@ public class MenuHandler {
         do {
             io.print("Enter a number between 0 and 11: ");
             answer = io.getInt();
-        } while (answer < 0 || answer > 10);
+        } while (answer < 0 || answer > 11);
 
         return answer;
     }
@@ -268,7 +269,7 @@ public class MenuHandler {
         do {
             io.print("enter a number between 1 and " + ret.size() + ": ");
             answer = io.getInt();
-        } while(answer < 1 || answer > ret.size());
+        } while (answer < 1 || answer > ret.size());
         return ret.get(answer - 1);
     }
 

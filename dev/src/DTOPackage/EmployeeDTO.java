@@ -39,7 +39,7 @@ public class EmployeeDTO {
         return desc;
     }
 
-    public String bankDescription(){
+    public String bankDescription() {
         return "\tBank id: " + bankId + "\n\tBranch id: " + branchId + "\n\tAccount number: " + accountNumber + "\n";
     }
 

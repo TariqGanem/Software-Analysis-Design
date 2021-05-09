@@ -1,13 +1,12 @@
 package BusinessLayer.EmployeeModule.ShiftPackage;
 
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.*;
-
 import BusinessLayer.EmployeeModule.Response;
 import BusinessLayer.EmployeeModule.ResponseT;
 import DataAccessLayer.EmployeeModule.DALController;
 import Resources.Role;
+
+import java.time.LocalDate;
+import java.util.*;
 
 public class ShiftController {
     private List<Shift> shifts;
@@ -31,26 +30,29 @@ public class ShiftController {
                 return shift;
             }
         }
-        throw new NoSuchElementException("there is no shift at the time you want.");
+        ResponseT<Shift> res = dalController.getShift(date, isMorning);
+        if (res.getErrorOccurred())
+            return null;
+        return res.getValue();
     }
 
     public List<Shift> getShifts(int daysFromToday) {
         LocalDate topDate = LocalDate.now().plusDays(daysFromToday);
         List<Shift> lst;
-        if(!topDate.isBefore(maxDateLoaded)){
+        if (topDate.isBefore(maxDateLoaded)) {
             lst = new ArrayList<>();
             for (Shift shift : shifts) {
-                if(shift.getDate().isAfter(LocalDate.now().plusDays(daysFromToday)) || shift.getDate().isBefore(LocalDate.now()))
+                if (shift.getDate().isAfter(LocalDate.now().plusDays(daysFromToday)) || shift.getDate().isBefore(LocalDate.now()))
                     continue;
                 lst.add(shift);
             }
-        }else{
+        } else {
             ResponseT<List<Shift>> res = dalController.getShifts(daysFromToday);
-            if(res.getErrorOccurred())
+            if (res.getErrorOccurred())
                 throw new NoSuchElementException("an error occurred while loading from database.");
             lst = res.getValue();
             for (Shift shift : lst) {
-                shifts.removeIf(shift1 -> shift1.getDate().isEqual(shift.getDate()) && shift1.isMorning()==shift.isMorning());
+                shifts.removeIf(shift1 -> shift1.getDate().isEqual(shift.getDate()) && shift1.isMorning() == shift.isMorning());
                 shifts.add(shift);
             }
         }
@@ -65,7 +67,7 @@ public class ShiftController {
         if (actualAmount > amountPlanned)
             throw new IndexOutOfBoundsException("Note that you only needed " + amountPlanned + " " + skill + "s\nAnd now the amount is - " + actualAmount);
         Response res = dalController.insertToShift(activeShift, skill, id);
-        if(res.getErrorOccurred())
+        if (res.getErrorOccurred())
             throw new NoSuchElementException("an error occurred while updating the database");
         return true;
     }
@@ -76,7 +78,7 @@ public class ShiftController {
         if (!activeShift.removeFromShift(id))
             throw new IllegalArgumentException(id + " is not assigned to this shift.");
         Response res = dalController.removeFromShift(activeShift, id);
-        if(res.getErrorOccurred())
+        if (res.getErrorOccurred())
             throw new NoSuchElementException("an error occurred while removing from the database.");
         return true;
     }
@@ -92,20 +94,27 @@ public class ShiftController {
             throw new IndexOutOfBoundsException("This is a saturday or a day larger than 7.");
         if (index > 10)
             throw new IllegalArgumentException("this shift is on rest day");
-        for (Shift shift: shifts)
-            if(shift.getDate().isEqual(date) && shift.isMorning()==isMorning)
+        for (Shift shift : shifts)
+            if (shift.getDate().isEqual(date) && shift.isMorning() == isMorning)
                 throw new IllegalArgumentException("this shift is already exists");
         activeShift = new Shift(date, isMorning);
         Response res = dalController.setShift(activeShift);
-        if(res.getErrorOccurred())
+        if (res.getErrorOccurred())
             throw new IllegalArgumentException("an error occurred while adding the shift to the database.");
         return shifts.add(activeShift);
 
     }
 
     public boolean removeShift(LocalDate date, boolean isMorning) {
-        dalController.deleteShift(date, isMorning);
-        boolean success = shifts.remove(getShift(date, isMorning));
+        Response res = dalController.deleteShift(date, isMorning);
+        if (res.getErrorOccurred())
+            return false;
+
+        Shift shift = getShift(date, isMorning);
+        if (shift == null)
+            return false;
+
+        boolean success = shifts.remove(shift);
         if (success)
             activeShift = null;
         return success;
@@ -118,12 +127,22 @@ public class ShiftController {
     }
 
     public Map<Shift, Role> getEmpShifts(String id) {
-        ResponseT<Map<Shift, Role>> res = dalController.getEmpShifts(id);
         Map<Shift, Role> empShifts = new HashMap();
+        ResponseT<Map<Shift, Role>> res = dalController.getEmpShifts(id);
+
         for (Shift shift : shifts) {
             Role role = shift.isAssignedToShift(id);
             if (role != null)
                 empShifts.put(shift, role);
+        }
+
+        if (!res.getErrorOccurred()) {
+            for (Shift s : res.getValue().keySet()) {
+                if (shifts.stream().noneMatch(x -> x.getDate().equals(s.getDate()) && x.isMorning() == s.isMorning())) {
+                    shifts.add(s);
+                    empShifts.put(s, res.getValue().get(s));
+                }
+            }
         }
         return empShifts;
     }
@@ -150,7 +169,10 @@ public class ShiftController {
         }
     }
 
-    public void API_getAvailableDrivers(LocalDate date, boolean isMorning) {
-        dalController.API_get
+    public List<String> API_getAvailableDrivers(LocalDate date, boolean isMorning) {
+        ResponseT<List<String>> res = dalController.getAvailableDrivers(date, isMorning);
+        if(!res.getErrorOccurred())
+            return res.getValue();
+        return new ArrayList<>();
     }
 }
