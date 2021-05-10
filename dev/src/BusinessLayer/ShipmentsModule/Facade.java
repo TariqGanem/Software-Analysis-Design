@@ -270,7 +270,7 @@ public class Facade {
     public Response removeShipment(Date date, String departureHour, String driverId) {
         try {
             Shipment shipment = shipmentController.getShipment(date, departureHour, driverId);
-            driverController.freeDriver(driverId);
+            //driverController.freeDriver(driverId);
             shipmentController.deleteShipment(shipment.getShipmentId());
 
             return new Response();
