@@ -18,6 +18,7 @@ public class dbMaker {
     public static String documentsTbl = "Documents";
     public static String itemsTbl = "Items";
     public static String shipmentsTbl = "Shipments";
+    public static String truckSchedulerTbl = "TruckScheduler";
 
     public static String employeeTbl = "Employee";
     public static String employeeSkillsTbl = "EmployeeSkills";
@@ -41,6 +42,7 @@ public class dbMaker {
             createLocationsTbl();
             createItemsTbl();
             createShipmentsTbl();
+            createTruckSchedulerTbl();
 
             createEmployeeTbl();
             createEmpTimePrefTbl();
@@ -132,6 +134,20 @@ public class dbMaker {
                 "\tFOREIGN KEY(\"sourceId\") REFERENCES \"Locations\"(\"address\"),\n" +
                 "\tPRIMARY KEY(\"id\"),\n" +
                 "\tFOREIGN KEY(\"truckPlateNumber\") REFERENCES \"Trucks\"(\"plateNumber\")\n" +
+                ");";
+        try {
+            Statement stmt = connect().createStatement();
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void createTruckSchedulerTbl() {
+        String sql = "CREATE TABLE \"TruckScheduler\" (\n" +
+                "            \"plateNumber\"\tTEXT,\n" +
+                "            \"shipmentDate\"\tDate,\n" +
+                "            \"isMorning\"\tINTEGER\n" +
                 ");";
         try {
             Statement stmt = connect().createStatement();

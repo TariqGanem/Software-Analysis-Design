@@ -4,6 +4,7 @@ import BusinessLayer.ShipmentsModule.Builder;
 import BusinessLayer.ShipmentsModule.Objects.Truck;
 import DataAccessLayer.ShipmentsModule.Mappers.TruckMapper;
 
+import java.util.Date;
 import java.util.List;
 
 public class TruckController {
@@ -37,7 +38,17 @@ public class TruckController {
             throw new Exception("Couldn't add new truck - Illegal truck weight");
         if (truckPlateNumber == null || truckPlateNumber.isEmpty() || model == null || model.isEmpty())
             throw new Exception("Couldn't add new truck - Invalid parameters");
-        mapper.addTruck(truckPlateNumber, model, natoWeight, maxWeight, true);
+        mapper.addTruck(truckPlateNumber, model, natoWeight, maxWeight);
+    }
+
+    public void scheduleTruck(String truckPlateNumber, Date shipmentDate, String depHour) throws Exception {
+        mapper.insertTruckScheduler(truckPlateNumber, shipmentDate, isMorning(depHour));
+
+    }
+
+    private boolean isMorning(String hour) {
+        int left = Integer.parseInt(hour.substring(0, 2));
+        return left >= 6 && left <= 14;
     }
 
     /**
@@ -52,20 +63,9 @@ public class TruckController {
      * @return an available truck which can transport a delivery of weight @param-weight
      * @throws Exception
      */
-    public List<Truck> getAvailableTrucks(double weight) throws Exception {
-        return Builder.buildTrucksList(mapper.getAvailableTrucks(weight));
+    public List<Truck> getAvailableTrucks(double weight, Date date, String hour) throws Exception {
+        return Builder.buildTrucksList(mapper.getAvailableTrucks(weight, date, isMorning(hour)));
     }
 
-    /**
-     * Makes the truck unavailable because it is currently in use
-     *
-     * @param truckPlateNumber - Unique id for truck
-     */
-    public void depositTruck(String truckPlateNumber) throws Exception {
-        mapper.updateTruck(truckPlateNumber, true);
-    }
 
-    public void makeUnavailableTruck(String truckPlateNumber) throws Exception {
-        mapper.updateTruck(truckPlateNumber, false);
-    }
 }
