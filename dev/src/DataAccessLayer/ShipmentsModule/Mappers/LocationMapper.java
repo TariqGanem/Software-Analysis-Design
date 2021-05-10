@@ -52,7 +52,7 @@ public class LocationMapper {
                 throw new Exception("Location already exists!");
         }
         location = new LocationDTO(id, address, phone, contactName);
-        if (locationExists(id)) {
+        if (locationExists(address, phone, contactName)) {
             memory.getLocations().add(location);
             throw new Exception("Location already exists in the database!");
         }
@@ -76,7 +76,7 @@ public class LocationMapper {
     }
 
     private LocationDTO selectLocation(int id) throws Exception {
-        String sql = "SELECT * FROM " + dbMaker.locationsTbl + " WHERE id=" + id;
+        String sql = "SELECT * FROM " + dbMaker.locationsTbl + " WHERE id= " + id;
         try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
@@ -112,11 +112,29 @@ public class LocationMapper {
         }
     }
 
-    private boolean locationExists(int id) throws Exception {
-        LocationDTO location = selectLocation(id);
+    private boolean locationExists(String address, String phone, String contactName) throws Exception {
+        LocationDTO location = _selectLocationE(address, phone, contactName);
         if (location != null)
             return true;
         return false;
+    }
+
+    private LocationDTO _selectLocationE(String address, String phone, String contactName) throws Exception {
+        String sql = "SELECT * FROM " + dbMaker.locationsTbl + " WHERE address='" + address + "' AND phone='" + phone + "' AND contactName='" + contactName + "'";
+        try (Connection conn = dbMaker.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                return new LocationDTO(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4)
+                );
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        return null;
     }
 
     public int getMaxID() {

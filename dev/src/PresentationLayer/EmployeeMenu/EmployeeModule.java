@@ -333,7 +333,10 @@ public class EmployeeModule {
                                     emp.skills = menu.showEnterRoleList();
                                     break;
                             }
-                            presentationController.setEmployeeDTO(oldID, emp);
+                            boolean errAddingEmployee = presentationController.setEmployeeDTO(oldID, emp);
+                            if (!errAddingEmployee && emp.skills.contains(Role.Driver)) {
+                                shipmentModuleAPI.addDriver(emp.ID);
+                            }
                             proceed = !goBack && menu.askToProceed("change another field");
                         } while (proceed);
                         goBack = false;

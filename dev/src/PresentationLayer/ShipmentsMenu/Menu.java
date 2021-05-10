@@ -1,5 +1,6 @@
 package PresentationLayer.ShipmentsMenu;
 
+import APIs.EmployeeModuleAPI.EmployeeModuleAPI;
 import BusinessLayer.ShipmentsModule.Facade;
 import PresentationLayer.ShipmentsMenu.Handlers.DriversHandler;
 import PresentationLayer.ShipmentsMenu.Handlers.LocationsHandler;
@@ -42,12 +43,23 @@ public class Menu {
         return instance;
     }
 
+    private boolean isShipmentManager() {
+        System.out.println("Please enter your ID:");
+        String id = scanner.nextLine();
+        return new EmployeeModuleAPI().isShipmentManager(id);
+    }
+
     /**
      * Activating the menu for the user
      */
     public void run() {
-        viewMenuItems();
-        selectItem();
+        if (isShipmentManager()) {
+            viewMenuItems();
+            selectItem();
+        } else {
+            System.out.println(items.get(7));
+            shipmentsHandler.trackShipment();
+        }
     }
 
     private void addItems() {

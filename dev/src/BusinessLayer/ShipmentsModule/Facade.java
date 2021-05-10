@@ -1,12 +1,16 @@
 package BusinessLayer.ShipmentsModule;
 
+import APIs.EmployeeModuleAPI.EmployeeModuleAPI;
 import BusinessLayer.ShipmentsModule.Controllers.DriverController;
 import BusinessLayer.ShipmentsModule.Controllers.LocationController;
 import BusinessLayer.ShipmentsModule.Controllers.ShipmentController;
 import BusinessLayer.ShipmentsModule.Controllers.TruckController;
 import BusinessLayer.ShipmentsModule.Objects.*;
 import DTOPackage.*;
+import Resources.Role;
 
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -148,8 +152,8 @@ public class Facade {
             double shipmentWeight = calculateShipmentWeight(items_per_location);
 
             weighTruck(truckPlateNumber, shipmentWeight);//We only need this for validating trucks max weight. [won't happen since the truck is capable of that]
-
             Location source = locationController.getLocation(sourceId);
+            ;
             Map<Location, List<Item>> items = new HashMap<>();
             for (int loc : items_per_location.keySet()) {
                 if (loc == sourceId) {
@@ -157,16 +161,24 @@ public class Facade {
                 }
                 items.put(locationController.getLocation(loc), Builder.buildItemsList(items_per_location.get(loc)));
             }
+            boolean found = new EmployeeModuleAPI().isRoleAssignedToShift(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                    handleHour(departureHour), Role.StoreKeeper);
+            if (!found)
+                return new Response("The is no Store keeper available on " + new SimpleDateFormat("dd/MM/yyyy").format(date) + " - " + departureHour);
             int shipmentId = shipmentController.addShipment(date, departureHour, truckPlateNumber, driverId, source);
             for (Location loc : items.keySet()) {
                 shipmentController.addDocument(shipmentId, loc.getId(), items.get(loc));
             }
-            //ADD THE TRUCK TO THE SCHEDULER.
             truckController.scheduleTruck(truckPlateNumber, date, departureHour);
             return new Response();
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
+    }
+
+    private boolean handleHour(String hour) {
+        int left = Integer.parseInt(hour.substring(0, 2));
+        return left >= 6 && left <= 14;
     }
 
     /**
@@ -270,7 +282,7 @@ public class Facade {
     public Response removeShipment(Date date, String departureHour, String driverId) {
         try {
             Shipment shipment = shipmentController.getShipment(date, departureHour, driverId);
-            driverController.freeDriver(driverId);
+            //driverController.freeDriver(driverId);
             shipmentController.deleteShipment(shipment.getShipmentId());
 
             return new Response();

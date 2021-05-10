@@ -6,7 +6,7 @@ import BusinessLayer.EmployeeModule.ShiftPackage.ShiftController;
 import DataAccessLayer.EmployeeModule.DALController;
 import DataAccessLayer.dbMaker;
 import Resources.Role;
-import org.junit.*;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.Connection;

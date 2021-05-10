@@ -21,9 +21,9 @@ public class TrucksHandler extends Handler {
 
     public void addTruck() {
         System.out.printf("\nEnter truck plate number: ");
-        String plateNumber = scanner.next();
+        String plateNumber = scanner.nextLine();
         System.out.printf("\nEnter truck model:");
-        String model = scanner.next();
+        String model = scanner.nextLine();
         System.out.printf("\nEnter truck's nato weight: ");
         double natoWeight = getDouble();
         System.out.printf("\nEnter truck's max weight: ");

@@ -10,4 +10,8 @@ public class ShipmentsAPI {
         Menu.getInstance().getDriversHandler().addDriver(driverId);
     }
 
+    public void initDriver(String id, double allowedWeight) {
+        Menu.getInstance().getDriversHandler().initDriver(id, allowedWeight);
+    }
+
 }
