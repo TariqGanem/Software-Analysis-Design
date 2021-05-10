@@ -138,7 +138,7 @@ public class TruckMapper {
     }
 
     private void insertTruck(String plateNumber, String model, Double natoWeight, Double maxWeight) throws Exception {
-        String sql = "INSERT INTO " + dbMaker.trucksTbl + " (plateNumber, model, natoWeight, maxWeight, available) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO " + dbMaker.trucksTbl + " (plateNumber, model, natoWeight, maxWeight) VALUES (?,?,?,?)";
         try (Connection conn = dbMaker.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, plateNumber);

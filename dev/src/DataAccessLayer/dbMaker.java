@@ -82,7 +82,6 @@ public class dbMaker {
                 "\t\"model\"\tTEXT,\n" +
                 "\t\"natoWeight\"\tREAL,\n" +
                 "\t\"maxWeight\"\tREAL,\n" +
-                "\t\"available\"\tINTEGER,\n" +
                 "\tPRIMARY KEY(\"plateNumber\")\n" +
                 ");";
         try {
@@ -97,7 +96,8 @@ public class dbMaker {
         String sql = "CREATE TABLE \"Drivers\" (\n" +
                 "\t\"id\"\tTEXT,\n" +
                 "\t\"allowedWeight\"\tREAL,\n" +
-                "\tPRIMARY KEY(\"id\")\n" +
+                "\tPRIMARY KEY(\"id\"),\n" +
+                "\tFOREIGN KEY(\"id\") REFERENCES \"Employee\"(\"ID\")\n" +
                 ");";
         try {
             Statement stmt = connect().createStatement();
@@ -145,9 +145,10 @@ public class dbMaker {
 
     private void createTruckSchedulerTbl() {
         String sql = "CREATE TABLE \"TruckScheduler\" (\n" +
-                "            \"plateNumber\"\tTEXT,\n" +
-                "            \"shipmentDate\"\tDate,\n" +
-                "            \"isMorning\"\tINTEGER\n" +
+                "\t\"plateNumber\"\tTEXT,\n" +
+                "\t\"shipmentDate\"\tDate,\n" +
+                "\t\"isMorning\"\tINTEGER,\n" +
+                "\tFOREIGN KEY(\"plateNumber\") REFERENCES \"Trucks\"(\"plateNumber\")\n" +
                 ");";
         try {
             Statement stmt = connect().createStatement();
@@ -162,7 +163,9 @@ public class dbMaker {
                 "\t\"trackingNumber\"\tINTEGER,\n" +
                 "\t\"destinationId\"\tINTEGER,\n" +
                 "\t\"shipmentId\"\tINTEGER,\n" +
-                "\tPRIMARY KEY(\"trackingNumber\")\n" +
+                "\tPRIMARY KEY(\"trackingNumber\"),\n" +
+                "\tFOREIGN KEY(\"destinationId\") REFERENCES \"Locations\"(\"id\"),\n" +
+                "\tFOREIGN KEY(\"shipmentId\") REFERENCES \"Shipments\"(\"id\")\n" +
                 ");";
         try {
             Statement stmt = connect().createStatement();
