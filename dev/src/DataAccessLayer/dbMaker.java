@@ -115,7 +115,8 @@ public class dbMaker {
                 "\t\"documentId\"\tINTEGER,\n" +
                 "\t\"name\"\tTEXT,\n" +
                 "\t\"amount\"\tREAL,\n" +
-                "\t\"weight\"\tREAL\n" +
+                "\t\"weight\"\tREAL,\n" +
+                "\tFOREIGN KEY(\"documentId\") REFERENCES \"Documents\"(\"trackingNumber\") ON DELETE CASCADE\n" +
                 ");";
         try {
             Statement stmt = connect().createStatement();
@@ -134,7 +135,7 @@ public class dbMaker {
                 "\t\"driverId\"\tINTEGER,\n" +
                 "\t\"sourceId\"\tINTEGER,\n" +
                 "\tFOREIGN KEY(\"driverId\") REFERENCES \"Drivers\"(\"id\"),\n" +
-                "\tFOREIGN KEY(\"sourceId\") REFERENCES \"Locations\"(\"address\"),\n" +
+                "\tFOREIGN KEY(\"sourceId\") REFERENCES \"Locations\"(\"id\"),\n" +
                 "\tPRIMARY KEY(\"id\"),\n" +
                 "\tFOREIGN KEY(\"truckPlateNumber\") REFERENCES \"Trucks\"(\"plateNumber\")\n" +
                 ");";
@@ -168,8 +169,7 @@ public class dbMaker {
                 "\t\"shipmentId\"\tINTEGER,\n" +
                 "\tPRIMARY KEY(\"trackingNumber\"),\n" +
                 "\tFOREIGN KEY(\"destinationId\") REFERENCES \"Locations\"(\"id\"),\n" +
-                "\tFOREIGN KEY(\"shipmentId\") REFERENCES \"Shipments\"(\"id\"),\n" +
-                "\tFOREIGN KEY(\"trackingNumber\") REFERENCES \"Items\"(\"documentId\") ON DELETE CASCADE\n" +
+                "\tFOREIGN KEY(\"shipmentId\") REFERENCES \"Shipments\"(\"id\") ON DELETE CASCADE\n" +
                 ");";
         try {
             Statement stmt = connect().createStatement();

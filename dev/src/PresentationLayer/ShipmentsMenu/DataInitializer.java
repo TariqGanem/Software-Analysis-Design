@@ -82,7 +82,7 @@ public class DataInitializer {
     private void initShipment1() {
         Date date = null;
         try {
-            date = new SimpleDateFormat("dd/MM/yyyy").parse("22/07/2021");
+            date = new SimpleDateFormat("dd/MM/yyyy").parse("04/07/2021");
         } catch (Exception e) {
         }
 
@@ -104,7 +104,7 @@ public class DataInitializer {
     public void initShipment2() {
         Date date = null;
         try {
-            date = new SimpleDateFormat("dd/MM/yyyy").parse("16/07/2021");
+            date = new SimpleDateFormat("dd/MM/yyyy").parse("05/07/2021");
         } catch (Exception e) {
         }
 
