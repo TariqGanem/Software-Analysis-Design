@@ -37,12 +37,13 @@ public class ShipmentMapper {
                 throw new Exception("Shipment already exists!");
         }
         shipment = new ShipmentDTO(id, date, depHour, truckPlateNumber, driverId, LocationMapper.getInstance().getLocation(sourceId));
-        if (shipmentExist(id)) {
+        if (shipmentExist(date, depHour, driverId)) {
             memory.getShipments().add(shipment);
             throw new Exception("Shipment already exists in the database!");
+        } else {
+            insertShipment(id, date, depHour, truckPlateNumber, driverId, sourceId);
+            memory.getShipments().add(shipment);
         }
-        insertShipment(id, date, depHour, truckPlateNumber, driverId, sourceId);
-        memory.getShipments().add(shipment);
         return shipment;
     }
 
@@ -150,9 +151,10 @@ public class ShipmentMapper {
     }
 
     private ShipmentDTO selectShipment(Date date, String departureHour, String driverId) throws Exception {
-        String sql = "SELECT * FROM " + dbMaker.shipmentsTbl + " WHERE date='" +
+        String sql = "SELECT * FROM " + dbMaker.shipmentsTbl + " WHERE Date='" +
                 new SimpleDateFormat("dd/MM/yyyy").format(date) + "' AND departureHour='"
                 + departureHour + "' AND driverId='" + driverId + "'";
+        System.out.println(sql);
         try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
@@ -163,6 +165,7 @@ public class ShipmentMapper {
                         rs.getString(4),
                         rs.getString(5),
                         LocationMapper.getInstance().getLocation(rs.getInt(6)));
+                System.out.println("DOCUMENT ERROR");
                 List<DocumentDTO> docs = DocumentMapper.getInstance().getShipmentDocuments(shipment.getShipmentId());
                 for (DocumentDTO doc : docs) {
                     shipment.addDocument(doc.getTrackingNumber(), doc.getProducts(), doc.getDestination());
@@ -200,8 +203,36 @@ public class ShipmentMapper {
         return shipments;
     }
 
-    private boolean shipmentExist(int id) throws Exception {
-        ShipmentDTO shipment = selectShipment(id);
+    private ShipmentDTO _selectShipmentE(Date date, String departureHour, String driverId) throws Exception {
+        String sql = "SELECT * FROM " + dbMaker.shipmentsTbl + " WHERE Date='" +
+                new SimpleDateFormat("dd/MM/yyyy").format(date) + "' AND departureHour='"
+                + departureHour + "' AND driverId='" + driverId + "'";
+        System.out.println(sql);
+        try (Connection conn = dbMaker.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                ShipmentDTO shipment = new ShipmentDTO(rs.getInt(1),
+                        new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString(2)),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        LocationMapper.getInstance().getLocation(rs.getInt(6)));
+                System.out.println("DOCUMENT ERROR");
+                List<DocumentDTO> docs = DocumentMapper.getInstance().getShipmentDocuments(shipment.getShipmentId());
+                for (DocumentDTO doc : docs) {
+                    shipment.addDocument(doc.getTrackingNumber(), doc.getProducts(), doc.getDestination());
+                }
+                return shipment;
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        return null;
+    }
+
+    private boolean shipmentExist(Date date, String departureHour, String driverId) throws Exception {
+        ShipmentDTO shipment = _selectShipmentE(date, departureHour, driverId);
         if (shipment != null)
             return true;
         return false;

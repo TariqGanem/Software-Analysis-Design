@@ -1,10 +1,8 @@
 package PresentationLayer.ShipmentsMenu;
 
+import APIs.EmployeeModuleAPI.EmployeeModuleAPI;
 import BusinessLayer.ShipmentsModule.Facade;
-import PresentationLayer.ShipmentsMenu.Handlers.DriversHandler;
-import PresentationLayer.ShipmentsMenu.Handlers.LocationsHandler;
-import PresentationLayer.ShipmentsMenu.Handlers.ShipmentsHandler;
-import PresentationLayer.ShipmentsMenu.Handlers.TrucksHandler;
+import PresentationLayer.ShipmentsMenu.Handlers.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -42,12 +40,23 @@ public class Menu {
         return instance;
     }
 
+    private boolean isShipmentManager(){
+        System.out.println("Please enter your ID:");
+        String id = scanner.nextLine();
+        return new EmployeeModuleAPI().isShipmentManager(id);
+    }
+
     /**
      * Activating the menu for the user
      */
     public void run() {
+        if(isShipmentManager()){
         viewMenuItems();
-        selectItem();
+        selectItem();}
+        else {
+            System.out.println(items.get(7));
+            shipmentsHandler.trackShipment();
+        }
     }
 
     private void addItems() {

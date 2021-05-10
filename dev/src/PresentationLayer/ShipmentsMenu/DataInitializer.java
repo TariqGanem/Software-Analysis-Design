@@ -119,7 +119,7 @@ public class DataInitializer {
         items2.add(new ItemDTO("cigars", 25, 3));
         itemsPerLocation.put(1, items2);
 
-        Response res = facade.arrangeDelivery(date, "21:48", 3, itemsPerLocation, "HYTE779", "111111111");
+        Response res = facade.arrangeDelivery(date, "09:48", 3, itemsPerLocation, "HYTE779", "111111111");
         System.out.println(res.errorOccured() ? res.getMsg() : "Shipment 2 is added successfully!");
     }
 }
