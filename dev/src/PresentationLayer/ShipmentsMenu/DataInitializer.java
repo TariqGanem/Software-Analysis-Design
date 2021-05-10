@@ -18,7 +18,6 @@ public class DataInitializer {
 
     public void initialize() {
         initTrucks();
-        initDrivers();
         initLocations();
         initShipments();
     }
@@ -39,18 +38,6 @@ public class DataInitializer {
         System.out.println();
     }
 
-    private void initDrivers() {
-        System.out.println("Loading Drivers:");
-        Response res1 = facade.addDriver("222222222", 7000);
-        System.out.println(res1.errorOccured() ? res1.getMsg() : "Driver 1 is added successfully!");
-
-        Response res2 = facade.addDriver("admin", 9000);
-        System.out.println(res2.errorOccured() ? res2.getMsg() : "Driver 2 is added successfully!");
-
-        Response res3 = facade.addDriver("111111111", 15000);
-        System.out.println(res3.errorOccured() ? res3.getMsg() : "Driver 3 is added successfully!");
-        System.out.println();
-    }
 
     private void initLocations() {
         System.out.println("Loading Locations:");

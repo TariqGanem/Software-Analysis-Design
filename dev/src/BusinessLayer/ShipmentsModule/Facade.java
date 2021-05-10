@@ -152,9 +152,8 @@ public class Facade {
             double shipmentWeight = calculateShipmentWeight(items_per_location);
 
             weighTruck(truckPlateNumber, shipmentWeight);//We only need this for validating trucks max weight. [won't happen since the truck is capable of that]
-            System.out.println("--------->1");
             Location source = locationController.getLocation(sourceId);
-            System.out.println("--------->222222");
+            ;
             Map<Location, List<Item>> items = new HashMap<>();
             for (int loc : items_per_location.keySet()) {
                 if (loc == sourceId) {
@@ -162,12 +161,10 @@ public class Facade {
                 }
                 items.put(locationController.getLocation(loc), Builder.buildItemsList(items_per_location.get(loc)));
             }
-            System.out.println("--------->2");
             boolean found = new EmployeeModuleAPI().isRoleAssignedToShift(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
                     handleHour(departureHour), Role.StoreKeeper);
-            System.out.println("--------->3");
-            if(!found)
-                return new Response("The is no Store keeper available on "+ new SimpleDateFormat("dd/MM/yyyy").format(date) + " - " + departureHour);
+            if (!found)
+                return new Response("The is no Store keeper available on " + new SimpleDateFormat("dd/MM/yyyy").format(date) + " - " + departureHour);
             int shipmentId = shipmentController.addShipment(date, departureHour, truckPlateNumber, driverId, source);
             for (Location loc : items.keySet()) {
                 shipmentController.addDocument(shipmentId, loc.getId(), items.get(loc));

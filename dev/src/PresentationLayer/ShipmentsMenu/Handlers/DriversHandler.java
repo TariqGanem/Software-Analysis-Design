@@ -27,6 +27,12 @@ public class DriversHandler extends Handler {
             System.out.println(res.getMsg());
     }
 
+    public void initDriver(String Id, double allowedWeight) {
+        Response res = facade.addDriver(Id, allowedWeight);
+        if (res.errorOccured())
+            System.out.println(res.getMsg());
+    }
+
     public void viewAllDrivers() {
         ResponseT<List<DriverDTO>> res = facade.getAllDrivers();
         drivers = res.getValue();

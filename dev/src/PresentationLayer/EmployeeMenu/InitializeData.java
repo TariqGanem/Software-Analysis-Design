@@ -1,11 +1,9 @@
 package PresentationLayer.EmployeeMenu;
 
-import BusinessLayer.EmployeeModule.ResponseT;
-import DataAccessLayer.dbMaker;
+import APIs.EmployeeModuleAPI.ShipmentsAPI;
 import Resources.Preference;
 import Resources.Role;
 
-import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +14,7 @@ public class InitializeData {
         initializeEmployees(presentationController);
         initializeShiftPersonnel(presentationController);
         initializeShifts(presentationController);
+        initDrivers();
     }
 
     private void initializeEmployees(PresentationController presentationController) {
@@ -164,5 +163,12 @@ public class InitializeData {
         presentationController.assignToShift("222222222", Role.HRManager);
         presentationController.assignToShift("333333333", Role.StoreKeeper);
         presentationController.logout();
+    }
+
+    private void initDrivers() {
+        new ShipmentsAPI().initDriver("222222222", 7000);
+
+        new ShipmentsAPI().initDriver("111111111", 15000);
+        System.out.println();
     }
 }

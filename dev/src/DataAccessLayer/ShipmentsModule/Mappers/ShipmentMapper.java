@@ -165,7 +165,6 @@ public class ShipmentMapper {
                         rs.getString(4),
                         rs.getString(5),
                         LocationMapper.getInstance().getLocation(rs.getInt(6)));
-                System.out.println("DOCUMENT ERROR");
                 List<DocumentDTO> docs = DocumentMapper.getInstance().getShipmentDocuments(shipment.getShipmentId());
                 for (DocumentDTO doc : docs) {
                     shipment.addDocument(doc.getTrackingNumber(), doc.getProducts(), doc.getDestination());
@@ -207,7 +206,6 @@ public class ShipmentMapper {
         String sql = "SELECT * FROM " + dbMaker.shipmentsTbl + " WHERE Date='" +
                 new SimpleDateFormat("dd/MM/yyyy").format(date) + "' AND departureHour='"
                 + departureHour + "' AND driverId='" + driverId + "'";
-        System.out.println(sql);
         try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
@@ -218,7 +216,6 @@ public class ShipmentMapper {
                         rs.getString(4),
                         rs.getString(5),
                         LocationMapper.getInstance().getLocation(rs.getInt(6)));
-                System.out.println("DOCUMENT ERROR");
                 List<DocumentDTO> docs = DocumentMapper.getInstance().getShipmentDocuments(shipment.getShipmentId());
                 for (DocumentDTO doc : docs) {
                     shipment.addDocument(doc.getTrackingNumber(), doc.getProducts(), doc.getDestination());
