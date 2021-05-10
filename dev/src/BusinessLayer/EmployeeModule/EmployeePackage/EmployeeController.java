@@ -30,6 +30,7 @@ public class EmployeeController {
         else {
             List roles = new ArrayList<Role>();
             roles.add(Role.StoreManager);
+            roles.add(Role.ShipmentsManager);
             String name = "admin";
             String ID1 = "admin";
             int bankId = 0;

@@ -1,6 +1,7 @@
 package PresentationLayer.EmployeeMenu;
 
 import APIs.EmployeeModuleAPI.ShipmentsAPI;
+import BusinessLayer.EmployeeModule.Response;
 import BusinessLayer.EmployeeModule.ResponseT;
 import DTOPackage.EmployeeDTO;
 import DTOPackage.ShiftDTO;
@@ -333,7 +334,11 @@ public class EmployeeModule {
                                     emp.skills = menu.showEnterRoleList();
                                     break;
                             }
-                            presentationController.setEmployeeDTO(oldID, emp);
+                            boolean errAddingEmployee = presentationController.setEmployeeDTO(oldID, emp);
+                            if (!errAddingEmployee && emp.skills.contains(Role.Driver))
+                            {
+                                shipmentModuleAPI.addDriver(emp.ID);
+                            }
                             proceed = !goBack && menu.askToProceed("change another field");
                         } while (proceed);
                         goBack = false;

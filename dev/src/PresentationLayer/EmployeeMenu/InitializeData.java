@@ -1,8 +1,11 @@
 package PresentationLayer.EmployeeMenu;
 
+import BusinessLayer.EmployeeModule.ResponseT;
+import DataAccessLayer.dbMaker;
 import Resources.Preference;
 import Resources.Role;
 
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +22,7 @@ public class InitializeData {
         List roles = new ArrayList<Role>();
         roles.add(Role.StoreManager);
         roles.add(Role.ShiftManager);
+        roles.add(Role.ShipmentsManager);
         String name = "Mr. Krabs";
         String ID1 = "123456789";
         int bankId = 10;
@@ -38,6 +42,7 @@ public class InitializeData {
         roles = new ArrayList<Role>();
         roles.add(Role.ShiftManager);
         roles.add(Role.Cashier);
+        roles.add(Role.Stocker);
         roles.add(Role.StoreManagerAssistant);
         name = "Squidward Tentacles";
         ID1 = "987654321";
@@ -59,6 +64,7 @@ public class InitializeData {
         roles.add(Role.Cashier);
         roles.add(Role.Stocker);
         roles.add(Role.StoreKeeper);
+        roles.add(Role.Driver);
         name = "SpongeBob SquarePants";
         ID1 = "111111111";
         bankId = 12;
@@ -78,6 +84,8 @@ public class InitializeData {
         roles = new ArrayList<Role>();
         roles.add(Role.HRManager);
         roles.add(Role.Cashier);
+        roles.add(Role.Driver);
+        roles.add(Role.Stocker);
         name = "Patrick Star";
         ID1 = "222222222";
         bankId = 12;
@@ -133,8 +141,9 @@ public class InitializeData {
         presentationController.addShift(date1, true);
         presentationController.assignToShift("123456789", Role.ShiftManager);
         presentationController.assignToShift("111111111", Role.Cashier);
-        presentationController.assignToShift("222222222", Role.Cashier);
+        presentationController.assignToShift("222222222", Role.Driver);
         presentationController.assignToShift("333333333", Role.StoreKeeper);
+        presentationController.assignToShift("987654321", Role.Stocker);
 
         LocalDate date2 = LocalDate.of(2021, 7, 5);
         int day2 = (date2.getDayOfWeek().getValue() + 1) % 7;
@@ -142,7 +151,7 @@ public class InitializeData {
         presentationController.addShift(date2, true);
         presentationController.assignToShift("123456789", Role.ShiftManager);
         presentationController.assignToShift("987654321", Role.Cashier);
-        presentationController.assignToShift("111111111", Role.Stocker);
+        presentationController.assignToShift("111111111", Role.Driver);
         presentationController.assignToShift("222222222", Role.HRManager);
         presentationController.assignToShift("333333333", Role.StoreKeeper);
 

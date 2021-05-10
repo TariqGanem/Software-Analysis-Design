@@ -147,12 +147,13 @@ public class PresentationController {
         return response;
     }
 
-    public void setEmployeeDTO(String oldID, EmployeeDTO employee) {
+    public boolean setEmployeeDTO(String oldID, EmployeeDTO employee) {
         Response response = facade.setEmployee(oldID, employee);
         if (response.getErrorOccurred())
             io.println(response.getErrorMessage());
         else
             activeEmployee = employee.ID;
+        return response.getErrorOccurred();
     }
 
     public boolean addEmployee(String name, String ID, int bankId, int branchId, int accountNumber, float salary,
