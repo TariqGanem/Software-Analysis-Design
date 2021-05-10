@@ -2,9 +2,15 @@ package EmployeesTests;
 
 import BusinessLayer.EmployeeModule.ShiftPackage.ShiftPersonnel;
 import DataAccessLayer.EmployeeModule.DALController;
+import DataAccessLayer.dbMaker;
 import Resources.Role;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -16,6 +22,13 @@ public class ShiftPersonnelTest {
     @Before
     public void setup() {
         sp = new ShiftPersonnel(new DALController());
+        try (Connection con = DriverManager.getConnection(dbMaker.path)) {
+            String sqlStatement = sqlStatement = "delete from ShiftPersonnel;";
+            PreparedStatement p = con.prepareStatement(sqlStatement);
+            p.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
