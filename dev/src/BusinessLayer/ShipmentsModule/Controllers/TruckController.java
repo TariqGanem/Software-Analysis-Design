@@ -52,8 +52,8 @@ public class TruckController {
      * @return an available truck which can transport a delivery of weight @param-weight
      * @throws Exception
      */
-    public Truck getAvailableTruck(double weight) throws Exception {
-        return Builder.build(mapper.getAvailableTruck(weight));
+    public List<Truck> getAvailableTrucks(double weight) throws Exception {
+        return Builder.buildTrucksList(mapper.getAvailableTrucks(weight));
     }
 
     /**

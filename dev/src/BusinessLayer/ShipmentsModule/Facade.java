@@ -143,17 +143,12 @@ public class Facade {
      * @param items_per_location - Map[ItemName, List[ItemWeight, Quantity]] foreach location
      * @return response of type msg in case of any error
      */
-    public Response arrangeDelivery(Date date, String departureHour, int sourceId, Map<Integer, List<ItemDTO>> items_per_location) {
+    public Response arrangeDelivery(Date date, String departureHour, int sourceId, Map<Integer, List<ItemDTO>> items_per_location, String truckPlateNumber, String driverId) {
         try {
-            double shipmentWeight = 0;
-            for (Integer loc : items_per_location.keySet()) {
-                for (ItemDTO item : items_per_location.get(loc)) {
-                    shipmentWeight += item.getWeight() * item.getAmount();
-                }
-            }
-            Truck truck = truckController.getAvailableTruck(shipmentWeight);
-            Driver driver = driverController.getAvailableDriver(weighTruck(truck.getTruckPlateNumber(),
-                    shipmentWeight), date, departureHour);
+            double shipmentWeight = calculateShipmentWeight(items_per_location);
+
+            weighTruck(truckPlateNumber, shipmentWeight);//We only need this for validating trucks max weight. [won't happen since the truck is capable of that]
+
             Location source = locationController.getLocation(sourceId);
             Map<Location, List<Item>> items = new HashMap<>();
             for (int loc : items_per_location.keySet()) {
@@ -162,11 +157,11 @@ public class Facade {
                 }
                 items.put(locationController.getLocation(loc), Builder.buildItemsList(items_per_location.get(loc)));
             }
-            int shipmentId = shipmentController.addShipment(date, departureHour, truck.getTruckPlateNumber(), driver.getId(), source);
+            int shipmentId = shipmentController.addShipment(date, departureHour, truckPlateNumber, driverId, source);
             for (Location loc : items.keySet()) {
                 shipmentController.addDocument(shipmentId, loc.getId(), items.get(loc));
             }
-            truckController.makeUnavailableTruck(truck.getTruckPlateNumber());
+            truckController.makeUnavailableTruck(truckPlateNumber);
             //driverController.makeUnavailableDriver("222222222");
             return new Response();
         } catch (Exception e) {
@@ -198,6 +193,24 @@ public class Facade {
         try {
             List<Location> locations = locationController.getAllLocations();
             return new ResponseT<>(Builder.buildLocationsListDTO(locations));
+        } catch (Exception e) {
+            return new ResponseT<>(e.getMessage());
+        }
+    }
+
+    public ResponseT<List<TruckDTO>> getAvailableTrucks(double weight) {
+        try {
+            List<Truck> trucks = truckController.getAvailableTrucks(weight);
+            return new ResponseT<>(Builder.buildTrucksListDTO(trucks));
+        } catch (Exception e) {
+            return new ResponseT<>(e.getMessage());
+        }
+    }
+
+    public ResponseT<List<DriverDTO>> getAllAvailableDrivers(double totalWeight, Date date, String departureHour) {
+        try {
+            List<Driver> drivers = driverController.getAvailableDriver(totalWeight, date, departureHour);
+            return new ResponseT<>(Builder.buildDriversListDTO(drivers));
         } catch (Exception e) {
             return new ResponseT<>(e.getMessage());
         }
@@ -265,5 +278,15 @@ public class Facade {
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
+    }
+
+    private double calculateShipmentWeight(Map<Integer, List<ItemDTO>> items_per_location) {
+        double shipmentWeight = 0;
+        for (Integer loc : items_per_location.keySet()) {
+            for (ItemDTO item : items_per_location.get(loc)) {
+                shipmentWeight += item.getWeight() * item.getAmount();
+            }
+        }
+        return shipmentWeight;
     }
 }

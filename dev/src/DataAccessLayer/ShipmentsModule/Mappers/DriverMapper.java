@@ -66,7 +66,6 @@ public class DriverMapper {
             memory.getDrivers().add(driver);
             return driver;
         }
-        System.out.println("RETURNED NULL");
         return null;
     }
 
@@ -121,14 +120,12 @@ public class DriverMapper {
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next()) {
-                System.out.println("DRIVER IS NOT EMPTY");
                 return new DriverDTO(rs.getString(1),
                         getDriverName(id),
                         rs.getDouble(2)
                 );
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             throw new Exception(e.getMessage());
         }
         return null;

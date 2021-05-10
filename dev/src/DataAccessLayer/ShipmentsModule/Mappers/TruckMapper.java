@@ -68,36 +68,37 @@ public class TruckMapper {
         return truck;
     }
 
-    public TruckDTO getAvailableTruck(double weight) throws Exception {
-        for (TruckDTO t : memory.getTrucks()) {
-            if (t.isAvailable() && t.getMaxWeight() >= weight)
-                return t;
-        }
-        TruckDTO truck = _getAvailableTruck(weight);
-        if (truck != null) {
+    public List<TruckDTO> getAvailableTrucks(double weight) throws Exception {
+//        for (TruckDTO t : memory.getTrucks()) {
+//            if (t.isAvailable() && t.getMaxWeight() >= weight)
+//                return t;
+//        }
+        List<TruckDTO> trucks = _getAvailableTruck(weight);
+        for (TruckDTO truck : trucks)
             memory.getTrucks().add(truck);
-            return truck;
-        }
-        throw new Exception("There is no such available truck in the database!");
+        if (trucks.isEmpty())
+            throw new Exception("There is no such available truck in the database!");
+        return trucks;
     }
 
-    private TruckDTO _getAvailableTruck(double weight) throws Exception {
-        String sql = "SELECT * FROM " + dbMaker.trucksTbl + " WHERE maxWeight>=" + weight + " AND available=TRUE";
+    private List<TruckDTO> _getAvailableTruck(double weight) throws Exception {
+        List<TruckDTO> trucks = new LinkedList<>();
+        String sql = "SELECT * FROM " + dbMaker.trucksTbl + " WHERE maxWeight>=" + weight + " AND available=TRUE ORDER BY maxWeight ASC";
         try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
-            if (rs.next()) {
-                return new TruckDTO(rs.getString(1),
+            while (rs.next()) {
+                trucks.add(new TruckDTO(rs.getString(1),
                         rs.getString(2),
                         rs.getDouble(3),
                         rs.getDouble(4),
                         rs.getBoolean(5)
-                );
+                ));
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        return null;
+        return trucks;
     }
 
     private void _updateTruck(String plateNumber, boolean available) throws Exception {

@@ -2,10 +2,6 @@ package PresentationLayer.ShipmentsMenu;
 
 import BusinessLayer.ShipmentsModule.Facade;
 import BusinessLayer.ShipmentsModule.Response;
-import DTOPackage.ItemDTO;
-
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 public class DataInitializer {
 
@@ -80,46 +76,46 @@ public class DataInitializer {
     }
 
     private void initShipment1() {
-        Date date = null;
-        try {
-            date = new SimpleDateFormat("dd/MM/yyyy").parse("22/07/2021");
-        } catch (Exception e) {
-        }
-
-        Map<Integer, List<ItemDTO>> itemsPerLocation = new HashMap<>();
-        List<ItemDTO> items1 = new LinkedList<>();
-        items1.add(new ItemDTO("creama", 3, 9));
-        items1.add(new ItemDTO("weed", 6, 7));
-        itemsPerLocation.put(3, items1);
-
-        List<ItemDTO> items2 = new LinkedList<>();
-        items2.add(new ItemDTO("apple", 1, 4));
-        items2.add(new ItemDTO("bana", 6, 9));
-        itemsPerLocation.put(5, items2);
-
-        Response res = facade.arrangeDelivery(date, "14:00", 1, itemsPerLocation);
-        System.out.println(res.errorOccured() ? res.getMsg() : "Shipment 1 is added successfully!");
+//        Date date = null;
+//        try {
+//            date = new SimpleDateFormat("dd/MM/yyyy").parse("22/07/2021");
+//        } catch (Exception e) {
+//        }
+//
+//        Map<Integer, List<ItemDTO>> itemsPerLocation = new HashMap<>();
+//        List<ItemDTO> items1 = new LinkedList<>();
+//        items1.add(new ItemDTO("creama", 3, 9));
+//        items1.add(new ItemDTO("weed", 6, 7));
+//        itemsPerLocation.put(3, items1);
+//
+//        List<ItemDTO> items2 = new LinkedList<>();
+//        items2.add(new ItemDTO("apple", 1, 4));
+//        items2.add(new ItemDTO("bana", 6, 9));
+//        itemsPerLocation.put(5, items2);
+//
+//        Response res = facade.arrangeDelivery(date, "14:00", 1, itemsPerLocation);
+//        System.out.println(res.errorOccured() ? res.getMsg() : "Shipment 1 is added successfully!");
     }
 
     public void initShipment2() {
-        Date date = null;
-        try {
-            date = new SimpleDateFormat("dd/MM/yyyy").parse("16/07/2021");
-        } catch (Exception e) {
-        }
-
-        Map<Integer, List<ItemDTO>> itemsPerLocation = new HashMap<>();
-        List<ItemDTO> items1 = new LinkedList<>();
-        items1.add(new ItemDTO("Soda", 23, 4.8));
-        items1.add(new ItemDTO("weed", 6, 85));
-        itemsPerLocation.put(2, items1);
-
-        List<ItemDTO> items2 = new LinkedList<>();
-        items2.add(new ItemDTO("sprite", 6, 3));
-        items2.add(new ItemDTO("cigars", 25, 3));
-        itemsPerLocation.put(1, items2);
-
-        Response res = facade.arrangeDelivery(date, "21:48", 4, itemsPerLocation);
-        System.out.println(res.errorOccured() ? res.getMsg() : "Shipment 2 is added successfully!");
+//        Date date = null;
+//        try {
+//            date = new SimpleDateFormat("dd/MM/yyyy").parse("16/07/2021");
+//        } catch (Exception e) {
+//        }
+//
+//        Map<Integer, List<ItemDTO>> itemsPerLocation = new HashMap<>();
+//        List<ItemDTO> items1 = new LinkedList<>();
+//        items1.add(new ItemDTO("Soda", 23, 4.8));
+//        items1.add(new ItemDTO("weed", 6, 85));
+//        itemsPerLocation.put(2, items1);
+//
+//        List<ItemDTO> items2 = new LinkedList<>();
+//        items2.add(new ItemDTO("sprite", 6, 3));
+//        items2.add(new ItemDTO("cigars", 25, 3));
+//        itemsPerLocation.put(1, items2);
+//
+//        Response res = facade.arrangeDelivery(date, "21:48", 4, itemsPerLocation);
+//        System.out.println(res.errorOccured() ? res.getMsg() : "Shipment 2 is added successfully!");
     }
 }

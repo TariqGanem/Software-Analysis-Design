@@ -178,8 +178,8 @@ public class ShiftMapper {
             String sqlStatement = "select ID from " + dbMaker.shiftTbl + " where role = ?"
                     + " AND isMorning=? AND date=?";
             PreparedStatement p = con.prepareStatement(sqlStatement);
-            p.setString(1,Role.Driver.name());
-            p.setString(2,String.valueOf(isMorning));
+            p.setString(1, Role.Driver.name());
+            p.setString(2, String.valueOf(isMorning));
             p.setString(3, date.toString());
             ResultSet rs = p.executeQuery();
             List<String> IDs = new ArrayList<>();
