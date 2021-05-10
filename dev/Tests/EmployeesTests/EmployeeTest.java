@@ -1,11 +1,16 @@
 package EmployeesTests;
 
 import BusinessLayer.EmployeeModule.EmployeePackage.Employee;
+import DataAccessLayer.dbMaker;
 import Resources.Preference;
 import Resources.Role;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +26,19 @@ public class EmployeeTest {
         roles.add(Role.Cashier);
         employee = new Employee("Sponge Bob", "123456789", 10, 100, 1000, 5000, LocalDate.now(),
                 "Trust Fund", 10, 15, roles, new Preference[7][2]);
+        try (Connection con = DriverManager.getConnection(dbMaker.path)) {
+            String sqlStatement = "delete from EmployeeSkills;";
+            PreparedStatement p = con.prepareStatement(sqlStatement);
+            p.executeUpdate();
+            sqlStatement = "delete from EmployeeTimePreferences;";
+            p = con.prepareStatement(sqlStatement);
+            p.executeUpdate();
+            sqlStatement = "delete from Employee;";
+            p = con.prepareStatement(sqlStatement);
+            p.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
