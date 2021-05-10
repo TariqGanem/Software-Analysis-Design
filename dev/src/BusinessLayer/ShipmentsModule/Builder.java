@@ -15,7 +15,7 @@ public class Builder {
 
 
     public static Truck build(TruckDTO truck) {
-        return new Truck(truck.getTruckPlateNumber(), truck.getModel(), truck.getNatoWeight(), truck.getMaxWeight(), truck.isAvailable());
+        return new Truck(truck.getTruckPlateNumber(), truck.getModel(), truck.getNatoWeight(), truck.getMaxWeight());
     }
 
     public static Location build(LocationDTO loc) {
@@ -62,13 +62,13 @@ public class Builder {
 
     public static List<Truck> buildTrucksList(List<TruckDTO> trucksDTO) {
         List<Truck> trucks = new LinkedList<>();
-        trucksDTO.forEach(t -> trucks.add(new Truck(t.getTruckPlateNumber(), t.getModel(), t.getNatoWeight(), t.getMaxWeight(), t.isAvailable())));
+        trucksDTO.forEach(t -> trucks.add(new Truck(t.getTruckPlateNumber(), t.getModel(), t.getNatoWeight(), t.getMaxWeight())));
         return trucks;
     }
 
     public static List<TruckDTO> buildTrucksListDTO(List<Truck> trucks) {
         List<TruckDTO> trucksDTO = new LinkedList<>();
-        trucks.forEach(t -> trucksDTO.add(new TruckDTO(t.getTruckPlateNumber(), t.getModel(), t.getNatoWeight(), t.getMaxWeight(), t.isAvailable())));
+        trucks.forEach(t -> trucksDTO.add(new TruckDTO(t.getTruckPlateNumber(), t.getModel(), t.getNatoWeight(), t.getMaxWeight())));
         return trucksDTO;
     }
 

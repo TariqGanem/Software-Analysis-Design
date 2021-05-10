@@ -161,8 +161,8 @@ public class Facade {
             for (Location loc : items.keySet()) {
                 shipmentController.addDocument(shipmentId, loc.getId(), items.get(loc));
             }
-            truckController.makeUnavailableTruck(truckPlateNumber);
-            //driverController.makeUnavailableDriver("222222222");
+            //ADD THE TRUCK TO THE SCHEDULER.
+            truckController.scheduleTruck(truckPlateNumber, date, departureHour);
             return new Response();
         } catch (Exception e) {
             return new Response(e.getMessage());
@@ -198,9 +198,9 @@ public class Facade {
         }
     }
 
-    public ResponseT<List<TruckDTO>> getAvailableTrucks(double weight) {
+    public ResponseT<List<TruckDTO>> getAvailableTrucks(double weight, Date date, String hour) {
         try {
-            List<Truck> trucks = truckController.getAvailableTrucks(weight);
+            List<Truck> trucks = truckController.getAvailableTrucks(weight, date, hour);
             return new ResponseT<>(Builder.buildTrucksListDTO(trucks));
         } catch (Exception e) {
             return new ResponseT<>(e.getMessage());
@@ -270,7 +270,6 @@ public class Facade {
     public Response removeShipment(Date date, String departureHour, String driverId) {
         try {
             Shipment shipment = shipmentController.getShipment(date, departureHour, driverId);
-            truckController.depositTruck(shipment.getTruckPlateNumber());
             driverController.freeDriver(driverId);
             shipmentController.deleteShipment(shipment.getShipmentId());
 

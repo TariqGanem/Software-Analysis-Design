@@ -4,10 +4,15 @@ import BusinessLayer.EmployeeModule.EmployeePackage.Employee;
 import BusinessLayer.EmployeeModule.ShiftPackage.Shift;
 import BusinessLayer.EmployeeModule.ShiftPackage.ShiftController;
 import DataAccessLayer.EmployeeModule.DALController;
+import DataAccessLayer.dbMaker;
 import Resources.Role;
-import org.junit.Before;
+import org.junit.*;
 import org.junit.Test;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Calendar;
 
@@ -20,6 +25,13 @@ public class ShiftControllerTest {
     @Before
     public void setup() {
         sc = new ShiftController(new DALController());
+        try (Connection con = DriverManager.getConnection(dbMaker.path)) {
+            String sqlStatement = "delete from Shift;";
+            PreparedStatement p = con.prepareStatement(sqlStatement);
+            p.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

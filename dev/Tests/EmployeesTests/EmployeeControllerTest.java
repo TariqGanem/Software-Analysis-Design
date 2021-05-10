@@ -2,13 +2,16 @@ package EmployeesTests;
 
 import BusinessLayer.EmployeeModule.EmployeePackage.Employee;
 import BusinessLayer.EmployeeModule.EmployeePackage.EmployeeController;
+import BusinessLayer.EmployeeModule.ResponseT;
 import DataAccessLayer.EmployeeModule.DALController;
+import DataAccessLayer.dbMaker;
 import Resources.Preference;
 import Resources.Role;
 import org.junit.Before;
 import org.junit.Test;
 
 import javax.naming.NoPermissionException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +25,19 @@ public class EmployeeControllerTest {
     @Before
     public void setUp() {
         employeeController = new EmployeeController(new DALController());
+        try (Connection con = DriverManager.getConnection(dbMaker.path)) {
+            String sqlStatement = "delete from EmployeeSkills;";
+            PreparedStatement p = con.prepareStatement(sqlStatement);
+            p.executeUpdate();
+            sqlStatement = "delete from EmployeeTimePreferences;";
+            p = con.prepareStatement(sqlStatement);
+            p.executeUpdate();
+            sqlStatement = "delete from Employee;";
+            p = con.prepareStatement(sqlStatement);
+            p.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

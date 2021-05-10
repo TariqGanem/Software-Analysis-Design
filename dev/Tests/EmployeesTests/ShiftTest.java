@@ -1,10 +1,15 @@
 package EmployeesTests;
 
 import BusinessLayer.EmployeeModule.ShiftPackage.Shift;
+import DataAccessLayer.dbMaker;
 import Resources.Role;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 import static org.junit.Assert.*;
@@ -16,6 +21,25 @@ public class ShiftTest {
     @Before
     public void setup() {
         shift = new Shift(LocalDate.now(), true);
+        try (Connection con = DriverManager.getConnection(dbMaker.path)) {
+            String sqlStatement = "delete from EmployeeSkills;";
+            PreparedStatement p = con.prepareStatement(sqlStatement);
+            p.executeUpdate();
+            sqlStatement = "delete from EmployeeTimePreferences;";
+            p = con.prepareStatement(sqlStatement);
+            p.executeUpdate();
+            sqlStatement = "delete from Employee;";
+            p = con.prepareStatement(sqlStatement);
+            p.executeUpdate();
+            sqlStatement = "delete from ShiftPersonnel;";
+            p = con.prepareStatement(sqlStatement);
+            p.executeUpdate();
+            sqlStatement = "delete from Shift;";
+            p = con.prepareStatement(sqlStatement);
+            p.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

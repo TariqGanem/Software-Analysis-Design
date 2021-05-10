@@ -47,15 +47,15 @@ public class TrucksHandler extends Handler {
         }
     }
 
-    public void viewAllAvailableTrucks(double weight) {
-        ResponseT<List<TruckDTO>> res = facade.getAvailableTrucks(weight);
-        trucks = res.getValue();
-        if (res.errorOccured())
-            printer.error(res.getMsg());
-        else {
-            printer.viewAllTrucks(trucks);
-        }
-    }
+//    public void viewAllAvailableTrucks(double weight) {
+//        ResponseT<List<TruckDTO>> res = facade.getAvailableTrucks(weight);
+//        trucks = res.getValue();
+//        if (res.errorOccured())
+//            printer.error(res.getMsg());
+//        else {
+//            printer.viewAllTrucks(trucks);
+//        }
+//    }
 
     public TruckDTO chooseAvailableTruck() {
         while (true) {
@@ -68,7 +68,7 @@ public class TrucksHandler extends Handler {
     }
 
     public TruckDTO handleAvailableTrucks(double weight, Date date, String hour) {
-        ResponseT<List<TruckDTO>> res = facade.getAvailableTrucks(weight);
+        ResponseT<List<TruckDTO>> res = facade.getAvailableTrucks(weight, date, hour);
         trucks = res.getValue();
         if (res.errorOccured())
             printer.error(res.getMsg());
