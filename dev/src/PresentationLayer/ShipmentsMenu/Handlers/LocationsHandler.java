@@ -22,11 +22,11 @@ public class LocationsHandler extends Handler {
 
     public void addLocation() {
         System.out.printf("\nEnter address: ");
-        String address = scanner.next();
+        String address = scanner.nextLine();
         System.out.printf("\nEnter phone number:");
-        String phoneNumber = scanner.next();
+        String phoneNumber = scanner.nextLine();
         System.out.printf("\nEnter contact name: ");
-        String contactName = scanner.next();
+        String contactName = scanner.nextLine();
         System.out.println();
         Response res = facade.addLocation(address, phoneNumber, contactName);
         if (res.errorOccured())

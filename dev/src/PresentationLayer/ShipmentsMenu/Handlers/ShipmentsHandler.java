@@ -30,7 +30,7 @@ public class ShipmentsHandler extends Handler {
         System.out.printf("\nEnter shipment date [dd/MM/yyyy]: ");
         Date date = getDate();
         System.out.printf("Enter departure hour [00:00]: ");
-        String hour = scanner.next();
+        String hour = scanner.nextLine();
         System.out.printf("Enter shipment source: \n");
         locationsHandler.viewAllLocations();
         int source = locationsHandler.chooseLocation().getId();
@@ -79,9 +79,9 @@ public class ShipmentsHandler extends Handler {
         System.out.printf("\nEnter shipment date [dd/MM/yyyy]: ");
         Date date = getDate();
         System.out.printf("Enter departure hour [00:00]: ");
-        String hour = scanner.next();
+        String hour = scanner.nextLine();
         System.out.printf("Enter driver's id: ");
-        String id = scanner.next();
+        String id = scanner.nextLine();
         Response res = facade.removeShipment(date, hour, id);
         if (res.errorOccured()) {
             printer.error(res.getMsg());
@@ -99,7 +99,7 @@ public class ShipmentsHandler extends Handler {
             try {
                 System.out.printf("\n\tEnter details for item number [" + (items.size() + 1) + "]:\n");
                 System.out.printf("\tItem's Name: ");
-                itemName = scanner.next();
+                itemName = scanner.nextLine();
                 System.out.printf("\tItem's Weight: ");
                 weight = getDouble();
                 System.out.printf("\tItem's Amount: ");
@@ -108,7 +108,7 @@ public class ShipmentsHandler extends Handler {
                 items.add(new ItemDTO(itemName, amount, weight));
                 printer.success("Item has been added!");
                 System.out.printf("\nAdd another item? [y/n]: ");
-                String another = scanner.next();
+                String another = scanner.nextLine();
                 System.out.println();
                 if (!another.equals("y"))
                     break;
@@ -131,7 +131,7 @@ public class ShipmentsHandler extends Handler {
                 itemsPerDestination.put(locId, getItems());
                 printer.success("Destination has been added!");
                 System.out.printf("\nAdd another destination? [y/n]: ");
-                String another = scanner.next();
+                String another = scanner.nextLine();
                 System.out.println();
                 if (!another.equals("y"))
                     break;

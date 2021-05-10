@@ -2,6 +2,7 @@ package DataAccessLayer;
 
 import BusinessLayer.ShipmentsModule.Response;
 import BusinessLayer.ShipmentsModule.ResponseT;
+import org.sqlite.SQLiteConfig;
 
 import java.io.File;
 import java.sql.*;
@@ -69,7 +70,9 @@ public class dbMaker {
     public static Connection connect() {
         Connection conn = null;
         try {
-            conn = DriverManager.getConnection(path);
+            SQLiteConfig config = new SQLiteConfig();
+            config.enforceForeignKeys(true);
+            conn = DriverManager.getConnection(path, config.toProperties());
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -165,7 +168,8 @@ public class dbMaker {
                 "\t\"shipmentId\"\tINTEGER,\n" +
                 "\tPRIMARY KEY(\"trackingNumber\"),\n" +
                 "\tFOREIGN KEY(\"destinationId\") REFERENCES \"Locations\"(\"id\"),\n" +
-                "\tFOREIGN KEY(\"shipmentId\") REFERENCES \"Shipments\"(\"id\")\n" +
+                "\tFOREIGN KEY(\"shipmentId\") REFERENCES \"Shipments\"(\"id\"),\n" +
+                "\tFOREIGN KEY(\"trackingNumber\") REFERENCES \"Items\"(\"documentId\") ON DELETE CASCADE\n" +
                 ");";
         try {
             Statement stmt = connect().createStatement();

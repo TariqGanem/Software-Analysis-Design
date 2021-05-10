@@ -14,13 +14,13 @@ public class Handler {
     public Handler() {
         printer = Printer.getInstance();
         scanner = new Scanner(System.in);
-        scanner.useDelimiter("\n");
+        //scanner.useDelimiter("\n");
     }
 
     protected double getDouble() {
         while (true) {
             try {
-                double output = Double.parseDouble(scanner.next());
+                double output = Double.parseDouble(scanner.nextLine());
                 if (output > 0)
                     return output;
                 else
@@ -34,7 +34,7 @@ public class Handler {
     protected Date getDate() {
         while (true) {
             try {
-                return new SimpleDateFormat("dd/MM/yyyy").parse(scanner.next());
+                return new SimpleDateFormat("dd/MM/yyyy").parse(scanner.nextLine());
             } catch (Exception e) {
                 printer.error("Enter valid date format!");
             }
@@ -45,7 +45,7 @@ public class Handler {
     protected int getInt() {
         while (true) {
             try {
-                return Integer.parseInt(scanner.next());
+                return Integer.parseInt(scanner.nextLine());
             } catch (Exception e) {
                 printer.error("Enter only natural numbers");
             }
