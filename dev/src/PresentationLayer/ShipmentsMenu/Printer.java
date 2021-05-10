@@ -65,7 +65,6 @@ public class Printer {
                     + "\t Model: " + trucks.get(i).getModel()
                     + "\t Nato Weight: " + trucks.get(i).getNatoWeight()
                     + "\t Max Weight: " + trucks.get(i).getMaxWeight()
-                    + "\t Available: " + (trucks.get(i).isAvailable() ? "Yes" : "No")
             );
         }
     }

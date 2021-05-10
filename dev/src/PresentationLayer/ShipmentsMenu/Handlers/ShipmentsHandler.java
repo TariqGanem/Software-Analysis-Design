@@ -3,8 +3,10 @@ package PresentationLayer.ShipmentsMenu.Handlers;
 import BusinessLayer.ShipmentsModule.Facade;
 import BusinessLayer.ShipmentsModule.Response;
 import BusinessLayer.ShipmentsModule.ResponseT;
+import DTOPackage.DriverDTO;
 import DTOPackage.ItemDTO;
 import DTOPackage.ShipmentDTO;
+import DTOPackage.TruckDTO;
 
 import java.util.*;
 
@@ -12,11 +14,15 @@ public class ShipmentsHandler extends Handler {
 
     private Facade facade;
     private LocationsHandler locationsHandler;
+    private TrucksHandler trucksHandler;
+    private DriversHandler driversHandler;
     private List<ShipmentDTO> shipments;
 
     public ShipmentsHandler(Facade facade) {
         this.facade = facade;
         locationsHandler = new LocationsHandler(facade);
+        trucksHandler = new TrucksHandler(facade);
+        driversHandler = new DriversHandler(facade);
         shipments = new LinkedList<>();
     }
 
@@ -30,8 +36,17 @@ public class ShipmentsHandler extends Handler {
         int source = locationsHandler.chooseLocation().getId();
         System.out.printf("Add a list of destinations in order: \n");
         Map<Integer, List<ItemDTO>> itemsPerDestination = getItemsPerDestination();
-        System.out.println();
-        Response res = facade.arrangeDelivery(date, hour, source, itemsPerDestination);
+        double shipmentWeight = calculateShipmentWeight(itemsPerDestination);
+        System.out.println("\n Your shipment weight is currently [ " + shipmentWeight + " ] Kg\n");
+
+        TruckDTO chosenTruck = trucksHandler.handleAvailableTrucks(shipmentWeight, date, hour);
+        if (chosenTruck == null)
+            return;
+        DriverDTO chosenDriver = driversHandler.handleAvailableDriver(chosenTruck.getNatoWeight() + shipmentWeight, date, hour);
+        if (chosenDriver == null)
+            return;
+        Response res = facade.arrangeDelivery(date, hour, source, itemsPerDestination,
+                chosenTruck.getTruckPlateNumber(), chosenDriver.getId());
         if (res.errorOccured())
             printer.error(res.getMsg());
         else {
@@ -125,5 +140,15 @@ public class ShipmentsHandler extends Handler {
             }
         }
         return itemsPerDestination;
+    }
+
+    private double calculateShipmentWeight(Map<Integer, List<ItemDTO>> items_per_location) {
+        double shipmentWeight = 0;
+        for (Integer loc : items_per_location.keySet()) {
+            for (ItemDTO item : items_per_location.get(loc)) {
+                shipmentWeight += item.getWeight() * item.getAmount();
+            }
+        }
+        return shipmentWeight;
     }
 }

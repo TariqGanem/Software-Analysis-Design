@@ -1,9 +1,11 @@
 package PresentationLayer.ShipmentsMenu.Handlers;
 
 import BusinessLayer.ShipmentsModule.Facade;
+import BusinessLayer.ShipmentsModule.Response;
 import BusinessLayer.ShipmentsModule.ResponseT;
 import DTOPackage.DriverDTO;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,8 +20,11 @@ public class DriversHandler extends Handler {
     }
 
     public void addDriver(String Id) {
+        System.out.println("Enter Allowed Weight for Driver:");
         double allowedWeight = getDouble();
-        facade.addDriver(Id, allowedWeight);
+        Response res = facade.addDriver(Id, allowedWeight);
+        if (res.errorOccured())
+            System.out.println(res.getMsg());
     }
 
     public void viewAllDrivers() {
@@ -30,5 +35,38 @@ public class DriversHandler extends Handler {
         else {
             printer.viewAllDrivers(drivers);
         }
+    }
+
+    public void viewAllAvailableDrivers(double totalWeight, Date date, String hour) {
+        ResponseT<List<DriverDTO>> res = facade.getAllAvailableDrivers(totalWeight, date, hour);
+        drivers = res.getValue();
+        if (res.errorOccured())
+            printer.error(res.getMsg());
+        else {
+            printer.viewAllDrivers(drivers);
+        }
+    }
+
+    public DriverDTO chooseAvailableDriver() {
+        while (true) {
+            try {
+                return drivers.get(getInt() - 1);
+            } catch (Exception e) {
+                printer.error("Invalid input!");
+            }
+        }
+    }
+
+    public DriverDTO handleAvailableDriver(double totalWeight, Date date, String hour) {
+        ResponseT<List<DriverDTO>> res = facade.getAllAvailableDrivers(totalWeight, date, hour);
+        drivers = res.getValue();
+        if (res.errorOccured()) {
+            printer.error(res.getMsg());
+        } else {
+            System.out.println("\n Now all drivers below can drive this truck, Choose one:");
+            printer.viewAllDrivers(drivers);
+            return chooseAvailableDriver();
+        }
+        return null;
     }
 }

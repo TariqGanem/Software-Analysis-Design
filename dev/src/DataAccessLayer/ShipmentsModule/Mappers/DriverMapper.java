@@ -86,7 +86,7 @@ public class DriverMapper {
     }
 
     private void insertDriver(String id, Double allowedWeight) throws Exception {
-        String sql = "INSERT INTO " + dbMaker.driversTbl + "(id, allowedWeight) VALUES (?,?,?)";
+        String sql = "INSERT INTO " + dbMaker.driversTbl + " (id, allowedWeight) VALUES (?,?)";
         try (Connection conn = dbMaker.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, id);

@@ -5,6 +5,8 @@ import BusinessLayer.ShipmentsModule.Response;
 import BusinessLayer.ShipmentsModule.ResponseT;
 import DTOPackage.TruckDTO;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -43,6 +45,45 @@ public class TrucksHandler extends Handler {
         else {
             printer.viewAllTrucks(trucks);
         }
+    }
+
+//    public void viewAllAvailableTrucks(double weight) {
+//        ResponseT<List<TruckDTO>> res = facade.getAvailableTrucks(weight);
+//        trucks = res.getValue();
+//        if (res.errorOccured())
+//            printer.error(res.getMsg());
+//        else {
+//            printer.viewAllTrucks(trucks);
+//        }
+//    }
+
+    public TruckDTO chooseAvailableTruck() {
+        while (true) {
+            try {
+                return trucks.get(getInt() - 1);
+            } catch (Exception e) {
+                printer.error("Invalid input!");
+            }
+        }
+    }
+
+    public TruckDTO handleAvailableTrucks(double weight, Date date, String hour) {
+        ResponseT<List<TruckDTO>> res = facade.getAvailableTrucks(weight, date, hour);
+        trucks = res.getValue();
+        if (res.errorOccured())
+            printer.error(res.getMsg());
+        else {
+            try {
+                System.out.printf("All trucks below are available on ["
+                        + new SimpleDateFormat("dd/MM/yyyy").format(date) + " - "
+                        + hour + "]\nand capable to transport this shipment.\nPlease choose one:\n");
+            } catch (Exception e) {
+                printer.error(e.getMessage());
+            }
+            printer.viewAllTrucks(trucks);
+            return chooseAvailableTruck();
+        }
+        return null;
     }
 
 }

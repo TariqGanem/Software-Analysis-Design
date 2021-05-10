@@ -40,16 +40,16 @@ public class DataInitializer {
     }
 
     private void initDrivers() {
-//        System.out.println("Loading Drivers:");
-//        Response res1 = facade.addDriver("222222222", "Patrick Star", 7000);
-//        System.out.println(res1.errorOccured() ? res1.getMsg() : "Driver 1 is added successfully!");
-//
-//        Response res2 = facade.addDriver("admin", "admin", 9000);
-//        System.out.println(res2.errorOccured() ? res2.getMsg() : "Driver 2 is added successfully!");
-//
-//        Response res3 = facade.addDriver("111111111", "SpongeBob SquarePants", 15000);
-//        System.out.println(res3.errorOccured() ? res3.getMsg() : "Driver 3 is added successfully!");
-//        System.out.println();
+        System.out.println("Loading Drivers:");
+        Response res1 = facade.addDriver("222222222",  7000);
+        System.out.println(res1.errorOccured() ? res1.getMsg() : "Driver 1 is added successfully!");
+
+        Response res2 = facade.addDriver("admin",  9000);
+        System.out.println(res2.errorOccured() ? res2.getMsg() : "Driver 2 is added successfully!");
+
+        Response res3 = facade.addDriver("111111111",  15000);
+        System.out.println(res3.errorOccured() ? res3.getMsg() : "Driver 3 is added successfully!");
+        System.out.println();
     }
 
     private void initLocations() {
@@ -97,7 +97,7 @@ public class DataInitializer {
         items2.add(new ItemDTO("bana", 6, 9));
         itemsPerLocation.put(5, items2);
 
-        Response res = facade.arrangeDelivery(date, "14:00", 1, itemsPerLocation);
+        Response res = facade.arrangeDelivery(date, "11:00", 1, itemsPerLocation,"7777777","222222222");
         System.out.println(res.errorOccured() ? res.getMsg() : "Shipment 1 is added successfully!");
     }
 
@@ -119,7 +119,7 @@ public class DataInitializer {
         items2.add(new ItemDTO("cigars", 25, 3));
         itemsPerLocation.put(1, items2);
 
-        Response res = facade.arrangeDelivery(date, "21:48", 4, itemsPerLocation);
+        Response res = facade.arrangeDelivery(date, "21:48", 4, itemsPerLocation,"HYTE779","111111111");
         System.out.println(res.errorOccured() ? res.getMsg() : "Shipment 2 is added successfully!");
     }
 }

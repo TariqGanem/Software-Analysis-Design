@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,18 +28,18 @@ public class TruckMapper {
         return instance;
     }
 
-    public TruckDTO addTruck(String plateNumber, String model, Double natoWeight, Double maxWeight, boolean available) throws Exception {
+    public TruckDTO addTruck(String plateNumber, String model, Double natoWeight, Double maxWeight) throws Exception {
         TruckDTO truck;
         for (TruckDTO t : memory.getTrucks()) {
             if (t.getTruckPlateNumber().equals(plateNumber))
                 throw new Exception("Truck already exists!");
         }
-        truck = new TruckDTO(plateNumber, model, natoWeight, maxWeight, available);
+        truck = new TruckDTO(plateNumber, model, natoWeight, maxWeight);
         if (truckExists(plateNumber)) {
             memory.getTrucks().add(truck);
             throw new Exception("Truck already exists in the database!");
         }
-        insertTruck(plateNumber, model, natoWeight, maxWeight, available);
+        insertTruck(plateNumber, model, natoWeight, maxWeight);
         memory.getTrucks().add(truck);
         return truck;
     }
@@ -61,43 +63,65 @@ public class TruckMapper {
         return memory.getTrucks();
     }
 
-    public TruckDTO updateTruck(String plateNumber, boolean available) throws Exception {
-        TruckDTO truck = getTruck(plateNumber);
-        truck.setAvailable(available);
-        _updateTruck(plateNumber, available);
-        return truck;
+    public boolean isAvailableTruck(String plateNumber, double weight, Date date, boolean isMorning) throws Exception {
+        List<TruckDTO> trucks = getAvailableTrucks(weight, date, isMorning);
+        for (TruckDTO truck : trucks) {
+            if (truck.getTruckPlateNumber().equals(plateNumber))
+                return true;
+        }
+        return false;
     }
 
-    public TruckDTO getAvailableTruck(double weight) throws Exception {
-        for (TruckDTO t : memory.getTrucks()) {
-            if (t.isAvailable() && t.getMaxWeight() >= weight)
-                return t;
-        }
-        TruckDTO truck = _getAvailableTruck(weight);
-        if (truck != null) {
+
+    public List<TruckDTO> getAvailableTrucks(double weight, Date date, boolean isMorning) throws Exception {
+//        for (TruckDTO t : memory.getTrucks()) {
+//            if (t.isAvailable() && t.getMaxWeight() >= weight)
+//                return t;
+//        }
+        List<TruckDTO> trucks = _getAvailableTrucks(weight, date, isMorning);
+        for (TruckDTO truck : trucks)
             memory.getTrucks().add(truck);
-            return truck;
-        }
-        throw new Exception("There is no such available truck in the database!");
+        if (trucks.isEmpty())
+            throw new Exception("There is no such available truck in the database!");
+        return trucks;
     }
 
-    private TruckDTO _getAvailableTruck(double weight) throws Exception {
-        String sql = "SELECT * FROM " + dbMaker.trucksTbl + " WHERE maxWeight>=" + weight + " AND available=TRUE";
+    public void insertTruckScheduler(String plateNumber, Date date, boolean isMorning) throws Exception {
+        String sql = "INSERT INTO " + dbMaker.truckSchedulerTbl + " (plateNumber, shipmentDate, isMorning) VALUES (?,?,?)";
+        try (Connection conn = dbMaker.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, plateNumber);
+            pstmt.setString(2, new SimpleDateFormat("dd/MM/yyyy").format(date));
+            pstmt.setBoolean(3, isMorning);
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    private List<TruckDTO> _getAvailableTrucks(double weight, Date date, boolean isMorning) throws Exception {
+        List<TruckDTO> trucks = new LinkedList<>();
+        String sql = "SELECT * FROM\n" +
+                "((SELECT t.plateNumber, t.model, t.natoWeight, t.maxWeight FROM Trucks as t WHERE t.maxWeight>= "
+                + weight + " EXCEPT " + "SELECT t.plateNumber, t.model, t.natoWeight, t.maxWeight FROM TruckScheduler AS ts\n" +
+                "JOIN Trucks as t ON ts.plateNumber=t.plateNumber) as notyetscheduled)\n" +
+                "UNION\n" + "SELECT t.plateNumber, t.model, t.natoWeight, t.maxWeight FROM TruckScheduler AS ts\n" +
+                "JOIN Trucks as t ON ts.plateNumber=t.plateNumber WHERE t.maxWeight>= " + weight + " AND ts.shipmentDate != '" +
+                new SimpleDateFormat("dd/MM/yyyy").format(date) + "' OR ts.isMorning!=" + (isMorning ? 1 : 0);
         try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
-            if (rs.next()) {
-                return new TruckDTO(rs.getString(1),
+            while (rs.next()) {
+                trucks.add(new TruckDTO(rs.getString(1),
                         rs.getString(2),
                         rs.getDouble(3),
-                        rs.getDouble(4),
-                        rs.getBoolean(5)
-                );
+                        rs.getDouble(4)
+                ));
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        return null;
+        return trucks;
     }
 
     private void _updateTruck(String plateNumber, boolean available) throws Exception {
@@ -113,15 +137,15 @@ public class TruckMapper {
         }
     }
 
-    private void insertTruck(String plateNumber, String model, Double natoWeight, Double maxWeight, boolean available) throws Exception {
-        String sql = "INSERT INTO " + dbMaker.trucksTbl + " (plateNumber, model, natoWeight, maxWeight, available) VALUES (?,?,?,?,?)";
+    private void insertTruck(String plateNumber, String model, Double natoWeight, Double maxWeight) throws Exception {
+        String sql = "INSERT INTO " + dbMaker.trucksTbl + " (plateNumber, model, natoWeight, maxWeight) VALUES (?,?,?,?)";
         try (Connection conn = dbMaker.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, plateNumber);
             pstmt.setString(2, model);
             pstmt.setDouble(3, natoWeight);
             pstmt.setDouble(4, maxWeight);
-            pstmt.setBoolean(5, available);
+            ;
             pstmt.executeUpdate();
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -137,8 +161,7 @@ public class TruckMapper {
                 return new TruckDTO(rs.getString(1),
                         rs.getString(2),
                         rs.getDouble(3),
-                        rs.getDouble(4),
-                        rs.getBoolean(5)
+                        rs.getDouble(4)
                 );
             }
         } catch (Exception e) {
@@ -157,8 +180,7 @@ public class TruckMapper {
                 trucks.add(new TruckDTO(rs.getString(1),
                         rs.getString(2),
                         rs.getDouble(3),
-                        rs.getDouble(4),
-                        rs.getBoolean(5)
+                        rs.getDouble(4)
                 ));
             }
             return trucks;
