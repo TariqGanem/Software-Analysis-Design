@@ -27,8 +27,6 @@ public class dbMaker {
     public static String shiftPersonnelTbl = "ShiftPersonnel";
     public static String empTimePrefTbl = "EmployeeTimePreferences";
 
-    protected Connection conn = null;
-
     public dbMaker() {
         dbName = "superLee.db";
         path = "jdbc:sqlite:" + dbName;

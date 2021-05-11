@@ -55,8 +55,4 @@ public class LocationsHandler extends Handler {
             }
         }
     }
-
-    public List<LocationDTO> getLocations() {
-        return locations;
-    }
 }

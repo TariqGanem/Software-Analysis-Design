@@ -1,19 +1,10 @@
 package DTOPackage;
 
-import BusinessLayer.ShipmentsModule.Objects.Truck;
-
 public class TruckDTO {
     private String truckPlateNumber;
     private String model;
     private double natoWeight;
     private double maxWeight;
-
-    public TruckDTO(Truck t) {
-        truckPlateNumber = t.getTruckPlateNumber();
-        model = t.getModel();
-        natoWeight = t.getNatoWeight();
-        maxWeight = t.getMaxWeight();
-    }
 
     public TruckDTO(String truckPlateNumber, String model, double natoWeight, double maxWeight) {
         this.truckPlateNumber = truckPlateNumber;

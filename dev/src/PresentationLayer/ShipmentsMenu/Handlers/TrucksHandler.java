@@ -47,16 +47,6 @@ public class TrucksHandler extends Handler {
         }
     }
 
-//    public void viewAllAvailableTrucks(double weight) {
-//        ResponseT<List<TruckDTO>> res = facade.getAvailableTrucks(weight);
-//        trucks = res.getValue();
-//        if (res.errorOccured())
-//            printer.error(res.getMsg());
-//        else {
-//            printer.viewAllTrucks(trucks);
-//        }
-//    }
-
     public TruckDTO chooseAvailableTruck() {
         while (true) {
             try {

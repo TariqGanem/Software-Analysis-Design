@@ -56,10 +56,6 @@ public class IdentityMap {
         this.drivers = drivers;
     }
 
-    public void setDocuments(List<DocumentDTO> documents) {
-        this.documents = documents;
-    }
-
     public void setLocations(List<LocationDTO> locations) {
         this.locations = locations;
     }

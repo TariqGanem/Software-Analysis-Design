@@ -43,16 +43,6 @@ public class DriversHandler extends Handler {
         }
     }
 
-    public void viewAllAvailableDrivers(double totalWeight, Date date, String hour) {
-        ResponseT<List<DriverDTO>> res = facade.getAllAvailableDrivers(totalWeight, date, hour);
-        drivers = res.getValue();
-        if (res.errorOccured())
-            printer.error(res.getMsg());
-        else {
-            printer.viewAllDrivers(drivers);
-        }
-    }
-
     public DriverDTO chooseAvailableDriver() {
         while (true) {
             try {

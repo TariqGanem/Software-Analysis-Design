@@ -2,9 +2,14 @@ package ShipmentsTests;
 
 import BusinessLayer.ShipmentsModule.Facade;
 import BusinessLayer.ShipmentsModule.Response;
-import org.junit.After;
+import DataAccessLayer.dbMaker;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -16,30 +21,37 @@ public class TruckTest {
     @Before
     public void setUp() {
         data = new Facade();
+        try (Connection con = DriverManager.getConnection(dbMaker.path)) {
+            String sqlStatement = "delete from Trucks";
+            PreparedStatement p = con.prepareStatement(sqlStatement);
+            p.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void testAddTruck() {
-        data.addTruck("12345", "BMW", 6.5, 12);
-        assertEquals(1, data.getAllTrucks().getValue().size());
-        assertEquals(data.getAllTrucks().getValue().get(0).getTruckPlateNumber(), "12345");
-        assertEquals(data.getAllTrucks().getValue().get(0).getModel(), "BMW");
+        int numOfTrucks = data.getAllTrucks().getValue().size();
+        data.addTruck("ID_1", "BMW", 6.5, 12);
+        assertEquals(numOfTrucks + 1, data.getAllTrucks().getValue().size());
+        assertEquals("ID_1", data.getAllTrucks().getValue().get(0).getTruckPlateNumber());
+        assertEquals("BMW", data.getAllTrucks().getValue().get(0).getModel());
         assertEquals(6.5, data.getAllTrucks().getValue().get(0).getNatoWeight(), 0.0);
         assertEquals(12, data.getAllTrucks().getValue().get(0).getMaxWeight(), 0.0);
     }
 
     @Test
     public void testAddTruckWithSameId() {
-        data.addTruck("12345", "BMW", 6.5, 12);
-        Response res = data.addTruck("12345", "Volvo", 4, 8);
-        assertEquals("Couldn't add new truck - truckPlateNumber already exists", res.getMsg());
+        Response res = data.addTruck("ID_1", "Volvo", 4, 8);
+        assertEquals("Truck already exists!", res.getMsg());
         assertNotEquals(2, data.getAllTrucks().getValue().size());
     }
 
     @Test
     public void testTruckWeight() {
-        Response res1 = data.addTruck("12345", "BMW", 6.5, 0);
-        Response res2 = data.addTruck("123456", "BMWW", -1, -3);
+        Response res1 = data.addTruck("ID_2", "BMW2", 6.5, 0);
+        Response res2 = data.addTruck("ID_3", "BMW3", -1, -3);
         assertEquals("Couldn't add new truck - Illegal truck weight", res1.getMsg());
         assertEquals("Couldn't add new truck - Illegal truck weight", res2.getMsg());
         assertEquals(0, data.getAllTrucks().getValue().size());
@@ -52,10 +64,5 @@ public class TruckTest {
         assertEquals("Couldn't add new truck - Invalid parameters", res1.getMsg());
         assertEquals("Couldn't add new truck - Invalid parameters", res2.getMsg());
         assertEquals(0, data.getAllTrucks().getValue().size());
-    }
-
-    @After
-    public void tearDown() {
-        data = new Facade();
     }
 }

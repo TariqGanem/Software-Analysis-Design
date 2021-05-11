@@ -41,22 +41,8 @@ public class Shipment {
         return driverId;
     }
 
-    public double getShipmentWeight() {
-        int shipmentWeight = 0;
-        for (Document doc : documents.values()) {
-            shipmentWeight += doc.getWeight();
-        }
-        return shipmentWeight;
-    }
-
     public Location getSource() {
         return source;
-    }
-
-    public List<Location> getDestinations() {
-        List<Location> destinations = new LinkedList<>();
-        documents.values().forEach(d -> destinations.add(d.getDestination()));
-        return destinations;
     }
 
     public Map<Integer, Document> getDocuments() {
