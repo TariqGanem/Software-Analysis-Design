@@ -1,0 +1,72 @@
+Super-Lee Employee Module:
+
+This is a managment system for the employees of Super-Market "Super-Lee".
+* All employees information is stored on the system.
+* All of the shifts are stored on the system.
+* Super-Lee has 11 shifts in a week (sunday-monday both morning and evening, and friday mornings).
+* The system has a pre defined user called "admin", this user is intended to be used when the system is first used. One person from the managment team should use this
+  user to add the already existing employees to the system. The ID of this special user is 'admin'.
+* Employees in the managment team (called Admin/manager) are those with a Role such as HRManager or StoreManager.
+* Employees in the managment team will have permissions to assign shifts, add new employees, etc.
+* Employees not in the managment team will only be able to view their information and shifts.
+
+System Instructions:
+First of all you will need to log into the system. Once the system is running enter your ID (You can also type 'q' to exit the system entirely).
+
+(The following 3 functionalities are for all employees)
+1. View personal information: To view your own personal information enter '1' when the main menu is shown. To change your information ask a managment employee to change
+   the information for you.
+
+2. View my upcoming shifts: To view your upcoming shifts enter '2' when the main menu is shown. You will see all of your shifts in a list. You will be asked if you want
+   to view the other employees who are assigned with you, answer yes or no. If you answer yes, pick a shift from the list.
+
+3. Change my shift preferences: To change your shift preferences (i.e. when can you work, cant you work, want to work) enter '3' when the mainmenu is shown.
+   Shift preferences are stored in the system for each 11 shifts in a week. Employees who want to change their preferences will have to login to the system and change
+   them each time.
+
+(The following employees are only for the managment team)
+4. Add new shift: To add a new shift to the system enter '4' when the main menu is shown. You will be requested to enter the date and if its in the morning/evening.
+   Now you will be able to update the new shift:
+   You are now seeing the 'update shift menu':
+   4.1. Assign emplyoee to the shift: To assign a new employee enter '1'. You will be shown the amount of people needed for each job in the shift. Enter the the job
+        you want to add right now. Now pick the employee from the list shown to you. You are required to add a shift manager before adding regular employees.
+   
+   4.2. Remove employee from a shift: To remove an employee from a shift enter '2'. You will be shown a list of the employees id assigned to the shift, pick one of them.
+
+   4.3. Delete shift: To delete this shift enter '3'.
+
+   To exit the 'update shift menu' enter 0.
+   After you perform an action, to return to the main menu enter 'c', to continue adding shifts type anything else.
+
+5. View a specific shift: To view a specific shfift enter '5' when the main menu is shown. You are now presented by two options:
+   5.1. Find the shift with a specific date: You will be requested to enter the date and if its in the morning/evening.
+	
+   5.2. Find the shift with a time range: You will be requested to enter the range the shift is in. Choose from the list of shifts presented to you.
+   
+   You are now seeing the 'update shift menu', refer to (4.) to learn how to use this menu.
+
+6. View employee information: To view the information of an employee enter '6' when the main menu is shown. Enter the ID of the specific employee.
+   6.1 To change the employee's information enter 'y' when you are asked, from here follow the instructions of each field you want to change.
+
+7. Add a new employee: To add a new employee enter '7' when the main menu is shown. You will be requested to enter the information of the employee, follow the
+   instructions of each field.
+
+8. Change amount of employees needed for a shift: To change how many employees of each job are needed for a shift enter '8' when the main menu is shown. Pick the day
+   of the week and if its an morning/evening shift. Pick which the job you want to change the amount of and then enter the new amount.
+
+
+Shipments Menu Instructions:
+
+- Hit option 1 to initialize data in database (this is only for testing porpuses).
+- Hit option 2 to add new truck, enter the truck plate number, model, and nato truck weight and max weight that the   truck can transport.
+- Hit option 3 to add new location with address name, phone, contact name for contacting and elaborations.
+- Hit option 4 to view all trucks in the system.
+- Hit option 5 to view all drivers in the system.
+- Hit option 6 to view all the locations in the system.
+- Hit option 7 to view all the shipments transportation that have been made by the shipment manager (history).
+- Hit option 8 to track a shipment, you only enter the tracking number (document id), and then you will be able to see the items that been deliverd to the desired destinations.
+- Hit option 9 to arrange new shipment, you simply choose the date of the shipment and the departure hour, now you choose th esource of the destination and specify the destination, for each destination you add the relvant items you want, afterwards you choose the truck from the available trucks list that the system show you, after that you choose the driver. if everything wen fine the shipment will be arranged on the date you sepecifed.
+- Hit option 10 to remove a shipment you may add accedinatly.
+- To go back to the main menu you simply choose option 11.
+
+
