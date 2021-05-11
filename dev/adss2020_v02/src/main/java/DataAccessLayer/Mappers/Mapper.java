@@ -1,6 +1,9 @@
 package DataAccessLayer.Mappers;
 
+import DTO.ContractDTO;
+
 import java.sql.*;
+import java.util.Map;
 
 public abstract class Mapper {
     protected Connection connection = null;

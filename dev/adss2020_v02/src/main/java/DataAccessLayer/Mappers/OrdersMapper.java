@@ -29,9 +29,9 @@ public class OrdersMapper extends Mapper{
 
             statement = connection.createStatement();
             sql = "CREATE TABLE IF NOT EXISTS ItemsInOrders "+
-                    "(OrderID INT, "+
-                    "ItemID INT, " +
-                    "Amount INT NOT NULL"+
+                    "(OrderID INT,"+
+                    "ItemID INT,  " +
+                    "Amount INT NOT NULL,"+
                     "PRIMARY KEY(OrderID,ItemID)," +
                     "FOREIGN KEY(OrderID) REFERENCES Orders(Id))";
             statement.executeUpdate(sql);
@@ -65,7 +65,7 @@ public class OrdersMapper extends Mapper{
             orders.putIfAbsent(orderDTO.getId(), new Order(orderDTO));
 
             for (Map.Entry<Integer, ItemDTO> item: orderDTO.getItems().entrySet()) {
-                storeItemInOrder(output, item.getValue().getId(), item.getValue().getAmount());
+                storeItemInOrder(output, item.getValue().getId(), orderDTO.getAmounts().get(item.getKey()));
             }
 
             preparedStatement.close();
@@ -98,7 +98,7 @@ public class OrdersMapper extends Mapper{
             orders.putIfAbsent(orderDTO.getId(), new Order(orderDTO));
 
             for (Map.Entry<Integer, ItemDTO> item: orderDTO.getItems().entrySet()) {
-                storeItemInOrder(output, item.getValue().getId(), item.getValue().getAmount());
+                storeItemInOrder(output, item.getValue().getId(), orderDTO.getAmounts().get(item.getKey()));
             }
 
             preparedStatement.close();

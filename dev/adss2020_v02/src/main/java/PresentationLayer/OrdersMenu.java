@@ -68,11 +68,9 @@ public class OrdersMenu implements Menu{
 		Scanner sc = new Scanner(System.in);
 		int supplierID = -1;
 		try {
-
-
-				System.out.println("Enter supplier's id to ask order from: ");
-				supplierID = sc.nextInt();
-				if(facade.isSupplier(supplierID).getValue()) {
+			System.out.println("Enter supplier's id to ask order from: ");
+			supplierID = sc.nextInt();
+			if(facade.isSupplier(supplierID).getValue()) {
 				System.out.println("Enter due date of the order in format such as 2007-12-03: ");
 				LocalDate dueDate = LocalDate.parse(sc.next());
 				Response response = facade.OpenFixedOrder(supplierID, dueDate);
@@ -81,23 +79,15 @@ public class OrdersMenu implements Menu{
 				} else {
 					System.out.println("Order was opened successfully!\n");
 				}
-
-				System.out.println("Press enter to continue");
-				try {
-					System.in.read();
-				} catch (Exception e) {
+				System.out.println("Press enter to continue");try { System.in.read(); } catch (Exception e) { }
+			} else {
+				System.out.println("Enter a correct order's id or 0 to return back please: ");
+				if (supplierID == 0) {
+					return;
 				}
+				createOrderMenu();
 			}
-				else {
-					System.out.println("Enter a correct order's id or 0 to return back please: ");
-					if (supplierID == 0) {
-						return;
-					}
-					createOrderMenu();
-				}
-		}
-		catch (Exception exception){
-
+		} catch (Exception exception){
 			System.out.println("Wrong input, try again: ");
 			createOrderMenu();
 		}
@@ -235,8 +225,11 @@ public class OrdersMenu implements Menu{
 			Scanner sc = new Scanner(System.in);
 			System.out.println("Enter item's id to add to order: \n");
 			int itemID = sc.nextInt();
+			System.out.println("Enter quantity: \n");
+			int quantity = sc.nextInt();
 
-			Response response = facade.AddItemToOrder(orderID, itemID);
+
+			Response response = facade.AddItemToOrder(orderID, itemID, quantity);
 			if (response.isError()){
 				System.out.println(response.getErrorMessage());
 			}

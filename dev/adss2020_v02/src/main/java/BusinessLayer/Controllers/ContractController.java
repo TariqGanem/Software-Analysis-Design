@@ -4,6 +4,9 @@ import DTO.ContractDTO;
 import BusinessLayer.Objects.Contract;
 import DataAccessLayer.Mappers.ContractsMapper;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ContractController {
     private static ContractController instance;
     private ContractsMapper mapper;
@@ -143,6 +146,12 @@ public class ContractController {
             throw new Exception("supplier does not exist!");
     }
 
-
-
+    public Map<Integer, Contract> ContractsOfItem(String name){
+        Map<Integer, ContractDTO> contracts = mapper.ContractsOfItem(name);
+        Map<Integer, Contract> output = new HashMap<>();
+        for (int id:contracts.keySet()) {
+            output.putIfAbsent(id,new Contract(contracts.get(id)));
+        }
+        return output;
+    }
 }

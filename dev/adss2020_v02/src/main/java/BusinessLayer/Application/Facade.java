@@ -57,7 +57,7 @@ public class Facade {
             cc.AddContract(company_id, SelfPickup);
             return new Response();
         } catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e);
         }
     }
 
@@ -73,7 +73,7 @@ public class Facade {
             cc.RemoveContract(company_id);
             return new Response();
         } catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e);
         }
     }
 
@@ -233,7 +233,7 @@ public class Facade {
             cc.AddDiscount(company_id, item_id, quantity, new_price);
             return new Response();
         } catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e);
         }
     }
 
@@ -250,7 +250,7 @@ public class Facade {
             cc.RemoveItemQuantity(company_id, item_id, quantity);
             return new Response();
         } catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e);
         }
     }
 
@@ -268,7 +268,7 @@ public class Facade {
             cc.AddItem(company_id, item_id, name, price);
             return new Response();
         } catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e);
         }
     }
 
@@ -284,7 +284,7 @@ public class Facade {
             cc.RemoveItem(company_id, item_id);
             return new Response();
         } catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e);
         }
     }
 
@@ -301,7 +301,7 @@ public class Facade {
             cc.ChangePrice(company_id, item_id, price);
             return new Response();
         } catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e);
         }
     }
 
@@ -337,14 +337,15 @@ public class Facade {
     /**
      * @param orderID id of order to add item to.
      * @param itemID  item to be added to the order
+     * @param quantity
      * @return response of the procedure
      */
-    public Response AddItemToOrder(int orderID, int itemID) {
+    public Response AddItemToOrder(int orderID, int itemID, int quantity) {
         try {
 
             if (cc.getContract(oc.getSupplier(orderID)).isIncluding(itemID)) {
                 Item item = cc.getContract(oc.getSupplier(orderID)).getItems().get(itemID);
-                oc.addItemToOrder(orderID, item);
+                oc.addItemToOrder(orderID, item, quantity);
             } else {
                 throw new Exception("Contract with this supplier does not include the item!");
             }
@@ -446,8 +447,8 @@ public class Facade {
 
 
     /**
-     * @param dueDate    due date of the new order
      * @param supplierID id of supplier to ask an order from
+     * @param dueDate    due date of the new order
      * @return response of the procedure
      */
     public Response OpenFixedOrder(int supplierID, LocalDate dueDate) {

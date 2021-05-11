@@ -122,4 +122,30 @@ public class Contract {
     public boolean isIncluding(int itemID) {
         return items.containsKey(itemID);
     }
+
+
+    public double finalPrice(String name, int quantity){
+        int item_id = -1;
+        double price = 0;
+        for (int id: items.keySet()) {
+            if(name == items.get(id).getName())
+                item_id  = id;
+        }
+        int quant = quantity;
+        int maxdisc = 0;
+        while(quant == 0){
+            for (int amount: report.getDiscounts().get(item_id).keySet()) {
+                if(amount <= quant){
+                    maxdisc = amount;
+                }
+            }
+            if(maxdisc == 0)
+                price += maxdisc*report.getDiscounts().get(item_id).get(maxdisc);
+            else
+                price += quant*items.get(item_id).getPrice();
+            quant -= maxdisc;
+            maxdisc = 0;
+        }
+        return price;
+    }
 }

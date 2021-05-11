@@ -14,6 +14,7 @@ public class Order {
     private LocalDate placementDate;
     private LocalDate duedate;
     private Map<Integer, Item> items;
+    private Map<Integer, Integer> amounts;
 
 
 
@@ -26,6 +27,11 @@ public class Order {
         this.items = new HashMap<>();
         for (Map.Entry<Integer, ItemDTO> item: orderDTO.getItems().entrySet()) {
             this.items.put(item.getKey(), new Item(item.getValue()));
+        }
+        this.amounts = new HashMap<>();
+        for (Map.Entry<Integer, Integer> amounts:
+                orderDTO.getAmounts().entrySet()) {
+            this.amounts.put(amounts.getKey(),amounts.getValue());
         }
     }
 
@@ -48,5 +54,9 @@ public class Order {
 
     public Map<Integer, Item> getItems() {
         return items;
+    }
+
+    public Map<Integer, Integer> getAmounts() {
+        return amounts;
     }
 }

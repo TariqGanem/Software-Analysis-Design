@@ -18,7 +18,7 @@ public class SuppliersMapper extends Mapper{
         try {
             Statement stmt = connection.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS suppliers " +
-                    "(companyId INT PRIMARY KEY    NOT NULL," +
+                    "(companyId INT PRIMARY KEY    NOT NULL, " +
                     "name                 TEXT    NOT NULL, " +
                     "manifactur           TEXT    NOT NULL, " +
                     "bankAccount          INT     NOT NULL, " +
@@ -39,7 +39,6 @@ public class SuppliersMapper extends Mapper{
             //====================================================
             stmt.close();
             connection.close();
-            stmt = null;
             connection = null;
         } catch (SQLException throwables) {
             throwables.printStackTrace();

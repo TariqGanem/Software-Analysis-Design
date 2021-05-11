@@ -12,6 +12,7 @@ public class OrderDTO {
     private final LocalDate placementDate;
     private final LocalDate dueDate;
     private final Map<Integer, ItemDTO> items;
+    private final Map<Integer, Integer> amounts;
 
 
     public OrderDTO(Order order){
@@ -23,6 +24,11 @@ public class OrderDTO {
         for (Map.Entry<Integer, Item> items:
              order.getItems().entrySet()) {
             this.items.put(items.getKey(), new ItemDTO(items.getValue()));
+        }
+        this.amounts = new HashMap<>();
+        for (Map.Entry<Integer, Integer> amounts:
+                order.getAmounts().entrySet()) {
+            this.amounts.put(amounts.getKey(),amounts.getValue());
         }
     }
 
@@ -36,7 +42,11 @@ public class OrderDTO {
                 order.getItems().entrySet()) {
             this.items.put(items.getKey(), new ItemDTO(items.getValue()));
         }
-
+        this.amounts = new HashMap<>();
+        for (Map.Entry<Integer, Integer> amounts:
+                order.getAmounts().entrySet()) {
+            this.amounts.put(amounts.getKey(),amounts.getValue());
+        }
     }
 
     public int getId() {
@@ -57,6 +67,10 @@ public class OrderDTO {
 
     public Map<Integer, ItemDTO> getItems() {
         return items;
+    }
+
+    public Map<Integer, Integer> getAmounts() {
+        return amounts;
     }
 
     public void setId(int id){

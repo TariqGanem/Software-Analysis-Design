@@ -306,4 +306,23 @@ public class ContractsMapper extends Mapper{
             System.out.println(e.getMessage());
         }
     }
+
+    public Map<Integer, ContractDTO> ContractsOfItem(String name) {
+        try{
+            Map<Integer, ContractDTO> newContracts = new HashMap<>();
+            String sql = "SELECT companyId FROM items WHERE name = " + name;
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                newContracts.putIfAbsent(rs.getInt("CompanyId"), getContract(rs.getInt("CompanyId")));
+            }
+            //===============================================================
+            stmt.close();
+            connection.close();
+            connection = null;
+            return newContracts;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

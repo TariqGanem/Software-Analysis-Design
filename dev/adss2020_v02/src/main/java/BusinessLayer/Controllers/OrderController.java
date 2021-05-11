@@ -21,6 +21,7 @@ public class OrderController {
     Map<Integer, Order> archivedOrders;
     Map<Integer, Integer> order_Vs_supplier;
    // Map<Integer, Integer> supplier_Vs_FixedOrder;
+
     private OrderController(){
         activeOrders = new HashMap<>();
         archivedOrders = new HashMap<>();
@@ -125,12 +126,13 @@ public class OrderController {
     /**
      * @param orderID id of order to add item to
      * @param item item to be added to the order
+     * @param quantity
      * @throws Exception cannot add item to this order
      */
-    public void addItemToOrder(int orderID, Item item) throws Exception {
+    public void addItemToOrder(int orderID, Item item, int quantity) throws Exception {
         if (activeOrders.containsKey(orderID)){
             activeOrders.get(orderID).addItem(item);
-            mapper.storeItemInOrder(orderID, item.getId(), item.getAmount());
+            mapper.storeItemInOrder(orderID, item.getId(), quantity);
         }
         else if(archivedOrders.containsKey(orderID))
             throw new Exception("Order is not active!");
@@ -161,16 +163,12 @@ public class OrderController {
         if (activeOrders.containsKey(orderID)) {
             if (activeOrders.get(orderID).getItems().containsKey(item.getId())) {
                 activeOrders.get(orderID).getItems().get(item.getId()).Replace(item);
-            }
-
-            else{
+            } else{
                 throw new Exception("Item does not exist in the order!");
             }
-        }
-        else if(archivedOrders.containsKey(orderID)) {
+        } else if(archivedOrders.containsKey(orderID)) {
             throw new Exception("Order is not active!");
-        }
-       else {
+        } else {
            throw new Exception("Order does not exist!");
         }
 

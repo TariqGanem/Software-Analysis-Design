@@ -74,8 +74,8 @@ public class MainMenu implements Menu {
         facade.AddDiscount(12,1,5,5);
         facade.OpenFixedOrder(12, LocalDate.parse("2021-08-08"));
         facade.OpenFixedOrder(13, LocalDate.parse("2021-11-08"));
-        facade.AddItemToOrder(1,1);
-        facade.AddItemToOrder(1,2);
+        facade.AddItemToOrder(1,1, 2);
+        facade.AddItemToOrder(1,2, 5);
         facade.submitOrder(1);
 
     }

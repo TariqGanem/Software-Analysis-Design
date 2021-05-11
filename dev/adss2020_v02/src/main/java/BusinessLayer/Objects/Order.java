@@ -4,6 +4,7 @@ import DTO.ItemDTO;
 import DTO.OrderDTO;
 import Enums.Status;
 
+import javax.swing.*;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -14,6 +15,7 @@ public class Order {
     protected LocalDate placementDate;
     protected LocalDate orderDate;
     protected Map<Integer, Item> items;
+    protected Map<Integer, Integer> amounts;
 
     public Order(int id, Status Status,LocalDate OrderDate) {
         this.id = id;
@@ -21,6 +23,7 @@ public class Order {
         this.placementDate = LocalDate.now();
         this.orderDate = OrderDate;
         this.items = new HashMap<>();
+        this.amounts = new HashMap<>();
     }
     public Order(OrderDTO order){
         id = order.getId();
@@ -31,6 +34,11 @@ public class Order {
         for (Map.Entry<Integer, ItemDTO> items:
              order.getItems().entrySet()) {
             this.items.put(items.getKey(),new Item(items.getValue()));
+        }
+        this.amounts = new HashMap<>();
+        for (Map.Entry<Integer, Integer> amounts:
+                order.getAmounts().entrySet()) {
+            this.amounts.put(amounts.getKey(),amounts.getValue());
         }
     }
 
@@ -54,6 +62,10 @@ public class Order {
 
     public Map<Integer, Item> getItems() {
         return items;
+    }
+
+    public Map<Integer, Integer> getAmounts() {
+        return amounts;
     }
 
     public void setNewDate(LocalDate newDate) throws Exception {
