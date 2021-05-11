@@ -38,3 +38,8 @@ Second Assignment-
 + Added Driver, SecurityMan and ShipmentManager to the Role enum.
 # Merged Employee Module and Shipment Module
 + Added Class dbMaker to help create the db and initialize it.
++ Added Class ShipmentsAPI for adding an employee with a skill of "Driver".
++ Added function isDriverAssignToShift to the EmployeeModuleAPI that runs before scheduling a shipment.
++ Added function getAvailableDrivers to the EmployeeModuleAPI that returns the drivers who is assigned to this shift.
++ Added function isShipmentManager for permissions management in the ShipmentsModule.
+# Table "Shift" modified. the primary key is now date, isMorning and ID combined.

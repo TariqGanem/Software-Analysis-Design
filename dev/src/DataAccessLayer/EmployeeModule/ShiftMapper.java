@@ -77,7 +77,6 @@ public class ShiftMapper {
         }
     }
 
-
     public Response insertToShift(Shift shift, Role role, String ID) {
 
         try (Connection con = DriverManager.getConnection(url)) {
