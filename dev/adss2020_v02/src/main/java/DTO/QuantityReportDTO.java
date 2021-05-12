@@ -1,6 +1,6 @@
 package DTO;
 
-import BusinessLayer.Objects.QuantityReport;
+import BusinessLayer.SuppliersModule.Objects.QuantityReport;
 
 import java.util.Map;
 
@@ -14,7 +14,7 @@ public class QuantityReportDTO {
         discounts = quantityReport.getDiscounts();
     }
 
-    public QuantityReportDTO(DataAccessLayer.Objects.QuantityReport quantityReport){
+    public QuantityReportDTO(DataAccessLayer.SuppliersModule.Objects.QuantityReport quantityReport){
         this.discounts = quantityReport.getDiscounts();
     }
     @Override

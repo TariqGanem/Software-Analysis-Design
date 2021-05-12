@@ -1,7 +1,7 @@
 package PresentationLayer;
 
-import BusinessLayer.Application.Facade;
-import BusinessLayer.Application.Response.Response;
+import BusinessLayer.SuppliersModule.Application.Facade;
+import BusinessLayer.Response.Response;
 
 import java.time.LocalDate;
 import java.util.Scanner;

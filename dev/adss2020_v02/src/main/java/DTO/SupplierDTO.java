@@ -1,9 +1,9 @@
 package DTO;
 
-import BusinessLayer.Objects.ContactPerson;
-import BusinessLayer.Objects.SupplierCard;
-import DataAccessLayer.Objects.Contact;
-import DataAccessLayer.Objects.Supplier;
+import BusinessLayer.SuppliersModule.Objects.ContactPerson;
+import BusinessLayer.SuppliersModule.Objects.SupplierCard;
+import DataAccessLayer.SuppliersModule.Objects.Contact;
+import DataAccessLayer.SuppliersModule.Objects.Supplier;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,6 +1,6 @@
 package PresentationLayer;
 
-import BusinessLayer.Application.Facade;
+import BusinessLayer.SuppliersModule.Application.Facade;
 import Enums.ContactMethod;
 
 import java.time.LocalDate;
@@ -10,6 +10,8 @@ public class MainMenu implements Menu {
     private Menu suppliers = new SuppliersMenu();
     private Menu contracts = new ContractsMenu();
     private Menu orders = new OrdersMenu();
+    private StoreMenu store = new StoreMenu();
+
     @Override
     public void Print_Menu() {
         try {
@@ -30,14 +32,16 @@ public class MainMenu implements Menu {
                         orders.Print_Menu();
                         break;
                     case 4:
+                        store.showSpecificMenu();
+                        break;
+                    case 5:
                         init();
                         break;
-
-                        case 5:
+                    case 6:
                         terminate = true;
                         break;
                     default:
-                        System.out.println("Enter a number between 1 to 5.");
+                        System.out.println("Enter a number between 1 to 6.");
                 }
             }
         }
@@ -53,8 +57,9 @@ public class MainMenu implements Menu {
                 "1.Manage Suppliers" + "\n" +
                 "2.Manage Contracts" + "\n" +
                 "3.Manage Orders" + "\n" +
-                "4.Setup inputs" +"\n"+
-                "5.Exit" + "\n");
+                "4.Manage Store" + "\n" +
+                "5.Setup inputs" +"\n"+
+                "6.Exit" + "\n");
     }
 
 

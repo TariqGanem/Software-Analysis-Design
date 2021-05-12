@@ -1,8 +1,7 @@
 package DTO;
 
-import BusinessLayer.Objects.ContactPerson;
-import DataAccessLayer.Objects.Contact;
-import DataAccessLayer.Objects.Contract;
+import BusinessLayer.SuppliersModule.Objects.ContactPerson;
+import DataAccessLayer.SuppliersModule.Objects.Contact;
 import Enums.ContactMethod;
 
 import java.util.Map;

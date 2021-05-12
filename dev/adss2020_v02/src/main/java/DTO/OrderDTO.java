@@ -2,8 +2,9 @@ package DTO;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
-import BusinessLayer.Objects.Item;
-import BusinessLayer.Objects.Order;
+
+import BusinessLayer.SuppliersModule.Objects.Item;
+import BusinessLayer.SuppliersModule.Objects.Order;
 import Enums.Status;
 
 public class OrderDTO {
@@ -32,13 +33,13 @@ public class OrderDTO {
         }
     }
 
-    public OrderDTO(DataAccessLayer.Objects.Order order){
+    public OrderDTO(DataAccessLayer.SuppliersModule.Objects.Order order){
         this.id = order.getId();
         this.status = order.getStatus();
         this.placementDate = order.getPlacementDate();
         this.dueDate = order.getDuedate();
         this.items = new HashMap<>();
-        for (Map.Entry<Integer, DataAccessLayer.Objects.Item> items:
+        for (Map.Entry<Integer, DataAccessLayer.SuppliersModule.Objects.Item> items:
                 order.getItems().entrySet()) {
             this.items.put(items.getKey(), new ItemDTO(items.getValue()));
         }

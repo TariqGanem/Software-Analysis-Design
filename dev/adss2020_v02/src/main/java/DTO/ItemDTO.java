@@ -1,6 +1,6 @@
 package DTO;
 
-import DataAccessLayer.Objects.Item;
+import BusinessLayer.SuppliersModule.Objects.Item;
 
 public class ItemDTO {
     private final int id;
@@ -27,13 +27,13 @@ public class ItemDTO {
         this.price = price;
     }
 
-    public ItemDTO(BusinessLayer.Objects.Item item){
+    public ItemDTO(Item item){
         id = item.getId();
         name = item.getName();
         price = item.getPrice();
     }
 
-    public ItemDTO(DataAccessLayer.Objects.Item item){
+    public ItemDTO(DataAccessLayer.SuppliersModule.Objects.Item item){
         this.id = item.getId();
         this.price = item.getPrice();
         this.name = item.getName();

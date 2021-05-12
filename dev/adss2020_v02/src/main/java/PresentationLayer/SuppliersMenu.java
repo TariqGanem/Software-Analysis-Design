@@ -1,12 +1,10 @@
 package PresentationLayer;
 
-import BusinessLayer.Application.Facade;
+import BusinessLayer.SuppliersModule.Application.Facade;
 import DTO.SupplierDTO;
-import BusinessLayer.Application.Response.Response;
+import BusinessLayer.Response.Response;
 import Enums.ContactMethod;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class SuppliersMenu implements Menu {
