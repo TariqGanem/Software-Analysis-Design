@@ -78,7 +78,9 @@ public class BusinessController {
 //            }
         }
 
-    public void run(){
+    public void run() throws Exception {
+             makeMinOrder();
+             updateShipments();
         try {
             cmapper.restoreAllCategories();
             ismapper.restoreAllItemSpecs();
@@ -687,6 +689,41 @@ public class BusinessController {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                }
+            }
+        }
+    }
+
+    public void updateShipments() throws Exception {
+        System.out.println("Section 0\n");
+             LocalDate local = LocalDate.now();
+             String today = local.toString();
+             /*uuuu-mm-dd*/
+            String day = today.substring(8, today.length());
+            String month = today.substring(5,7);
+            String year = today.substring(0,4);
+            String actualDate = "";
+            if(month.equals("12")){
+                day = "01";
+                month = "01";
+                int intYear = Integer.parseInt(year);
+                intYear = intYear + 1;
+                year = ""+intYear;
+                actualDate = day+"/"+month+"/"+year;
+            }
+            else{
+                int intMonth = Integer.parseInt(month);
+                intMonth = intMonth + 1;
+                month = ""+intMonth;
+                actualDate = day+"/"+month+"/"+year;
+            }
+             List<String> itemNames = new LinkedList<>();
+            System.out.println("Section 1\n");
+          itemNames =  OrderController.getInstance().todayOrders(LocalDate.now());
+        for(Category category : allCategories){
+            for(ItemSpecs item : category.getItemSpecs()){
+                if (itemNames.contains(item.getName())){
+                    AddNewAmount(category.getName(), item.getName(), item.getMinAmount(),actualDate);
                 }
             }
         }

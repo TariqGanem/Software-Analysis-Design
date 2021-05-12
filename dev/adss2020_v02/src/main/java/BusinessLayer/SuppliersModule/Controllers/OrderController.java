@@ -10,6 +10,8 @@ import Enums.Status;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class OrderController {
@@ -219,5 +221,10 @@ public class OrderController {
         order_Vs_supplier.put(singleOrder.getId(), supplierID);
         mapper.storeSingleOrder(new OrderDTO(singleOrder));
         return singleOrder;
+    }
+
+    public List<String> todayOrders(LocalDate now) throws Exception {
+        List<String> names = new LinkedList<>();
+       return  names =  mapper.getTodayOrders(now);
     }
 }

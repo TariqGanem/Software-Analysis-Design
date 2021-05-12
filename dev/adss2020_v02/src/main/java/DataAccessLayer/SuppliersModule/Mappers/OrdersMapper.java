@@ -8,6 +8,8 @@ import Enums.Status;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class OrdersMapper extends Mapper{
@@ -239,6 +241,26 @@ public class OrdersMapper extends Mapper{
             return DriverManager.getConnection("jdbc:sqlite:superLee.db");
         } catch (Exception e) {
             throw new Exception(e.getMessage());
+        }
+    }
+
+    public List<String> getTodayOrders(LocalDate now) throws Exception {
+        System.out.println("Section 2\n");
+        try{
+            List<String> names = new LinkedList<>();
+            String sql = "SELECT name FROM (SELECT * FROM ItemsInOrders Natural JOIN items WHERE ItemsInOrders.ItemId = items.itemId)" +
+                    " Natural JOIN Orders " +
+                    "WHERE Orders.ID = ItemsInOrders.OrderID";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet r = preparedStatement.executeQuery();
+            while(r.next()){
+                names.add(r.getString("name"));
+            }
+            preparedStatement.close();
+            connection.close();
+            return names;
+        }catch (Exception e){
+            return null;
         }
     }
 }

@@ -16,7 +16,7 @@ example of category serial number 4531000000 - sub category it is id is 453
         private final static int maxLevel = 2;
 
         //BUSINESS SECTION---------------------------------------------------------------------------------------------------------
-        public void showSpecificMenu() {
+        public void showSpecificMenu() throws Exception {
             facade.run();
             System.out.println("----------->SuperLe Main Menu<-----------");
             int option = 0;

@@ -18,7 +18,7 @@ public class Facade {
         return instance;
     }
 
-    public void run(){
+    public void run() throws Exception {
         bc.run();
     }
 
