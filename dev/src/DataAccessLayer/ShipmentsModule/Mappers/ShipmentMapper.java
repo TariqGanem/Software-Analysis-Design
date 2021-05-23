@@ -47,7 +47,6 @@ public class ShipmentMapper {
         return shipment;
     }
 
-
     public ShipmentDTO getShipment(Date date, String departureHour, String driverId) throws Exception {
         for (ShipmentDTO shipment : memory.getShipments()) {
             if (shipment.getDate().equals(date) && shipment.getDepartureHour().equals(departureHour)
