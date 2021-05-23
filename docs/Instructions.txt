@@ -53,3 +53,20 @@ First of all you will need to log into the system. Once the system is running en
 
 8. Change amount of employees needed for a shift: To change how many employees of each job are needed for a shift enter '8' when the main menu is shown. Pick the day
    of the week and if its an morning/evening shift. Pick which the job you want to change the amount of and then enter the new amount.
+
+
+Shipments Menu Instructions:
+
+- Hit option 1 to initialize data in database (this is only for testing porpuses).
+- Hit option 2 to add new truck, enter the truck plate number, model, and nato truck weight and max weight that the   truck can transport.
+- Hit option 3 to add new location with address name, phone, contact name for contacting and elaborations.
+- Hit option 4 to view all trucks in the system.
+- Hit option 5 to view all drivers in the system.
+- Hit option 6 to view all the locations in the system.
+- Hit option 7 to view all the shipments transportation that have been made by the shipment manager (history).
+- Hit option 8 to track a shipment, you only enter the tracking number (document id), and then you will be able to see the items that been deliverd to the desired destinations.
+- Hit option 9 to arrange new shipment, you simply choose the date of the shipment and the departure hour, now you choose th esource of the destination and specify the destination, for each destination you add the relvant items you want, afterwards you choose the truck from the available trucks list that the system show you, after that you choose the driver. if everything wen fine the shipment will be arranged on the date you sepecifed.
+- Hit option 10 to remove a shipment you may add accedinatly.
+- To go back to the main menu you simply choose option 11.
+
+

@@ -1,17 +1,9 @@
 package DTOPackage;
 
-import BusinessLayer.ShipmentsModule.Objects.Driver;
-
 public class DriverDTO {
     private String id;
     private String name;
     private double allowedWeight;
-
-    public DriverDTO(Driver d) {
-        id = d.getId();
-        name = d.getName();
-        allowedWeight = d.getAllowedWeight();
-    }
 
     public DriverDTO(String id, String name, double allowedWeight) {
         this.id = id;

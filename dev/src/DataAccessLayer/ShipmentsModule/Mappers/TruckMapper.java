@@ -74,10 +74,6 @@ public class TruckMapper {
 
 
     public List<TruckDTO> getAvailableTrucks(double weight, Date date, boolean isMorning) throws Exception {
-//        for (TruckDTO t : memory.getTrucks()) {
-//            if (t.isAvailable() && t.getMaxWeight() >= weight)
-//                return t;
-//        }
         List<TruckDTO> trucks = _getAvailableTrucks(weight, date, isMorning);
         for (TruckDTO truck : trucks)
             memory.getTrucks().add(truck);
@@ -122,19 +118,6 @@ public class TruckMapper {
             throw new Exception(e.getMessage());
         }
         return trucks;
-    }
-
-    private void _updateTruck(String plateNumber, boolean available) throws Exception {
-        String sql = "UPDATE " + dbMaker.trucksTbl + " SET available = ? "
-                + "WHERE plateNumber = ?";
-        try (Connection conn = dbMaker.connect();
-             PreparedStatement pStmt = conn.prepareStatement(sql)) {
-            pStmt.setBoolean(1, available);
-            pStmt.setString(2, plateNumber);
-            pStmt.executeUpdate();
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
     }
 
     private void insertTruck(String plateNumber, String model, Double natoWeight, Double maxWeight) throws Exception {

@@ -48,7 +48,7 @@ public class LocationMapper {
     public LocationDTO addLocation(int id, String address, String phone, String contactName) throws Exception {
         LocationDTO location;
         for (LocationDTO loc : memory.getLocations()) {
-            if (loc.getId() == id)
+            if (loc.getAddress().equals(address) && loc.getPhoneNumber().equals(phone))
                 throw new Exception("Location already exists!");
         }
         location = new LocationDTO(id, address, phone, contactName);

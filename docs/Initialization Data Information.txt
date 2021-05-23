@@ -16,7 +16,7 @@ Employees:
 	Trust fund: Trust Fund
 	Free days: 10
 	Sick days: 15
-	Roles: StoreManager
+	Roles: StoreManager, ShiftManager, ShipmentsManager
 	Time preferences: 
 		Sunday: 
 			Morning: WANT | Evening: CAN
@@ -43,7 +43,7 @@ Employees:
 	Trust fund: 456987
 	Free days: 0
 	Sick days: 5
-	Roles: ShiftManager, Cashier, StoreManagerAssistant
+	Roles: ShiftManager, Cashier, StoreManagerAssistant, Stocker
 	Time preferences: 
 		Sunday: 
 			Morning: CAN | Evening: CAN
@@ -69,7 +69,7 @@ Employees:
 	Trust fund: 222
 	Free days: 1000
 	Sick days: 1000
-	Roles: Cashier, Stocker, StoreKeeper
+	Roles: Cashier, Stocker, StoreKeeper, Driver
 	Time preferences: 
 		Sunday: 
 			Morning: WANT | Evening: WANT
@@ -96,7 +96,7 @@ Employees:
 	Trust fund: 111
 	Free days: 0
 	Sick days: 0
-	Roles: HRManager, Cashier
+	Roles: HRManager, Cashier, Driver, Stocker
 	Time preferences: 
 		Sunday: 
 			Morning: CANT | Evening: CANT
@@ -151,12 +151,14 @@ Shifts:
 			222222222 Patrick Star
 		StoreKeeper:
 			333333333 Sandy Cheeks
+		Stocker:
+			987654321 Squidward Tentacles
 
 2)
 	Date: 2021-7-5 (July 5th, not May 7th)
 	Morning/Evening: Morning
 	Employees:
-		Stocker:
+		Driver:
 			111111111 SpongeBob SquarePants
 		ShiftManager:
 			123456789 Mr. Krabs

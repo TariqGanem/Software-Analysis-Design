@@ -14,7 +14,6 @@ public class Handler {
     public Handler() {
         printer = Printer.getInstance();
         scanner = new Scanner(System.in);
-        //scanner.useDelimiter("\n");
     }
 
     protected double getDouble() {

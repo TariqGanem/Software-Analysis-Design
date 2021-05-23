@@ -1,0 +1,66 @@
+
+											\*/ Changes Log: Delivery Model\*/
+ ______________
+| - => Removal |
+| + => Addition|
+| # => Change  |
+|--------------|
+
+	PresentationLayer:
+		+ Printer class: which is responsible for all printing cases & data to the user.
+		+ Handlers package: which contains all menu sub-handlers for better performance and cohesion.
+		- ActionsMenu class: We just recognized that there is no need for this class because Printer would take place.
+		+ Menu fields: because this class is the mapper between other classes in PL.
+        # Menu: now it reqiures an id to make sure that the use is a shipment manager because he is the only one allowed
+          to make those procedures.
+        # Handler: I changed the parsing input methods since we had a bug with cmd, now everthign is working fine.
+        + DataInitializer: now it adds new data to the database.
+
+	DTOsPackage: In order to make connection between BL and PL, we had to make the data objects foreach one,
+				   so PL has no access to the real object! Each DTO represents the real object data.
+				   + DocumentDTO
+				   + DriverDTO
+				   + TruckDTO
+				   + ShipmentDTO
+				   + LocationDTO
+                   + ItemDTO
+
+	BusinessLayer:
+		# Facade fields: the 4 controllers were added to be the fields of this mapper class.
+		# Facade class: adding a relation(connection) between Facade and DTOs - the connection from side 2.
+		+ Response class: which is used for return values of type message error to the PL in case of error.
+		+ ResponseT class: which is responsible of returning Object values to the PL in case of success.
+		- Relations of object classes were removed and adjusted for better performance. 
+        # each one of the 4 controller uses the desired mapper from DAL, the mapper returns DTO object and the business
+        converted to business object to manipulate the logic then Build a DTO object of that and send it to Presentation.
+        + Builder class: converts a DTO object/list of objects to Business object/list of objects and vice versa.
+        + getAllAvailableDrivers(): which gets all available drivers depending on the date and the shift they are assigned
+        to, this is calculated from the EmployeeModule API.
+        - isAvailable field for the Driver/DriverDTO and the Truck/TruckDTO is removed.
+        # TruckController: now it includes a scheduleTruck method which adds the given truck to a scheduled shipment date and shift.
+        # TruckController: now added a function getAllAvailableTrucks(): this gets all available trucks depending if they are
+         not yet scheduled to shipment.
+        # DriverController: added handleHour function that decides whether the hour is considered as morning or evening, this is
+        important for the shift issues and assigning drivers later on.
+        # the 4 controllers now include an id field that maintains the max id in the current database, this is only for manipulating
+        the database properly.
+        + Item class: added this to the busniness objects instead if maintaining a compound list.
+        # Location class: now it has an id field.
+
+  
+    +APIs package:
+        + ShipmentsAPI: this includes 2 main methods, init driver and add driver so that the employees module can add a driver
+        whom is originally employee but with additional fields such the allowed weight for driver.
+
+
+    +DataAccessLayer:
+        + IdentityMap class: which has 4 lists of the reqiured DTO objects.
+        + added 5 mappers (a mapper for each business object) such that they access the IdentityMap, if they found 
+        some data in it they take it, else they go ahead and access the database. they return a DTO object to business layer.
+        + dbMaker: a class that handles the connection of the database and creating it and its tables.
+
+	TestPackage:
+		+ TruckTest class: in order to test the truck funtionality (adding, adjusting ...)
+		+ LocationTest class: in order ot test the Location functionality.
+		+ DriverTest class: in order ot test the Driver functionality.
+		+ ShipmentTest class: in order ot test the Shipment functionality.

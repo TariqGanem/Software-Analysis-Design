@@ -41,7 +41,6 @@ public class Builder {
         ShipmentDTO s = new ShipmentDTO(shipment.getShipmentId(), shipment.getDate(), shipment.getDepartureHour(),
                 shipment.getTruckPlateNumber(), shipment.getDriverId(), buildDTO(shipment.getSource()));
         for (Document doc : shipment.getDocuments().values()) {
-            ;
             s.addDocument(doc.getTrackingNumber(), buildItemsListDTO(doc.getProducts()), buildDTO(doc.getDestination()));
         }
         return s;
@@ -107,9 +106,6 @@ public class Builder {
             }
             shipments.add(shipment);
         }
-//        shipmentsDTO.forEach(s -> shipments.add(new Shipment(s.getShipmentId(),
-//                s.getDate(), s.getDepartureHour(), s.getTruckPlateNumber(), s.getDriverId(),
-//                build(s.getSource()))));
         return shipments;
     }
 

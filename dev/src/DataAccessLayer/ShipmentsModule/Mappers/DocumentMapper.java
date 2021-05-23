@@ -52,19 +52,6 @@ public class DocumentMapper {
         return docs;
     }
 
-    public DocumentDTO getDocument(int tracking) throws Exception {
-        for (DocumentDTO d : memory.getDocuments()) {
-            if (d.getTrackingNumber() == tracking)
-                return d;
-        }
-        DocumentDTO document = selectDocument(tracking);
-        if (document != null) {
-            memory.getDocuments().add(document);
-            return document;
-        }
-        throw new Exception("There is no such document in the database!");
-    }
-
     private void insertDocument(int tracking, int destinationId, int shipmentId, List<ItemDTO> items) throws Exception {
         String sql = "INSERT INTO " + dbMaker.documentsTbl + "(trackingNumber, destinationId, shipmentId) VALUES (?,?,?)";
         try (Connection conn = dbMaker.connect();

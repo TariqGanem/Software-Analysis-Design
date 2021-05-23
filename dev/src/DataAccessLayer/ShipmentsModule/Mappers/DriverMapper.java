@@ -69,20 +69,10 @@ public class DriverMapper {
         return null;
     }
 
-//    public  getAvailableDriver(){
-//
-//    }
-
     public List<DriverDTO> getAllDrivers() throws Exception {
         List<DriverDTO> drivers = selectAllDrivers();
         memory.setDrivers(drivers);
         return memory.getDrivers();
-    }
-
-    public DriverDTO updateDriver(String id, boolean available) throws Exception {
-        DriverDTO driver = getDriver(id);
-        _updateDriver(id, available);
-        return driver;
     }
 
     private void insertDriver(String id, Double allowedWeight) throws Exception {
@@ -147,18 +137,6 @@ public class DriverMapper {
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-    }
-
-    private void _updateDriver(String id, boolean available) throws Exception {
-//        String sql = "UPDATE " + dbMaker.driversTbl + " SET available = ? WHERE id= ?";
-//        try (Connection conn = dbMaker.connect();
-//             PreparedStatement pStmt = conn.prepareStatement(sql)) {
-//            pStmt.setBoolean(1, available);
-//            pStmt.setString(2, id);
-//            pStmt.executeUpdate();
-//        } catch (Exception e) {
-//            throw new Exception(e.getMessage());
-//        }
     }
 
     private String getDriverName(String id) throws Exception {

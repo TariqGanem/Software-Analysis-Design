@@ -30,42 +30,6 @@ public class Facade {
     }
 
     /**
-     * @param truckId - the requested truck unique id
-     * @return response of type TruckDTO by the given id
-     */
-    public ResponseT<TruckDTO> getTruckDTO(String truckId) {
-        try {
-            return new ResponseT<>(new TruckDTO(truckController.getTruck(truckId)));
-        } catch (Exception e) {
-            return new ResponseT<>(e.getMessage());
-        }
-    }
-
-    /**
-     * @param id - the requested driver unique id
-     * @return response of type DriverDTO by the given id
-     */
-    public ResponseT<DriverDTO> getDriverDTO(String id) {
-        try {
-            return new ResponseT<>(Builder.buildDTO(driverController.getDriver(id)));
-        } catch (Exception e) {
-            return new ResponseT<>(e.getMessage());
-        }
-    }
-
-    /**
-     * @param addressId - the requested location unique address
-     * @return response of type LocationDTO by the given id
-     */
-    public ResponseT<LocationDTO> getLocationDTO(int addressId) {
-        try {
-            return new ResponseT<>(Builder.buildDTO(locationController.getLocation(addressId)));
-        } catch (Exception e) {
-            return new ResponseT<>(e.getMessage());
-        }
-    }
-
-    /**
      * Adding a new location to the system
      *
      * @param address     - location unique id
@@ -176,6 +140,11 @@ public class Facade {
         }
     }
 
+    /***
+     * Allows us to find out if its Morning or Evening
+     * @param hour - String representation of a real hour
+     * @return true if the string represents morning hour --> 6:00 - 14:00
+     */
     private boolean handleHour(String hour) {
         int left = Integer.parseInt(hour.substring(0, 2));
         return left >= 6 && left <= 14;
@@ -235,22 +204,6 @@ public class Facade {
         try {
             List<Shipment> shipments = shipmentController.getAllShipments();
             return new ResponseT<>(Builder.buildShipmentsListDTO(shipments));
-        } catch (Exception e) {
-            return new ResponseT<>(e.getMessage());
-        }
-    }
-
-    /**
-     * Getting a shipment by its unique Ids
-     *
-     * @param date          - Date of the shipment to be transported
-     * @param departureHour - The exact hour for the transportation of the shipment
-     * @param driverId      - The driver's unique id
-     * @return a response of type ShipmentDTO (the requested shipment)
-     */
-    public ResponseT<ShipmentDTO> getShipmentDTO(Date date, String departureHour, String driverId) {
-        try {
-            return new ResponseT<>(Builder.buildDTO(shipmentController.getShipment(date, departureHour, driverId)));
         } catch (Exception e) {
             return new ResponseT<>(e.getMessage());
         }

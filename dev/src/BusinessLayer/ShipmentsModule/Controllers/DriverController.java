@@ -76,17 +76,4 @@ public class DriverController {
     public LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
         return dateToConvert.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
-
-    /**
-     * Makes the driver unavailable because he is currently in work
-     *
-     * @param id - The id of the requested driver
-     */
-    public void freeDriver(String id) throws Exception {
-        mapper.updateDriver(id, true);
-    }
-
-    public void makeUnavailableDriver(String id) throws Exception {
-        mapper.updateDriver(id, false);
-    }
 }

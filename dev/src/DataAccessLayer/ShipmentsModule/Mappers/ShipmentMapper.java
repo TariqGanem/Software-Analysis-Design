@@ -125,30 +125,6 @@ public class ShipmentMapper {
         }
     }
 
-    private ShipmentDTO selectShipment(int id) throws Exception {
-        String sql = "SELECT * FROM " + dbMaker.shipmentsTbl + " WHERE id=" + id;
-        try (Connection conn = dbMaker.connect();
-             Statement stmt = conn.createStatement()) {
-            ResultSet rs = stmt.executeQuery(sql);
-            if (rs.next()) {
-                ShipmentDTO shipment = new ShipmentDTO(rs.getInt(1),
-                        new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString(2)),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        LocationMapper.getInstance().getLocation(rs.getInt(6)));
-                List<DocumentDTO> docs = DocumentMapper.getInstance().getShipmentDocuments(shipment.getShipmentId());
-                for (DocumentDTO doc : docs) {
-                    shipment.addDocument(doc.getTrackingNumber(), doc.getProducts(), doc.getDestination());
-                }
-                return shipment;
-            }
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
-        return null;
-    }
-
     private ShipmentDTO selectShipment(Date date, String departureHour, String driverId) throws Exception {
         String sql = "SELECT * FROM " + dbMaker.shipmentsTbl + " WHERE Date='" +
                 new SimpleDateFormat("dd/MM/yyyy").format(date) + "' AND departureHour='"
