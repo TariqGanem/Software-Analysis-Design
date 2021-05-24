@@ -15,11 +15,13 @@ public class DALController {
     private EmployeeMapper employeeMapper;
     private ShiftMapper shiftMapper;
     private ShiftPersonnelMapper shiftPersonnelMapper;
+    private HRAlertsHandler hrAlertsHandler;
 
     public DALController() {
         employeeMapper = EmployeeMapper.getInstance(dbMaker.path);
         shiftMapper = ShiftMapper.getInstance(dbMaker.path);
         shiftPersonnelMapper = ShiftPersonnelMapper.getInstance(dbMaker.path);
+        hrAlertsHandler = HRAlertsHandler.getInstance(dbMaker.path);
     }
 
     public ResponseT<Employee> getEmployee(String ID) {
@@ -84,5 +86,13 @@ public class DALController {
 
     public ResponseT<List<String>> getAvailableDrivers(LocalDate date, boolean isMorning) {
         return shiftMapper.getAvailableDrivers(date, isMorning);
+    }
+
+    public ResponseT<List<LocalDate>> checkForAlerts() {
+        return hrAlertsHandler.getAlerts();
+    }
+
+    public Response alertHRManager(LocalDate date) {
+        return hrAlertsHandler.addAlert(date);
     }
 }

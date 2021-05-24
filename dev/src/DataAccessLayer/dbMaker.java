@@ -26,6 +26,7 @@ public class dbMaker {
     public static String shiftTbl = "Shift";
     public static String shiftPersonnelTbl = "ShiftPersonnel";
     public static String empTimePrefTbl = "EmployeeTimePreferences";
+    public static String HRAlertsTbl = "HRAlerts";
 
     public dbMaker() {
         dbName = "superLee.db";
@@ -48,6 +49,7 @@ public class dbMaker {
             createShiftTbl();
             createShiftPersonnelTbl();
             createEmployeeSkillsTbl();
+            createHRAlertsTbl();
         }
     }
 
@@ -269,6 +271,18 @@ public class dbMaker {
                 "\t\"amount\"\tINTEGER,\n" +
                 "\tPRIMARY KEY(\"weekIndex\",\"role\")\n" +
                 ");";
+        try {
+            Statement stmt = connect().createStatement();
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void createHRAlertsTbl() {
+        String sql = "CREATE TABLE \"HRAlerts\" ( " +
+                    "\"orderDate\" INTEGER UNIQUE" +
+                    ");";
         try {
             Statement stmt = connect().createStatement();
             stmt.execute(sql);
