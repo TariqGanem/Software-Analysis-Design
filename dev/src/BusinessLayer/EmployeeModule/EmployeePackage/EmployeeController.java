@@ -192,4 +192,14 @@ public class EmployeeController {
             return false;
         }
     }
+
+    public void API_alertHRManager(LocalDate date) {
+        dalController.alertHRManager(date);
+    }
+
+    public ResponseT<List<LocalDate>> checkForAlerts() {
+        if(!activeEmployee.hasSkill(Role.HRManager))
+            return new ResponseT<>(new ArrayList<>());
+        return dalController.checkForAlerts();
+    }
 }

@@ -32,4 +32,9 @@ public class EmployeeModuleAPI implements iEmployeeModuleAPI {
     public boolean isShipmentManager(String ID) {
         return pController.API_isShipmentManager(ID);
     }
+
+    @Override
+    public void alertHRManager(LocalDate date) {
+        pController.API_alertHRManager(date);
+    }
 }

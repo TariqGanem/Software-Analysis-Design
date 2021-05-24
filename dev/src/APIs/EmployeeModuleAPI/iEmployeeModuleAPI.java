@@ -15,4 +15,6 @@ public interface iEmployeeModuleAPI {
 
     boolean isShipmentManager(String ID);
 
+    void alertHRManager(LocalDate date);
+
 }

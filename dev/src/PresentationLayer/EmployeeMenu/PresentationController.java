@@ -9,6 +9,7 @@ import Resources.Preference;
 import Resources.Role;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -228,5 +229,16 @@ public class PresentationController {
 
     public boolean API_isShipmentManager(String ID) {
         return facade.API_isShipmentManager(ID);
+    }
+
+    public void API_alertHRManager(LocalDate date) {
+        facade.API_alertHRManager(date);
+    }
+
+    public List<LocalDate> checkForAlerts() {
+        ResponseT<List<LocalDate>> res = facade.checkForAlerts();
+        if(res.getErrorOccurred())
+            return new ArrayList<>();
+        else return res.getValue();
     }
 }
