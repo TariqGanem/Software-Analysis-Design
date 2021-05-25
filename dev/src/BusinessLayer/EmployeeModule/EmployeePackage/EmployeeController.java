@@ -202,4 +202,8 @@ public class EmployeeController {
             return new ResponseT<>(new ArrayList<>());
         return dalController.checkForAlerts();
     }
+
+    public boolean hasRole(String ID, Role role) {
+        return employees.get(ID).hasSkill(role);
+    }
 }

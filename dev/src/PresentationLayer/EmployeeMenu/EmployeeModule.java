@@ -1,6 +1,6 @@
 package PresentationLayer.EmployeeMenu;
 
-import APIs.EmployeeModuleAPI.ShipmentsAPI;
+import APIs.EmployeeModuleAPI.ShipmentsEmployeesAPI;
 import BusinessLayer.EmployeeModule.ResponseT;
 import DTOPackage.EmployeeDTO;
 import DTOPackage.ShiftDTO;
@@ -16,7 +16,7 @@ public class EmployeeModule {
 
     public void run() {
         PresentationController presentationController = PresentationController.getInstance();
-        ShipmentsAPI shipmentModuleAPI = new ShipmentsAPI();
+        ShipmentsEmployeesAPI shipmentModuleAPI = new ShipmentsEmployeesAPI();
         MenuHandler menu = new MenuHandler();
         IOController io = IOController.getInstance();
         String ID = null;

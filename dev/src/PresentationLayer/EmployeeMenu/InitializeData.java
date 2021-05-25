@@ -1,6 +1,6 @@
 package PresentationLayer.EmployeeMenu;
 
-import APIs.EmployeeModuleAPI.ShipmentsAPI;
+import APIs.EmployeeModuleAPI.ShipmentsEmployeesAPI;
 import Resources.Preference;
 import Resources.Role;
 
@@ -166,9 +166,9 @@ public class InitializeData {
     }
 
     private void initDrivers() {
-        new ShipmentsAPI().initDriver("222222222", 7000);
+        new ShipmentsEmployeesAPI().initDriver("222222222", 7000);
 
-        new ShipmentsAPI().initDriver("111111111", 15000);
+        new ShipmentsEmployeesAPI().initDriver("111111111", 15000);
         System.out.println();
     }
 }

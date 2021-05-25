@@ -241,4 +241,8 @@ public class PresentationController {
             return new ArrayList<>();
         else return res.getValue();
     }
+
+    public boolean hasRole(String ID, Role role) {
+        return facade.hasRole(ID, role);
+    }
 }

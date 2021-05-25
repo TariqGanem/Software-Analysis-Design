@@ -274,4 +274,8 @@ public class Facade {
     public ResponseT<List<LocalDate>> checkForAlerts() {
         return employeeController.checkForAlerts();
     }
+
+    public boolean hasRole(String ID, Role role) {
+        return employeeController.hasRole(ID, role);
+    }
 }

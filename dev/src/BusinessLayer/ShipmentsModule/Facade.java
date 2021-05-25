@@ -1,6 +1,6 @@
 package BusinessLayer.ShipmentsModule;
 
-import APIs.EmployeeModuleAPI.EmployeeModuleAPI;
+import APIs.EmployeeModuleAPI.EmployeesShipmentsAPI;
 import BusinessLayer.ShipmentsModule.Controllers.DriverController;
 import BusinessLayer.ShipmentsModule.Controllers.LocationController;
 import BusinessLayer.ShipmentsModule.Controllers.ShipmentController;
@@ -125,7 +125,7 @@ public class Facade {
                 }
                 items.put(locationController.getLocation(loc), Builder.buildItemsList(items_per_location.get(loc)));
             }
-            boolean found = new EmployeeModuleAPI().isRoleAssignedToShift(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+            boolean found = new EmployeesShipmentsAPI().isRoleAssignedToShift(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
                     handleHour(departureHour), Role.StoreKeeper);
             if (!found)
                 return new Response("The is no Store keeper available on " + new SimpleDateFormat("dd/MM/yyyy").format(date) + " - " + departureHour);

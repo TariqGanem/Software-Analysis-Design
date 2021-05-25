@@ -1,6 +1,6 @@
 package BusinessLayer.ShipmentsModule.Controllers;
 
-import APIs.EmployeeModuleAPI.EmployeeModuleAPI;
+import APIs.EmployeeModuleAPI.EmployeesShipmentsAPI;
 import BusinessLayer.ShipmentsModule.Builder;
 import BusinessLayer.ShipmentsModule.Objects.Driver;
 import DTOPackage.DriverDTO;
@@ -55,7 +55,7 @@ public class DriverController {
      */
     public List<Driver> getAvailableDriver(double weight, Date date, String hour) throws Exception {
         boolean isMorning = handleHour(hour);
-        List<String> ids = new EmployeeModuleAPI().getAvailableDrivers(convertToLocalDateViaInstant(date), isMorning);
+        List<String> ids = new EmployeesShipmentsAPI().getAvailableDrivers(convertToLocalDateViaInstant(date), isMorning);
         List<Driver> availableDrivers = new LinkedList<>();
         for (String id : ids) {
             DriverDTO driver = mapper.getAvailableDriver(id, weight);

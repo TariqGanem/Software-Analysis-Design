@@ -1,11 +1,12 @@
 package PresentationLayer.ShipmentsMenu;
 
-import APIs.EmployeeModuleAPI.EmployeeModuleAPI;
+import APIs.EmployeeModuleAPI.EmployeesShipmentsAPI;
 import BusinessLayer.ShipmentsModule.Facade;
 import PresentationLayer.ShipmentsMenu.Handlers.DriversHandler;
 import PresentationLayer.ShipmentsMenu.Handlers.LocationsHandler;
 import PresentationLayer.ShipmentsMenu.Handlers.ShipmentsHandler;
 import PresentationLayer.ShipmentsMenu.Handlers.TrucksHandler;
+import Resources.Role;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -46,7 +47,7 @@ public class Menu {
     private boolean isShipmentManager() {
         System.out.println("Please enter your ID:");
         String id = scanner.nextLine();
-        return new EmployeeModuleAPI().isShipmentManager(id);
+        return new EmployeesShipmentsAPI().hasRole(id, Role.ShipmentsManager);
     }
 
     /**
