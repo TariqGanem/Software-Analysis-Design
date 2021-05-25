@@ -1,8 +1,8 @@
 package PresentationLayer.ShipmentsMenu.Handlers;
 
 import BusinessLayer.ShipmentsModule.Facade;
-import BusinessLayer.ShipmentsModule.Response;
-import BusinessLayer.ShipmentsModule.ResponseT;
+import BusinessLayer.Response;
+import BusinessLayer.ResponseT;
 import DTOPackage.DriverDTO;
 
 import java.util.Date;
@@ -23,21 +23,21 @@ public class DriversHandler extends Handler {
         System.out.println("Enter Allowed Weight for Driver:");
         double allowedWeight = getDouble();
         Response res = facade.addDriver(Id, allowedWeight);
-        if (res.errorOccured())
-            System.out.println(res.getMsg());
+        if (res.getErrorOccurred())
+            System.out.println(res.getErrorMessage());
     }
 
     public void initDriver(String Id, double allowedWeight) {
         Response res = facade.addDriver(Id, allowedWeight);
-        if (res.errorOccured())
-            System.out.println(res.getMsg());
+        if (res.getErrorOccurred())
+            System.out.println(res.getErrorMessage());
     }
 
     public void viewAllDrivers() {
         ResponseT<List<DriverDTO>> res = facade.getAllDrivers();
         drivers = res.getValue();
-        if (res.errorOccured())
-            printer.error(res.getMsg());
+        if (res.getErrorOccurred())
+            printer.error(res.getErrorMessage());
         else {
             printer.viewAllDrivers(drivers);
         }
@@ -56,8 +56,8 @@ public class DriversHandler extends Handler {
     public DriverDTO handleAvailableDriver(double totalWeight, Date date, String hour) {
         ResponseT<List<DriverDTO>> res = facade.getAllAvailableDrivers(totalWeight, date, hour);
         drivers = res.getValue();
-        if (res.errorOccured()) {
-            printer.error(res.getMsg());
+        if (res.getErrorOccurred()) {
+            printer.error(res.getErrorMessage());
         } else {
             System.out.println("\n Now all drivers below can drive this truck, Choose one:");
             printer.viewAllDrivers(drivers);

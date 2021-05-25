@@ -1,7 +1,7 @@
 package DataAccessLayer.EmployeeModule;
 
-import BusinessLayer.EmployeeModule.Response;
-import BusinessLayer.EmployeeModule.ResponseT;
+import BusinessLayer.Response;
+import BusinessLayer.ResponseT;
 import Resources.Role;
 
 import java.sql.*;

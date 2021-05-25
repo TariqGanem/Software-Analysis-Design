@@ -1,4 +1,4 @@
-package BusinessLayer.EmployeeModule;
+package BusinessLayer;
 
 public class ResponseT<T> extends Response {
     private T value;

@@ -1,7 +1,7 @@
 package DataAccessLayer.EmployeeModule;
 
-import BusinessLayer.EmployeeModule.Response;
-import BusinessLayer.EmployeeModule.ResponseT;
+import BusinessLayer.Response;
+import BusinessLayer.ResponseT;
 import BusinessLayer.EmployeeModule.ShiftPackage.Shift;
 import DataAccessLayer.dbMaker;
 import Resources.Role;

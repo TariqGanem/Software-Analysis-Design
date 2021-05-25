@@ -1,7 +1,7 @@
 package ShipmentsTests;
 
 import BusinessLayer.ShipmentsModule.Facade;
-import BusinessLayer.ShipmentsModule.Response;
+import BusinessLayer.Response;
 import DataAccessLayer.dbMaker;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +44,7 @@ public class TruckTest {
     @Test
     public void testAddTruckWithSameId() {
         Response res = data.addTruck("ID_1", "Volvo", 4, 8);
-        assertEquals("Truck already exists!", res.getMsg());
+        assertEquals("Truck already exists!", res.getErrorMessage());
         assertNotEquals(2, data.getAllTrucks().getValue().size());
     }
 
@@ -52,8 +52,8 @@ public class TruckTest {
     public void testTruckWeight() {
         Response res1 = data.addTruck("ID_2", "BMW2", 6.5, 0);
         Response res2 = data.addTruck("ID_3", "BMW3", -1, -3);
-        assertEquals("Couldn't add new truck - Illegal truck weight", res1.getMsg());
-        assertEquals("Couldn't add new truck - Illegal truck weight", res2.getMsg());
+        assertEquals("Couldn't add new truck - Illegal truck weight", res1.getErrorMessage());
+        assertEquals("Couldn't add new truck - Illegal truck weight", res2.getErrorMessage());
         assertEquals(0, data.getAllTrucks().getValue().size());
     }
 
@@ -61,8 +61,8 @@ public class TruckTest {
     public void testEmptyOrNullFields() {
         Response res1 = data.addTruck("", "BMW", 6, 10);
         Response res2 = data.addTruck("123456", null, 5, 12);
-        assertEquals("Couldn't add new truck - Invalid parameters", res1.getMsg());
-        assertEquals("Couldn't add new truck - Invalid parameters", res2.getMsg());
+        assertEquals("Couldn't add new truck - Invalid parameters", res1.getErrorMessage());
+        assertEquals("Couldn't add new truck - Invalid parameters", res2.getErrorMessage());
         assertEquals(0, data.getAllTrucks().getValue().size());
     }
 }

@@ -1,7 +1,7 @@
 package BusinessLayer.EmployeeModule.ShiftPackage;
 
-import BusinessLayer.EmployeeModule.Response;
-import BusinessLayer.EmployeeModule.ResponseT;
+import BusinessLayer.Response;
+import BusinessLayer.ResponseT;
 import DataAccessLayer.EmployeeModule.DALController;
 import Resources.Role;
 

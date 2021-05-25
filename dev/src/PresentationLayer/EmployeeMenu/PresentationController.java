@@ -1,8 +1,8 @@
 package PresentationLayer.EmployeeMenu;
 
 import BusinessLayer.EmployeeModule.Facade;
-import BusinessLayer.EmployeeModule.Response;
-import BusinessLayer.EmployeeModule.ResponseT;
+import BusinessLayer.Response;
+import BusinessLayer.ResponseT;
 import DTOPackage.EmployeeDTO;
 import DTOPackage.ShiftDTO;
 import Resources.Preference;

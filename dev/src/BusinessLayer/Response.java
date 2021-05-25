@@ -1,4 +1,4 @@
-package BusinessLayer.EmployeeModule;
+package BusinessLayer;
 
 public class Response {
     private String errorMessage;

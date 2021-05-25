@@ -1,6 +1,6 @@
 package BusinessLayer.EmployeeModule.EmployeePackage;
 
-import BusinessLayer.EmployeeModule.ResponseT;
+import BusinessLayer.ResponseT;
 import DataAccessLayer.EmployeeModule.DALController;
 import Resources.Preference;
 import Resources.Role;

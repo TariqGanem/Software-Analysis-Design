@@ -1,8 +1,8 @@
 package PresentationLayer.ShipmentsMenu.Handlers;
 
 import BusinessLayer.ShipmentsModule.Facade;
-import BusinessLayer.ShipmentsModule.Response;
-import BusinessLayer.ShipmentsModule.ResponseT;
+import BusinessLayer.Response;
+import BusinessLayer.ResponseT;
 import DTOPackage.DriverDTO;
 import DTOPackage.ItemDTO;
 import DTOPackage.ShipmentDTO;
@@ -47,8 +47,8 @@ public class ShipmentsHandler extends Handler {
             return;
         Response res = facade.arrangeDelivery(date, hour, source, itemsPerDestination,
                 chosenTruck.getTruckPlateNumber(), chosenDriver.getId());
-        if (res.errorOccured())
-            printer.error(res.getMsg());
+        if (res.getErrorOccurred())
+            printer.error(res.getErrorMessage());
         else {
             printer.success("Shipment has been arranged!");
         }
@@ -57,8 +57,8 @@ public class ShipmentsHandler extends Handler {
     public void viewAllShipments() {
         ResponseT<List<ShipmentDTO>> res = facade.getAllShipments();
         shipments = res.getValue();
-        if (res.errorOccured())
-            printer.error(res.getMsg());
+        if (res.getErrorOccurred())
+            printer.error(res.getErrorMessage());
         else {
             printer.viewAllShipments(shipments);
         }
@@ -68,8 +68,8 @@ public class ShipmentsHandler extends Handler {
         System.out.printf("\nEnter tracking number: ");
         int trackingNumber = getInt();
         ResponseT<ShipmentDTO> res = facade.trackShipment(trackingNumber);
-        if (res.errorOccured())
-            printer.error(res.getMsg());
+        if (res.getErrorOccurred())
+            printer.error(res.getErrorMessage());
         else {
             printer.viewShipment(res.getValue(), trackingNumber);
         }
@@ -83,8 +83,8 @@ public class ShipmentsHandler extends Handler {
         System.out.printf("Enter driver's id: ");
         String id = scanner.nextLine();
         Response res = facade.removeShipment(date, hour, id);
-        if (res.errorOccured()) {
-            printer.error(res.getMsg());
+        if (res.getErrorOccurred()){
+            printer.error(res.getErrorMessage());
         } else {
             printer.success("Shipment has been removed!");
         }

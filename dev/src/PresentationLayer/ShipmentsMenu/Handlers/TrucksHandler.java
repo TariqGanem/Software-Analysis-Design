@@ -1,8 +1,8 @@
 package PresentationLayer.ShipmentsMenu.Handlers;
 
 import BusinessLayer.ShipmentsModule.Facade;
-import BusinessLayer.ShipmentsModule.Response;
-import BusinessLayer.ShipmentsModule.ResponseT;
+import BusinessLayer.Response;
+import BusinessLayer.ResponseT;
 import DTOPackage.TruckDTO;
 
 import java.text.SimpleDateFormat;
@@ -30,8 +30,8 @@ public class TrucksHandler extends Handler {
         double maxWeight = getDouble();
         System.out.println();
         Response res = facade.addTruck(plateNumber, model, natoWeight, maxWeight);
-        if (res.errorOccured())
-            printer.error(res.getMsg());
+        if (res.getErrorOccurred())
+            printer.error(res.getErrorMessage());
         else {
             printer.success("Truck has been added!");
         }
@@ -40,8 +40,8 @@ public class TrucksHandler extends Handler {
     public void viewAllTrucks() {
         ResponseT<List<TruckDTO>> res = facade.getAllTrucks();
         trucks = res.getValue();
-        if (res.errorOccured())
-            printer.error(res.getMsg());
+        if (res.getErrorOccurred())
+            printer.error(res.getErrorMessage());
         else {
             printer.viewAllTrucks(trucks);
         }
@@ -60,8 +60,8 @@ public class TrucksHandler extends Handler {
     public TruckDTO handleAvailableTrucks(double weight, Date date, String hour) {
         ResponseT<List<TruckDTO>> res = facade.getAvailableTrucks(weight, date, hour);
         trucks = res.getValue();
-        if (res.errorOccured())
-            printer.error(res.getMsg());
+        if (res.getErrorOccurred())
+            printer.error(res.getErrorMessage());
         else {
             try {
                 System.out.printf("All trucks below are available on ["

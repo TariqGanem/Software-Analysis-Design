@@ -1,8 +1,8 @@
 package DataAccessLayer.EmployeeModule;
 
 import BusinessLayer.EmployeeModule.EmployeePackage.Employee;
-import BusinessLayer.EmployeeModule.Response;
-import BusinessLayer.EmployeeModule.ResponseT;
+import BusinessLayer.Response;
+import BusinessLayer.ResponseT;
 import DataAccessLayer.dbMaker;
 import Resources.Preference;
 import Resources.Role;

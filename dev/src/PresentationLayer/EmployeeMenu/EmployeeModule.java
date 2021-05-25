@@ -1,7 +1,7 @@
 package PresentationLayer.EmployeeMenu;
 
 import APIs.EmployeeModuleAPI.ShipmentsEmployeesAPI;
-import BusinessLayer.EmployeeModule.ResponseT;
+import BusinessLayer.ResponseT;
 import DTOPackage.EmployeeDTO;
 import DTOPackage.ShiftDTO;
 import Resources.Preference;
