@@ -1,0 +1,45 @@
++ => Addition          |
+- => Removal           |
+# => Change            |
+_______________________|
+
+First Assignment-
+
+# BackendController renamed to PresentationController.
++ Public enum Role in BusinessLayer: Instead of using strings to describe the roles of each employee, we can use a list of Roles.
++ Public enum Preference in BusinessLayer: Instead of using the numbers 0, 1, 2 to describe whether an employee CAN/WANT/CANT at a certain shift, we will use this enum.
+# Field in Employee: List<String> skills ---> List<Role> skills (After the addition of enum Role, we use it to distinguish the roles of the employee).
+# Field in Employee: int[][] timePreferences ---> Preference[][] timePreferences (After the addition of enum Preference, we use it to distinguish the preferences of the employee).
+# Field in Shift: Map<String, List<String>> positions ---> Map<Role, List<String>> positions (After the addition of enum Role, we use it to distinguish the roles of the employee).
+- Field in Facade: isAdmin removed (Redundant field).
+- Field in PresentationController: isManager removed (Redundant field).
+- Field in Employee: isManager removed (We can use a function isManager() to determine if the employee is a manager, no need for a field).
+- Removed Bank object (Bank was a class with no purpose, it only held 3 values and had getters/setters, we decided it would be better if those fields were in employee).
++ Fields in Employee: bankId, branchId, accountNumber (After the deletion of Bank).
++ public class EmployeeDTO: Represents an object that the presentation layer can mutate and then send back to the BusinessLayer.
++ public class ShiftDTO: Represents an object that the presentation layer can use to display information, without getting the real object from the business layer.
++ Added test class "EmployeeTest" to test the Employee logic
++ Added test class "EmployeeControllerTest" to test the EmployeeController logic
++ Added test class "ShiftTest" to test the Shift logic
++ Added test class "ShiftControllerTest" to test the ShiftController logic
++ Added test class "ShiftPersonnelTest" to test the ShiftPersonnel logic
++ Field in Presentation: String activeEmployee (This field is helpful for the presentation logic).
++ public class EmployeeModule: contains main and responsible for displaying the menus and getting user input
++ public class MenuHandler: Helps EmployeeModule to display the menus. In order not to clutter main and not to use static functions we built this class.
++ public class InitializeData: This class loads the hardcoded data into the system.
+
+Second Assignment-
+
++ ID is now Primary Key in Shift
++ Field in EmployeeController: List<String> IDs (Helps to know all of the IDs of the employees)
++ Function in iEmployeeModuleAPI and EmployeeModuleAPI: isShipmentManager(String) (Helps Shipment Module to know if the user connected to them is a shipment manager or not)
++ Functions in PresentationController, Facade, shiftController, employeeController that are for the API implementaion, such as API_isShipmentManager(String) in Presentation Controller
+# DAL now returns the employees and shifts as Business Layer Objects
++ Added Driver, SecurityMan and ShipmentManager to the Role enum.
+# Merged Employee Module and Shipment Module
++ Added Class dbMaker to help create the db and initialize it.
++ Added Class ShipmentsAPI for adding an employee with a skill of "Driver".
++ Added function isDriverAssignToShift to the EmployeeModuleAPI that runs before scheduling a shipment.
++ Added function getAvailableDrivers to the EmployeeModuleAPI that returns the drivers who is assigned to this shift.
++ Added function isShipmentManager for permissions management in the ShipmentsModule.
+# Table "Shift" modified. the primary key is now date, isMorning and ID combined.
