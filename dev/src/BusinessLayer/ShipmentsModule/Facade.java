@@ -1,22 +1,18 @@
 package BusinessLayer.ShipmentsModule;
 
 import APIs.EmployeesShipmentsAPI;
+import BusinessLayer.Response;
+import BusinessLayer.ResponseT;
 import BusinessLayer.ShipmentsModule.Controllers.DriverController;
 import BusinessLayer.ShipmentsModule.Controllers.LocationController;
 import BusinessLayer.ShipmentsModule.Controllers.ShipmentController;
 import BusinessLayer.ShipmentsModule.Controllers.TruckController;
-import BusinessLayer.Response;
-import BusinessLayer.ResponseT;
 import BusinessLayer.ShipmentsModule.Objects.*;
 import DTOPackage.*;
 import Resources.Role;
 
-import java.text.SimpleDateFormat;
 import java.time.ZoneId;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Facade {
     private DriverController driverController;
@@ -107,39 +103,55 @@ public class Facade {
     /**
      * Arranges a delivery (adding a new delivery) to the system
      *
-     * @param date               - Date of the shipment to be transported
-     * @param departureHour      - The exact hour for the transportation of the shipment
-     * @param sourceId           - The source's address unique id
-     * @param items_per_location - Map[ItemName, List[ItemWeight, Quantity]] foreach location
+     * @param orderDueDate          - Date of the shipment to be transported
+     * @param sourceId              - The source's address unique id
+     * @param items_per_destination - List of items per each destination (Integer => destinationId)
      * @return response of type msg in case of any error
      */
-    public Response arrangeDelivery(Date date, String departureHour, int sourceId, Map<Integer, List<ItemDTO>> items_per_location, String truckPlateNumber, String driverId) {
+    public Response arrangeDelivery(Date orderDueDate, int sourceId, Map<Integer, List<ItemDTO>> items_per_destination) {
         try {
-            double shipmentWeight = calculateShipmentWeight(items_per_location);
-
-            weighTruck(truckPlateNumber, shipmentWeight);//We only need this for validating trucks max weight. [won't happen since the truck is capable of that]
-            Location source = locationController.getLocation(sourceId);
-            ;
-            Map<Location, List<Item>> items = new HashMap<>();
-            for (int loc : items_per_location.keySet()) {
-                if (loc == sourceId) {
-                    return new Response("Cannot deliver to destination as the same source, shipment removed.");
+            Map<Integer, List<Item>> items = Builder.buildItemsPerDestinations(items_per_destination);
+            double shipmentWeight = calculateShipmentWeight(items);
+            boolean matchWithinWeek;
+            Truck truck;
+            Driver driver;
+            for (Date date : getDatesInNextWeek(orderDueDate)) {
+                for (Boolean isMorning : new boolean[]{true, false}) {
+                    truck = truckController.getAvailableTruck(shipmentWeight, date, isMorning);
+                    driver = driverController.getAvailableDriver(truck.getNatoWeight() + truck.getMaxWeight(), date, isMorning);
+                    matchWithinWeek = truck != null && driver != null && findStoreKeeper(date, isMorning);
+                    if (matchWithinWeek) {
+                        String hour = generateHour(isMorning);
+                        addShipmentToBeApproved(date, hour, truck.getTruckPlateNumber(), driver.getId(), sourceId, items);
+                        truckController.scheduleTruck(truck.getTruckPlateNumber(), date, hour);
+                        return new Response();
+                    }
                 }
-                items.put(locationController.getLocation(loc), Builder.buildItemsList(items_per_location.get(loc)));
             }
-            boolean found = new EmployeesShipmentsAPI().isRoleAssignedToShift(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-                    handleHour(departureHour), Role.StoreKeeper);
-            if (!found)
-                return new Response("The is no Store keeper available on " + new SimpleDateFormat("dd/MM/yyyy").format(date) + " - " + departureHour);
-            int shipmentId = shipmentController.addShipment(date, departureHour, truckPlateNumber, driverId, source);
-            for (Location loc : items.keySet()) {
-                shipmentController.addDocument(shipmentId, loc.getId(), items.get(loc));
-            }
-            truckController.scheduleTruck(truckPlateNumber, date, departureHour);
-            return new Response();
+            new EmployeesShipmentsAPI().alertHRManager(orderDueDate.toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate());
+            return new Response("The system didn't succeed to schedule a shipment for this order within 7 days!\n" +
+                    "The System notified the HR Manager, try again when solved by HR Manager.");
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
+    }
+
+
+    private void addShipmentToBeApproved(Date date, String departureHour, String truckPlateNumber, String driverId, int sourceId, Map<Integer, List<Item>> items) throws Exception {
+        int shipmentId = shipmentController.addShipment(date, departureHour, truckPlateNumber, driverId, sourceId);
+        for (Integer loc : items.keySet()) {
+            if (loc == sourceId) {
+                throw new Exception("Cannot deliver to destination as the same source!");
+            }
+            shipmentController.addDocument(shipmentId, loc, items.get(loc));
+        }
+    }
+
+    private boolean findStoreKeeper(Date date, boolean isMorning) {
+        return new EmployeesShipmentsAPI().isRoleAssignedToShift(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+                isMorning, Role.StoreKeeper);
     }
 
     /***
@@ -150,6 +162,32 @@ public class Facade {
     private boolean handleHour(String hour) {
         int left = Integer.parseInt(hour.substring(0, 2));
         return left >= 6 && left <= 14;
+    }
+
+    private String generateHour(boolean isMorning) {
+        String hours, minutes;
+        Random rand = new Random();
+        minutes = ((int) (Math.random() * 60)) + "";
+        if (isMorning)
+            hours = (rand.nextInt((14 - 6) + 1) + 6) + "";
+        else
+            hours = (rand.nextInt((22 - 14) + 1) + 14) + "";
+        if (hours.length() == 1)
+            hours = "0" + hours;
+        if (minutes.length() == 1)
+            minutes = "0" + minutes;
+        return hours + ":" + minutes;
+    }
+
+    private List<Date> getDatesInNextWeek(Date dueDate) {
+        List<Date> dates = new LinkedList<>();
+        long ONE_DAY_MILLI_SECONDS = 24 * 60 * 60 * 1000;
+        Date nextDay;
+        for (int i = 1; i <= 7; i++) {
+            nextDay = new Date(dueDate.getTime() + (i) * ONE_DAY_MILLI_SECONDS);
+            dates.add(nextDay);
+        }
+        return dates;
     }
 
     /**
@@ -181,23 +219,6 @@ public class Facade {
         }
     }
 
-    public ResponseT<List<TruckDTO>> getAvailableTrucks(double weight, Date date, String hour) {
-        try {
-            List<Truck> trucks = truckController.getAvailableTrucks(weight, date, hour);
-            return new ResponseT<>(Builder.buildTrucksListDTO(trucks));
-        } catch (Exception e) {
-            return new ResponseT<>(e.getMessage());
-        }
-    }
-
-    public ResponseT<List<DriverDTO>> getAllAvailableDrivers(double totalWeight, Date date, String departureHour) {
-        try {
-            List<Driver> drivers = driverController.getAvailableDriver(totalWeight, date, departureHour);
-            return new ResponseT<>(Builder.buildDriversListDTO(drivers));
-        } catch (Exception e) {
-            return new ResponseT<>(e.getMessage());
-        }
-    }
 
     /**
      * @return all the shipments in the system
@@ -246,10 +267,10 @@ public class Facade {
         }
     }
 
-    private double calculateShipmentWeight(Map<Integer, List<ItemDTO>> items_per_location) {
+    private double calculateShipmentWeight(Map<Integer, List<Item>> items_per_location) {
         double shipmentWeight = 0;
         for (Integer loc : items_per_location.keySet()) {
-            for (ItemDTO item : items_per_location.get(loc)) {
+            for (Item item : items_per_location.get(loc)) {
                 shipmentWeight += item.getWeight() * item.getAmount();
             }
         }

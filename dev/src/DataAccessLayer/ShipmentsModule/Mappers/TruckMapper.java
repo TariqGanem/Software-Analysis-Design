@@ -77,8 +77,8 @@ public class TruckMapper {
         List<TruckDTO> trucks = _getAvailableTrucks(weight, date, isMorning);
         for (TruckDTO truck : trucks)
             memory.getTrucks().add(truck);
-        if (trucks.isEmpty())
-            throw new Exception("There is no such available truck in the database!");
+//        if (trucks.isEmpty())
+//            throw new Exception("There is no such available truck in the database!");
         return trucks;
     }
 

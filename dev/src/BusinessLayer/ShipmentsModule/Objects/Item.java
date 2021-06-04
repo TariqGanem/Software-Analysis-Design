@@ -7,8 +7,7 @@ public class Item {
     private double amount;
     private double weight;
 
-    public Item(int documentId, String name, double amount, double weight) {
-        this.documentId = documentId;
+    public Item(String name, double amount, double weight) {
         this.name = name;
         this.amount = amount;
         this.weight = weight;
@@ -30,5 +29,9 @@ public class Item {
 
     public double getWeight() {
         return weight;
+    }
+
+    public void setDocumentId(int documentId) {
+        this.documentId = documentId;
     }
 }

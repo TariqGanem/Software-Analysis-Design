@@ -39,14 +39,14 @@ public class ShipmentController {
      * @param departureHour    - The exact hour for the transportation of the shipment
      * @param truckPlateNumber - The truck's id which transports the delivery
      * @param driverId         - The driver's id which transports the delivery
-     * @param source           - The location which the delivery will start on
+     * @param sourceId           - The location which the delivery will start on
      * @throws Exception in case of wrong parameters values
      */
-    public int addShipment(Date date, String departureHour, String truckPlateNumber, String driverId, Location source) throws Exception {
+    public int addShipment(Date date, String departureHour, String truckPlateNumber, String driverId, int sourceId) throws Exception {
         if (departureHour == null || departureHour.trim().isEmpty())
             throw new Exception("Couldn't add new shipment - Invalid parameters");
         int shipmentID = this.shipmentId;
-        mapper.addShipment(shipmentID, date, departureHour, truckPlateNumber, driverId, source.getId());
+        mapper.addShipment(shipmentID, date, departureHour, truckPlateNumber, driverId, sourceId);
         this.shipmentId++;
         return shipmentID;
     }

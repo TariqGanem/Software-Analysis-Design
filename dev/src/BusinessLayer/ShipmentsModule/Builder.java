@@ -3,8 +3,10 @@ package BusinessLayer.ShipmentsModule;
 import BusinessLayer.ShipmentsModule.Objects.*;
 import DTOPackage.*;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 public class Builder {
@@ -55,7 +57,9 @@ public class Builder {
     }
 
     public static Item build(ItemDTO item) {
-        return new Item(item.getDocumentId(), item.getName(), item.getAmount(), item.getWeight());
+        Item itemBO= new Item(item.getName(), item.getAmount(), item.getWeight());
+        itemBO.setDocumentId(item.getDocumentId());
+        return itemBO;
     }
 
 
@@ -85,7 +89,7 @@ public class Builder {
 
     public static List<Item> buildItemsList(List<ItemDTO> productsDTO) {
         List<Item> items = new LinkedList<>();
-        productsDTO.forEach(p -> items.add(new Item(p.getDocumentId(), p.getName(), p.getAmount(), p.getWeight())));
+        productsDTO.forEach(p -> items.add(new Item(p.getName(), p.getAmount(), p.getWeight())));
         return items;
     }
 
@@ -133,5 +137,13 @@ public class Builder {
         List<LocationDTO> locationDTOList = new LinkedList<>();
         locations.forEach(l -> locationDTOList.add(buildDTO(l)));
         return locationDTOList;
+    }
+
+    public static Map<Integer, List<Item>> buildItemsPerDestinations(Map<Integer, List<ItemDTO>> itemsDTO){
+        Map<Integer, List<Item>> items = new HashMap<>();
+        for(Integer i: itemsDTO.keySet()){
+            items.put(i, buildItemsList(itemsDTO.get(i)));
+        }
+        return items;
     }
 }
