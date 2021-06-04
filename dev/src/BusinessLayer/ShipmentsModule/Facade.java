@@ -113,13 +113,13 @@ public class Facade {
             Map<Integer, List<Item>> items = Builder.buildItemsPerDestinations(items_per_destination);
             double shipmentWeight = calculateShipmentWeight(items);
             boolean matchWithinWeek;
-            Truck truck;
+            Truck truck=null;
             Driver driver;
             for (Date date : getDatesInNextWeek(orderDueDate)) {
                 for (Boolean isMorning : new boolean[]{true, false}) {
                     truck = truckController.getAvailableTruck(shipmentWeight, date, isMorning);
                     driver = driverController.getAvailableDriver(truck.getNatoWeight() + truck.getMaxWeight(), date, isMorning);
-                    matchWithinWeek = truck != null && driver != null && findStoreKeeper(date, isMorning);
+                    matchWithinWeek =truck!=null && driver != null && findStoreKeeper(date, isMorning);
                     if (matchWithinWeek) {
                         String hour = generateHour(isMorning);
                         addShipmentToBeApproved(date, hour, truck.getTruckPlateNumber(), driver.getId(), sourceId, items);
@@ -128,6 +128,8 @@ public class Facade {
                     }
                 }
             }
+            if(truck==null)
+                return new Response("There are no available trucks in the system within a week from order date.");
             new EmployeesShipmentsAPI().alertHRManager(orderDueDate.toInstant()
                     .atZone(ZoneId.systemDefault())
                     .toLocalDate());
