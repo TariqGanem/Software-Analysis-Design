@@ -1,6 +1,6 @@
 package EmployeesTests;
 
-import BusinessLayer.EmployeeModule.EmployeePackage.Employee;
+import BusinessLayer.EmployeesModule.EmployeePackage.Employee;
 import DataAccessLayer.dbMaker;
 import Resources.Preference;
 import Resources.Role;

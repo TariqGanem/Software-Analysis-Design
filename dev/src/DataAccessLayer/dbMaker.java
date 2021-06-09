@@ -1,7 +1,7 @@
 package DataAccessLayer;
 
-import BusinessLayer.ShipmentsModule.Response;
-import BusinessLayer.ShipmentsModule.ResponseT;
+import BusinessLayer.Response;
+import BusinessLayer.ResponseT;
 import org.sqlite.SQLiteConfig;
 
 import java.io.File;
@@ -281,7 +281,7 @@ public class dbMaker {
 
     private void createHRAlertsTbl() {
         String sql = "CREATE TABLE \"HRAlerts\" ( " +
-                    "\"orderDate\" INTEGER UNIQUE" +
+                    "\"message\" TEXT UNIQUE" +
                     ");";
         try {
             Statement stmt = connect().createStatement();

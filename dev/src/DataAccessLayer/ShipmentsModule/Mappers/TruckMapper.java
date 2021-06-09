@@ -75,10 +75,8 @@ public class TruckMapper {
 
     public List<TruckDTO> getAvailableTrucks(double weight, Date date, boolean isMorning) throws Exception {
         List<TruckDTO> trucks = _getAvailableTrucks(weight, date, isMorning);
-        for (TruckDTO truck : trucks)
-            memory.getTrucks().add(truck);
-        if (trucks.isEmpty())
-            throw new Exception("There is no such available truck in the database!");
+//        if (trucks.isEmpty())
+//            throw new Exception("There is no such available truck in the database!");
         return trucks;
     }
 
@@ -97,22 +95,30 @@ public class TruckMapper {
 
     private List<TruckDTO> _getAvailableTrucks(double weight, Date date, boolean isMorning) throws Exception {
         List<TruckDTO> trucks = new LinkedList<>();
-        String sql = "SELECT * FROM\n" +
-                "((SELECT t.plateNumber, t.model, t.natoWeight, t.maxWeight FROM Trucks as t WHERE t.maxWeight>= "
-                + weight + " EXCEPT " + "SELECT t.plateNumber, t.model, t.natoWeight, t.maxWeight FROM TruckScheduler AS ts\n" +
-                "JOIN Trucks as t ON ts.plateNumber=t.plateNumber) as notyetscheduled)\n" +
-                "UNION\n" + "SELECT t.plateNumber, t.model, t.natoWeight, t.maxWeight FROM TruckScheduler AS ts\n" +
-                "JOIN Trucks as t ON ts.plateNumber=t.plateNumber WHERE t.maxWeight>= " + weight + " AND ts.shipmentDate != '" +
-                new SimpleDateFormat("dd/MM/yyyy").format(date) + "' OR ts.isMorning!=" + (isMorning ? 1 : 0);
+        String sql = "SELECT DISTINCT(plateNumber), model, natoWeight, maxWeight FROM \n" +
+                "(SELECT t.plateNumber, t.model, t.natoWeight, t.maxWeight, ts.shipmentDate, ts.isMorning FROM Trucks as t\n" +
+                "LEFT OUTER JOIN TruckScheduler as ts ON ts.plateNumber=t.plateNumber WHERE t.maxWeight>=" + weight + " \n" +
+                "\n" +
+                "EXCEPT\n" +
+                "\n" +
+                "SELECT DISTINCT(ts.plateNumber), t.model, t.natoWeight, t.maxWeight, ts.shipmentDate, ts.isMorning FROM TruckScheduler as ts\n" +
+                "JOIN Trucks as t ON t.plateNumber=ts.plateNumber WHERE t.maxWeight>=" + weight + " /*Not yet scheduled and weight matches*/\n" +
+                "\n" +
+                "UNION\n" +
+                "\n" +
+                "SELECT  DISTINCT(t.plateNumber), t.model, t.natoWeight, t.maxWeight, ts.shipmentDate, ts.isMorning FROM TruckScheduler as ts\n" +
+                "JOIN Trucks as t ON t.plateNumber=ts.plateNumber WHERE t.maxWeight>=" + weight + " AND (shipmentDate!='" + new SimpleDateFormat("dd/MM/yyyy").format(date) + "') " +
+                "GROUP BY t.plateNumber, shipmentDate HAVING COUNT(shipmentDate)<2\n" +
+                "\n" +
+                "UNION\n" +
+                "SELECT ts.plateNumber, t.model, t.natoWeight, t.maxWeight, ts.shipmentDate, ts.isMorning FROM TruckScheduler as ts\n" +
+                "JOIN Trucks as t ON t.plateNumber=ts.plateNumber WHERE t.maxWeight>=" + weight + " GROUP BY t.plateNumber, shipmentDate HAVING COUNT(shipmentDate)<2\n" +
+                "AND (shipmentDate='" + new SimpleDateFormat("dd/MM/yyyy").format(date) + "' AND isMorning!=" + (isMorning ? 1 : 0) + "))";
         try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                trucks.add(new TruckDTO(rs.getString(1),
-                        rs.getString(2),
-                        rs.getDouble(3),
-                        rs.getDouble(4)
-                ));
+                trucks.add(new TruckDTO(rs.getString(1), rs.getString(2), rs.getDouble(3), rs.getDouble(4)));
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -128,7 +134,6 @@ public class TruckMapper {
             pstmt.setString(2, model);
             pstmt.setDouble(3, natoWeight);
             pstmt.setDouble(4, maxWeight);
-            ;
             pstmt.executeUpdate();
         } catch (Exception e) {
             throw new Exception(e.getMessage());

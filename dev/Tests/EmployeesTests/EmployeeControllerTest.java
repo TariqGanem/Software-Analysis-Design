@@ -1,8 +1,8 @@
 package EmployeesTests;
 
-import BusinessLayer.EmployeeModule.EmployeePackage.Employee;
-import BusinessLayer.EmployeeModule.EmployeePackage.EmployeeController;
-import DataAccessLayer.EmployeeModule.DALController;
+import BusinessLayer.EmployeesModule.EmployeePackage.Employee;
+import BusinessLayer.EmployeesModule.EmployeePackage.EmployeeController;
+import DataAccessLayer.EmployeesModule.DALController;
 import DataAccessLayer.dbMaker;
 import Resources.Preference;
 import Resources.Role;

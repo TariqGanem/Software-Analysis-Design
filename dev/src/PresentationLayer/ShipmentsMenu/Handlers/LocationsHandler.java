@@ -2,8 +2,8 @@ package PresentationLayer.ShipmentsMenu.Handlers;
 
 
 import BusinessLayer.ShipmentsModule.Facade;
-import BusinessLayer.ShipmentsModule.Response;
-import BusinessLayer.ShipmentsModule.ResponseT;
+import BusinessLayer.Response;
+import BusinessLayer.ResponseT;
 import DTOPackage.LocationDTO;
 
 import java.util.LinkedList;
@@ -29,8 +29,8 @@ public class LocationsHandler extends Handler {
         String contactName = scanner.nextLine();
         System.out.println();
         Response res = facade.addLocation(address, phoneNumber, contactName);
-        if (res.errorOccured())
-            printer.error(res.getMsg());
+        if (res.getErrorOccurred())
+            printer.error(res.getErrorMessage());
         else {
             printer.success("Location has been added!");
         }
@@ -39,8 +39,8 @@ public class LocationsHandler extends Handler {
     public void viewAllLocations() {
         ResponseT<List<LocationDTO>> res = facade.getAllLocations();
         locations = res.getValue();
-        if (res.errorOccured())
-            printer.error(res.getMsg());
+        if (res.getErrorOccurred())
+            printer.error(res.getErrorMessage());
         else {
             printer.viewAllLocations(locations);
         }

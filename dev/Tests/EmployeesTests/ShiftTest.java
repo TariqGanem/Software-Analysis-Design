@@ -1,6 +1,6 @@
 package EmployeesTests;
 
-import BusinessLayer.EmployeeModule.ShiftPackage.Shift;
+import BusinessLayer.EmployeesModule.ShiftPackage.Shift;
 import DataAccessLayer.dbMaker;
 import Resources.Role;
 import org.junit.Before;

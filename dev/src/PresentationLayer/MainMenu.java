@@ -1,7 +1,7 @@
 package PresentationLayer;
 
 import DataAccessLayer.dbMaker;
-import PresentationLayer.EmployeeMenu.EmployeeModule;
+import PresentationLayer.EmployeesMenu.EmployeeModule;
 import PresentationLayer.ShipmentsMenu.Menu;
 
 import java.util.Scanner;

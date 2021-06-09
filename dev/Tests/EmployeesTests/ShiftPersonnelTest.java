@@ -1,7 +1,7 @@
 package EmployeesTests;
 
-import BusinessLayer.EmployeeModule.ShiftPackage.ShiftPersonnel;
-import DataAccessLayer.EmployeeModule.DALController;
+import BusinessLayer.EmployeesModule.ShiftPackage.ShiftPersonnel;
+import DataAccessLayer.EmployeesModule.DALController;
 import DataAccessLayer.dbMaker;
 import Resources.Role;
 import org.junit.Before;

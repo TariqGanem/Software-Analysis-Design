@@ -63,9 +63,23 @@ public class TruckController {
      * @return an available truck which can transport a delivery of weight @param-weight
      * @throws Exception
      */
-    public List<Truck> getAvailableTrucks(double weight, Date date, String hour) throws Exception {
-        return Builder.buildTrucksList(mapper.getAvailableTrucks(weight, date, isMorning(hour)));
+    public Truck getAvailableTruck(double weight, Date date, boolean isMorning) throws Exception {
+        List<Truck> trucks = Builder.buildTrucksList(mapper.getAvailableTrucks(weight, date, isMorning));
+        double minimumTotalWeight=0;
+        Truck qualifiedTruck=null;
+        if(!trucks.isEmpty()) {
+            minimumTotalWeight = trucks.get(0).getMaxWeight() + trucks.get(0).getNatoWeight();
+            qualifiedTruck = trucks.get(0);
+        }
+        for (Truck t:trucks) {
+            if(t.getNatoWeight()+t.getMaxWeight()<minimumTotalWeight) {
+                minimumTotalWeight = t.getNatoWeight() + t.getMaxWeight();
+                qualifiedTruck = t;
+            }
+        }
+        return qualifiedTruck;
     }
+
 
 
 }

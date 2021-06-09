@@ -1,7 +1,7 @@
 package PresentationLayer.ShipmentsMenu;
 
 import BusinessLayer.ShipmentsModule.Facade;
-import BusinessLayer.ShipmentsModule.Response;
+import BusinessLayer.Response;
 import DTOPackage.ItemDTO;
 
 import java.text.SimpleDateFormat;
@@ -25,16 +25,16 @@ public class DataInitializer {
     private void initTrucks() {
         System.out.println("Loading Trucks:");
         Response res1 = facade.addTruck("HRY1234", "FH16", 6000, 3000);
-        System.out.println(res1.errorOccured() ? res1.getMsg() : "Truck 1 is added successfully!");
+        System.out.println(res1.getErrorOccurred() ? res1.getErrorMessage() : "Truck 1 is added successfully!");
 
         Response res2 = facade.addTruck("HYTE779", "GH67", 5000, 2500);
-        System.out.println(res2.errorOccured() ? res2.getMsg() : "Truck 2 is added successfully!");
+        System.out.println(res2.getErrorOccurred() ? res2.getErrorMessage() : "Truck 2 is added successfully!");
 
         Response res3 = facade.addTruck("1111111", "EIF", 8000, 1560);
-        System.out.println(res3.errorOccured() ? res3.getMsg() : "Truck 3 is added successfully!");
+        System.out.println(res3.getErrorOccurred() ? res3.getErrorMessage() : "Truck 3 is added successfully!");
 
         Response res4 = facade.addTruck("7777777", "EIF", 4500, 1560);
-        System.out.println(res4.errorOccured() ? res4.getMsg() : "Truck 4 is added successfully!");
+        System.out.println(res4.getErrorOccurred() ? res4.getErrorMessage() : "Truck 4 is added successfully!");
         System.out.println();
     }
 
@@ -42,28 +42,28 @@ public class DataInitializer {
     private void initLocations() {
         System.out.println("Loading Locations:");
         Response res1 = facade.addLocation("Beer Sheva, Alexander Yenai 17", "0503313300", "Yazan");
-        System.out.println(res1.errorOccured() ? res1.getMsg() : "Location 1 is added successfully!");
+        System.out.println(res1.getErrorOccurred() ? res1.getErrorMessage() : "Location 1 is added successfully!");
 
         Response res2 = facade.addLocation("Tel Aviv, Merkaz 53", "0774353553", "Kareem");
-        System.out.println(res2.errorOccured() ? res2.getMsg() : "Location 2 is added successfully!");
+        System.out.println(res2.getErrorOccurred() ? res2.getErrorMessage() : "Location 2 is added successfully!");
 
         Response res3 = facade.addLocation("Haifa hof hakarmel", "055853535", "Tariq");
-        System.out.println(res3.errorOccured() ? res3.getMsg() : "Location 3 is added successfully!");
+        System.out.println(res3.getErrorOccurred() ? res3.getErrorMessage() : "Location 3 is added successfully!");
 
         Response res4 = facade.addLocation("Dead Sea, 4", "067888888", "John");
-        System.out.println(res4.errorOccured() ? res4.getMsg() : "Location 4 is added successfully!");
+        System.out.println(res4.getErrorOccurred() ? res4.getErrorMessage() : "Location 4 is added successfully!");
 
         Response res5 = facade.addLocation("Natanya", "055535365", "sam");
-        System.out.println(res5.errorOccured() ? res5.getMsg() : "Location 5 is added successfully!");
+        System.out.println(res5.getErrorOccurred() ? res5.getErrorMessage() : "Location 5 is added successfully!");
 
         System.out.println();
     }
 
     private void initShipments() {
-        System.out.println("Loading Shipments:");
-        initShipment1();
-        initShipment2();
-        System.out.println();
+//        System.out.println("Loading Shipments:");
+//        initShipment1();
+//        initShipment2();
+//        System.out.println();
     }
 
     private void initShipment1() {
@@ -84,8 +84,8 @@ public class DataInitializer {
         items2.add(new ItemDTO("bana", 6, 9));
         itemsPerLocation.put(2, items2);
 
-        Response res = facade.arrangeDelivery(date, "11:00", 4, itemsPerLocation, "7777777", "222222222");
-        System.out.println(res.errorOccured() ? res.getMsg() : "Shipment 1 is added successfully!");
+        Response res = facade.arrangeDelivery(date, 4, itemsPerLocation);
+        System.out.println(res.getErrorOccurred() ? res.getErrorMessage() : "Shipment 1 is added successfully!");
     }
 
     public void initShipment2() {
@@ -106,7 +106,7 @@ public class DataInitializer {
         items2.add(new ItemDTO("cigars", 25, 3));
         itemsPerLocation.put(1, items2);
 
-        Response res = facade.arrangeDelivery(date, "09:48", 3, itemsPerLocation, "HYTE779", "111111111");
-        System.out.println(res.errorOccured() ? res.getMsg() : "Shipment 2 is added successfully!");
+        Response res = facade.arrangeDelivery(date, 3, itemsPerLocation);
+        System.out.println(res.getErrorOccurred() ? res.getErrorMessage() : "Shipment 2 is added successfully!");
     }
 }
