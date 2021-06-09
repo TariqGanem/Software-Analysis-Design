@@ -281,7 +281,7 @@ public class dbMaker {
 
     private void createHRAlertsTbl() {
         String sql = "CREATE TABLE \"HRAlerts\" ( " +
-                    "\"orderDate\" INTEGER UNIQUE" +
+                    "\"message\" TEXT UNIQUE" +
                     ");";
         try {
             Statement stmt = connect().createStatement();

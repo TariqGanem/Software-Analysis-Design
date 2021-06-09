@@ -231,12 +231,12 @@ public class PresentationController {
         return facade.API_isShipmentManager(ID);
     }
 
-    public void API_alertHRManager(LocalDate date) {
-        facade.API_alertHRManager(date);
+    public void API_alertHRManager(String msg) {
+        facade.API_alertHRManager(msg);
     }
 
-    public List<LocalDate> checkForAlerts() {
-        ResponseT<List<LocalDate>> res = facade.checkForAlerts();
+    public List<String> checkForAlerts() {
+        ResponseT<List<String>> res = facade.checkForAlerts();
         if(res.getErrorOccurred())
             return new ArrayList<>();
         else return res.getValue();

@@ -269,11 +269,11 @@ public class Facade {
         return employeeController.API_isShipmentManager(ID);
     }
 
-    public void API_alertHRManager(LocalDate date) {
-        employeeController.API_alertHRManager(date);
+    public void API_alertHRManager(String msg) {
+        employeeController.API_alertHRManager(msg);
     }
 
-    public ResponseT<List<LocalDate>> checkForAlerts() {
+    public ResponseT<List<String>> checkForAlerts() {
         return employeeController.checkForAlerts();
     }
 

@@ -23,28 +23,28 @@ public class HRAlertsHandler {
         this.url = url;
     }
 
-    public ResponseT<List<LocalDate>> getAlerts() {
-        List<LocalDate> dates = new ArrayList<>();
+    public ResponseT<List<String>> getAlerts() {
+        List<String> messages = new ArrayList<>();
         try (Connection con = DriverManager.getConnection(url)) {
             String sqlStatement = "select * from " + dbMaker.HRAlertsTbl;
             Statement p = con.createStatement();
             ResultSet rs = p.executeQuery(sqlStatement);
 
             while (rs.next()) {
-                dates.add(LocalDate.parse(rs.getString("orderDate")));
+                messages.add(rs.getString("message"));
             }
 
-            return new ResponseT<>(dates);
+            return new ResponseT<>(messages);
         } catch (Exception ex) {
             return new ResponseT<>(ex.getMessage());
         }
     }
 
-    public Response addAlert(LocalDate date) {
+    public Response addAlert(String msg) {
         try (Connection con = DriverManager.getConnection(url)) {
             String sqlStatement = "insert or ignore into HRAlerts values(?)";
             PreparedStatement p = con.prepareStatement(sqlStatement);
-            p.setString(1, date.toString());
+            p.setString(1, msg);
             p.executeUpdate();
 
             return new Response();

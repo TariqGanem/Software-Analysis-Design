@@ -193,11 +193,11 @@ public class EmployeeController {
         }
     }
 
-    public void API_alertHRManager(LocalDate date) {
-        dalController.alertHRManager(date);
+    public void API_alertHRManager(String msg) {
+        dalController.alertHRManager(msg);
     }
 
-    public ResponseT<List<LocalDate>> checkForAlerts() {
+    public ResponseT<List<String>> checkForAlerts() {
         if(!activeEmployee.hasSkill(Role.HRManager))
             return new ResponseT<>(new ArrayList<>());
         return dalController.checkForAlerts();

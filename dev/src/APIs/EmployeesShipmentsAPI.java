@@ -25,8 +25,8 @@ public class EmployeesShipmentsAPI {
         return pController.API_getAvailableDrivers(date, isMorning);
     }
 
-    public void alertHRManager(LocalDate date) {
-        pController.API_alertHRManager(date);
+    public void alertHRManager(String msg) {
+        pController.API_alertHRManager(msg);
     }
 
     public boolean hasRole(String ID, Role role){

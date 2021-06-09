@@ -88,11 +88,11 @@ public class DALController {
         return shiftMapper.getAvailableDrivers(date, isMorning);
     }
 
-    public ResponseT<List<LocalDate>> checkForAlerts() {
+    public ResponseT<List<String>> checkForAlerts() {
         return hrAlertsHandler.getAlerts();
     }
 
-    public Response alertHRManager(LocalDate date) {
-        return hrAlertsHandler.addAlert(date);
+    public Response alertHRManager(String msg) {
+        return hrAlertsHandler.addAlert(msg);
     }
 }
