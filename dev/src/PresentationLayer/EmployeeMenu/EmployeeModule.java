@@ -42,13 +42,16 @@ public class EmployeeModule {
                     if (ID.equals("q"))
                         break;
                     successfulLogin = presentationController.login(ID);
+                    if (!successfulLogin)
+                        continue;
                     List<LocalDate> alerts = presentationController.checkForAlerts();
-                    if(!alerts.isEmpty())
-                        io.println("Dear HRManager!\n");
+                    if(!alerts.isEmpty()) {
+                        io.println("\nDear HRManager!\n");
                         for (LocalDate date : alerts) {
                             io.println("there is a need for a driver within a week from " + date.toString() + ".");
                         }
                         io.println("");
+                    }
                 } while (!successfulLogin);
             }
 
