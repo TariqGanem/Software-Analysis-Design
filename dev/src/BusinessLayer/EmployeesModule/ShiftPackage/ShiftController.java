@@ -1,5 +1,6 @@
 package BusinessLayer.EmployeesModule.ShiftPackage;
 
+import APIs.ShipmentsEmployeesAPI;
 import BusinessLayer.Response;
 import BusinessLayer.ResponseT;
 import DataAccessLayer.EmployeesModule.DALController;
@@ -73,8 +74,16 @@ public class ShiftController {
     }
 
     public boolean removeFromShift(String id) {
+        List<String> StoreKeeperIDs;
         if (activeShift == null)
             throw new NullPointerException("need a shift to remove this employee from.");
+
+        if (activeShift.getPositions().get(Role.Driver).contains(id))
+            new ShipmentsEmployeesAPI().deleteShipmentWithDriver(id, activeShift.getDate(), activeShift.isMorning());
+        else if ((StoreKeeperIDs = activeShift.getPositions().get(Role.StoreKeeper)).contains(id))
+            if (StoreKeeperIDs.size() == 1)
+                new ShipmentsEmployeesAPI().deleteShipmentWithStoreKeeper(activeShift.getDate(), activeShift.isMorning());
+
         if (!activeShift.removeFromShift(id))
             throw new IllegalArgumentException(id + " is not assigned to this shift.");
         Response res = dalController.removeFromShift(activeShift, id);
@@ -114,6 +123,11 @@ public class ShiftController {
         if (shift == null)
             return false;
 
+        for (List<String> ids: shift.getPositions().values()) {
+            for (String id: ids) {
+                shift.removeFromShift(id);
+            }
+        }
         boolean success = shifts.remove(shift);
         if (success)
             activeShift = null;
