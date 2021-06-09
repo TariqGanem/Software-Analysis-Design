@@ -1,8 +1,10 @@
 package PresentationLayer.ShipmentsMenu.Handlers;
 
+import BusinessLayer.ShipmentsModule.Builder;
 import BusinessLayer.ShipmentsModule.Facade;
 import BusinessLayer.Response;
 import BusinessLayer.ResponseT;
+import BusinessLayer.ShipmentsModule.Objects.Item;
 import DTOPackage.DriverDTO;
 import DTOPackage.ItemDTO;
 import DTOPackage.ShipmentDTO;
@@ -27,10 +29,8 @@ public class ShipmentsHandler extends Handler {
     }
 
     public void arrangeShipment() {
-        System.out.printf("\nEnter shipment date [dd/MM/yyyy]: ");
+        System.out.printf("\nEnter order due date [dd/MM/yyyy]: ");
         Date date = getDate();
-        System.out.printf("Enter departure hour [00:00]: ");
-        String hour = scanner.nextLine();
         System.out.printf("Enter shipment source: \n");
         locationsHandler.viewAllLocations();
         int source = locationsHandler.chooseLocation().getId();
@@ -38,15 +38,7 @@ public class ShipmentsHandler extends Handler {
         Map<Integer, List<ItemDTO>> itemsPerDestination = getItemsPerDestination();
         double shipmentWeight = calculateShipmentWeight(itemsPerDestination);
         System.out.println("\n Your shipment weight is currently [ " + shipmentWeight + " ] Kg\n");
-
-        TruckDTO chosenTruck = trucksHandler.handleAvailableTrucks(shipmentWeight, date, hour);
-        if (chosenTruck == null)
-            return;
-        DriverDTO chosenDriver = driversHandler.handleAvailableDriver(chosenTruck.getNatoWeight() + shipmentWeight, date, hour);
-        if (chosenDriver == null)
-            return;
-        Response res = facade.arrangeDelivery(date, hour, source, itemsPerDestination,
-                chosenTruck.getTruckPlateNumber(), chosenDriver.getId());
+        Response res = facade.arrangeDelivery(date, source, itemsPerDestination);
         if (res.getErrorOccurred())
             printer.error(res.getErrorMessage());
         else {

@@ -60,10 +60,10 @@ public class DataInitializer {
     }
 
     private void initShipments() {
-        System.out.println("Loading Shipments:");
-        initShipment1();
-        initShipment2();
-        System.out.println();
+//        System.out.println("Loading Shipments:");
+//        initShipment1();
+//        initShipment2();
+//        System.out.println();
     }
 
     private void initShipment1() {
@@ -84,7 +84,7 @@ public class DataInitializer {
         items2.add(new ItemDTO("bana", 6, 9));
         itemsPerLocation.put(2, items2);
 
-        Response res = facade.arrangeDelivery(date, "11:00", 4, itemsPerLocation, "7777777", "222222222");
+        Response res = facade.arrangeDelivery(date, 4, itemsPerLocation);
         System.out.println(res.getErrorOccurred() ? res.getErrorMessage() : "Shipment 1 is added successfully!");
     }
 
@@ -106,7 +106,7 @@ public class DataInitializer {
         items2.add(new ItemDTO("cigars", 25, 3));
         itemsPerLocation.put(1, items2);
 
-        Response res = facade.arrangeDelivery(date, "09:48", 3, itemsPerLocation, "HYTE779", "111111111");
+        Response res = facade.arrangeDelivery(date, 3, itemsPerLocation);
         System.out.println(res.getErrorOccurred() ? res.getErrorMessage() : "Shipment 2 is added successfully!");
     }
 }

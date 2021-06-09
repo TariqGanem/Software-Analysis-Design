@@ -53,8 +53,7 @@ public class DriverController {
      * @return an available driver if exists
      * @throws Exception in case of there is no available driver
      */
-    public List<Driver> getAvailableDriver(double weight, Date date, String hour) throws Exception {
-        boolean isMorning = handleHour(hour);
+    public List<Driver> getAvailableDrivers(double weight, Date date, boolean isMorning) throws Exception {
         List<String> ids = new EmployeesShipmentsAPI().getAvailableDrivers(convertToLocalDateViaInstant(date), isMorning);
         List<Driver> availableDrivers = new LinkedList<>();
         for (String id : ids) {
@@ -63,9 +62,24 @@ public class DriverController {
                 availableDrivers.add(Builder.build(driver));
             }
         }
-        if (availableDrivers.isEmpty())
-            throw new Exception("No available drivers");
         return availableDrivers;
+    }
+
+    public Driver getAvailableDriver(double weight, Date date, boolean isMorning) throws Exception {
+        List<Driver> drivers = getAvailableDrivers(weight, date, isMorning);
+        double minimumWeight = 0;
+        Driver qualifiedDriver = null;
+        if (!drivers.isEmpty()) {
+            minimumWeight = drivers.get(0).getAllowedWeight();
+            qualifiedDriver = drivers.get(0);
+        }
+        for (Driver driver : drivers) {
+            if (driver.getAllowedWeight() < minimumWeight) {
+                minimumWeight = driver.getAllowedWeight();
+                qualifiedDriver = driver;
+            }
+        }
+        return qualifiedDriver;
     }
 
     private boolean handleHour(String hour) {

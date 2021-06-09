@@ -47,33 +47,6 @@ public class TrucksHandler extends Handler {
         }
     }
 
-    public TruckDTO chooseAvailableTruck() {
-        while (true) {
-            try {
-                return trucks.get(getInt() - 1);
-            } catch (Exception e) {
-                printer.error("Invalid input!");
-            }
-        }
-    }
 
-    public TruckDTO handleAvailableTrucks(double weight, Date date, String hour) {
-        ResponseT<List<TruckDTO>> res = facade.getAvailableTrucks(weight, date, hour);
-        trucks = res.getValue();
-        if (res.getErrorOccurred())
-            printer.error(res.getErrorMessage());
-        else {
-            try {
-                System.out.printf("All trucks below are available on ["
-                        + new SimpleDateFormat("dd/MM/yyyy").format(date) + " - "
-                        + hour + "]\nand capable to transport this shipment.\nPlease choose one:\n");
-            } catch (Exception e) {
-                printer.error(e.getMessage());
-            }
-            printer.viewAllTrucks(trucks);
-            return chooseAvailableTruck();
-        }
-        return null;
-    }
 
 }

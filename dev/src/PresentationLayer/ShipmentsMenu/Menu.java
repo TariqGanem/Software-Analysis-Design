@@ -72,7 +72,7 @@ public class Menu {
         addMenuItem("View All Locations");
         addMenuItem("View All Shipment Transportations");
         addMenuItem("Track Shipment");
-        addMenuItem("Arrange Shipment");
+        addMenuItem("Arrange Shipment [for TESTING only for now...]");
         addMenuItem("Remove Shipment");
         addMenuItem("Go back to main menu");//Keep last
     }

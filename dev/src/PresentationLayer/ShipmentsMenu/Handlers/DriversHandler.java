@@ -43,26 +43,5 @@ public class DriversHandler extends Handler {
         }
     }
 
-    public DriverDTO chooseAvailableDriver() {
-        while (true) {
-            try {
-                return drivers.get(getInt() - 1);
-            } catch (Exception e) {
-                printer.error("Invalid input!");
-            }
-        }
-    }
 
-    public DriverDTO handleAvailableDriver(double totalWeight, Date date, String hour) {
-        ResponseT<List<DriverDTO>> res = facade.getAllAvailableDrivers(totalWeight, date, hour);
-        drivers = res.getValue();
-        if (res.getErrorOccurred()) {
-            printer.error(res.getErrorMessage());
-        } else {
-            System.out.println("\n Now all drivers below can drive this truck, Choose one:");
-            printer.viewAllDrivers(drivers);
-            return chooseAvailableDriver();
-        }
-        return null;
-    }
 }
