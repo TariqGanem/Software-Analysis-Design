@@ -132,7 +132,7 @@ public class Facade {
                 return new Response("There are no available trucks in the system within a week from order date.");
             new EmployeesShipmentsAPI().alertHRManager(orderDueDate.toInstant()
                     .atZone(ZoneId.systemDefault())
-                    .toLocalDate());
+                    .toLocalDate().toString());
             return new Response("The system didn't succeed to schedule a shipment for this order within 7 days!\n" +
                     "The System notified the HR Manager, try again when solved by HR Manager.");
         } catch (Exception e) {

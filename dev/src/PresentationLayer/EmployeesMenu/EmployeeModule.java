@@ -43,12 +43,13 @@ public class EmployeeModule {
                         break;
                     successfulLogin = presentationController.login(ID);
                     List<String> alerts = presentationController.checkForAlerts();
-                    if(!alerts.isEmpty())
+                    if(!alerts.isEmpty()) {
                         io.println("Dear HRManager!\n");
                         for (String message : alerts) {
                             io.println(message);
                         }
                         io.println("");
+                    }
                 } while (!successfulLogin);
             }
 
