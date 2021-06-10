@@ -37,6 +37,8 @@ public class HRAlertsHandler {
             return new ResponseT<>(messages);
         } catch (Exception ex) {
             return new ResponseT<>(ex.getMessage());
+        } finally {
+            deleteAllAlerts();
         }
     }
 
@@ -50,6 +52,16 @@ public class HRAlertsHandler {
             return new Response();
         } catch (Exception ex) {
             return new Response(ex.getMessage());
+        }
+    }
+
+    public void deleteAllAlerts() {
+        try (Connection con = DriverManager.getConnection(url)) {
+            String sqlStatement = "delete from " + dbMaker.HRAlertsTbl;
+            Statement p = con.createStatement();
+            p.executeUpdate(sqlStatement);
+
+        } catch (Exception ignored) {
         }
     }
 }

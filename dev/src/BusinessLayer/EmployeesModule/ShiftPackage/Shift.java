@@ -1,5 +1,6 @@
 package BusinessLayer.EmployeesModule.ShiftPackage;
 
+import APIs.ShipmentsEmployeesAPI;
 import Resources.Role;
 
 import java.time.LocalDate;
@@ -45,7 +46,7 @@ public class Shift {
             if (l.contains(id)) {
                 if (role.equals(Role.ShiftManager) & l.size() == 1)
                     throw new IllegalArgumentException("Add another shift manager before removing the last!");
-                else return l.remove(id);
+                return l.remove(id);
             }
         }
         return false;

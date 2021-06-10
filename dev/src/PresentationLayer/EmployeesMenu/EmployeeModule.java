@@ -42,6 +42,8 @@ public class EmployeeModule {
                     if (ID.equals("q"))
                         break;
                     successfulLogin = presentationController.login(ID);
+                    if (!successfulLogin)
+                        continue;
                     List<String> alerts = presentationController.checkForAlerts();
                     if(!alerts.isEmpty()) {
                         io.println("Dear HRManager!\n");
