@@ -53,33 +53,37 @@ public class DriverController {
      * @return an available driver if exists
      * @throws Exception in case of there is no available driver
      */
-    public List<Driver> getAvailableDrivers(double weight, Date date, boolean isMorning) throws Exception {
-        List<String> ids = new EmployeesShipmentsAPI().getAvailableDrivers(convertToLocalDateViaInstant(date), isMorning);
-        List<Driver> availableDrivers = new LinkedList<>();
-        for (String id : ids) {
-            DriverDTO driver = mapper.getAvailableDriver(id, weight);
-            if (driver != null) {
-                availableDrivers.add(Builder.build(driver));
-            }
-        }
-        return availableDrivers;
-    }
+//    public List<Driver> getAvailableDrivers(double weight, Date date, boolean isMorning) throws Exception {
+//        List<String> ids = new EmployeesShipmentsAPI().getAvailableDrivers(convertToLocalDateViaInstant(date), isMorning);
+//        List<Driver> availableDrivers = new LinkedList<>();
+//        for (String id : ids) {
+//            DriverDTO driver = mapper.getAvailableDriver(id, weight);
+//            if (driver != null) {
+//                availableDrivers.add(Builder.build(driver));
+//            }
+//        }
+//        return availableDrivers;
+//    }
 
     public Driver getAvailableDriver(double weight, Date date, boolean isMorning) throws Exception {
-        List<Driver> drivers = getAvailableDrivers(weight, date, isMorning);
-        double minimumWeight = 0;
-        Driver qualifiedDriver = null;
-        if (!drivers.isEmpty()) {
-            minimumWeight = drivers.get(0).getAllowedWeight();
-            qualifiedDriver = drivers.get(0);
+        Driver driver = null;
+        List<String> ids = new EmployeesShipmentsAPI().getAvailableDrivers(convertToLocalDateViaInstant(date), isMorning);
+        List<String> filteredScheduledDrivers = new LinkedList<>();
+        for (String id : ids) {
+            DriverDTO currentDriver = mapper.getDriver(id);
+            if (currentDriver.getAllowedWeight() >= weight)
+                filteredScheduledDrivers.add(currentDriver.getId());
         }
-        for (Driver driver : drivers) {
-            if (driver.getAllowedWeight() < minimumWeight) {
-                minimumWeight = driver.getAllowedWeight();
-                qualifiedDriver = driver;
+        List<DriverDTO> availableDrivers = mapper.getAvailableDrivers(date, isMorning, weight);
+        List<String> qualifiedIDs = new LinkedList<>();
+        for (DriverDTO d : availableDrivers) {
+            if (filteredScheduledDrivers.contains(d.getId())) {
+                qualifiedIDs.add(d.getId());
             }
         }
-        return qualifiedDriver;
+        if (!qualifiedIDs.isEmpty())
+            driver = Builder.build(mapper.getDriver(qualifiedIDs.get(0)));
+        return driver;
     }
 
     private boolean handleHour(String hour) {

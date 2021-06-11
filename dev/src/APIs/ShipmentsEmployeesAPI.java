@@ -1,7 +1,6 @@
 package APIs;
 
 import PresentationLayer.ShipmentsMenu.Menu;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.time.LocalDate;
 
@@ -18,9 +17,9 @@ public class ShipmentsEmployeesAPI {
     }
 
     //IMPLEMENT THIS YAZAN AND TARIQ
-    public void deleteShipmentWithDriver(String id, LocalDate date, boolean isMorning) { throw new NotImplementedException(); }
+    public void deleteShipmentWithDriver(String id, LocalDate date, boolean isMorning) {  }
 
     //IMPLEMENT THIS YAZAN AND TARIQ
-    public void deleteShipmentWithStoreKeeper(LocalDate date, boolean isMorning) { throw new NotImplementedException(); }
+    public void deleteShipmentWithStoreKeeper(LocalDate date, boolean isMorning) {  }
 
 }

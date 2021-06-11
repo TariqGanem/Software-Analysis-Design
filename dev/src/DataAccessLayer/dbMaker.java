@@ -152,7 +152,9 @@ public class dbMaker {
                 "\t\"plateNumber\"\tTEXT,\n" +
                 "\t\"shipmentDate\"\tDate,\n" +
                 "\t\"isMorning\"\tINTEGER,\n" +
-                "\tFOREIGN KEY(\"plateNumber\") REFERENCES \"Trucks\"(\"plateNumber\")\n" +
+                "\t\"driver\"\tTEXT,\n" +
+                "\tFOREIGN KEY(\"plateNumber\") REFERENCES \"Trucks\"(\"plateNumber\"),\n" +
+                "\tFOREIGN KEY(\"driver\") REFERENCES \"Drivers\"(\"id\") ON DELETE CASCADE\n" +
                 ");";
         try {
             Statement stmt = connect().createStatement();

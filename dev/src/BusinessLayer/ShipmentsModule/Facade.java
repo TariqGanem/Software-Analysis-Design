@@ -11,6 +11,7 @@ import BusinessLayer.ShipmentsModule.Objects.*;
 import DTOPackage.*;
 import Resources.Role;
 
+import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -112,32 +113,43 @@ public class Facade {
         try {
             Map<Integer, List<Item>> items = Builder.buildItemsPerDestinations(items_per_destination);
             double shipmentWeight = calculateShipmentWeight(items);
+
             boolean matchWithinWeek;
-            Truck truck=null;
+            Truck truck = null;
             Driver driver;
+
             for (Date date : getDatesInNextWeek(orderDueDate)) {
                 for (Boolean isMorning : new boolean[]{true, false}) {
                     truck = truckController.getAvailableTruck(shipmentWeight, date, isMorning);
                     driver = driverController.getAvailableDriver(truck.getNatoWeight() + truck.getMaxWeight(), date, isMorning);
-                    matchWithinWeek =truck!=null && driver != null && findStoreKeeper(date, isMorning);
+                    matchWithinWeek = truck != null && driver != null /*&& findStoreKeeper(date, isMorning)*/;
                     if (matchWithinWeek) {
                         String hour = generateHour(isMorning);
                         addShipmentToBeApproved(date, hour, truck.getTruckPlateNumber(), driver.getId(), sourceId, items);
-                        truckController.scheduleTruck(truck.getTruckPlateNumber(), date, hour);
+                        truckController.scheduleTruck(truck.getTruckPlateNumber(), date, isMorning, driver.getId());
                         return new Response();
                     }
                 }
             }
-            if(truck==null)
+
+            if (truck == null)
                 return new Response("There are no available trucks in the system within a week from order date.");
-            new EmployeesShipmentsAPI().alertHRManager(orderDueDate.toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDate().toString());
-            return new Response("The system didn't succeed to schedule a shipment for this order within 7 days!\n" +
-                    "The System notified the HR Manager, try again when solved by HR Manager.");
+
+            notifyHRManager(orderDueDate);
+            return new Response("Unexpected Error...");
         } catch (Exception e) {
             return new Response(e.getMessage());
         }
+    }
+
+    private void notifyHRManager(Date date) throws Exception {
+        List<Date> dates = getDatesInNextWeek(date);
+        String msg = "The Shipment department System discovered mismatching issues in shifts:\n"
+                + "-Try to assign driver / storekeeper in the shifts from " + new SimpleDateFormat("dd/MM/yyyy").format(dates.get(0))
+                + " to " + new SimpleDateFormat("dd/MM/yyyy").format(dates.get(dates.size()-1)) +" !";
+        new EmployeesShipmentsAPI().alertHRManager(msg);
+        throw new Exception("The system didn't succeed to schedule a shipment for this order within 7 days!\n" +
+                "The System notified the HR Manager, try again when solved by HR Manager.");
     }
 
 
@@ -185,7 +197,7 @@ public class Facade {
         List<Date> dates = new LinkedList<>();
         long ONE_DAY_MILLI_SECONDS = 24 * 60 * 60 * 1000;
         Date nextDay;
-        for (int i = 1; i <= 7; i++) {
+        for (int i = 0; i < 7; i++) {
             nextDay = new Date(dueDate.getTime() + (i) * ONE_DAY_MILLI_SECONDS);
             dates.add(nextDay);
         }

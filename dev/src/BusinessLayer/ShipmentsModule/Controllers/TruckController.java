@@ -41,8 +41,8 @@ public class TruckController {
         mapper.addTruck(truckPlateNumber, model, natoWeight, maxWeight);
     }
 
-    public void scheduleTruck(String truckPlateNumber, Date shipmentDate, String depHour) throws Exception {
-        mapper.insertTruckScheduler(truckPlateNumber, shipmentDate, isMorning(depHour));
+    public void scheduleTruck(String truckPlateNumber, Date shipmentDate, boolean isMorning, String driverId) throws Exception {
+        mapper.insertTruckScheduler(truckPlateNumber, shipmentDate, isMorning, driverId);
 
     }
 
@@ -64,22 +64,8 @@ public class TruckController {
      * @throws Exception
      */
     public Truck getAvailableTruck(double weight, Date date, boolean isMorning) throws Exception {
-        List<Truck> trucks = Builder.buildTrucksList(mapper.getAvailableTrucks(weight, date, isMorning));
-        double minimumTotalWeight=0;
-        Truck qualifiedTruck=null;
-        if(!trucks.isEmpty()) {
-            minimumTotalWeight = trucks.get(0).getMaxWeight() + trucks.get(0).getNatoWeight();
-            qualifiedTruck = trucks.get(0);
-        }
-        for (Truck t:trucks) {
-            if(t.getNatoWeight()+t.getMaxWeight()<minimumTotalWeight) {
-                minimumTotalWeight = t.getNatoWeight() + t.getMaxWeight();
-                qualifiedTruck = t;
-            }
-        }
-        return qualifiedTruck;
+        return Builder.build(mapper.getAvailableTruck(weight, date, isMorning));
     }
-
 
 
 }

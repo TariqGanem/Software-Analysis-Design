@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -73,6 +75,36 @@ public class DriverMapper {
         List<DriverDTO> drivers = selectAllDrivers();
         memory.setDrivers(drivers);
         return memory.getDrivers();
+    }
+
+    public List<DriverDTO> getAvailableDrivers(Date date, boolean isMorning, double total_weight) throws Exception {
+        List<DriverDTO> drivers = new LinkedList<>();
+        String sql = "SELECT * FROM(\n" +
+                "\n" +
+                "SELECT DISTINCT(d.id), d.allowedWeight \n" +
+                "FROM Drivers AS d LEFT OUTER JOIN TruckScheduler AS ts ON ts.driver=d.id /*All scheduled drivers*/\n" +
+                "\n" +
+                "EXCEPT\n" +
+                "\n" +
+                "SELECT DISTINCT(d.id), d.allowedWeight\n" +
+                "FROM TruckScheduler AS ts JOIN Drivers AS d ON ts.driver=d.id\n" +
+                "WHERE (ts.shipmentDate='" + new SimpleDateFormat("dd/MM/yyyy").format(date) +
+                "' AND ts.isMorning=" + (isMorning ? 1 : 0) + ") /*Scheduled in the same date and shift*/\n" +
+                ")\n" +
+                "WHERE allowedWeight>=" + total_weight + " ORDER BY allowedWeight ASC";
+        try (Connection conn = dbMaker.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                drivers.add(new DriverDTO(rs.getString(1),
+                        getDriverName(rs.getString(1)),
+                        rs.getDouble(2)
+                ));
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        return drivers;
     }
 
     private void insertDriver(String id, Double allowedWeight) throws Exception {

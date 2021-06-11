@@ -63,67 +63,69 @@ public class TruckMapper {
         return memory.getTrucks();
     }
 
-    public boolean isAvailableTruck(String plateNumber, double weight, Date date, boolean isMorning) throws Exception {
-        List<TruckDTO> trucks = getAvailableTrucks(weight, date, isMorning);
-        for (TruckDTO truck : trucks) {
-            if (truck.getTruckPlateNumber().equals(plateNumber))
-                return true;
-        }
-        return false;
+//    public boolean isAvailableTruck(String plateNumber, double weight, Date date, boolean isMorning) throws Exception {
+//        List<TruckDTO> trucks = getAvailableTruck(weight, date, isMorning);
+//        for (TruckDTO truck : trucks) {
+//            if (truck.getTruckPlateNumber().equals(plateNumber))
+//                return true;
+//        }
+//        return false;
+//    }
+
+
+    public TruckDTO getAvailableTruck(double weight, Date date, boolean isMorning) throws Exception {
+        TruckDTO truck = _getAvailableTruck(weight, date, isMorning);
+        return truck;
     }
 
-
-    public List<TruckDTO> getAvailableTrucks(double weight, Date date, boolean isMorning) throws Exception {
-        List<TruckDTO> trucks = _getAvailableTrucks(weight, date, isMorning);
-//        if (trucks.isEmpty())
-//            throw new Exception("There is no such available truck in the database!");
-        return trucks;
-    }
-
-    public void insertTruckScheduler(String plateNumber, Date date, boolean isMorning) throws Exception {
-        String sql = "INSERT INTO " + dbMaker.truckSchedulerTbl + " (plateNumber, shipmentDate, isMorning) VALUES (?,?,?)";
+    public void insertTruckScheduler(String plateNumber, Date date, boolean isMorning, String driverId) throws Exception {
+        String sql = "INSERT INTO " + dbMaker.truckSchedulerTbl + " (plateNumber, shipmentDate, isMorning, driver) VALUES (?,?,?, ?)";
         try (Connection conn = dbMaker.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, plateNumber);
             pstmt.setString(2, new SimpleDateFormat("dd/MM/yyyy").format(date));
             pstmt.setBoolean(3, isMorning);
+            pstmt.setString(4, driverId);
             pstmt.executeUpdate();
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
 
-    private List<TruckDTO> _getAvailableTrucks(double weight, Date date, boolean isMorning) throws Exception {
-        List<TruckDTO> trucks = new LinkedList<>();
-        String sql = "SELECT DISTINCT(plateNumber), model, natoWeight, maxWeight FROM \n" +
-                "(SELECT t.plateNumber, t.model, t.natoWeight, t.maxWeight, ts.shipmentDate, ts.isMorning FROM Trucks as t\n" +
-                "LEFT OUTER JOIN TruckScheduler as ts ON ts.plateNumber=t.plateNumber WHERE t.maxWeight>=" + weight + " \n" +
+    private TruckDTO _getAvailableTruck(double weight, Date date, boolean isMorning) throws Exception {
+        TruckDTO truck = null;
+        String sql = "SELECT * FROM(\n" +
+                "SELECT plateNumber, model, natoWeight, maxWeight FROM Trucks\n" +
+                "EXCEPT\n" +
+                "SELECT DISTINCT(t.plateNumber), t.model, t.natoWeight, t.maxWeight \n" +
+                "FROM TruckScheduler AS ts JOIN Trucks AS t ON ts.plateNumber=t.plateNumber /*Trucks not yet scheduled*/\n" +
+                "\n" +
+                "UNION\n" +
+                "\n" +
+                "SELECT DISTINCT(t.plateNumber), t.model, t.natoWeight, t.maxWeight \n" +
+                "FROM TruckScheduler AS ts JOIN Trucks AS t ON ts.plateNumber=t.plateNumber /*All scheduled trucks*/\n" +
                 "\n" +
                 "EXCEPT\n" +
                 "\n" +
-                "SELECT DISTINCT(ts.plateNumber), t.model, t.natoWeight, t.maxWeight, ts.shipmentDate, ts.isMorning FROM TruckScheduler as ts\n" +
-                "JOIN Trucks as t ON t.plateNumber=ts.plateNumber WHERE t.maxWeight>=" + weight + " /*Not yet scheduled and weight matches*/\n" +
-                "\n" +
-                "UNION\n" +
-                "\n" +
-                "SELECT  DISTINCT(t.plateNumber), t.model, t.natoWeight, t.maxWeight, ts.shipmentDate, ts.isMorning FROM TruckScheduler as ts\n" +
-                "JOIN Trucks as t ON t.plateNumber=ts.plateNumber WHERE t.maxWeight>=" + weight + " AND (shipmentDate!='" + new SimpleDateFormat("dd/MM/yyyy").format(date) + "') " +
-                "GROUP BY t.plateNumber, shipmentDate HAVING COUNT(shipmentDate)<2\n" +
-                "\n" +
-                "UNION\n" +
-                "SELECT ts.plateNumber, t.model, t.natoWeight, t.maxWeight, ts.shipmentDate, ts.isMorning FROM TruckScheduler as ts\n" +
-                "JOIN Trucks as t ON t.plateNumber=ts.plateNumber WHERE t.maxWeight>=" + weight + " GROUP BY t.plateNumber, shipmentDate HAVING COUNT(shipmentDate)<2\n" +
-                "AND (shipmentDate='" + new SimpleDateFormat("dd/MM/yyyy").format(date) + "' AND isMorning!=" + (isMorning ? 1 : 0) + "))";
+                "SELECT DISTINCT(t.plateNumber), t.model, t.natoWeight, t.maxWeight \n" +
+                "FROM TruckScheduler AS ts JOIN Trucks AS t ON ts.plateNumber=t.plateNumber\n" +
+                "WHERE (ts.shipmentDate='" + new SimpleDateFormat("dd/MM/yyyy").format(date) +
+                "' AND ts.isMorning=" + (isMorning ? 1 : 0) + ") /*Scheduled in the same date and shift*/\n" +
+                ")\n" +
+                "WHERE maxWeight>=" + weight + " ORDER BY (natoWeight+maxWeight) ASC LIMIT 1";
         try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                trucks.add(new TruckDTO(rs.getString(1), rs.getString(2), rs.getDouble(3), rs.getDouble(4)));
+            if (rs.next()) {
+                truck = new TruckDTO(rs.getString(1),
+                        rs.getString(2),
+                        rs.getDouble(3),
+                        rs.getDouble(4));
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
-        return trucks;
+        return truck;
     }
 
     private void insertTruck(String plateNumber, String model, Double natoWeight, Double maxWeight) throws Exception {
