@@ -122,7 +122,7 @@ public class Facade {
                 for (Boolean isMorning : new boolean[]{true, false}) {
                     truck = truckController.getAvailableTruck(shipmentWeight, date, isMorning);
                     driver = driverController.getAvailableDriver(truck.getNatoWeight() + truck.getMaxWeight(), date, isMorning);
-                    matchWithinWeek = truck != null && driver != null /*&& findStoreKeeper(date, isMorning)*/;
+                    matchWithinWeek = truck != null && driver != null && findStoreKeeper(date, isMorning);
                     if (matchWithinWeek) {
                         String hour = generateHour(isMorning);
                         addShipmentToBeApproved(date, hour, truck.getTruckPlateNumber(), driver.getId(), sourceId, items);

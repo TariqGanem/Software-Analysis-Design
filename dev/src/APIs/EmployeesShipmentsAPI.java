@@ -21,7 +21,7 @@ public class EmployeesShipmentsAPI {
         return pController.API_isDriverAssignedToShift(date, isMorning, ID);
     }
 
-    public List<String> getAvailableDrivers(LocalDate date, boolean isMorning) {
+    public List<String> getScheduledDrivers(LocalDate date, boolean isMorning) {
         return pController.API_getAvailableDrivers(date, isMorning);
     }
 
