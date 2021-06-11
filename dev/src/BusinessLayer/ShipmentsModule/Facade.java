@@ -10,6 +10,7 @@ import BusinessLayer.ShipmentsModule.Controllers.TruckController;
 import BusinessLayer.ShipmentsModule.Objects.*;
 import DTOPackage.*;
 import Resources.Role;
+import com.sun.tools.javac.util.Pair;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -137,6 +138,7 @@ public class Facade {
                 return new Response("There are no available trucks in the system within a week from order date.");
 
             notifyHRManager(orderDueDate);
+            
             return new Response("Unexpected Error...");
         } catch (Exception e) {
             return new Response(e.getMessage());
@@ -310,7 +312,7 @@ public class Facade {
         }
     }
 
-    public Response removeAllShipmentsDriver(Date date, boolean isMorning, String driverId){
+    public Response removeAllShipmentsDriver(Date date, boolean isMorning, String driverId) {
         try {
             shipmentController.removeAllShipmentsDriver(date, isMorning, driverId);
             return new Response();
