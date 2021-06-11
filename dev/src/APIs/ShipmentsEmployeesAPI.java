@@ -3,10 +3,13 @@ package APIs;
 import PresentationLayer.ShipmentsMenu.Menu;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 public class ShipmentsEmployeesAPI {
 
-    public ShipmentsEmployeesAPI() {}
+    public ShipmentsEmployeesAPI() {
+    }
 
     public void addDriver(String driverId) {
         Menu.getInstance().getDriversHandler().addDriver(driverId);
@@ -16,10 +19,12 @@ public class ShipmentsEmployeesAPI {
         Menu.getInstance().getDriversHandler().initDriver(id, allowedWeight);
     }
 
-    //IMPLEMENT THIS YAZAN AND TARIQ
-    public void deleteShipmentWithDriver(String id, LocalDate date, boolean isMorning) {  }
+    public void deleteShipmentWithDriver(String id, LocalDate date, boolean isMorning) {
+        Menu.getInstance().getFacade().removeAllShipmentsDriver(Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()), isMorning, id);
+    }
 
-    //IMPLEMENT THIS YAZAN AND TARIQ
-    public void deleteShipmentWithStoreKeeper(LocalDate date, boolean isMorning) {  }
+    public void deleteShipmentWithStoreKeeper(LocalDate date, boolean isMorning) {
+        Menu.getInstance().getFacade().removeShipments(Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()), isMorning);
+    }
 
 }

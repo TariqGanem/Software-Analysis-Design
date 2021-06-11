@@ -4,10 +4,12 @@ import BusinessLayer.ShipmentsModule.Builder;
 import BusinessLayer.ShipmentsModule.Objects.Item;
 import BusinessLayer.ShipmentsModule.Objects.Location;
 import BusinessLayer.ShipmentsModule.Objects.Shipment;
+import DTOPackage.ShipmentDTO;
 import DataAccessLayer.ShipmentsModule.Mappers.DocumentMapper;
 import DataAccessLayer.ShipmentsModule.Mappers.ShipmentMapper;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ShipmentController {
@@ -39,7 +41,7 @@ public class ShipmentController {
      * @param departureHour    - The exact hour for the transportation of the shipment
      * @param truckPlateNumber - The truck's id which transports the delivery
      * @param driverId         - The driver's id which transports the delivery
-     * @param sourceId           - The location which the delivery will start on
+     * @param sourceId         - The location which the delivery will start on
      * @throws Exception in case of wrong parameters values
      */
     public int addShipment(Date date, String departureHour, String truckPlateNumber, String driverId, int sourceId) throws Exception {
@@ -101,5 +103,31 @@ public class ShipmentController {
 
     public void approveShipment(Date date, String depHour, String driverId) throws Exception {
         mapper.approveShipment(date, depHour, driverId);
+    }
+
+    public void removeAllShipmentsDriver(Date date, boolean isMorning, String driverId) throws Exception {
+        List<ShipmentDTO> shipmentsList = mapper.getAllShipments();
+        for (ShipmentDTO shipmentDTO : shipmentsList) {
+            if (shipmentDTO.getDate().equals(date)
+                    && isMorning(shipmentDTO.getDepartureHour()) == isMorning
+                    && shipmentDTO.getDriverId().equals(driverId)) {
+                mapper.deleteShipment(shipmentDTO.getShipmentId());
+            }
+        }
+    }
+
+    private boolean isMorning(String hour) {
+        int left = Integer.parseInt(hour.substring(0, 2));
+        return left >= 6 && left <= 14;
+    }
+
+    public void removeShipments(Date date, boolean isMorning) throws Exception {
+        List<ShipmentDTO> shipmentsList = mapper.getAllShipments();
+        for (ShipmentDTO shipmentDTO : shipmentsList) {
+            if (shipmentDTO.getDate().equals(date)
+                    && isMorning(shipmentDTO.getDepartureHour()) == isMorning) {
+                mapper.deleteShipment(shipmentDTO.getShipmentId());
+            }
+        }
     }
 }

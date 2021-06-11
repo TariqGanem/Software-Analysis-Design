@@ -12,6 +12,7 @@ import DTOPackage.*;
 import Resources.Role;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -303,6 +304,24 @@ public class Facade {
     public Response approveShipment(Date date, String depHour, String driverId) {
         try {
             shipmentController.approveShipment(date, depHour, driverId);
+            return new Response();
+        } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
+    }
+
+    public Response removeAllShipmentsDriver(Date date, boolean isMorning, String driverId){
+        try {
+            shipmentController.removeAllShipmentsDriver(date, isMorning, driverId);
+            return new Response();
+        } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
+    }
+
+    public Response removeShipments(Date date, boolean isMorning) {
+        try {
+            shipmentController.removeShipments(date, isMorning);
             return new Response();
         } catch (Exception e) {
             return new Response(e.getMessage());

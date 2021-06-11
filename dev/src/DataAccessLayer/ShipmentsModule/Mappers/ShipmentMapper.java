@@ -127,6 +127,18 @@ public class ShipmentMapper {
         }
     }
 
+//    private void _deleteShipmentDriver(Date date, boolean isMorning, String driverId) throws Exception {
+//        String sql = "DELETE FROM " + dbMaker.shipmentsTbl + " WHERE driverId = ? AND Date=? AND departureHour";
+//        try (Connection conn = dbMaker.connect();
+//             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+//            pstmt.setString(1, driverId);
+//            pstmt.setString(2,new SimpleDateFormat("dd/MM/yyyy").format(date));
+//            pstmt.executeUpdate();
+//        } catch (Exception e) {
+//            throw new Exception(e.getMessage());
+//        }
+//    }
+
     private ShipmentDTO selectShipment(Date date, String departureHour, String driverId) throws Exception {
         String sql = "SELECT * FROM " + dbMaker.shipmentsTbl + " WHERE Date='" +
                 new SimpleDateFormat("dd/MM/yyyy").format(date) + "' AND departureHour='"
