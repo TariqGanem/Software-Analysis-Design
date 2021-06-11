@@ -86,4 +86,20 @@ public class ShipmentController {
     public List<Shipment> getAllShipments() throws Exception {
         return Builder.buildShipmentsList(mapper.getAllShipments());
     }
+
+    public List<Shipment> getNotApprovedShipments() throws Exception {
+        return Builder.buildShipmentsList(mapper.getNotApprovedShipments());
+    }
+
+    public List<Shipment> getApprovedShipments() throws Exception {
+        return Builder.buildShipmentsList(mapper.getApprovedShipments());
+    }
+
+    public List<Shipment> getNotDeliveredShipments() throws Exception {
+        return Builder.buildShipmentsList(mapper.getNotDeliveredShipments());
+    }
+
+    public void approveShipment(Date date, String depHour, String driverId) throws Exception {
+        mapper.approveShipment(date, depHour, driverId);
+    }
 }

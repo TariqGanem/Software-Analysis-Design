@@ -5,6 +5,7 @@ import BusinessLayer.ShipmentsModule.Facade;
 import BusinessLayer.Response;
 import BusinessLayer.ResponseT;
 import BusinessLayer.ShipmentsModule.Objects.Item;
+import BusinessLayer.ShipmentsModule.Objects.Shipment;
 import DTOPackage.DriverDTO;
 import DTOPackage.ItemDTO;
 import DTOPackage.ShipmentDTO;
@@ -75,7 +76,7 @@ public class ShipmentsHandler extends Handler {
         System.out.printf("Enter driver's id: ");
         String id = scanner.nextLine();
         Response res = facade.removeShipment(date, hour, id);
-        if (res.getErrorOccurred()){
+        if (res.getErrorOccurred()) {
             printer.error(res.getErrorMessage());
         } else {
             printer.success("Shipment has been removed!");
@@ -143,4 +144,61 @@ public class ShipmentsHandler extends Handler {
         }
         return shipmentWeight;
     }
+
+    public void approveShipments() {
+        System.out.println("Shipments waiting for approval:");
+        ResponseT res = facade.getNotApprovedShipments();
+        if (res.getErrorOccurred())
+            printer.error(res.getErrorMessage());
+        else {
+            List<ShipmentDTO> shipmentsList = facade.getNotApprovedShipments().getValue();
+            printer.viewAllShipments(shipmentsList);
+            if (!shipmentsList.isEmpty()) {
+                System.out.println("\nSelect shipment index to approve it, to approve all type 'all':\n");
+                int index = getShipmentInt(shipmentsList.size());
+                Response resEach = null;
+                if (index == -1) {
+                    for (ShipmentDTO shipment : shipmentsList) {
+                        resEach = facade.approveShipment(shipment.getDate(),
+                                shipment.getDepartureHour(),
+                                shipment.getDriverId());
+                        if (resEach.getErrorOccurred()) {
+                            printer.error(resEach.getErrorMessage());
+                        }
+                    }
+                    printer.success("All the shipment are now approved!");
+                } else {
+                    resEach = facade.approveShipment(shipmentsList.get(index - 1).getDate(),
+                            shipmentsList.get(index - 1).getDepartureHour(),
+                            shipmentsList.get(index - 1).getDriverId());
+                    if (resEach.getErrorOccurred()) {
+                        printer.error(resEach.getErrorMessage());
+                    } else {
+                        printer.success("Shipment you have selected is now approved!");
+                    }
+                }
+            }
+        }
+    }
+
+    private int getShipmentInt(int max_size) {
+        while (true) {
+            try {
+                String line = scanner.next();
+                if (line.equals("all")) {
+                    return -1;
+                }
+                int index = Integer.parseInt(line);
+                if (index - 1 < 0 || index > max_size) {
+                    printer.error("Choose index between 1 and " + max_size);
+                } else {
+                    return index;
+                }
+            } catch (Exception e) {
+                printer.error("Enter only natural numbers");
+            }
+        }
+    }
+
+
 }

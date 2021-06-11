@@ -36,6 +36,8 @@ public class Builder {
         for (DocumentDTO doc : shipment.getDocuments().values()) {
             s.addDocument(Builder.buildItemsList(doc.getProducts()), build(doc.getDestination()), doc.getTrackingNumber());
         }
+        s.setApproved(shipment.isApproved());
+        s.setDelivered(shipment.isDelivered());
         return s;
     }
 
@@ -45,6 +47,8 @@ public class Builder {
         for (Document doc : shipment.getDocuments().values()) {
             s.addDocument(doc.getTrackingNumber(), buildItemsListDTO(doc.getProducts()), buildDTO(doc.getDestination()));
         }
+        s.setApproved(shipment.isApproved());
+        s.setDelivered(shipment.isDelivered());
         return s;
     }
 
@@ -108,6 +112,8 @@ public class Builder {
             for (DocumentDTO doc : s.getDocuments().values()) {
                 shipment.addDocument(Builder.buildItemsList(doc.getProducts()), Builder.build(doc.getDestination()), doc.getTrackingNumber());
             }
+            shipment.setApproved(s.isApproved());
+            shipment.setDelivered(s.isDelivered());
             shipments.add(shipment);
         }
         return shipments;
@@ -128,6 +134,8 @@ public class Builder {
             for (Document doc : s.getDocuments().values()) {
                 shipment.addDocument(doc.getTrackingNumber(), buildItemsListDTO(doc.getProducts()), buildDTO(doc.getDestination()));
             }
+            shipment.setApproved(s.isApproved());
+            shipment.setDelivered(s.isDelivered());
             shipmentsDTO.add(shipment);
         }
         return shipmentsDTO;

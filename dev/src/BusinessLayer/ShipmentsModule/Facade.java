@@ -146,7 +146,7 @@ public class Facade {
         List<Date> dates = getDatesInNextWeek(date);
         String msg = "The Shipment department System discovered mismatching issues in shifts:\n"
                 + "-Try to assign driver / storekeeper in the shifts from " + new SimpleDateFormat("dd/MM/yyyy").format(dates.get(0))
-                + " to " + new SimpleDateFormat("dd/MM/yyyy").format(dates.get(dates.size()-1)) +" !";
+                + " to " + new SimpleDateFormat("dd/MM/yyyy").format(dates.get(dates.size() - 1)) + " !";
         new EmployeesShipmentsAPI().alertHRManager(msg);
         throw new Exception("The system didn't succeed to schedule a shipment for this order within 7 days!\n" +
                 "The System notified the HR Manager, try again when solved by HR Manager.");
@@ -289,5 +289,23 @@ public class Facade {
             }
         }
         return shipmentWeight;
+    }
+
+    public ResponseT<List<ShipmentDTO>> getNotApprovedShipments() {
+        try {
+            List<Shipment> shipments = shipmentController.getNotApprovedShipments();
+            return new ResponseT<>(Builder.buildShipmentsListDTO(shipments));
+        } catch (Exception e) {
+            return new ResponseT<>(e.getMessage());
+        }
+    }
+
+    public Response approveShipment(Date date, String depHour, String driverId) {
+        try {
+            shipmentController.approveShipment(date, depHour, driverId);
+            return new Response();
+        } catch (Exception e) {
+            return new Response(e.getMessage());
+        }
     }
 }

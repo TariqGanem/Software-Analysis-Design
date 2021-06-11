@@ -10,6 +10,8 @@ public class Shipment {
     private String driverId;
     private Map<Integer, Document> documents;
     private Location source;
+    private boolean approved;
+    private  boolean delivered;
 
     public Shipment(int shipmentId, Date date, String departureHour, String truckPlateNumber, String driverId, Location source) {
         this.shipmentId = shipmentId;
@@ -19,6 +21,8 @@ public class Shipment {
         this.driverId = driverId;
         this.source = source;
         this.documents = new HashMap<>();
+        approved = false;
+        delivered = false;
     }
 
     public int getShipmentId() {
@@ -61,4 +65,19 @@ public class Shipment {
         documents.put(trackingNumber, d);
     }
 
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
+    public void setDelivered(boolean delivered) {
+        this.delivered = delivered;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public boolean isDelivered() {
+        return delivered;
+    }
 }

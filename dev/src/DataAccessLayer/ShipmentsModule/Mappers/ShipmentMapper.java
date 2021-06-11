@@ -99,7 +99,7 @@ public class ShipmentMapper {
     }
 
     private void insertShipment(int id, Date date, String depHour, String truckPlateNumber, String driverId, int sourceId) throws Exception {
-        String sql = "INSERT INTO " + dbMaker.shipmentsTbl + " (id, Date, departureHour, truckPlateNumber, driverId, sourceId) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO " + dbMaker.shipmentsTbl + " (id, Date, departureHour, truckPlateNumber, driverId, sourceId, approved, delivered) VALUES (?,?,?,?,?,?,?,?)";
         try (Connection conn = dbMaker.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
@@ -108,6 +108,8 @@ public class ShipmentMapper {
             pstmt.setString(4, truckPlateNumber);
             pstmt.setString(5, driverId);
             pstmt.setInt(6, sourceId);
+            pstmt.setBoolean(7, false);
+            pstmt.setBoolean(8, false);
             pstmt.executeUpdate();
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -144,6 +146,8 @@ public class ShipmentMapper {
                 for (DocumentDTO doc : docs) {
                     shipment.addDocument(doc.getTrackingNumber(), doc.getProducts(), doc.getDestination());
                 }
+                shipment.setApproved(rs.getBoolean(7));
+                shipment.setDelivered(rs.getBoolean(8));
                 return shipment;
             }
         } catch (Exception e) {
@@ -169,6 +173,89 @@ public class ShipmentMapper {
                 for (DocumentDTO doc : docs) {
                     shipment.addDocument(doc.getTrackingNumber(), doc.getProducts(), doc.getDestination());
                 }
+                shipment.setApproved(rs.getBoolean(7));
+                shipment.setDelivered(rs.getBoolean(8));
+                shipments.add(shipment);
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        return shipments;
+    }
+
+    public List<ShipmentDTO> getNotApprovedShipments() throws Exception {
+        String sql = "SELECT * FROM " + dbMaker.shipmentsTbl + " WHERE approved=0";
+        List<ShipmentDTO> shipments = new LinkedList<>();
+        try (Connection conn = dbMaker.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                ShipmentDTO shipment = new ShipmentDTO(rs.getInt(1),
+                        new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString(2)),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        LocationMapper.getInstance().getLocation(rs.getInt(6)));
+                List<DocumentDTO> docs = DocumentMapper.getInstance().getShipmentDocuments(shipment.getShipmentId());
+                for (DocumentDTO doc : docs) {
+                    shipment.addDocument(doc.getTrackingNumber(), doc.getProducts(), doc.getDestination());
+                }
+                shipment.setApproved(rs.getBoolean(7));
+                shipment.setDelivered(rs.getBoolean(8));
+                shipments.add(shipment);
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        return shipments;
+    }
+
+    public List<ShipmentDTO> getNotDeliveredShipments() throws Exception {
+        String sql = "SELECT * FROM " + dbMaker.shipmentsTbl + " WHERE delivered=0";
+        List<ShipmentDTO> shipments = new LinkedList<>();
+        try (Connection conn = dbMaker.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                ShipmentDTO shipment = new ShipmentDTO(rs.getInt(1),
+                        new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString(2)),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        LocationMapper.getInstance().getLocation(rs.getInt(6)));
+                List<DocumentDTO> docs = DocumentMapper.getInstance().getShipmentDocuments(shipment.getShipmentId());
+                for (DocumentDTO doc : docs) {
+                    shipment.addDocument(doc.getTrackingNumber(), doc.getProducts(), doc.getDestination());
+                }
+                shipment.setApproved(rs.getBoolean(7));
+                shipment.setDelivered(rs.getBoolean(8));
+                shipments.add(shipment);
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        return shipments;
+    }
+
+    public List<ShipmentDTO> getApprovedShipments() throws Exception {
+        String sql = "SELECT * FROM " + dbMaker.shipmentsTbl + " WHERE approved=1";
+        List<ShipmentDTO> shipments = new LinkedList<>();
+        try (Connection conn = dbMaker.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                ShipmentDTO shipment = new ShipmentDTO(rs.getInt(1),
+                        new SimpleDateFormat("dd/MM/yyyy").parse(rs.getString(2)),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        LocationMapper.getInstance().getLocation(rs.getInt(6)));
+                List<DocumentDTO> docs = DocumentMapper.getInstance().getShipmentDocuments(shipment.getShipmentId());
+                for (DocumentDTO doc : docs) {
+                    shipment.addDocument(doc.getTrackingNumber(), doc.getProducts(), doc.getDestination());
+                }
+                shipment.setApproved(rs.getBoolean(7));
+                shipment.setDelivered(rs.getBoolean(8));
                 shipments.add(shipment);
             }
         } catch (Exception e) {
@@ -195,12 +282,40 @@ public class ShipmentMapper {
                 for (DocumentDTO doc : docs) {
                     shipment.addDocument(doc.getTrackingNumber(), doc.getProducts(), doc.getDestination());
                 }
+                shipment.setApproved(rs.getBoolean(7));
+                shipment.setDelivered(rs.getBoolean(8));
                 return shipment;
             }
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
         return null;
+    }
+
+    public void approveShipment(Date date, String departureHour, String driverId) throws Exception {
+        String sql = "UPDATE Shipments SET approved=1 \n" +
+                "WHERE Date='" +
+                new SimpleDateFormat("dd/MM/yyyy").format(date)
+                + "' AND departureHour='" + departureHour + "' AND driverId='" + driverId + "'";
+        try (Connection conn = dbMaker.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    public void markAsDeliveredShipment(Date date, String departureHour, String driverId) throws Exception {
+        String sql = "UPDATE Shipments SET delivered=1 \n" +
+                "WHERE Date='" +
+                new SimpleDateFormat("dd/MM/yyyy").format(date)
+                + "' AND departureHour='" + departureHour + "' AND driverId='" + driverId + "' ";
+        try (Connection conn = dbMaker.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
     }
 
     private boolean shipmentExist(Date date, String departureHour, String driverId) throws Exception {

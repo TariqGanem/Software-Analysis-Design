@@ -73,6 +73,7 @@ public class Menu {
         addMenuItem("View All Shipment Transportations");
         addMenuItem("Track Shipment");
         addMenuItem("Arrange Shipment [for TESTING only for now...]");
+        addMenuItem("Approve shipments");
         addMenuItem("Remove Shipment");
         addMenuItem("Go back to main menu");//Keep last
     }
@@ -122,6 +123,9 @@ public class Menu {
                 shipmentsHandler.arrangeShipment();
                 break;
             case 10:
+                shipmentsHandler.approveShipments();
+                break;
+            case 11:
                 shipmentsHandler.removeShipment();
                 break;
         }

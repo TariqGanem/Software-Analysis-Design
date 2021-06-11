@@ -134,10 +134,12 @@ public class dbMaker {
                 "\t\"truckPlateNumber\"\tTEXT,\n" +
                 "\t\"driverId\"\tINTEGER,\n" +
                 "\t\"sourceId\"\tINTEGER,\n" +
-                "\tFOREIGN KEY(\"driverId\") REFERENCES \"Drivers\"(\"id\"),\n" +
-                "\tFOREIGN KEY(\"sourceId\") REFERENCES \"Locations\"(\"id\"),\n" +
+                "\t\"approved\"\tINTEGER,\n" +
+                "\t\"delivered\"\tINTEGER,\n" +
                 "\tPRIMARY KEY(\"id\"),\n" +
-                "\tFOREIGN KEY(\"truckPlateNumber\") REFERENCES \"Trucks\"(\"plateNumber\")\n" +
+                "\tFOREIGN KEY(\"truckPlateNumber\") REFERENCES \"Trucks\"(\"plateNumber\"),\n" +
+                "\tFOREIGN KEY(\"sourceId\") REFERENCES \"Locations\"(\"id\"),\n" +
+                "\tFOREIGN KEY(\"driverId\") REFERENCES \"Drivers\"(\"id\")\n" +
                 ");";
         try {
             Statement stmt = connect().createStatement();

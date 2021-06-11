@@ -10,6 +10,8 @@ public class ShipmentDTO {
     private String driverId;
     private Map<Integer, DocumentDTO> documents;
     private LocationDTO source;
+    private boolean approved;
+    private  boolean delivered;
 
     public ShipmentDTO(int shipmentId, Date date, String departureHour, String truckPlateNumber, String driverId, LocationDTO source) {
         this.shipmentId = shipmentId;
@@ -19,6 +21,8 @@ public class ShipmentDTO {
         this.driverId = driverId;
         this.source = source;
         documents = new HashMap<>();
+        approved = false;
+        delivered = false;
     }
 
     public int getShipmentId() {
@@ -66,5 +70,21 @@ public class ShipmentDTO {
         List<LocationDTO> locationDTOList = new LinkedList<>();
         documents.values().forEach(d -> locationDTOList.add(d.getDestination()));
         return locationDTOList;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
+    public void setDelivered(boolean delivered) {
+        this.delivered = delivered;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public boolean isDelivered() {
+        return delivered;
     }
 }

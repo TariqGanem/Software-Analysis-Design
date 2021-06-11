@@ -92,15 +92,22 @@ public class Printer {
     }
 
     public void viewAllShipments(List<ShipmentDTO> shipments) {
+        if(shipments.isEmpty()){
+            System.out.println("There are no such shipments ...");
+            return;
+        }
+
         for (int i = 0; i < shipments.size(); i++) {
-            System.out.println("------------------------------------------------------------");
+            System.out.println("\n");
             System.out.println("\t" + (i + 1)
                     + ". Date: " + new SimpleDateFormat("dd/MM/yyyy").format(shipments.get(i).getDate())
                     + "\t Departure Hour: " + shipments.get(i).getDepartureHour()
                     + "\t Truck Plate Number: " + shipments.get(i).getTruckPlateNumber()
                     + "\t Driver Id: " + shipments.get(i).getDriverId()
                     + "\t Shipment Weight: " + shipments.get(i).getShipmentWeight()
-                    + "\n\t Source --> "
+                    + "\n\t Approved: " + (shipments.get(i).isApproved()?"YES":"NO")
+                    + "\t Delivered: " + (shipments.get(i).isDelivered()?"YES":"NO")
+                    + "\t Source --> "
                     + "\t Address: " + shipments.get(i).getSource().getAddress()
                     + "\t Phone: " + shipments.get(i).getSource().getPhoneNumber()
                     + " (" + shipments.get(i).getSource().getContactName() + ")"
@@ -124,7 +131,7 @@ public class Printer {
                 );
 
             }
-            System.out.println("------------------------------------------------------------");
+            System.out.println("\n");
         }
     }
 
