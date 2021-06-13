@@ -38,12 +38,12 @@ public class Facade {
      * @param contactName - the name of the person to contact
      * @return response contains msg in case of any error
      */
-    public Response addLocation(String address, String phoneNumber, String contactName) {
+    public ResponseT<Integer> addLocation(String address, String phoneNumber, String contactName) {
         try {
-            locationController.addLocation(address, phoneNumber, contactName);
-            return new Response();
+            int id = locationController.addLocation(address, phoneNumber, contactName);
+            return new ResponseT(id);
         } catch (Exception e) {
-            return new Response(e.getMessage());
+            return new ResponseT(e.getMessage());
         }
     }
 
@@ -147,10 +147,13 @@ public class Facade {
 
     private void notifyHRManager(Date date) throws Exception {
         List<Date> dates = getDatesInNextWeek(date);
+
         String msg = "The Shipment department System discovered mismatching issues in shifts:\n"
                 + "-Try to assign driver / storekeeper in the shifts from " + new SimpleDateFormat("dd/MM/yyyy").format(dates.get(0))
                 + " to " + new SimpleDateFormat("dd/MM/yyyy").format(dates.get(dates.size() - 1)) + " !";
+
         new EmployeesShipmentsAPI().alertHRManager(msg);
+
         throw new Exception("The system didn't succeed to schedule a shipment for this order within 7 days!\n" +
                 "The System notified the HR Manager, try again when solved by HR Manager.");
     }

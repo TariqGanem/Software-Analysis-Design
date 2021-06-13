@@ -32,11 +32,12 @@ public class LocationController {
      * @param contactName - The name of the driver who transports delivery for this location
      * @throws Exception in case of invalid parameters
      */
-    public void addLocation(String address, String phoneNumber, String contactName) throws Exception {
+    public int addLocation(String address, String phoneNumber, String contactName) throws Exception {
         if (address == null || address.trim().isEmpty() || phoneNumber == null || phoneNumber.trim().isEmpty() || contactName == null || contactName.trim().isEmpty())
             throw new Exception("Couldn't add new location - Invalid parameters");
         mapper.addLocation(id, address, phoneNumber, contactName);
         id++;
+        return id - 1;
     }
 
     /**
