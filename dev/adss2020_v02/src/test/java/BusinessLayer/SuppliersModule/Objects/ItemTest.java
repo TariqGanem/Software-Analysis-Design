@@ -11,7 +11,7 @@ class ItemTest {
     @BeforeAll
     static void setUp() {
         try {
-            item = new Item(1, "shuku", 3.99);
+            item = new Item(1, "shuku", 3.99,12);
         }
         catch (Exception e){
             fail("Got an unexpected exception!");
@@ -21,7 +21,7 @@ class ItemTest {
     @AfterEach
     void tearDown() {
         try {
-            item = new Item(1, "shuku", 3.99);
+            item = new Item(1, "shuku", 3.99,12);
         }
         catch (Exception e){
             fail("Got an unexpected exception!");

@@ -79,8 +79,8 @@ class OrderTest {
     public void getItems() { // done
         try {
             assertTrue(order.getItems().isEmpty());
-            Item item1 = new Item(1, "alis", 5.5);
-            Item item2 = new Item(2, "bob", 0.99);
+            Item item1 = new Item(1, "alis", 5.5,15);
+            Item item2 = new Item(2, "bob", 0.99,12);
             order.addItem(item1);
             assertEquals(1, order.getItems().size());
 
@@ -153,8 +153,8 @@ class OrderTest {
     @Test
     public void addItem() { // done
         try {
-            Item item1 = new Item(1, "alis", 5.5);
-            Item item2 = new Item(2, "bob", 0.99);
+            Item item1 = new Item(1, "alis", 5.5,15);
+            Item item2 = new Item(2, "bob", 0.99,12);
             order.addItem(item1);
             assertTrue(order.getItems().containsKey(item1.getId()));
             assertTrue(order.getItems().containsValue(item1));
@@ -172,9 +172,9 @@ class OrderTest {
     @Test
     public void removeItem() { // done
         try{
-            Item item1 = new Item(1, "alis", 5.5);
-            Item item2 = new Item(2, "bob", 0.99);
-            Item item404 = new Item(404, "404", 404);
+            Item item1 = new Item(1, "alis", 5.5,15);
+            Item item2 = new Item(2, "bob", 0.99,12);
+            Item item404 = new Item(404, "404", 404,15);
             Exception exception = null;
 
             try{
