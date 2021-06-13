@@ -17,7 +17,7 @@ public class dbMaker {
     public static String locationsTbl = "Locations";
     public static String driversTbl = "Drivers";
     public static String documentsTbl = "Documents";
-    public static String itemsTbl = "Items";
+    public static String itemsTbl = "ShippedItems";
     public static String shipmentsTbl = "Shipments";
     public static String truckSchedulerTbl = "TruckScheduler";
 
@@ -28,6 +28,12 @@ public class dbMaker {
     public static String empTimePrefTbl = "EmployeeTimePreferences";
     public static String HRAlertsTbl = "HRAlerts";
 
+    public static String categorytbl = "Category";
+    public static String itemspecstbl = "ItemSpecs";
+    public static String itemstbl = "Items_Store";
+    public static String reportstbl = "Reports";
+    public static String defectstbl = "Defects";
+
     public dbMaker() {
         dbName = "superLee.db";
         path = "jdbc:sqlite:" + dbName;
@@ -36,20 +42,35 @@ public class dbMaker {
     public void initialize() {
         if (!new File(dbName).exists()) {
             createNewDatabase();
+
+            //Shipments Tables
             createTrucksTbl();
             createDocumentsTbl();
             createDriversTbl();
             createLocationsTbl();
-            createItemsTbl();
+            createShippedItemsTbl();
             createShipmentsTbl();
             createTruckSchedulerTbl();
 
+            //Employees Tables
             createEmployeeTbl();
             createEmpTimePrefTbl();
             createShiftTbl();
             createShiftPersonnelTbl();
             createEmployeeSkillsTbl();
             createHRAlertsTbl();
+
+            //Stock Tables
+            createCategoryTbl();
+            createItemSpecsTbl();
+            createItemsTbl();
+            createDefectsTbl();
+            createReportsTbl();
+
+            //Suppliers Tables
+            createSuppliersTables1();
+            createSuppliersTables2();
+            createSuppliersTables3();
         }
     }
 
@@ -77,6 +98,183 @@ public class dbMaker {
             System.out.println(e.getMessage());
         }
         return conn;
+    }
+
+    private void createSuppliersTables1() {
+        try {
+            Statement stmt = connect().createStatement();
+            String sql = "CREATE TABLE IF NOT EXISTS contracts" +
+                    "(companyId INT PRIMARY KEY    NOT NULL," +
+                    "selfPickup           INT     NOT NULL," +
+                    "FOREIGN KEY(companyId) REFERENCES suppliers(companyId))";
+            stmt.executeUpdate(sql);
+            //====================================================
+            stmt = connect().createStatement();
+            sql = "CREATE TABLE IF NOT EXISTS discounts " +
+                    "(itemId    INT NOT NULL," +
+                    "companyId INT NOT NULL," +
+                    "quantity  INT NOT NULL," +
+                    "discount  INT NOT NULL," +
+                    "FOREIGN KEY(companyId) REFERENCES suppliers(companyId)," +
+                    "FOREIGN KEY(itemId) REFERENCES items(id)," +
+                    "PRIMARY KEY (itemId,companyId,quantity))";
+            stmt.executeUpdate(sql);
+            //====================================================
+            stmt = connect().createStatement();
+            sql = "CREATE TABLE IF NOT EXISTS items " +
+                    "(companyId INT  NOT NULL," +
+                    "itemId    INT  NOT NULL," +
+                    "name      TEXT NOT NULL," +
+                    "price     REAL NOT NULL," +
+                    "PRIMARY KEY (itemId,companyId)," +
+                    "FOREIGN KEY(companyId) REFERENCES suppliers(companyId))";
+            stmt.executeUpdate(sql);
+            //====================================================
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void createSuppliersTables2() {
+        try {
+            Statement statement = connect().createStatement();
+            String sql = "CREATE TABLE IF NOT EXISTS Orders " +
+                    "(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "Status                 TEXT    NOT NULL, " +
+                    "PlacementDate           TEXT    NOT NULL, " +
+                    "DueDate          TEXT     NOT NULL, "+
+                    "Fixed  INT NOT NULL)";
+            statement.executeUpdate(sql);
+
+            statement = connect().createStatement();
+            sql = "CREATE TABLE IF NOT EXISTS ItemsInOrders "+
+                    "(OrderID INT,"+
+                    "ItemID INT,  " +
+                    "Amount INT NOT NULL,"+
+                    "PRIMARY KEY(OrderID,ItemID)," +
+                    "FOREIGN KEY(OrderID) REFERENCES Orders(Id))";
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void createCategoryTbl() {
+        String sql = "CREATE TABLE \"Category\" (\n" +
+                "\t\"cname\"\tTEXT,\n" +
+                "\t\"level\"\tINTEGER,\n" +
+                "\t\"discount1\"\tINTEGER,\n" +
+                "\t\"uppercat\"\tTEXT,\n" +
+                "\tPRIMARY KEY(\"cname\")\n" +
+                ");";
+        try {
+            Statement stmt = connect().createStatement();
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void createSuppliersTables3() {
+        try {
+            Statement stmt = connect().createStatement();
+            String sql = "CREATE TABLE IF NOT EXISTS suppliers " +
+                    "(companyId INT PRIMARY KEY    NOT NULL, " +
+                    "name                 TEXT    NOT NULL, " +
+                    "manifactur           TEXT    NOT NULL, " +
+                    "bankAccount          INT     NOT NULL, " +
+                    "paymentConditions    TEXT    NOT NULL, " +
+                    "orderType            TEXT    NOT NULL, " +
+                    "selfPickup           INT     NOT NULL)";
+            stmt.executeUpdate(sql);
+            //====================================================
+            stmt = connect().createStatement();
+            sql = "CREATE TABLE IF NOT EXISTS contacts " +
+                    "(companyId INT  NOT NULL," +
+                    "name           TEXT        NOT NULL," +
+                    "method         TEXT        NOT NULL," +
+                    "data           TEXT        NOT NULL," +
+                    "PRIMARY KEY (companyId,name,method)," +
+                    "FOREIGN KEY(companyId) REFERENCES suppliers(companyId))";
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void createItemSpecsTbl() {
+        String sql = "CREATE TABLE \"ItemSpecs\" (\n" +
+                "\t\"iname\"\tTEXT,\n" +
+                "\t\"cname\"\tTEXT,\n" +
+                "\t\"minamount\"\tINTEGER,\n" +
+                "\t\"totalamount\"\tINTEGER,\n" +
+                "\t\"manufacture\"\tTEXT,\n" +
+                "\t\"companyprice\"\tINTEGER,\n" +
+                "\t\"storeprice\"\tINTEGER,\n" +
+                "\t\"discount\"\tINTEGER,\n" +
+                "\t\"finalprice\"\tINTEGER,\n" +
+                "\tPRIMARY KEY(\"iname\")\n" +
+                ");";
+        try {
+            Statement stmt = connect().createStatement();
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void createItemsTbl() {
+        String sql = "CREATE TABLE \"Items\" (\n" +
+                "\t\"iname\"\tTEXT,\n" +
+                "\t\"id\"\tINTEGER,\n" +
+                "\t\"expdate\"\tTEXT,\n" +
+                "\t\"shelveamount\"\tINTEGER,\n" +
+                "\t\"storageamount\"\tINTEGER,\n" +
+                "\t\"defectamount\"\tINTEGER,\n" +
+                "\t\"defectreason\"\tTEXT,\n" +
+                "\tPRIMARY KEY(\"id\")\n" +
+                ");";
+        try {
+            Statement stmt = connect().createStatement();
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void createDefectsTbl() {
+        String sql = "CREATE TABLE \"Defects\" (\n" +
+                "\t\"id\"\tINTEGER,\n" +
+                "\t\"iname\"\tTEXT,\n" +
+                "\t\"cname\"\tTEXT,\n" +
+                "\t\"defectreason\"\tTEXT,\n" +
+                "\t\"amount\"\tINTEGER,\n" +
+                "\tPRIMARY KEY(\"id\")\n" +
+                ");";
+        try {
+            Statement stmt = connect().createStatement();
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void createReportsTbl() {
+        String sql = "CREATE TABLE \"Reports\" (\n" +
+                "\t\"id\"\tINTEGER,\n" +
+                "\t\"title\"\tTEXT,\n" +
+                "\t\"description\"\tTEXT,\n" +
+                "\t\"cname\"\tTEXT,\n" +
+                "\t\"date\"\tTEXT,\n" +
+                "\t\"reportbudy\"\tTEXT,\n" +
+                "\tPRIMARY KEY(\"id\")\n" +
+                ");";
+        try {
+            Statement stmt = connect().createStatement();
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void createTrucksTbl() {
@@ -110,8 +308,8 @@ public class dbMaker {
         }
     }
 
-    private void createItemsTbl() {
-        String sql = "CREATE TABLE \"Items\" (\n" +
+    private void createShippedItemsTbl() {
+        String sql = "CREATE TABLE \"ShippedItems\" (\n" +
                 "\t\"documentId\"\tINTEGER,\n" +
                 "\t\"name\"\tTEXT,\n" +
                 "\t\"amount\"\tREAL,\n" +
@@ -285,8 +483,8 @@ public class dbMaker {
 
     private void createHRAlertsTbl() {
         String sql = "CREATE TABLE \"HRAlerts\" ( " +
-                    "\"message\" TEXT UNIQUE" +
-                    ");";
+                "\"message\" TEXT UNIQUE" +
+                ");";
         try {
             Statement stmt = connect().createStatement();
             stmt.execute(sql);

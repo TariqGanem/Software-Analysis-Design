@@ -1,8 +1,7 @@
 package DataAccessLayer.StoreModule.Mappers;
 
-import DataAccessLayer.StoreModule.InitMapper;
 import DataAccessLayer.StoreModule.objects.DefectsDl;
-import DataAccessLayer.StoreModule.objects.ReportsDl;
+import DataAccessLayer.dbMaker;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -13,19 +12,19 @@ public class DefectsMapper {
     private Mapper memory;
 
 
-    private DefectsMapper(){
-        memory=Mapper.getInstance() ;
+    private DefectsMapper() {
+        memory = Mapper.getInstance();
     }
+
     public static DefectsMapper getInstance() {
         if (instance == null)
             instance = new DefectsMapper();
         return instance;
     }
 
-    public void insertDefect(int id, String iname,String cname, String defectreason,int amount) throws Exception {
-        String sql = "INSERT INTO " + InitMapper.defectstbl + "(id, iname,cname,defectreason,amount) VALUES (?,?,?,?,?)";
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:superLee.db");
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    public void insertDefect(int id, String iname, String cname, String defectreason, int amount) throws Exception {
+        String sql = "INSERT INTO " + dbMaker.defectstbl + "(id, iname,cname,defectreason,amount) VALUES (?,?,?,?,?)";
+        try (PreparedStatement pstmt = dbMaker.connect().prepareStatement(sql)) {
             pstmt.setInt(1, id);
             pstmt.setString(2, iname);
             pstmt.setString(3, cname);
@@ -40,13 +39,12 @@ public class DefectsMapper {
     /// restore defect and add to mapper defects list
 
     public void restoreAllDefects() throws Exception {
-        String sql = "SELECT * FROM " + InitMapper.defectstbl;
+        String sql = "SELECT * FROM " + dbMaker.defectstbl;
         List<DefectsDl> def = new LinkedList<>();
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:superLee.db");
-             Statement stmt = conn.createStatement()) {
+        try (Statement stmt = dbMaker.connect().createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                DefectsDl defect= new DefectsDl(rs.getInt(1),
+                DefectsDl defect = new DefectsDl(rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),

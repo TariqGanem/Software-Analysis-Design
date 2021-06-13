@@ -12,6 +12,7 @@ public class MainMenu {
 
     private static MainMenu instance = null;
     Scanner scanner;
+
     StoreMenu storemenu;
     SupplierMenu suppliermenu;
     Menu shipmentsMenu;

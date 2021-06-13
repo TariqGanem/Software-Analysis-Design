@@ -1,8 +1,7 @@
 package DataAccessLayer.StoreModule.Mappers;
 
-import DataAccessLayer.StoreModule.InitMapper;
 import DataAccessLayer.StoreModule.objects.CategoryDl;
-import DataAccessLayer.StoreModule.objects.ReportsDl;
+import DataAccessLayer.dbMaker;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -25,8 +24,8 @@ public class CategoryMapper {
 
     public void insertCategory(String cname,int level, int discount1,String uppercat) throws Exception {
 
-        try (Connection conn = DriverManager.getConnection(InitMapper.path)) {
-            String sql = "INSERT INTO " + InitMapper.categorytbl + " (cname, level, discount1,uppercat) VALUES (?,?,?,?)";
+        try (Connection conn = dbMaker.connect()) {
+            String sql = "INSERT INTO " + dbMaker.categorytbl + " (cname, level, discount1,uppercat) VALUES (?,?,?,?)";
             PreparedStatement pstmt = conn.prepareStatement(sql);
 
             pstmt.setString(1, cname);
@@ -40,8 +39,8 @@ public class CategoryMapper {
     }
 
     public void updateCategoryDiscount(String cname, int discount) throws Exception { //add&remove Discount!
-        String sql = "UPDATE " + InitMapper.categorytbl + " SET discount1 = ? WHERE cname= ?";
-        try (Connection conn = InitMapper.connect();
+        String sql = "UPDATE " + dbMaker.categorytbl + " SET discount1 = ? WHERE cname= ?";
+        try (Connection conn = dbMaker.connect();
              PreparedStatement pStmt = conn.prepareStatement(sql)) {
             pStmt.setInt(1, discount);
             pStmt.setString(2, cname);
@@ -52,8 +51,8 @@ public class CategoryMapper {
     }
 
     public void deleteCategory(String cname) throws Exception {
-        String sql = "DELETE FROM " + InitMapper.categorytbl + " WHERE cname = ?";
-        try (Connection conn = InitMapper.connect();
+        String sql = "DELETE FROM " + dbMaker.categorytbl + " WHERE cname = ?";
+        try (Connection conn = dbMaker.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, cname);
             pstmt.executeUpdate();
@@ -63,9 +62,9 @@ public class CategoryMapper {
     }
 
     public void restoreAllCategories() throws Exception {
-        String sql = "SELECT * FROM " + InitMapper.categorytbl;
+        String sql = "SELECT * FROM " + dbMaker.categorytbl;
         List<CategoryDl> rep = new LinkedList<CategoryDl>();
-        try (Connection conn = InitMapper.connect();
+        try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {

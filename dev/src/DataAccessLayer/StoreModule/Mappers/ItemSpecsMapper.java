@@ -1,9 +1,9 @@
 package DataAccessLayer.StoreModule.Mappers;
 
 //import BusinessLayer.ItemSpecs;
-import DataAccessLayer.StoreModule.InitMapper;
+
 import DataAccessLayer.StoreModule.objects.ItemSpecsDl;
-import DataAccessLayer.StoreModule.objects.ReportsDl;
+import DataAccessLayer.dbMaker;
 
 import java.sql.*;
 import java.util.LinkedList;
@@ -15,19 +15,19 @@ public class ItemSpecsMapper {
     private Mapper memory;
 
 
-    private ItemSpecsMapper(){
-        memory=Mapper.getInstance() ;
+    private ItemSpecsMapper() {
+        memory = Mapper.getInstance();
     }
+
     public static ItemSpecsMapper getInstance() {
         if (instance == null)
             instance = new ItemSpecsMapper();
         return instance;
     }
 
-    public void insertItemSpecs(String iname,String cname, int minamount, int totalamount, String manufacture,int companyprice, int storeprice,int discount,int finalprice) throws Exception {
-        String sql = "INSERT INTO " + InitMapper.itemspecstbl + "(iname,cname, minamount,totalamount,manufacture,companyprice,storeprice ,discount,finalprice) VALUES (?,?,?,?,?,?,?,?,?)";
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:superLee.db");
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    public void insertItemSpecs(String iname, String cname, int minamount, int totalamount, String manufacture, int companyprice, int storeprice, int discount, int finalprice) throws Exception {
+        String sql = "INSERT INTO " + dbMaker.itemspecstbl + "(iname,cname, minamount,totalamount,manufacture,companyprice,storeprice ,discount,finalprice) VALUES (?,?,?,?,?,?,?,?,?)";
+        try (PreparedStatement pstmt = dbMaker.connect().prepareStatement(sql)) {
             pstmt.setString(1, iname);
             pstmt.setString(2, cname);
             pstmt.setInt(3, minamount);
@@ -46,9 +46,8 @@ public class ItemSpecsMapper {
 /// will be affected here : Total amount , final price , discount
 
     public void updateItemSpecsDiscount(String iname, int discount) throws Exception { //add&remove Discount!
-        String sql = "UPDATE " + InitMapper.itemspecstbl + " SET discount = ? WHERE iname= ?";
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:superLee.db");
-             PreparedStatement pStmt = conn.prepareStatement(sql)) {
+        String sql = "UPDATE " + dbMaker.itemspecstbl + " SET discount = ? WHERE iname= ?";
+        try (PreparedStatement pStmt = dbMaker.connect().prepareStatement(sql)) {
             pStmt.setInt(1, discount);
             pStmt.setString(2, iname);
             pStmt.executeUpdate();
@@ -58,9 +57,8 @@ public class ItemSpecsMapper {
     }
 
     public void updateItemSpecsTotalAmount(String iname, int amount) throws Exception {
-        String sql = "UPDATE " + InitMapper.itemspecstbl + " SET totalamount = ? WHERE iname= ?";
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:superLee.db");
-             PreparedStatement pStmt = conn.prepareStatement(sql)) {
+        String sql = "UPDATE " + dbMaker.itemspecstbl + " SET totalamount = ? WHERE iname= ?";
+        try (PreparedStatement pStmt = dbMaker.connect().prepareStatement(sql)) {
             pStmt.setInt(1, amount);
             pStmt.setString(2, iname);
             pStmt.executeUpdate();
@@ -68,10 +66,10 @@ public class ItemSpecsMapper {
             throw new Exception(e.getMessage());
         }
     }
+
     public void updateItemSpecsFinalPrice(String iname, int amount) throws Exception {
-        String sql = "UPDATE " + InitMapper.itemspecstbl + " SET finalprice = ? WHERE iname= ?";
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:superLee.db");
-             PreparedStatement pStmt = conn.prepareStatement(sql)) {
+        String sql = "UPDATE " + dbMaker.itemspecstbl + " SET finalprice = ? WHERE iname= ?";
+        try (PreparedStatement pStmt = dbMaker.connect().prepareStatement(sql)) {
             pStmt.setInt(1, amount);
             pStmt.setString(2, iname);
             pStmt.executeUpdate();
@@ -79,10 +77,10 @@ public class ItemSpecsMapper {
             throw new Exception(e.getMessage());
         }
     }
+
     public void deleteItemSpecs(String iname) throws Exception {
-        String sql = "DELETE FROM " + InitMapper.itemspecstbl + " WHERE iname = ?";
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:superLee.db");
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        String sql = "DELETE FROM " + dbMaker.itemspecstbl + " WHERE iname = ?";
+        try (PreparedStatement pstmt = dbMaker.connect().prepareStatement(sql)) {
             pstmt.setString(1, iname);
             pstmt.executeUpdate();
         } catch (Exception e) {
@@ -91,13 +89,13 @@ public class ItemSpecsMapper {
     }
 
     public void restoreAllItemSpecs() throws Exception {
-        String sql = "SELECT * FROM " + InitMapper.itemspecstbl;
+        String sql = "SELECT * FROM " + dbMaker.itemspecstbl;
         List<ItemSpecsDl> it = new LinkedList<>();
-        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:superLee.db");
-             Statement stmt = conn.createStatement()) {
+        try (
+                Statement stmt = dbMaker.connect().createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                ItemSpecsDl items= new ItemSpecsDl(rs.getString(1),
+                ItemSpecsDl items = new ItemSpecsDl(rs.getString(1),
                         rs.getString(2),
                         rs.getInt(3),
                         rs.getInt(4),

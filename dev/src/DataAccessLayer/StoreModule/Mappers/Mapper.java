@@ -1,6 +1,5 @@
 package DataAccessLayer.StoreModule.Mappers;
 
-import DataAccessLayer.StoreModule.InitMapper;
 import DataAccessLayer.StoreModule.objects.*;
 
 import java.util.LinkedList;
@@ -15,7 +14,7 @@ public class Mapper {
     private List<DefectsDl> defects;
 
     private Mapper(){
-        new InitMapper().initialize();
+        //new InitMapper().initialize();
         categories=new LinkedList<CategoryDl>();
         itemspecs=new LinkedList<ItemSpecsDl>();
         items=new LinkedList<ItemsDl>();
