@@ -147,10 +147,10 @@ public class Printer {
                         + "\t Phone: " + shipment.getDocuments().get(tracking).getDestination().getPhoneNumber()
                         + " (" + shipment.getDocuments().get(tracking).getDestination().getContactName() + ")"
         );
-        List<ItemDTO> products = shipment.getDocuments().get(tracking).getProducts();
+        List<ShippedItemDTO> products = shipment.getDocuments().get(tracking).getProducts();
         System.out.println(products.size() != 0 ? "\t This shipment contains:" : "This shipment has no items :(");
         int i = 0;
-        for (ItemDTO item : products) {
+        for (ShippedItemDTO item : products) {
             System.out.println(
                     "\t\t" + (i + 1) + ". " + item.getName() + "\t"
                             + "\tUnit Weight: " + item.getWeight()

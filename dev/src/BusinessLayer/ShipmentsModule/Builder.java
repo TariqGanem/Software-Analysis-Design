@@ -60,7 +60,7 @@ public class Builder {
         return new DriverDTO(driver.getId(), driver.getName(), driver.getAllowedWeight());
     }
 
-    public static Item build(ItemDTO item) {
+    public static Item build(ShippedItemDTO item) {
         Item itemBO= new Item(item.getName(), item.getAmount(), item.getWeight());
         itemBO.setDocumentId(item.getDocumentId());
         return itemBO;
@@ -91,15 +91,15 @@ public class Builder {
         return locations;
     }
 
-    public static List<Item> buildItemsList(List<ItemDTO> productsDTO) {
+    public static List<Item> buildItemsList(List<ShippedItemDTO> productsDTO) {
         List<Item> items = new LinkedList<>();
         productsDTO.forEach(p -> items.add(new Item(p.getName(), p.getAmount(), p.getWeight())));
         return items;
     }
 
-    public static List<ItemDTO> buildItemsListDTO(List<Item> products) {
-        List<ItemDTO> items = new LinkedList<>();
-        products.forEach(p -> items.add(new ItemDTO(p.getName(), p.getAmount(), p.getWeight())));
+    public static List<ShippedItemDTO> buildItemsListDTO(List<Item> products) {
+        List<ShippedItemDTO> items = new LinkedList<>();
+        products.forEach(p -> items.add(new ShippedItemDTO(p.getName(), p.getAmount(), p.getWeight())));
         return items;
     }
 
@@ -147,7 +147,7 @@ public class Builder {
         return locationDTOList;
     }
 
-    public static Map<Integer, List<Item>> buildItemsPerDestinations(Map<Integer, List<ItemDTO>> itemsDTO){
+    public static Map<Integer, List<Item>> buildItemsPerDestinations(Map<Integer, List<ShippedItemDTO>> itemsDTO){
         Map<Integer, List<Item>> items = new HashMap<>();
         for(Integer i: itemsDTO.keySet()){
             items.put(i, buildItemsList(itemsDTO.get(i)));

@@ -1,7 +1,7 @@
 package PresentationLayer.SuppliersMenu;
 
 import BusinessLayer.SuppliersModule.Application.Facade;
-import DTO.SupplierDTO;
+import DTOPackage.SupplierDTO;
 import BusinessLayer.SuppliersModule.Response.Response;
 import Enums.ContactMethod;
 

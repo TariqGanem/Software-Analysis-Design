@@ -2,7 +2,7 @@ package PresentationLayer.SuppliersMenu;
 
 import BusinessLayer.SuppliersModule.Application.Facade;
 import BusinessLayer.SuppliersModule.Response.Response;
-import DTO.ContractDTO;
+import DTOPackage.ContractDTO;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package DTO;
+package DTOPackage;
 
 import BusinessLayer.SuppliersModule.Objects.ContactPerson;
 import DataAccessLayer.SuppliersModule.Objects.Contact;

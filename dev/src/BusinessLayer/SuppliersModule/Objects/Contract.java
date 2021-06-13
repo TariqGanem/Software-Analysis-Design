@@ -1,7 +1,7 @@
 package BusinessLayer.SuppliersModule.Objects;
 
-import DTO.ContractDTO;
-import DTO.ItemDTO;
+import DTOPackage.ContractDTO;
+import DTOPackage.ItemDTO;
 
 import java.util.*;
 

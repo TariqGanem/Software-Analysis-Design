@@ -54,7 +54,7 @@ public class LocationMapper {
         location = new LocationDTO(id, address, phone, contactName);
         if (locationExists(address, phone, contactName)) {
             memory.getLocations().add(location);
-            throw new Exception("Location already exists in the database!");
+            //throw new Exception("Location already exists in the database!");
         }
         insertLocation(id, address, phone, contactName);
         memory.getLocations().add(location);

@@ -1,6 +1,9 @@
-package DTO;
+package DTOPackage;
+
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import BusinessLayer.SuppliersModule.Objects.Item;
@@ -16,37 +19,37 @@ public class OrderDTO {
     private final Map<Integer, Integer> amounts;
 
 
-    public OrderDTO(Order order){
+    public OrderDTO(Order order) {
         id = order.getId();
         status = order.getStatus();
         placementDate = order.getPlacementDate();
         dueDate = order.getOrderDate();
         items = new HashMap<>();
-        for (Map.Entry<Integer, Item> items:
-             order.getItems().entrySet()) {
+        for (Map.Entry<Integer, Item> items :
+                order.getItems().entrySet()) {
             this.items.put(items.getKey(), new ItemDTO(items.getValue()));
         }
         this.amounts = new HashMap<>();
-        for (Map.Entry<Integer, Integer> amounts:
+        for (Map.Entry<Integer, Integer> amounts :
                 order.getAmounts().entrySet()) {
-            this.amounts.put(amounts.getKey(),amounts.getValue());
+            this.amounts.put(amounts.getKey(), amounts.getValue());
         }
     }
 
-    public OrderDTO(DataAccessLayer.SuppliersModule.Objects.Order order){
+    public OrderDTO(DataAccessLayer.SuppliersModule.Objects.Order order) {
         this.id = order.getId();
         this.status = order.getStatus();
         this.placementDate = order.getPlacementDate();
         this.dueDate = order.getDuedate();
         this.items = new HashMap<>();
-        for (Map.Entry<Integer, DataAccessLayer.SuppliersModule.Objects.Item> items:
+        for (Map.Entry<Integer, DataAccessLayer.SuppliersModule.Objects.Item> items :
                 order.getItems().entrySet()) {
             this.items.put(items.getKey(), new ItemDTO(items.getValue()));
         }
         this.amounts = new HashMap<>();
-        for (Map.Entry<Integer, Integer> amounts:
+        for (Map.Entry<Integer, Integer> amounts :
                 order.getAmounts().entrySet()) {
-            this.amounts.put(amounts.getKey(),amounts.getValue());
+            this.amounts.put(amounts.getKey(), amounts.getValue());
         }
     }
 
@@ -74,7 +77,7 @@ public class OrderDTO {
         return amounts;
     }
 
-    public void setId(int id){
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -92,6 +95,18 @@ public class OrderDTO {
             output.append(item.getValue().toString()).append("\n");
         }
         return output.toString();
+    }
+
+    public List<ShippedItemDTO> getItemsForShipping() {
+        List<ShippedItemDTO> returnedItems = new LinkedList<>();
+        for (Integer itemID : items.keySet()) {
+            returnedItems.add(new ShippedItemDTO(
+                    items.get(itemID).getName(),
+                    amounts.get(itemID),
+                    items.get(itemID).getWeight()
+            ));
+        }
+        return returnedItems;
     }
 
 }

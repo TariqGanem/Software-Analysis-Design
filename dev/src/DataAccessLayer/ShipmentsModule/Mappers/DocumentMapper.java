@@ -1,7 +1,7 @@
 package DataAccessLayer.ShipmentsModule.Mappers;
 
 import DTOPackage.DocumentDTO;
-import DTOPackage.ItemDTO;
+import DTOPackage.ShippedItemDTO;
 import DataAccessLayer.ShipmentsModule.IdentityMap;
 import DataAccessLayer.dbMaker;
 
@@ -27,7 +27,7 @@ public class DocumentMapper {
         return instance;
     }
 
-    public DocumentDTO addDocument(int tracking, int destinationId, int shipmentId, List<ItemDTO> items) throws Exception {
+    public DocumentDTO addDocument(int tracking, int destinationId, int shipmentId, List<ShippedItemDTO> items) throws Exception {
         DocumentDTO document;
         for (DocumentDTO d : memory.getDocuments()) {
             if (d.getTrackingNumber() == tracking)
@@ -52,7 +52,7 @@ public class DocumentMapper {
         return docs;
     }
 
-    private void insertDocument(int tracking, int destinationId, int shipmentId, List<ItemDTO> items) throws Exception {
+    private void insertDocument(int tracking, int destinationId, int shipmentId, List<ShippedItemDTO> items) throws Exception {
         String sql = "INSERT INTO " + dbMaker.documentsTbl + "(trackingNumber, destinationId, shipmentId) VALUES (?,?,?)";
         try (Connection conn = dbMaker.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -60,7 +60,7 @@ public class DocumentMapper {
             pstmt.setInt(2, destinationId);
             pstmt.setInt(3, shipmentId);
             pstmt.executeUpdate();
-            for (ItemDTO item : items) {
+            for (ShippedItemDTO item : items) {
                 insertItem(tracking, item.getName(), item.getAmount(), item.getWeight());
             }
         } catch (Exception e) {
@@ -117,14 +117,14 @@ public class DocumentMapper {
         return docs;
     }
 
-    private List<ItemDTO> selectItems(int tracking) throws Exception {
-        List<ItemDTO> items = new LinkedList<>();
+    private List<ShippedItemDTO> selectItems(int tracking) throws Exception {
+        List<ShippedItemDTO> items = new LinkedList<>();
         String sql = "SELECT * FROM " + dbMaker.itemsTbl + " WHERE documentId=" + tracking;
         try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                ItemDTO item = new ItemDTO(
+                ShippedItemDTO item = new ShippedItemDTO(
                         rs.getString(2),
                         rs.getDouble(3),
                         rs.getDouble(4)

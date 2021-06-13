@@ -13,7 +13,6 @@ import Resources.Role;
 
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -111,7 +110,7 @@ public class Facade {
      * @param items_per_destination - List of items per each destination (Integer => destinationId)
      * @return response of type msg in case of any error
      */
-    public Response arrangeDelivery(Date orderDueDate, int sourceId, Map<Integer, List<ItemDTO>> items_per_destination) {
+    public Response arrangeDelivery(Date orderDueDate, int sourceId, Map<Integer, List<ShippedItemDTO>> items_per_destination) {
         try {
             Map<Integer, List<Item>> items = Builder.buildItemsPerDestinations(items_per_destination);
             double shipmentWeight = calculateShipmentWeight(items);

@@ -1,6 +1,6 @@
 package BusinessLayer.SuppliersModule.Objects;
 
-import DTO.ItemDTO;
+import DTOPackage.ItemDTO;
 
 public class Item {
     private final int id;

@@ -45,7 +45,7 @@ public class ShipmentDTO {
         return driverId;
     }
 
-    public void addDocument(int trackingNumber, List<ItemDTO> products, LocationDTO dest) {
+    public void addDocument(int trackingNumber, List<ShippedItemDTO> products, LocationDTO dest) {
         DocumentDTO d = new DocumentDTO(trackingNumber, products, dest);
         documents.put(trackingNumber, d);
     }

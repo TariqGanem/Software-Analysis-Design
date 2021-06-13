@@ -1,6 +1,6 @@
 package BusinessLayer.SuppliersModule.Objects;
 
-import DTO.ContactDTO;
+import DTOPackage.ContactDTO;
 import Enums.ContactMethod;
 
 import java.util.*;

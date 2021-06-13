@@ -1,6 +1,6 @@
 package DataAccessLayer.SuppliersModule.Mappers;
 
-import DTO.*;
+import DTOPackage.SupplierDTO;
 import DataAccessLayer.SuppliersModule.Objects.Contact;
 import DataAccessLayer.SuppliersModule.Objects.Supplier;
 import Enums.ContactMethod;

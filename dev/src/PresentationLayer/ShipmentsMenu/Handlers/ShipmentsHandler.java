@@ -1,15 +1,10 @@
 package PresentationLayer.ShipmentsMenu.Handlers;
 
-import BusinessLayer.ShipmentsModule.Builder;
 import BusinessLayer.ShipmentsModule.Facade;
 import BusinessLayer.Response;
 import BusinessLayer.ResponseT;
-import BusinessLayer.ShipmentsModule.Objects.Item;
-import BusinessLayer.ShipmentsModule.Objects.Shipment;
-import DTOPackage.DriverDTO;
-import DTOPackage.ItemDTO;
+import DTOPackage.ShippedItemDTO;
 import DTOPackage.ShipmentDTO;
-import DTOPackage.TruckDTO;
 
 import java.util.*;
 
@@ -36,7 +31,7 @@ public class ShipmentsHandler extends Handler {
         locationsHandler.viewAllLocations();
         int source = locationsHandler.chooseLocation().getId();
         System.out.printf("Add a list of destinations in order: \n");
-        Map<Integer, List<ItemDTO>> itemsPerDestination = getItemsPerDestination();
+        Map<Integer, List<ShippedItemDTO>> itemsPerDestination = getItemsPerDestination();
         double shipmentWeight = calculateShipmentWeight(itemsPerDestination);
         System.out.println("\n Your shipment weight is currently [ " + shipmentWeight + " ] Kg\n");
         Response res = facade.arrangeDelivery(date, source, itemsPerDestination);
@@ -83,8 +78,8 @@ public class ShipmentsHandler extends Handler {
         }
     }
 
-    private List<ItemDTO> getItems() {
-        List<ItemDTO> items = new LinkedList<>();
+    private List<ShippedItemDTO> getItems() {
+        List<ShippedItemDTO> items = new LinkedList<>();
         String itemName;
         double weight;
         double amount;
@@ -98,7 +93,7 @@ public class ShipmentsHandler extends Handler {
                 System.out.printf("\tItem's Amount: ");
                 amount = getInt();
                 System.out.println();
-                items.add(new ItemDTO(itemName, amount, weight));
+                items.add(new ShippedItemDTO(itemName, amount, weight));
                 printer.success("Item has been added!");
                 System.out.printf("\nAdd another item? [y/n]: ");
                 String another = scanner.nextLine();
@@ -112,8 +107,8 @@ public class ShipmentsHandler extends Handler {
         return items;
     }
 
-    private Map<Integer, List<ItemDTO>> getItemsPerDestination() {
-        Map<Integer, List<ItemDTO>> itemsPerDestination = new HashMap<>();
+    private Map<Integer, List<ShippedItemDTO>> getItemsPerDestination() {
+        Map<Integer, List<ShippedItemDTO>> itemsPerDestination = new HashMap<>();
         int locId;
         while (true) {
             try {
@@ -135,10 +130,10 @@ public class ShipmentsHandler extends Handler {
         return itemsPerDestination;
     }
 
-    private double calculateShipmentWeight(Map<Integer, List<ItemDTO>> items_per_location) {
+    private double calculateShipmentWeight(Map<Integer, List<ShippedItemDTO>> items_per_location) {
         double shipmentWeight = 0;
         for (Integer loc : items_per_location.keySet()) {
-            for (ItemDTO item : items_per_location.get(loc)) {
+            for (ShippedItemDTO item : items_per_location.get(loc)) {
                 shipmentWeight += item.getWeight() * item.getAmount();
             }
         }

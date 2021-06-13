@@ -35,7 +35,7 @@ public class MainMenu {
 
     public void run() {
         int input = -1;
-        while (input != 3) {
+        while (input != 5) {
             showOptions();
             input = getInput();
             switch (input) {

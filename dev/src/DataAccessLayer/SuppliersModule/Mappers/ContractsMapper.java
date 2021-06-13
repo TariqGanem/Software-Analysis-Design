@@ -1,6 +1,6 @@
 package DataAccessLayer.SuppliersModule.Mappers;
 
-import DTO.ContractDTO;
+import DTOPackage.ContractDTO;
 import DataAccessLayer.SuppliersModule.Objects.Contract;
 import DataAccessLayer.SuppliersModule.Objects.Item;
 import DataAccessLayer.SuppliersModule.Objects.QuantityReport;

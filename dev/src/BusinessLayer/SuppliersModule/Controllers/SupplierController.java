@@ -1,6 +1,6 @@
 package BusinessLayer.SuppliersModule.Controllers;
 
-import DTO.SupplierDTO;
+import DTOPackage.SupplierDTO;
 import BusinessLayer.SuppliersModule.Objects.SupplierCard;
 import DataAccessLayer.SuppliersModule.Mappers.SuppliersMapper;
 import Enums.ContactMethod;

@@ -86,7 +86,7 @@ public class Menu {
             if (validInput(inputL)) {
                 int input = Integer.parseInt(inputL);
                 handleSelection(input);
-                if (input == 11)
+                if (input == 12)
                     return;
                 viewMenuItems();
             }

@@ -2,7 +2,7 @@ package PresentationLayer.ShipmentsMenu;
 
 import BusinessLayer.ShipmentsModule.Facade;
 import BusinessLayer.Response;
-import DTOPackage.ItemDTO;
+import DTOPackage.ShippedItemDTO;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -73,15 +73,15 @@ public class DataInitializer {
         } catch (Exception e) {
         }
 
-        Map<Integer, List<ItemDTO>> itemsPerLocation = new HashMap<>();
-        List<ItemDTO> items1 = new LinkedList<>();
-        items1.add(new ItemDTO("creama", 3, 9));
-        items1.add(new ItemDTO("weed", 6, 7));
+        Map<Integer, List<ShippedItemDTO>> itemsPerLocation = new HashMap<>();
+        List<ShippedItemDTO> items1 = new LinkedList<>();
+        items1.add(new ShippedItemDTO("creama", 3, 9));
+        items1.add(new ShippedItemDTO("weed", 6, 7));
         itemsPerLocation.put(1, items1);
 
-        List<ItemDTO> items2 = new LinkedList<>();
-        items2.add(new ItemDTO("apple", 1, 4));
-        items2.add(new ItemDTO("bana", 6, 9));
+        List<ShippedItemDTO> items2 = new LinkedList<>();
+        items2.add(new ShippedItemDTO("apple", 1, 4));
+        items2.add(new ShippedItemDTO("bana", 6, 9));
         itemsPerLocation.put(2, items2);
 
         Response res = facade.arrangeDelivery(date, 4, itemsPerLocation);
@@ -95,15 +95,15 @@ public class DataInitializer {
         } catch (Exception e) {
         }
 
-        Map<Integer, List<ItemDTO>> itemsPerLocation = new HashMap<>();
-        List<ItemDTO> items1 = new LinkedList<>();
-        items1.add(new ItemDTO("Soda", 23, 4.8));
-        items1.add(new ItemDTO("weed", 6, 85));
+        Map<Integer, List<ShippedItemDTO>> itemsPerLocation = new HashMap<>();
+        List<ShippedItemDTO> items1 = new LinkedList<>();
+        items1.add(new ShippedItemDTO("Soda", 23, 4.8));
+        items1.add(new ShippedItemDTO("weed", 6, 85));
         itemsPerLocation.put(2, items1);
 
-        List<ItemDTO> items2 = new LinkedList<>();
-        items2.add(new ItemDTO("sprite", 6, 3));
-        items2.add(new ItemDTO("cigars", 25, 3));
+        List<ShippedItemDTO> items2 = new LinkedList<>();
+        items2.add(new ShippedItemDTO("sprite", 6, 3));
+        items2.add(new ShippedItemDTO("cigars", 25, 3));
         itemsPerLocation.put(1, items2);
 
         Response res = facade.arrangeDelivery(date, 3, itemsPerLocation);

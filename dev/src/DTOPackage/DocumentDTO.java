@@ -4,10 +4,10 @@ import java.util.List;
 
 public class DocumentDTO {
     private int trackingNumber;
-    private List<ItemDTO> products;
+    private List<ShippedItemDTO> products;
     private LocationDTO destination;
 
-    public DocumentDTO(int trackingNumber, List<ItemDTO> products, LocationDTO destination) {
+    public DocumentDTO(int trackingNumber, List<ShippedItemDTO> products, LocationDTO destination) {
         this.trackingNumber = trackingNumber;
         this.products = products;
         this.destination = destination;
@@ -17,7 +17,7 @@ public class DocumentDTO {
         return trackingNumber;
     }
 
-    public List<ItemDTO> getProducts() {
+    public List<ShippedItemDTO> getProducts() {
         return products;
     }
 
@@ -27,7 +27,7 @@ public class DocumentDTO {
 
     public double getWeight() {
         double weight = 0;
-        for (ItemDTO item : products) {
+        for (ShippedItemDTO item : products) {
             weight += item.getWeight() * item.getAmount();
         }
         return weight;

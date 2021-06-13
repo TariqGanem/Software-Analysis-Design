@@ -1,7 +1,7 @@
 package BusinessLayer.SuppliersModule.Objects;
 
-import DTO.ItemDTO;
-import DTO.OrderDTO;
+import DTOPackage.ItemDTO;
+import DTOPackage.OrderDTO;
 import Enums.Status;
 
 import java.time.LocalDate;

@@ -30,7 +30,7 @@ public class dbMaker {
 
     public static String categorytbl = "Category";
     public static String itemspecstbl = "ItemSpecs";
-    public static String itemstbl = "Items_Store";
+    public static String itemstbl = "Items";
     public static String reportstbl = "Reports";
     public static String defectstbl = "Defects";
 

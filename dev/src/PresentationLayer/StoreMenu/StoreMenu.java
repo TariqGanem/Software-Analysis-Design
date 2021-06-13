@@ -28,7 +28,7 @@ example of category serial number 4531000000 - sub category it is id is 453
                 while (!toStop) {
                     System.out.println("Please choose an operation to procces:\n1)Add an item\n2)Remove item or category\n3)Add discount\n"
                             + "4)Add category\n5)Add sub-category\n6)Add defect item\n7)Add minimum attribute for item\n"
-                            + "8)Make report\n9)Transfer items\n10)Remove discount\n11)Status\n12)itesm until this expdate\n13)refresh Storage\n14)make an order\n15)Exist");
+                            + "8)Make report\n9)Transfer items\n10)Remove discount\n11)Status\n12)itesm until this expdate\n13)refresh Storage\n14)make an order\n15)Exit");
                     option = scanner.nextInt();
                     if (option == 1) {
                         addingItem();

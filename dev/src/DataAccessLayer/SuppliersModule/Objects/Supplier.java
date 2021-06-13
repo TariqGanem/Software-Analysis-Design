@@ -1,7 +1,7 @@
 package DataAccessLayer.SuppliersModule.Objects;
 
-import DTO.ContactDTO;
-import DTO.SupplierDTO;
+import DTOPackage.ContactDTO;
+import DTOPackage.SupplierDTO;
 import Enums.ContactMethod;
 
 import java.util.HashMap;

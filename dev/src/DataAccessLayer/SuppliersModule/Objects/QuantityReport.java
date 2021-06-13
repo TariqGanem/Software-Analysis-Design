@@ -1,7 +1,7 @@
 package DataAccessLayer.SuppliersModule.Objects;
 
 
-import DTO.QuantityReportDTO;
+import DTOPackage.QuantityReportDTO;
 
 import java.util.HashMap;
 import java.util.Map;

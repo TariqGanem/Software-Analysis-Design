@@ -1,6 +1,6 @@
 package DataAccessLayer.SuppliersModule.Objects;
 
-import DTO.ItemDTO;
+import DTOPackage.ItemDTO;
 
 public class Item {
     private int id;

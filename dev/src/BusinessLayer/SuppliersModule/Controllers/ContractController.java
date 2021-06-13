@@ -1,7 +1,7 @@
 package BusinessLayer.SuppliersModule.Controllers;
 
 import BusinessLayer.SuppliersModule.Objects.Item;
-import DTO.ContractDTO;
+import DTOPackage.ContractDTO;
 import BusinessLayer.SuppliersModule.Objects.Contract;
 import DataAccessLayer.SuppliersModule.Mappers.ContractsMapper;
 

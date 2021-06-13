@@ -1,7 +1,7 @@
 package DataAccessLayer.SuppliersModule.Mappers;
 
-import DTO.ItemDTO;
-import DTO.OrderDTO;
+import DTOPackage.ItemDTO;
+import DTOPackage.OrderDTO;
 import DataAccessLayer.SuppliersModule.Objects.Order;
 import Enums.Status;
 
