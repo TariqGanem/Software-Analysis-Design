@@ -123,11 +123,13 @@ public class ShiftController {
         if (shift == null)
             return false;
 
-        for (List<String> ids: shift.getPositions().values()) {
-            for (String id: ids) {
-                shift.removeFromShift(id);
-            }
+        for (String id : shift.getPositions().get(Role.Driver)) {
+            new ShipmentsEmployeesAPI().deleteShipmentWithDriver(id, shift.getDate(), shift.isMorning());
         }
+        for (String id : shift.getPositions().get(Role.StoreKeeper)) {
+            new ShipmentsEmployeesAPI().deleteShipmentWithStoreKeeper(shift.getDate(), shift.isMorning());
+        }
+
         boolean success = shifts.remove(shift);
         if (success)
             activeShift = null;
