@@ -25,7 +25,7 @@ example of category serial number 4531000000 - sub category it is id is 453
                 while (!toStop) {
                     System.out.println("Please choose an operation to procces:\n1)Add an item\n2)Remove item or category\n3)Add discount\n"
                             + "4)Add category\n5)Add sub-category\n6)Add defect item\n7)Add minimum attribute for item\n"
-                            + "8)Make report\n9)Transfer items\n10)Remove discount\n11)Status\n12)itesm until this expdate\n13)refresh Storage\n14)Exist");
+                            + "8)Make report\n9)Transfer items\n10)Remove discount\n11)Status\n12)itesm until this expdate\n13)refresh Storage\n14)make an order\n15)Exist");
                     option = scanner.nextInt();
                     if (option == 1) {
                         addingItem();
@@ -55,14 +55,39 @@ example of category serial number 4531000000 - sub category it is id is 453
                     else if(option == 13){
                         RefreshStorage();
                     }
-                    else if (option == 14) {
+                    else if(option == 14){
+                        makingOrder();
+                    }
+                    else if (option == 15) {
                         toStop = true;
                     } else {
                         System.out.println("Wrong choice");
                     }
                 }
             }
-        public void RefreshStorage(){
+
+    private void makingOrder() {
+        Scanner scanner = new Scanner(System.in);
+        String itemName = "";
+        String categoryName = "";
+        int amount = 0;
+        System.out.println("Please Enter item's category name to order");
+        categoryName = scanner.nextLine();
+        System.out.println("Please Enter item's name to order");
+        itemName = scanner.nextLine();
+        Response res = facade.CheckIfItemExist(categoryName, itemName);
+        if(!res.isError()){
+            System.out.println("Please Enter amount to order");
+            amount = scanner.nextInt();
+            facade.makingOrder(itemName, amount);
+            System.out.println("order finished successfully");
+        }
+        else{
+            System.out.println("Item does not exist");
+        }
+    }
+
+    public void RefreshStorage(){
             Scanner scanner = new Scanner(System.in);
             String date;
             System.out.println("Please Enter today's date in this format: dd/mm/yyyy");

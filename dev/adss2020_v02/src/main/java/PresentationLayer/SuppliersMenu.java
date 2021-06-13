@@ -27,6 +27,8 @@ public class SuppliersMenu implements Menu {
                         String Manifactur_name = sc.nextLine();
                         System.out.print("Enter company id: ");
                         int company_id = Integer.parseInt(sc.nextLine());
+                        System.out.print("Enter phone: ");
+                        int phone = Integer.parseInt(sc.nextLine());
                         System.out.print("Enter bank account: ");
                         int bank_account = Integer.parseInt(sc.nextLine());
                         System.out.print("Enter payment conditions: ");
@@ -35,7 +37,7 @@ public class SuppliersMenu implements Menu {
                         String contract_type = sc.nextLine();
                         System.out.print("Enter self pickup(true/false): ");
                         boolean selfpickup = Boolean.parseBoolean(sc.nextLine());
-                        Response supplier = facade.AddSupplier(supplier_name, Manifactur_name, company_id, bank_account,
+                        Response supplier = facade.AddSupplier(supplier_name, Manifactur_name, company_id, phone, bank_account,
                                 payment_conditions, contract_type, selfpickup);
                         if (supplier.isError())
                             System.out.println(supplier.getErrorMessage());

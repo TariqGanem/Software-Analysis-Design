@@ -137,7 +137,9 @@ public class ContractsMenu implements Menu {
                         String name = sc.nextLine();
                         System.out.print("Please enter Item's price: ");
                         double price = Double.parseDouble(sc.nextLine());
-                        Response contract = facade.AddItem(company_id, item_id, name, price);
+                        System.out.print("Please enter Item's weight(grams): ");
+                        double weight = Double.parseDouble(sc.nextLine());
+                        Response contract = facade.AddItem(company_id, item_id, name, price,weight);
                         if (contract.isError())
                             System.out.println(contract.getErrorMessage());
                         else

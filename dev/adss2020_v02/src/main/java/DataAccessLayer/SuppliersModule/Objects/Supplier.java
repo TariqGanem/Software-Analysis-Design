@@ -11,17 +11,19 @@ public class Supplier {
     private String name;
     private String manifactur;
     private int company_id;
+    private int phone;
     private int bankAccount;
     private String paymentConditions;
     private String orderType;
     private boolean selfPickup;
     private Map<String, Contact> contacts;
 
-    public Supplier(String name, String manifactur, int company_id, int BankAccount,
+    public Supplier(String name, String manifactur, int company_id, int phone, int BankAccount,
                     String paymentConditions, String orderType, boolean selfPickup, Map<String, Contact> contacts) {
         this.name = name;
         this.manifactur = manifactur;
         this.company_id = company_id;
+        this.phone = phone;
         this.bankAccount = BankAccount;
         this.paymentConditions = paymentConditions;
         this.orderType = orderType;
@@ -33,6 +35,7 @@ public class Supplier {
         this.name = dto.getName();
         this.manifactur = dto.getManifactur();
         this.company_id = dto.getCompany_id();
+        this.phone = dto.getPhone();
         this.bankAccount = dto.getBankAccount();
         this.paymentConditions = dto.getPaymentConditions();
         this.orderType = dto.getOrderType();
@@ -102,6 +105,10 @@ public class Supplier {
 
     public int getCompany_id() {
         return company_id;
+    }
+
+    public int getPhone(){
+        return phone;
     }
 
     public Map<String, Contact> getContacts() {

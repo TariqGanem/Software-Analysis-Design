@@ -76,10 +76,10 @@ public class Contract {
      * @param price is the price of the item.
      * @throws Exception if there is already an item with this id in the contract so that's an error.
      */
-    public void AddItem(int item_id, String name, double price) throws Exception {
+    public void AddItem(int item_id, String name, double price, double weight) throws Exception {
         if (items.containsKey(item_id))
             throw new Exception("The contract already have an item with this id!!!");
-        items.put(item_id, new Item(item_id, name, price));
+        items.put(item_id, new Item(item_id, name, price,weight));
     }
 
     /***

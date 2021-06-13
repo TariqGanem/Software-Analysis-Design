@@ -154,9 +154,11 @@ public class BusinessController {
     public void checkIfItExist(String cname,String iname) throws Exception {
             boolean result = false;
             Category cat=findSpecificCategory(cname);
-            for(ItemSpecs item : cat.getItemSpecs()){
-                if(item.getName().equals(iname)){
-                    result = true;
+            if(cat != null) {
+                for(ItemSpecs item : cat.getItemSpecs()){
+                    if(item.getName().equals(iname)){
+                        result = true;
+                    }
                 }
             }
             if(!result){
@@ -684,6 +686,37 @@ public class BusinessController {
                     int orderId = OrderController.getInstance().openSingleOrder(supplierId, LocalDate.now().plusDays(1)).getId();
 
                     OrderController.getInstance().addItemToOrder(orderId, ContractController.getInstance().getItem(supplierId,item.getName()), item.getMinAmount());
+                    try {
+                        OrderController.getInstance().placeAnOrder(orderId);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    public void makingOrder(String itemName, int amount) throws Exception {
+        for(Category category : allCategories){
+            for(ItemSpecs item : category.getItemSpecs()){
+                if(item.getName().equals(itemName)){
+                    Map<Integer, Contract> map = ContractController.getInstance().ContractsOfItem(item.getName());
+                    double price = -1;
+                    int supplierId = 0;
+                    for(Map.Entry<Integer, Contract> entry : map.entrySet()){
+                        if(price == -1){
+                            price = entry.getValue().finalPrice(item.getName(), item.getMinAmount());
+                            supplierId = entry.getKey();
+                        }
+                        else{
+                            if(price > entry.getValue().finalPrice(item.getName(),item.getMinAmount())){
+                                price = entry.getValue().finalPrice(item.getName(),item.getMinAmount());
+                                supplierId = entry.getKey();
+                            }
+                        }
+                    }
+                    int orderId = OrderController.getInstance().openSingleOrder(supplierId, LocalDate.now().plusDays(1)).getId();
+                    OrderController.getInstance().addItemToOrder(orderId,ContractController.getInstance().getItem(supplierId,itemName),amount);
                     try {
                         OrderController.getInstance().placeAnOrder(orderId);
                     } catch (Exception e) {

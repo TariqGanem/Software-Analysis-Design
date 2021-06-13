@@ -12,17 +12,19 @@ public class SupplierDTO {
     private String name;
     private String manifactur;
     private int company_id;
+    private int phone;
     private int bankAccount;
     private String paymentConditions;
     private String orderType;
     private boolean selfPickup;
     private Map<String, ContactDTO> contacts;
 
-    public SupplierDTO(String name, String manifactur, int company_id, int BankAccount,
+    public SupplierDTO(String name, String manifactur, int company_id, int phone, int BankAccount,
                         String paymentConditions, String orderType, boolean selfPickup, Map<String, ContactDTO> contacts) {
         this.name = name;
         this.manifactur = manifactur;
         this.company_id = company_id;
+        this.phone = phone;
         this.bankAccount = BankAccount;
         this.paymentConditions = paymentConditions;
         this.orderType = orderType;
@@ -34,6 +36,7 @@ public class SupplierDTO {
         name = supplierCard.getName();
         manifactur = supplierCard.getManifactur();
         company_id = supplierCard.getCompany_id();
+        phone = supplierCard.getPhone();
         bankAccount = supplierCard.getBankAccount();
         orderType = supplierCard.getOrderType();
         selfPickup = supplierCard.isSelfPickup();
@@ -50,6 +53,7 @@ public class SupplierDTO {
         this.name = supplier.getName();
         this.manifactur = supplier.getManifactur();
         this.company_id = supplier.getCompany_id();
+        this.phone = supplier.getPhone();
         this.bankAccount = supplier.getBankAccount();
         this.orderType = supplier.getOrderType();
         this.selfPickup = supplier.isSelfPickup();
@@ -67,6 +71,7 @@ public class SupplierDTO {
                 "name: " + name + '\n' +
                 "manifactur: " + manifactur + '\n' +
                 "company_id: " + company_id + '\n' +
+                "phone: " + phone + '\n' +
                 "bankAccount: " + bankAccount + '\n' +
                 "paymentConditions: " + paymentConditions + '\n' +
                 "orderType: " + orderType + '\n' +
@@ -99,6 +104,10 @@ public class SupplierDTO {
 
     public int getCompany_id() {
         return company_id;
+    }
+
+    public int getPhone() {
+        return phone;
     }
 
     public String getManifactur() {

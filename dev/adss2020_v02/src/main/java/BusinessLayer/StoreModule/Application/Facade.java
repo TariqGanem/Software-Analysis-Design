@@ -27,7 +27,7 @@ public class Facade {
              bc.checkIfCatExist(cname);
              return new Response();
         }catch (Exception e){
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -36,7 +36,7 @@ public class Facade {
             bc.checkIfItExist(cname,iname);
             return new Response();
         }catch (Exception e){
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(),null);
         }
     }
 
@@ -45,7 +45,7 @@ public class Facade {
             bc.AddNewAmount(cname,iname,amount,expdate);
             return new Response();
         }catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -63,7 +63,7 @@ public class Facade {
             bc.addItem(iname,cname, amount,minamount,expdate,manufacture,companyprice,storePrice,discount);
             return new Response();
         }catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -72,7 +72,7 @@ public class Facade {
             bc.addingDiscount(cname, iname, discount);
             return new Response();
         }catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -81,7 +81,7 @@ public class Facade {
             bc.checkAmount(cname,iname, amount);
             return new Response();
         }catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -90,7 +90,7 @@ public class Facade {
             bc.addingDefectItem(cname,iname, date, amount, defectReason);
             return new Response();
         }catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -99,7 +99,7 @@ public class Facade {
             bc.ifEnough1(cname,iname,amount,date);
             return new Response();
         }catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -108,7 +108,7 @@ public class Facade {
             bc.checkExp(iname,cname,exp);
             return new Response();
         }catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -117,7 +117,7 @@ public class Facade {
             bc.addingMinimumAttributeItem(cname,iname, min);
             return new Response();
         }catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -126,7 +126,7 @@ public class Facade {
             bc.makingCategoryReport(cname, date,desc);
             return new Response();
         }catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -135,7 +135,7 @@ public class Facade {
             bc.makingDefectReport(date,desc);
             return new Response();
         }catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -144,7 +144,7 @@ public class Facade {
             bc.makingItemReport(cname,iname, date,desc);
             return new Response();
         }catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -153,7 +153,7 @@ public class Facade {
             bc.makingLackReport(desc,date);
             return new Response();
         }catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -162,7 +162,7 @@ public class Facade {
             bc.checkCategoryNameLegality(subCategoryName);
             return new Response();
         }catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -179,7 +179,7 @@ public class Facade {
             bc.transferItems(cname,iname,date, amount);
             return new Response();
         }catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -188,7 +188,7 @@ public class Facade {
             bc.ifEnough2(cname,iname,amount);
             return new Response();
         }catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -197,7 +197,7 @@ public class Facade {
             this.bc.removeDiscount(cname, o);
             return new Response();
         }catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -206,7 +206,7 @@ public class Facade {
             bc.refresh(date);
             return new Response();
         }catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -219,7 +219,7 @@ public class Facade {
             bc.removeCategoryOrItem(cname, iname);
             return new Response();
         }catch (Exception e) {
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
         }
     }
 
@@ -228,7 +228,16 @@ public class Facade {
             bc.makeMinOrder();
             return new Response();
         }catch(Exception e){
-            return new Response(e.getMessage());
+            return new Response(e.getMessage(), null);
+        }
+    }
+
+    public Response makingOrder(String itemName, int amount) {
+        try{
+            bc.makingOrder(itemName, amount);
+            return new Response();
+        }catch (Exception e){
+            return new Response(e.getMessage(), null);
         }
     }
 }

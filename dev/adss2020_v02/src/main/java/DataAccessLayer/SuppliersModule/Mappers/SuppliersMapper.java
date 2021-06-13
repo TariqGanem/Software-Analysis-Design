@@ -18,8 +18,9 @@ public class SuppliersMapper extends Mapper{
         try {
             Statement stmt = connection.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS suppliers " +
-                    "(companyId INT PRIMARY KEY    NOT NULL, " +
+                    "(companyId INT PRIMARY KEY   NOT NULL, " +
                     "name                 TEXT    NOT NULL, " +
+                    "phone                INT     NOT NULL, " +
                     "manifactur           TEXT    NOT NULL, " +
                     "bankAccount          INT     NOT NULL, " +
                     "paymentConditions    TEXT    NOT NULL, " +
@@ -95,6 +96,7 @@ public class SuppliersMapper extends Mapper{
                             new Supplier(rs2.getString("name"),
                                     rs2.getString("manifactur"),
                                     rs2.getInt("companyId"),
+                                    rs2.getInt("phone"),
                                     rs2.getInt("bankAccount"),
                                     rs2.getString("paymentConditions"),
                                     rs2.getString("orderType"),
@@ -122,19 +124,20 @@ public class SuppliersMapper extends Mapper{
 
     public void add(SupplierDTO supplier){
         try {
-            String sql = "INSERT INTO suppliers (companyId,name,manifactur,bankAccount,paymentConditions,orderType,selfPickup) " +
-                    "VALUES (?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO suppliers (companyId,name,phone,manifactur,bankAccount,paymentConditions,orderType,selfPickup) " +
+                    "VALUES (?,?,?,?,?,?,?,?)";
             connection = connect();
             //====================================================
             //entering values
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1,supplier.getCompany_id());
             pstmt.setString(2,supplier.getName());
-            pstmt.setString(3, supplier.getManifactur());
-            pstmt.setInt(4,supplier.getBankAccount());
-            pstmt.setString(5, supplier.getPaymentConditions());
-            pstmt.setString(6,supplier.getOrderType());
-            pstmt.setInt(7,supplier.isSelfPickup()? 1:0);
+            pstmt.setInt(3, supplier.getPhone());
+            pstmt.setString(4, supplier.getManifactur());
+            pstmt.setInt(5,supplier.getBankAccount());
+            pstmt.setString(6, supplier.getPaymentConditions());
+            pstmt.setString(7,supplier.getOrderType());
+            pstmt.setInt(8,supplier.isSelfPickup()? 1:0);
             pstmt.executeUpdate();
             //====================================================
             //updating in the HashMap

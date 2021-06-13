@@ -49,10 +49,10 @@ public class Facade {
      * @param SelfPickup its value is true or false, if the supplier is picking up the orders by himself or not.
      * @return the response of the system. if the there is already a supplier that works with the same company so that's an error.
      */
-    public Response AddSupplier(String name, String Manifactur, int company_id, int BankAccount,
+    public Response AddSupplier(String name, String Manifactur, int company_id, int phone, int BankAccount,
                                 String PaymentConditions, String OrderType, boolean SelfPickup) {
         try {
-            sc.AddSupplier(name, Manifactur, company_id, BankAccount,
+            sc.AddSupplier(name, Manifactur, company_id, phone, BankAccount,
                     PaymentConditions, OrderType, SelfPickup);
             cc.AddContract(company_id, SelfPickup);
             return new Response();
@@ -263,9 +263,9 @@ public class Facade {
      * @return the response of the system. if the there is no a supplier that works with the same company so that's an error.
      * also if there is already an item with this id in the contract so that's an error.
      */
-    public Response AddItem(int company_id, int item_id, String name, double price) {
+    public Response AddItem(int company_id, int item_id, String name, double price, double weight) {
         try {
-            cc.AddItem(company_id, item_id, name, price);
+            cc.AddItem(company_id, item_id, name, price, weight);
             return new Response();
         } catch (Exception e) {
             return new Response(e);

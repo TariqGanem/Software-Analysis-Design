@@ -34,9 +34,9 @@ public class Contract {
         }
     }
 
-    public void addItem(int itemid, String name, double price) {
+    public void addItem(int itemid, String name, double price, double weight) {
         if(!items.containsKey(itemid)){
-            items.put(itemid,new Item(itemid,name,price));
+            items.put(itemid,new Item(itemid,name,price,weight));
         }
     }
 

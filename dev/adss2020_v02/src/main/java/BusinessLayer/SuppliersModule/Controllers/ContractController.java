@@ -77,12 +77,12 @@ public class ContractController {
      * @throws Exception if the there is no a supplier that works with the same company so that's an error.
      * also if there is already an item with this id in the contract so that's an error.
      */
-    public void AddItem(int company_id, int item_id, String name, double price) throws Exception {
+    public void AddItem(int company_id, int item_id, String name, double price, double weight) throws Exception {
         if (mapper.getContract(company_id) == null)
             throw new Exception("There's no contract with this company id!!!");
         Contract contract = new Contract(mapper.getContract(company_id));
-        contract.AddItem(item_id, name, price);
-        mapper.addItem(company_id, item_id, name, price);
+        contract.AddItem(item_id, name, price, weight);
+        mapper.addItem(company_id, item_id, name, price,weight);
     }
 
     /***

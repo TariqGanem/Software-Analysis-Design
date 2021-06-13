@@ -11,17 +11,19 @@ public class SupplierCard {
     private String name;
     private String manifactur;
     private final int company_id;
+    private int phone;
     private int bankAccount;
     private String paymentConditions;
     private String orderType;
     private boolean selfPickup;
     private final Map<String, ContactPerson> contacts;
 
-    public SupplierCard(String name, String manifactur, int company_id, int BankAccount,
+    public SupplierCard(String name, String manifactur, int company_id, int phone, int BankAccount,
                         String paymentConditions, String orderType, boolean selfPickup) {
         this.name = name;
         this.manifactur = manifactur;
         this.company_id = company_id;
+        this.phone = phone;
         this.bankAccount = BankAccount;
         this.paymentConditions = paymentConditions;
         this.orderType = orderType;
@@ -33,6 +35,7 @@ public class SupplierCard {
         name = supplier.getName();
         manifactur = supplier.getManifactur();
         company_id = supplier.getCompany_id();
+        phone = supplier.getPhone();
         bankAccount = supplier.getBankAccount();
         paymentConditions = supplier.getPaymentConditions();
         orderType = supplier.getOrderType();
@@ -53,6 +56,10 @@ public class SupplierCard {
 
     public int getCompany_id() {
         return company_id;
+    }
+
+    public int getPhone(){
+        return phone;
     }
 
     public String getManifactur() {

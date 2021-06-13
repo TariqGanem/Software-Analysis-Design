@@ -32,11 +32,11 @@ public class SupplierController {
      * @param selfPickup its value is true or false, if the supplier is picking up the orders by himself or not.
      * @throws Exception if the there is already a supplier that works with the same company so that's an error.
      */
-    public void AddSupplier(String name, String manifactur, int company_id, int BankAccount,
+    public void AddSupplier(String name, String manifactur, int company_id, int phone, int BankAccount,
                             String paymentConditions, String orderType, boolean selfPickup) throws Exception {
         if (mapper.getSupplier(company_id) != null)
             throw new Exception("There's already supplier working with this company!!!");
-        mapper.add(new SupplierDTO(new SupplierCard(name, manifactur, company_id,
+        mapper.add(new SupplierDTO(new SupplierCard(name, manifactur, company_id, phone,
                 BankAccount, paymentConditions, orderType, selfPickup)));
     }
 

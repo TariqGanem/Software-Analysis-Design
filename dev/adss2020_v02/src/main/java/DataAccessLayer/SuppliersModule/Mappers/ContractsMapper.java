@@ -40,6 +40,7 @@ public class ContractsMapper extends Mapper{
                     "itemId    INT  NOT NULL," +
                     "name      TEXT NOT NULL," +
                     "price     REAL NOT NULL," +
+                    "weight    REAL NOT NULL," +
                     "PRIMARY KEY (itemId,companyId)," +
                     "FOREIGN KEY(companyId) REFERENCES suppliers(companyId))";
             stmt.executeUpdate(sql);
@@ -94,7 +95,8 @@ public class ContractsMapper extends Mapper{
                     items.putIfAbsent(rs_items.getInt("itemId"),
                             new Item(rs_items.getInt("itemId"),
                                         rs_items.getString("name"),
-                                        rs_items.getDouble("price")));
+                                        rs_items.getDouble("price"),
+                                        rs_items.getDouble("weight")));
                 }
                 //===============================================================
                 String sql = "SELECT * FROM contracts WHERE companyId = " + companyid;
@@ -177,10 +179,10 @@ public class ContractsMapper extends Mapper{
         }
     }
 
-    public void addItem(int companyid, int itemid, String name, double price){
+    public void addItem(int companyid, int itemid, String name, double price, double weight){
         try {
-            String sql = "INSERT INTO items (companyId,itemid,name,price) " +
-                    "VALUES (?,?,?,?)";
+            String sql = "INSERT INTO items (companyId,itemid,name,price,weight) " +
+                    "VALUES (?,?,?,?,?)";
             connection = connect();
             //====================================================
             //entering values
@@ -189,11 +191,12 @@ public class ContractsMapper extends Mapper{
             pstmt.setInt(2,itemid);
             pstmt.setString(3,name);
             pstmt.setDouble(4,price);
+            pstmt.setDouble(5,weight);
             pstmt.executeUpdate();
             //====================================================
             //updating in the HashMap
             if(contracts.containsKey(companyid)){
-                contracts.get(companyid).addItem(itemid,name,price);
+                contracts.get(companyid).addItem(itemid,name,price,weight);
             }
             //====================================================
             pstmt.close();
