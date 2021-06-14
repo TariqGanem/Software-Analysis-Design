@@ -2,7 +2,7 @@ package BusinessLayer.SuppliersModule.Objects;
 
 import DTOPackage.ContactDTO;
 import DTOPackage.SupplierDTO;
-import Enums.ContactMethod;
+import Resources.ContactMethod;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,14 +11,14 @@ public class SupplierCard {
     private String name;
     private String manifactur;
     private final int company_id;
-    private int phone;
+    private String phone;
     private int bankAccount;
     private String paymentConditions;
     private String orderType;
     private boolean selfPickup;
     private final Map<String, ContactPerson> contacts;
 
-    public SupplierCard(String name, String manifactur, int company_id, int phone, int BankAccount,
+    public SupplierCard(String name, String manifactur, int company_id, String phone, int BankAccount,
                         String paymentConditions, String orderType, boolean selfPickup) {
         this.name = name;
         this.manifactur = manifactur;
@@ -58,7 +58,7 @@ public class SupplierCard {
         return company_id;
     }
 
-    public int getPhone(){
+    public String getPhone(){
         return phone;
     }
 

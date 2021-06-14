@@ -2,7 +2,7 @@ package DataAccessLayer.SuppliersModule.Objects;
 
 import DTOPackage.ContactDTO;
 import DTOPackage.SupplierDTO;
-import Enums.ContactMethod;
+import Resources.ContactMethod;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,14 +11,14 @@ public class Supplier {
     private String name;
     private String manifactur;
     private int company_id;
-    private int phone;
+    private String phone;
     private int bankAccount;
     private String paymentConditions;
     private String orderType;
     private boolean selfPickup;
     private Map<String, Contact> contacts;
 
-    public Supplier(String name, String manifactur, int company_id, int phone, int BankAccount,
+    public Supplier(String name, String manifactur, int company_id, String phone, int BankAccount,
                     String paymentConditions, String orderType, boolean selfPickup, Map<String, Contact> contacts) {
         this.name = name;
         this.manifactur = manifactur;
@@ -107,7 +107,7 @@ public class Supplier {
         return company_id;
     }
 
-    public int getPhone(){
+    public String getPhone(){
         return phone;
     }
 

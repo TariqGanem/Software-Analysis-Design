@@ -1,13 +1,10 @@
 package BusinessLayer.SuppliersModule.Controllers;
 
 import APIs.ShipmentsSuppliersAPI;
-import BusinessLayer.SuppliersModule.Objects.FixedOrder;
-import BusinessLayer.SuppliersModule.Objects.Item;
-import BusinessLayer.SuppliersModule.Objects.Order;
-import BusinessLayer.SuppliersModule.Objects.SingleOrder;
+import BusinessLayer.SuppliersModule.Objects.*;
 import DTOPackage.OrderDTO;
 import DataAccessLayer.SuppliersModule.Mappers.OrdersMapper;
-import Enums.Status;
+import Resources.Status;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -51,7 +48,8 @@ public class OrderController {
             Order orderToPlace = inPrepareOrders.remove(orderID);
             orderToPlace.setNewStatus(Status.Active);
             activeOrders.put(orderToPlace.getId(), orderToPlace);
-            //new ShipmentsSuppliersAPI().scheduleShipment();
+            SupplierCard supplier = SupplierController.getInstance().getSupplier(order_Vs_supplier.get(orderID));
+            new ShipmentsSuppliersAPI().scheduleShipment(supplier.getManifactur(),supplier.getPhone(),supplier.getName(),new OrderDTO(orderToPlace));
         }
         else {
             throw new Exception("Order is not prepared!");

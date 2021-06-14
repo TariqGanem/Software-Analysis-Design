@@ -1,6 +1,6 @@
 package BusinessLayer.SuppliersModule.Objects;
 
-import Enums.Status;
+import Resources.Status;
 
 import java.time.LocalDate;
 

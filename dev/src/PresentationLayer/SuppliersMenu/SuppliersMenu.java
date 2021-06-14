@@ -1,11 +1,14 @@
 package PresentationLayer.SuppliersMenu;
 
+import APIs.EmployeesSuppliersAPI;
 import BusinessLayer.SuppliersModule.Application.Facade;
 import DTOPackage.SupplierDTO;
 import BusinessLayer.SuppliersModule.Response.Response;
-import Enums.ContactMethod;
+import Resources.ContactMethod;
 
 import java.util.Scanner;
+
+import static Resources.Role.*;
 
 public class SuppliersMenu implements Menu {
     private final Facade facade = Facade.getInstance();
@@ -16,83 +19,118 @@ public class SuppliersMenu implements Menu {
         Scanner sc = new Scanner(System.in);
         int opt;
         while (!terminate) {
-            menu_options();
-            opt = Integer.parseInt(sc.nextLine());
-            switch (opt) {
-                case 1:
-                    try {
-                        System.out.print("Enter Supplier's name: ");
-                        String supplier_name = sc.nextLine();
-                        System.out.print("Enter Manufactures name: ");
-                        String Manifactur_name = sc.nextLine();
-                        System.out.print("Enter company id: ");
-                        int company_id = Integer.parseInt(sc.nextLine());
-                        System.out.print("Enter phone: ");
-                        int phone = Integer.parseInt(sc.nextLine());
-                        System.out.print("Enter bank account: ");
-                        int bank_account = Integer.parseInt(sc.nextLine());
-                        System.out.print("Enter payment conditions: ");
-                        String payment_conditions = sc.nextLine();
-                        System.out.print("Enter contract type: ");
-                        String contract_type = sc.nextLine();
-                        System.out.print("Enter self pickup(true/false): ");
-                        boolean selfpickup = Boolean.parseBoolean(sc.nextLine());
-                        Response supplier = facade.AddSupplier(supplier_name, Manifactur_name, company_id, phone, bank_account,
-                                payment_conditions, contract_type, selfpickup);
-                        if (supplier.isError())
-                            System.out.println(supplier.getErrorMessage());
-                        else
-                            System.out.println("The supplier has been added successfully!");
-                    } catch (Exception e) {
-                        System.out.println("Wrong inputs!!!");
-                    }
-                    break;
-                case 2:
-                    try {
-                        System.out.print("Enter company id: ");
-                        int company_id = Integer.parseInt(sc.nextLine());
-                        Response supplier = facade.RemoveSupplier(company_id);
-                        if (supplier.isError())
-                            System.out.println(supplier.getErrorMessage());
-                        else
-                            System.out.println("The supplier has been removed successfully!");
-                    } catch (Exception e) {
-                        System.out.println("Wrong inputs!!!");
-                    }
-                    break;
-                case 3:
-                    EditSupplierMenu();
-                    break;
-                case 4:
-                    try {
-                        System.out.print("Enter company id: ");
-                        int company_id = Integer.parseInt(sc.nextLine());
-                        Response<SupplierDTO> supplier = facade.PrintSupplierCard(company_id);
-                        if (supplier.isError())
-                            System.out.println(supplier.getErrorMessage());
-                        else
-                            System.out.println(supplier.getValue().toString());
-                    } catch (Exception e) {
-                        System.out.println("Wrong inputs!!!");
-                    }
-                    break;
-                case 5:
-                    terminate = true;
-                    break;
-                default:
-                    System.out.println("Enter a number between 1 to 5.");
+            System.out.println("Type \"q\" to quit. ");
+            System.out.print("Please enter your employee ID: ");
+            String id = sc.nextLine();
+            if(id == "q")
+                break;
+            menu_options(id);
+            if(new EmployeesSuppliersAPI().hasRole(id,StoreKeeper) || new EmployeesSuppliersAPI().hasRole(id,ShiftManager)) {
+                opt = Integer.parseInt(sc.nextLine());
+                switch (opt) {
+                    case 1:
+                        try {
+                            System.out.print("Enter Supplier's name: ");
+                            String supplier_name = sc.nextLine();
+                            System.out.print("Enter Manufactures name: ");
+                            String Manifactur_name = sc.nextLine();
+                            System.out.print("Enter company id: ");
+                            int company_id = Integer.parseInt(sc.nextLine());
+                            System.out.print("Enter phone: ");
+                            String phone = sc.nextLine();
+                            System.out.print("Enter bank account: ");
+                            int bank_account = Integer.parseInt(sc.nextLine());
+                            System.out.print("Enter payment conditions: ");
+                            String payment_conditions = sc.nextLine();
+                            System.out.print("Enter contract type: ");
+                            String contract_type = sc.nextLine();
+                            System.out.print("Enter self pickup(true/false): ");
+                            boolean selfpickup = Boolean.parseBoolean(sc.nextLine());
+                            Response supplier = facade.AddSupplier(supplier_name, Manifactur_name, company_id, phone, bank_account,
+                                    payment_conditions, contract_type, selfpickup);
+                            if (supplier.isError())
+                                System.out.println(supplier.getErrorMessage());
+                            else
+                                System.out.println("The supplier has been added successfully!");
+                        } catch (Exception e) {
+                            System.out.println("Wrong inputs!!!");
+                        }
+                        break;
+                    case 2:
+                        try {
+                            System.out.print("Enter company id: ");
+                            int company_id = Integer.parseInt(sc.nextLine());
+                            Response supplier = facade.RemoveSupplier(company_id);
+                            if (supplier.isError())
+                                System.out.println(supplier.getErrorMessage());
+                            else
+                                System.out.println("The supplier has been removed successfully!");
+                        } catch (Exception e) {
+                            System.out.println("Wrong inputs!!!");
+                        }
+                        break;
+                    case 3:
+                        EditSupplierMenu();
+                        break;
+                    case 4:
+                        try {
+                            System.out.print("Enter company id: ");
+                            int company_id = Integer.parseInt(sc.nextLine());
+                            Response<SupplierDTO> supplier = facade.PrintSupplierCard(company_id);
+                            if (supplier.isError())
+                                System.out.println(supplier.getErrorMessage());
+                            else
+                                System.out.println(supplier.getValue().toString());
+                        } catch (Exception e) {
+                            System.out.println("Wrong inputs!!!");
+                        }
+                        break;
+                    case 5:
+                        terminate = true;
+                        break;
+                    default:
+                        System.out.println("Enter a number between 1 to 5.");
+                }
+            }else {
+                opt = Integer.parseInt(sc.nextLine());
+                switch (opt) {
+                    case 1:
+                        try {
+                            System.out.print("Enter company id: ");
+                            int company_id = Integer.parseInt(sc.nextLine());
+                            Response<SupplierDTO> supplier = facade.PrintSupplierCard(company_id);
+                            if (supplier.isError())
+                                System.out.println(supplier.getErrorMessage());
+                            else
+                                System.out.println(supplier.getValue().toString());
+                        } catch (Exception e) {
+                            System.out.println("Wrong inputs!!!");
+                        }
+                        break;
+                    case 2:
+                        terminate = true;
+                        break;
+                    default:
+                        System.out.println("Enter a number between 1 to 2.");
+                }
             }
             System.out.println("");
         }
     }
 
-    private void menu_options() {
-        System.out.println("======Supplier Menu======" + "\n" +
-                "1.Add new Supplier" + "\n" +
-                "2.Delete a current Supplier" + "\n" +
-                "3.Edit a current Supplier" + "\n" +
-                "4.Print Supplier card" + "\n" +
-                "5.Return to Main menu" + "\n");
+    private void menu_options(String id) {
+        if(new EmployeesSuppliersAPI().hasRole(id,StoreKeeper) || new EmployeesSuppliersAPI().hasRole(id,ShiftManager)) {
+            System.out.println("======Supplier Menu======" + "\n" +
+                    "1.Add new Supplier" + "\n" +
+                    "2.Delete a current Supplier" + "\n" +
+                    "3.Edit a current Supplier" + "\n" +
+                    "4.Print Supplier card" + "\n" +
+                    "5.Return to Suppliers menu" + "\n");
+        }else{
+            System.out.println("======Supplier Menu======" + "\n" +
+                    "1.Print Supplier card" + "\n" +
+                    "2.Return to Suppliers menu" + "\n");
+        }
     }
 
     private void EditSupplierMenu() {

@@ -11,7 +11,7 @@ import DTOPackage.OrderDTO;
 import DTOPackage.SupplierDTO;
 import BusinessLayer.SuppliersModule.Controllers.OrderController;
 import BusinessLayer.SuppliersModule.Controllers.SupplierController;
-import Enums.ContactMethod;
+import Resources.ContactMethod;
 
 import java.time.LocalDate;
 
@@ -49,7 +49,7 @@ public class Facade {
      * @param SelfPickup its value is true or false, if the supplier is picking up the orders by himself or not.
      * @return the response of the system. if the there is already a supplier that works with the same company so that's an error.
      */
-    public Response AddSupplier(String name, String Manifactur, int company_id, int phone, int BankAccount,
+    public Response AddSupplier(String name, String Manifactur, int company_id, String phone, int BankAccount,
                                 String PaymentConditions, String OrderType, boolean SelfPickup) {
         try {
             sc.AddSupplier(name, Manifactur, company_id, phone, BankAccount,

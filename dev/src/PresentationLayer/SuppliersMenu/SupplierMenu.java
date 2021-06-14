@@ -1,7 +1,7 @@
 package PresentationLayer.SuppliersMenu;
 
 import BusinessLayer.SuppliersModule.Application.Facade;
-import Enums.ContactMethod;
+import Resources.ContactMethod;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -61,8 +61,8 @@ public class SupplierMenu implements Menu {
     private void init(){
         Facade facade = Facade.getInstance();
         //entering two suppliers
-        facade.AddSupplier("aaa","aa",12, 050342423, 123,"none","fixed",true);
-        facade.AddSupplier("abb","ab",13, 2342343, 1235,"none","single",false);
+        facade.AddSupplier("aaa","aa",12, "050342423", 123,"none","fixed",true);
+        facade.AddSupplier("abb","ab",13, "2342343", 1235,"none","single",false);
         //entering a contact persons
         facade.AddContactPerson(12,"abc", ContactMethod.Phone,"05043423234");
         facade.AddMethod(12,"asd", ContactMethod.Email,"mas@gmail.com");

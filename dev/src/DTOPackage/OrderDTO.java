@@ -8,7 +8,7 @@ import java.util.Map;
 
 import BusinessLayer.SuppliersModule.Objects.Item;
 import BusinessLayer.SuppliersModule.Objects.Order;
-import Enums.Status;
+import Resources.Status;
 
 public class OrderDTO {
     private int id;

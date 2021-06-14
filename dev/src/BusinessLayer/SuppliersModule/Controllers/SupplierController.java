@@ -3,7 +3,7 @@ package BusinessLayer.SuppliersModule.Controllers;
 import DTOPackage.SupplierDTO;
 import BusinessLayer.SuppliersModule.Objects.SupplierCard;
 import DataAccessLayer.SuppliersModule.Mappers.SuppliersMapper;
-import Enums.ContactMethod;
+import Resources.ContactMethod;
 
 
 public class SupplierController {
@@ -32,7 +32,7 @@ public class SupplierController {
      * @param selfPickup its value is true or false, if the supplier is picking up the orders by himself or not.
      * @throws Exception if the there is already a supplier that works with the same company so that's an error.
      */
-    public void AddSupplier(String name, String manifactur, int company_id, int phone, int BankAccount,
+    public void AddSupplier(String name, String manifactur, int company_id, String phone, int BankAccount,
                             String paymentConditions, String orderType, boolean selfPickup) throws Exception {
         if (mapper.getSupplier(company_id) != null)
             throw new Exception("There's already supplier working with this company!!!");
@@ -185,5 +185,9 @@ public class SupplierController {
 
     public boolean isSupplier(int supplierID) {
         return mapper.getSupplier(supplierID) != null;
+    }
+
+    public SupplierCard getSupplier(int supplierId){
+        return new SupplierCard(mapper.getSupplier(supplierId));
     }
 }

@@ -3,7 +3,7 @@ package DataAccessLayer.SuppliersModule.Mappers;
 import DTOPackage.ItemDTO;
 import DTOPackage.OrderDTO;
 import DataAccessLayer.SuppliersModule.Objects.Order;
-import Enums.Status;
+import Resources.Status;
 
 import java.sql.*;
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package Enums;
+package Resources;
 
 public enum ContactMethod {
     Email,

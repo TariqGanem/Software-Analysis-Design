@@ -12,14 +12,14 @@ public class SupplierDTO {
     private String name;
     private String manifactur;
     private int company_id;
-    private int phone;
+    private String phone;
     private int bankAccount;
     private String paymentConditions;
     private String orderType;
     private boolean selfPickup;
     private Map<String, ContactDTO> contacts;
 
-    public SupplierDTO(String name, String manifactur, int company_id, int phone, int BankAccount,
+    public SupplierDTO(String name, String manifactur, int company_id, String phone, int BankAccount,
                         String paymentConditions, String orderType, boolean selfPickup, Map<String, ContactDTO> contacts) {
         this.name = name;
         this.manifactur = manifactur;
@@ -106,7 +106,7 @@ public class SupplierDTO {
         return company_id;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 

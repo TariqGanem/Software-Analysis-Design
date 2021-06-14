@@ -3,7 +3,7 @@ package DataAccessLayer.SuppliersModule.Mappers;
 import DTOPackage.SupplierDTO;
 import DataAccessLayer.SuppliersModule.Objects.Contact;
 import DataAccessLayer.SuppliersModule.Objects.Supplier;
-import Enums.ContactMethod;
+import Resources.ContactMethod;
 
 import java.sql.*;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ public class SuppliersMapper extends Mapper{
             String sql = "CREATE TABLE IF NOT EXISTS suppliers " +
                     "(companyId INT PRIMARY KEY   NOT NULL, " +
                     "name                 TEXT    NOT NULL, " +
-                    "phone                INT     NOT NULL, " +
+                    "phone                TEXT     NOT NULL, " +
                     "manifactur           TEXT    NOT NULL, " +
                     "bankAccount          INT     NOT NULL, " +
                     "paymentConditions    TEXT    NOT NULL, " +
@@ -96,7 +96,7 @@ public class SuppliersMapper extends Mapper{
                             new Supplier(rs2.getString("name"),
                                     rs2.getString("manifactur"),
                                     rs2.getInt("companyId"),
-                                    rs2.getInt("phone"),
+                                    rs2.getString("phone"),
                                     rs2.getInt("bankAccount"),
                                     rs2.getString("paymentConditions"),
                                     rs2.getString("orderType"),
@@ -132,7 +132,7 @@ public class SuppliersMapper extends Mapper{
             PreparedStatement pstmt = connection.prepareStatement(sql);
             pstmt.setInt(1,supplier.getCompany_id());
             pstmt.setString(2,supplier.getName());
-            pstmt.setInt(3, supplier.getPhone());
+            pstmt.setString(3, supplier.getPhone());
             pstmt.setString(4, supplier.getManifactur());
             pstmt.setInt(5,supplier.getBankAccount());
             pstmt.setString(6, supplier.getPaymentConditions());

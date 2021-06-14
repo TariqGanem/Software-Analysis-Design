@@ -1,7 +1,7 @@
 package DataAccessLayer.SuppliersModule.Objects;
 
 import DTOPackage.ContactDTO;
-import Enums.ContactMethod;
+import Resources.ContactMethod;
 
 import java.util.Map;
 

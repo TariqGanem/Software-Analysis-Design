@@ -2,7 +2,7 @@ package DataAccessLayer.SuppliersModule.Objects;
 
 import DTOPackage.ItemDTO;
 import DTOPackage.OrderDTO;
-import Enums.Status;
+import Resources.Status;
 
 import java.time.LocalDate;
 import java.util.HashMap;
