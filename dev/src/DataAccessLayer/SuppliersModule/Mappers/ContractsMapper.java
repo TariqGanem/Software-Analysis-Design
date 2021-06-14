@@ -312,12 +312,13 @@ public class ContractsMapper extends Mapper{
 
     public Map<Integer, ContractDTO> ContractsOfItem(String name) {
         try{
+            connection = connect();
             Map<Integer, ContractDTO> newContracts = new HashMap<>();
-            String sql = "SELECT companyId FROM ItemsS WHERE name = " + name;
+            String sql = "SELECT companyId FROM ItemsS WHERE name = '" + name + "'";
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
-                newContracts.putIfAbsent(rs.getInt("CompanyId"), getContract(rs.getInt("CompanyId")));
+                newContracts.putIfAbsent(rs.getInt("companyId"), getContract(rs.getInt("companyId")));
             }
             //===============================================================
             stmt.close();
@@ -325,6 +326,7 @@ public class ContractsMapper extends Mapper{
             connection = null;
             return newContracts;
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return null;
         }
     }

@@ -82,7 +82,9 @@ example of category serial number 4531000000 - sub category it is id is 453
         if(!res.isError()){
             System.out.println("Please Enter amount to order");
             amount = scanner.nextInt();
-            facade.makingOrder(itemName, amount);
+            Response res2 = facade.makingOrder(itemName, amount);
+            if(res2.isError())
+                System.out.println(res2.getErrorMessage());
             System.out.println("order finished successfully");
         }
         else{

@@ -44,12 +44,16 @@ public class OrderController {
      * @throws Exception order cannot be submitted/placed before preparing
      */
     public void placeAnOrder(int orderID) throws Exception {
+        System.out.println("INSIDE 0");
         if (inPrepareOrders.containsKey(orderID)){
+            System.out.println("INSIDE 1");
             Order orderToPlace = inPrepareOrders.remove(orderID);
             orderToPlace.setNewStatus(Status.Active);
             activeOrders.put(orderToPlace.getId(), orderToPlace);
             SupplierCard supplier = SupplierController.getInstance().getSupplier(order_Vs_supplier.get(orderID));
+            System.out.println("INSIDE 2");
             new ShipmentsSuppliersAPI().scheduleShipment(supplier.getManifactur(),supplier.getPhone(),supplier.getName(),new OrderDTO(orderToPlace));
+            System.out.println("INSIDE 3");
         }
         else {
             throw new Exception("Order is not prepared!");
