@@ -209,9 +209,5 @@ public class EmployeeController {
         } catch(Exception ignored) {
             return false;
         }
-<<<<<<< HEAD
-
-=======
->>>>>>> 53c2bea5d88f518ce76ae21f45586b1245fa160e
     }
 }

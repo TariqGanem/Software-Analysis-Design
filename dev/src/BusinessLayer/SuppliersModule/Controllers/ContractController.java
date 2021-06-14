@@ -16,8 +16,8 @@ public class ContractController {
         mapper = new ContractsMapper();
     }
 
-    public static ContractController getInstance(){
-        if (instance==null)
+    public static ContractController getInstance() {
+        if (instance == null)
             instance = new ContractController();
         return instance;
     }
@@ -60,12 +60,12 @@ public class ContractController {
      * also if there is no a quantity report so that's an error.
      * also if there is no discount for this item with this id so that's an error.
      */
-    public void RemoveItemQuantity(int company_id, int item_id,int quantity) throws Exception {
+    public void RemoveItemQuantity(int company_id, int item_id, int quantity) throws Exception {
         if (mapper.getContract(company_id) == null)
             throw new Exception("There's no contract with this company id!!!");
         Contract contract = new Contract(mapper.getContract(company_id));
         contract.RemoveItemQuantity(item_id);
-        mapper.removeDiscount(company_id,item_id,quantity);
+        mapper.removeDiscount(company_id, item_id, quantity);
     }
 
     /***
@@ -82,7 +82,7 @@ public class ContractController {
             throw new Exception("There's no contract with this company id!!!");
         Contract contract = new Contract(mapper.getContract(company_id));
         contract.AddItem(item_id, name, price, weight);
-        mapper.addItem(company_id, item_id, name, price,weight);
+        mapper.addItem(company_id, item_id, name, price, weight);
     }
 
     /***
@@ -97,7 +97,7 @@ public class ContractController {
             throw new Exception("There's no contract with this company id!!!");
         Contract contract = new Contract(mapper.getContract(company_id));
         contract.RemoveItem(item_id);
-        mapper.removeItem(company_id,item_id);
+        mapper.removeItem(company_id, item_id);
     }
 
     /***
@@ -141,26 +141,26 @@ public class ContractController {
     }
 
     public Contract getContract(int supplierID) throws Exception {
-        if (mapper.getContract(supplierID) == null)
+        if (mapper.getContract(supplierID) != null)
             return new Contract(mapper.getContract(supplierID));
         else
             throw new Exception("supplier does not exist!");
     }
 
-    public Map<Integer, Contract> ContractsOfItem(String name){
+    public Map<Integer, Contract> ContractsOfItem(String name) {
         Map<Integer, ContractDTO> contracts = mapper.ContractsOfItem(name);
         Map<Integer, Contract> output = new HashMap<>();
-        for (int id:contracts.keySet()) {
-            output.putIfAbsent(id,new Contract(contracts.get(id)));
+        for (int id : contracts.keySet()) {
+            output.putIfAbsent(id, new Contract(contracts.get(id)));
         }
         return output;
     }
 
-    public Item getItem(int supplierId, String name){
+    public Item getItem(int supplierId, String name) {
         try {
             Contract contract = getContract(supplierId);
-            for (int id: contract.getItems().keySet()) {
-                if(name == contract.getItems().get(id).getName())
+            for (int id : contract.getItems().keySet()) {
+                if (name.equals(contract.getItems().get(id).getName()))
                     return contract.getItems().get(id);
             }
             return null;

@@ -82,7 +82,7 @@ public class Order {
         else throw new Exception("Status cannot be changed from "+status+" to "+newStatus+"!");
     }
     public void addItem(Item newItem){
-
+        System.out.println(newItem==null);
         items.put(newItem.getId(), newItem);
     }
 

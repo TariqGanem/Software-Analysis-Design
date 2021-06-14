@@ -55,8 +55,9 @@ public class LocationMapper {
         if (locationExists(address, phone, contactName)) {
             memory.getLocations().add(location);
             //throw new Exception("Location already exists in the database!");
+        } else {
+            insertLocation(id, address, phone, contactName);
         }
-        insertLocation(id, address, phone, contactName);
         memory.getLocations().add(location);
         return location;
     }

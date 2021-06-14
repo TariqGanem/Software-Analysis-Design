@@ -667,7 +667,6 @@ public class BusinessController {
     public void makeMinOrder() throws Exception {
         for(Category category : allCategories){
             for(ItemSpecs item : category.getItemSpecs()){
-                System.out.println("MEOW !!! !!! ");
                 if(item.getTotalAmount() <= item.getMinAmount()){
                     Map<Integer, Contract> map = ContractController.getInstance().ContractsOfItem(item.getName());
                     double price = -1;
@@ -684,9 +683,11 @@ public class BusinessController {
                             }
                         }
                     }
+
                     int orderId = OrderController.getInstance().openSingleOrder(supplierId, LocalDate.now().plusDays(1)).getId();
 
                     OrderController.getInstance().addItemToOrder(orderId, ContractController.getInstance().getItem(supplierId,item.getName()), item.getMinAmount());
+
                     try {
                         OrderController.getInstance().placeAnOrder(orderId);
                     } catch (Exception e) {
@@ -700,15 +701,12 @@ public class BusinessController {
     public void makingOrder(String itemName, int amount) throws Exception {
         for(Category category : allCategories){
             for(ItemSpecs item : category.getItemSpecs()){
-                System.out.println(" 00000000");
                 if(item.getName().equals(itemName)){
 
                     Map<Integer, Contract> map = ContractController.getInstance().ContractsOfItem(item.getName());
-                    System.out.println(" 00011111");
                     double price = -1;
                     int supplierId = 0;
                     for(Map.Entry<Integer, Contract> entry : map.entrySet()){
-                        System.out.println(" 0001112222");
                         if(price == -1){
                             price = entry.getValue().finalPrice(item.getName(), item.getMinAmount());
                             supplierId = entry.getKey();
@@ -720,18 +718,14 @@ public class BusinessController {
                             }
                         }
                     }
-                    System.out.println(" 000000.55555");
-                    int orderId = OrderController.getInstance().openSingleOrder(supplierId, LocalDate.now().plusDays(1)).getId();
+                    int orderId = OrderController.getInstance().openSingleOrder(supplierId, LocalDate.of(2021, 07, 04)).getId();
                     OrderController.getInstance().addItemToOrder(orderId,ContractController.getInstance().getItem(supplierId,itemName),amount);
                     try {
-                        System.out.println(" 111111");
                         OrderController.getInstance().placeAnOrder(orderId);
-                        System.out.println(" 2222222");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                System.out.println(" AFTER IFFFF");
             }
         }
     }

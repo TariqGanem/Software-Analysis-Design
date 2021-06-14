@@ -1,5 +1,6 @@
 package APIs;
 
+import BusinessLayer.Response;
 import BusinessLayer.ResponseT;
 import DTOPackage.OrderDTO;
 import DTOPackage.ShippedItemDTO;
@@ -25,8 +26,11 @@ public class ShipmentsSuppliersAPI {
         Map<Integer, List<ShippedItemDTO>> items = new HashMap<>();
         items.put(store_loc_id, order.getItemsForShipping());
 
-
-        Menu.getInstance().getFacade().arrangeDelivery(Date.from(order.getDueDate().atStartOfDay(ZoneId.systemDefault()).toInstant()), supp_loc_id, items);
+        Response res = Menu.getInstance().getFacade().arrangeDelivery(Date.from(order.getDueDate().atStartOfDay(ZoneId.systemDefault()).toInstant()), supp_loc_id, items);
+        if (res.getErrorOccurred())
+            System.out.println(res.getErrorMessage());
+        else
+            System.out.println("Shipment has been scheduled within 7 days!");
     }
 
     private int addStoreLocation() throws Exception {

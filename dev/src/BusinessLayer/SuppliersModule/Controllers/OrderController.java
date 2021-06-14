@@ -5,6 +5,9 @@ import BusinessLayer.SuppliersModule.Objects.*;
 import DTOPackage.OrderDTO;
 import DataAccessLayer.SuppliersModule.Mappers.OrdersMapper;
 import Resources.Status;
+
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -20,19 +23,19 @@ public class OrderController {
     Map<Integer, Order> activeOrders;
     Map<Integer, Order> archivedOrders;
     Map<Integer, Integer> order_Vs_supplier;
-   // Map<Integer, Integer> supplier_Vs_FixedOrder;
+    // Map<Integer, Integer> supplier_Vs_FixedOrder;
 
-    private OrderController(){
+    private OrderController() {
         activeOrders = new HashMap<>();
         archivedOrders = new HashMap<>();
         inPrepareOrders = new HashMap<>();
         order_Vs_supplier = new HashMap<>();
-    //    supplier_Vs_FixedOrder = new HashMap<>();
+        //    supplier_Vs_FixedOrder = new HashMap<>();
         mapper = new OrdersMapper();
     }
 
-    public static OrderController getInstance(){
-        if (instance == null){
+    public static OrderController getInstance() {
+        if (instance == null) {
             instance = new OrderController();
         }
         return instance;
@@ -44,19 +47,14 @@ public class OrderController {
      * @throws Exception order cannot be submitted/placed before preparing
      */
     public void placeAnOrder(int orderID) throws Exception {
-        System.out.println("INSIDE 0");
-        if (inPrepareOrders.containsKey(orderID)){
-            System.out.println("INSIDE 1");
+        if (inPrepareOrders.containsKey(orderID)) {
             Order orderToPlace = inPrepareOrders.remove(orderID);
             orderToPlace.setNewStatus(Status.Active);
             activeOrders.put(orderToPlace.getId(), orderToPlace);
-            mapper.updateStatus(orderID,Status.Active);
+            mapper.updateStatus(orderID, Status.Active);
             SupplierCard supplier = SupplierController.getInstance().getSupplier(order_Vs_supplier.get(orderID));
-            System.out.println("INSIDE 2");
-            new ShipmentsSuppliersAPI().scheduleShipment(supplier.getManifactur(),supplier.getPhone(),supplier.getName(),new OrderDTO(orderToPlace));
-            System.out.println("INSIDE 3");
-        }
-        else {
+            new ShipmentsSuppliersAPI().scheduleShipment(supplier.getManifactur(), supplier.getPhone(), supplier.getName(), new OrderDTO(orderToPlace));
+        } else {
             throw new Exception("Order is not prepared!");
         }
     }
@@ -65,24 +63,22 @@ public class OrderController {
      * @param orderID id of order to be completed
      */
     public void completeAnOrder(int orderID) throws Exception {
-        if (activeOrders.containsKey(orderID)){
+        if (activeOrders.containsKey(orderID)) {
             Order order = activeOrders.remove(orderID);
             order.setNewStatus(Status.Completed);
             archive(order);
-        }
-        else throw new Exception("Cannot complete non active order!");
+        } else throw new Exception("Cannot complete non active order!");
     }
 
     /**
      * @param orderID id of order to be canceled
      */
     public void cancelAnOrder(int orderID) throws Exception {
-        if (activeOrders.containsKey(orderID)){
+        if (activeOrders.containsKey(orderID)) {
             Order order = activeOrders.remove(orderID);
             order.setNewStatus(Status.Canceled);
             archive(order);
-        }
-        else throw new Exception("Cannot cancel non active order!");
+        } else throw new Exception("Cannot cancel non active order!");
     }
 
     /**
@@ -91,14 +87,12 @@ public class OrderController {
      */
     public void rescheduleAnOrder(int orderID, LocalDate newDate) throws Exception {
 
-        if (activeOrders.containsKey(orderID)){
+        if (activeOrders.containsKey(orderID)) {
             Order order = activeOrders.remove(orderID);
-            if (newDate.isAfter(order.getOrderDate())){
+            if (newDate.isAfter(order.getOrderDate())) {
                 order.setNewDate(newDate);
-            }
-
-            else
-                throw new DateTimeException("date should be more later than: "+ order.getOrderDate());
+            } else
+                throw new DateTimeException("date should be more later than: " + order.getOrderDate());
 
         }
     }
@@ -116,32 +110,29 @@ public class OrderController {
 
     /**
      * @param orderID id of order to remove item from
-     * @param itemID id of item to be removed from order
+     * @param itemID  id of item to be removed from order
      * @throws Exception cannot remove item from this order
      */
     public void removeItemFromOrder(int orderID, int itemID) throws Exception {
-        if (activeOrders.containsKey(orderID)){
+        if (activeOrders.containsKey(orderID)) {
             activeOrders.get(orderID).removeItem(itemID); // delete
             mapper.removeItem(orderID, itemID);
-        }
-        else if(archivedOrders.containsKey(orderID))
+        } else if (archivedOrders.containsKey(orderID))
             throw new Exception("Order is not active!");
         else
             throw new NullPointerException("Order does not exist!");
     }
 
     /**
-     * @param orderID id of order to add item to
-     * @param item item to be added to the order
+     * @param orderID  id of order to add item to
+     * @param item     item to be added to the order
      * @param quantity
      * @throws Exception cannot add item to this order
      */
     public void addItemToOrder(int orderID, Item item, int quantity) throws Exception {
-        if (activeOrders.containsKey(orderID)){
-            activeOrders.get(orderID).addItem(item);
+        if (mapper.orderExist(orderID)) {
             mapper.storeItemInOrder(orderID, item.getId(), quantity);
-        }
-        else if(archivedOrders.containsKey(orderID))
+        } else if (archivedOrders.containsKey(orderID))
             throw new Exception("Order is not active!");
         else
             throw new NullPointerException("Order does not exist!");
@@ -152,10 +143,9 @@ public class OrderController {
      * @return order by its id
      */
     public Order getOrder(int orderID) {
-        if (activeOrders.containsKey(orderID)){
+        if (activeOrders.containsKey(orderID)) {
             return activeOrders.get(orderID);
-        }
-        else if(archivedOrders.containsKey(orderID))
+        } else if (archivedOrders.containsKey(orderID))
             return archivedOrders.get(orderID);
         else
             throw new NullPointerException("Order does not exist!");
@@ -163,20 +153,20 @@ public class OrderController {
 
     /**
      * @param orderID id of order to edit one of its items
-     * @param item edited item to updated
+     * @param item    edited item to updated
      * @throws Exception cannot update item in this order
      */
     public void editItemInOrder(int orderID, Item item) throws Exception { // reconsider
         if (activeOrders.containsKey(orderID)) {
             if (activeOrders.get(orderID).getItems().containsKey(item.getId())) {
                 activeOrders.get(orderID).getItems().get(item.getId()).Replace(item);
-            } else{
+            } else {
                 throw new Exception("Item does not exist in the order!");
             }
-        } else if(archivedOrders.containsKey(orderID)) {
+        } else if (archivedOrders.containsKey(orderID)) {
             throw new Exception("Order is not active!");
         } else {
-           throw new Exception("Order does not exist!");
+            throw new Exception("Order does not exist!");
         }
 
     }
@@ -184,7 +174,7 @@ public class OrderController {
 
     /**
      * @param supplierID id of supplier to ask fixed order from
-     * @param dueDate due-date of the order
+     * @param dueDate    due-date of the order
      * @return fixed order object
      */
     public FixedOrder openFixedOrder(int supplierID, LocalDate dueDate) {
@@ -217,7 +207,7 @@ public class OrderController {
 
     /**
      * @param supplierID id of supplier to ask order from
-     * @param dueDate due-date of the order
+     * @param dueDate    due-date of the order
      * @return single order object
      */
     public SingleOrder openSingleOrder(int supplierID, LocalDate dueDate) {
@@ -230,6 +220,6 @@ public class OrderController {
 
     public List<String> todayOrders(LocalDate now) throws Exception {
         List<String> names = new LinkedList<>();
-       return  names =  mapper.getTodayOrders(now);
+        return names = mapper.getTodayOrders(now);
     }
 }

@@ -112,6 +112,7 @@ public class Facade {
      */
     public Response arrangeDelivery(Date orderDueDate, int sourceId, Map<Integer, List<ShippedItemDTO>> items_per_destination) {
         try {
+            System.out.println("Shipments 1");
             Map<Integer, List<Item>> items = Builder.buildItemsPerDestinations(items_per_destination);
             double shipmentWeight = calculateShipmentWeight(items);
 
@@ -132,12 +133,12 @@ public class Facade {
                     }
                 }
             }
-
+            System.out.println("Shipments 2");
             if (truck == null)
                 return new Response("There are no available trucks in the system within a week from order date.");
-
+            System.out.println("Shipments 3");
             notifyHRManager(orderDueDate);
-
+            System.out.println("Shipments 4");
             return new Response("Unexpected Error...");
         } catch (Exception e) {
             return new Response(e.getMessage());
