@@ -31,6 +31,7 @@ public class dbMaker {
     public static String categorytbl = "Category";
     public static String itemspecstbl = "ItemSpecs";
     public static String itemstbl = "Items";
+//    public static String itemsStbl = "ItemsS";
     public static String reportstbl = "Reports";
     public static String defectstbl = "Defects";
 
@@ -116,16 +117,17 @@ public class dbMaker {
                     "quantity  INT NOT NULL," +
                     "discount  INT NOT NULL," +
                     "FOREIGN KEY(companyId) REFERENCES suppliers(companyId)," +
-                    "FOREIGN KEY(itemId) REFERENCES items(id)," +
+                    "FOREIGN KEY(itemId) REFERENCES ItemsS(id)," +
                     "PRIMARY KEY (itemId,companyId,quantity))";
             stmt.executeUpdate(sql);
             //====================================================
             stmt = connect().createStatement();
-            sql = "CREATE TABLE IF NOT EXISTS items " +
+            sql = "CREATE TABLE IF NOT EXISTS ItemsS " +
                     "(companyId INT  NOT NULL," +
                     "itemId    INT  NOT NULL," +
                     "name      TEXT NOT NULL," +
                     "price     REAL NOT NULL," +
+                    "weight    REAL NOT NULL," +
                     "PRIMARY KEY (itemId,companyId)," +
                     "FOREIGN KEY(companyId) REFERENCES suppliers(companyId))";
             stmt.executeUpdate(sql);
@@ -181,6 +183,7 @@ public class dbMaker {
             String sql = "CREATE TABLE IF NOT EXISTS suppliers " +
                     "(companyId INT PRIMARY KEY    NOT NULL, " +
                     "name                 TEXT    NOT NULL, " +
+                    "phone                TEXT    NOT NULL, " +
                     "manifactur           TEXT    NOT NULL, " +
                     "bankAccount          INT     NOT NULL, " +
                     "paymentConditions    TEXT    NOT NULL, " +

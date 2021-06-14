@@ -24,14 +24,14 @@ public class EmployeeModule {
         boolean errorOccurred = false, isManager = false;
         boolean goBack = false;
         boolean proceed = true;
-        io.println("THE FOLLOWING QUESTION IS FOR THE TESTER");
-        io.println("If you want to load data into the system please type 1, to continue normally type any other number.");
-        int init = io.getInt();
-        if (init == 1) {
-            InitializeData initclass = new InitializeData();
-            initclass.initializeData(presentationController);
-        }
-        io.println("");
+//        io.println("THE FOLLOWING QUESTION IS FOR THE TESTER");
+//        io.println("If you want to load data into the system please type 1, to continue normally type any other number.");
+//        int init = io.getInt();
+//        if (init == 1) {
+//            InitializeData initclass = new InitializeData();
+//            initclass.initializeData(presentationController);
+//        }
+//        io.println("");
 
         io.println("Hello And Welcome to Super-Lee!\n");
         while (true) {

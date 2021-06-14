@@ -30,12 +30,12 @@ public class ContractsMapper extends Mapper{
                     "quantity  INT NOT NULL," +
                     "discount  INT NOT NULL," +
                     "FOREIGN KEY(companyId) REFERENCES suppliers(companyId)," +
-                    "FOREIGN KEY(itemId) REFERENCES items(id)," +
+                    "FOREIGN KEY(itemId) REFERENCES ItemsS(id)," +
                     "PRIMARY KEY (itemId,companyId,quantity))";
             stmt.executeUpdate(sql);
             //====================================================
             stmt = connection.createStatement();
-            sql = "CREATE TABLE IF NOT EXISTS items " +
+            sql = "CREATE TABLE IF NOT EXISTS ItemsS " +
                     "(companyId INT  NOT NULL," +
                     "itemId    INT  NOT NULL," +
                     "name      TEXT NOT NULL," +
@@ -88,7 +88,7 @@ public class ContractsMapper extends Mapper{
                 }
                 QuantityReport report = new QuantityReport(discounts);
                 //===============================================================
-                String sql_items = "SELECT * FROM items WHERE companyId = " + companyid;
+                String sql_items = "SELECT * FROM ItemsS WHERE companyId = " + companyid;
                 Statement stmt_items = connection.createStatement();
                 ResultSet rs_items = stmt_items.executeQuery(sql_items);
                 while(rs_items.next()){
@@ -174,14 +174,14 @@ public class ContractsMapper extends Mapper{
             pstmt.close();
             connection.close();
             connection = null;
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
+//            e.printStackTrace();
         }
     }
 
     public void addItem(int companyid, int itemid, String name, double price, double weight){
         try {
-            String sql = "INSERT INTO items (companyId,itemid,name,price,weight) " +
+            String sql = "INSERT INTO ItemsS (companyId,itemid,name,price,weight) " +
                     "VALUES (?,?,?,?,?)";
             connection = connect();
             //====================================================
@@ -259,7 +259,7 @@ public class ContractsMapper extends Mapper{
 
     public void removeItem(int companyid, int itemid){
         try {
-            String sql = "DELETE FROM items WHERE companyId = ? AND itemId = ?";
+            String sql = "DELETE FROM ItemsS WHERE companyId = ? AND itemId = ?";
             connection = connect();
             //====================================================
             //entering values
@@ -285,7 +285,7 @@ public class ContractsMapper extends Mapper{
 
     public void updatePrice(int companyid, int itemid,double price){
         try{
-            String sql = "UPDATE items SET price = ?"
+            String sql = "UPDATE ItemsS SET price = ?"
                     + "WHERE companyId = ? AND itemId = ?";
 
             connection = connect();
@@ -313,7 +313,7 @@ public class ContractsMapper extends Mapper{
     public Map<Integer, ContractDTO> ContractsOfItem(String name) {
         try{
             Map<Integer, ContractDTO> newContracts = new HashMap<>();
-            String sql = "SELECT companyId FROM items WHERE name = " + name;
+            String sql = "SELECT companyId FROM ItemsS WHERE name = " + name;
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){

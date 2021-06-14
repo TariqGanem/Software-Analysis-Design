@@ -31,13 +31,13 @@ public class SupplierMenu implements Menu {
                         orders.Print_Menu();
                         break;
                     case 4:
-                        init();
-                        break;
-                    case 5:
+//                        init();
+//                        break;
+//                    case 5:
                         terminate = true;
                         break;
                     default:
-                        System.out.println("Enter a number between 1 to 5.");
+                        System.out.println("Enter a number between 1 to 4.");
                 }
             }
         }
@@ -53,12 +53,12 @@ public class SupplierMenu implements Menu {
                 "1.Manage Suppliers" + "\n" +
                 "2.Manage Contracts" + "\n" +
                 "3.Manage Orders" + "\n" +
-                "4.Setup inputs" +"\n"+
-                "5.Exit" + "\n");
+//                "4.Setup inputs" +"\n"+
+                "4.Exit" + "\n");
     }
 
 
-    private void init(){
+    public void init(){
         Facade facade = Facade.getInstance();
         //entering two suppliers
         facade.AddSupplier("aaa","aa",12, "050342423", 123,"none","fixed",true);
@@ -72,12 +72,6 @@ public class SupplierMenu implements Menu {
         facade.AddItem(12,2,"doritos",5,11);
         //entering discounts
         facade.AddDiscount(12,1,5,5);
-        facade.OpenFixedOrder(12, LocalDate.parse("2021-08-08"));
-        facade.OpenFixedOrder(13, LocalDate.parse("2021-11-08"));
-        facade.AddItemToOrder(1,1, 2);
-        facade.AddItemToOrder(1,2, 5);
-        facade.submitOrder(1);
-
     }
 
 }

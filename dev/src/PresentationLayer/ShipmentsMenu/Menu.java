@@ -58,13 +58,13 @@ public class Menu {
             viewMenuItems();
             selectItem();
         } else {
-            System.out.println(items.get(7));
+            System.out.println(items.get(6));
             shipmentsHandler.trackShipment();
         }
     }
 
     private void addItems() {
-        addMenuItem("Initialize System Data");
+//        addMenuItem("Initialize System Data");
         addMenuItem("Add Truck");
         addMenuItem("Add Location");
         addMenuItem("View All Trucks");
@@ -86,7 +86,7 @@ public class Menu {
             if (validInput(inputL)) {
                 int input = Integer.parseInt(inputL);
                 handleSelection(input);
-                if (input == 12)
+                if (input == 11)
                     return;
                 viewMenuItems();
             }
@@ -95,37 +95,37 @@ public class Menu {
 
     private void handleSelection(int input) {
         switch (input) {
+//            case 1:
+//                (new DataInitializer(facade)).initialize();
+//                break;
             case 1:
-                (new DataInitializer(facade)).initialize();
-                break;
-            case 2:
                 trucksHandler.addTruck();
                 break;
-            case 3:
+            case 2:
                 locationsHandler.addLocation();
                 break;
-            case 4:
+            case 3:
                 trucksHandler.viewAllTrucks();
                 break;
-            case 5:
+            case 4:
                 driversHandler.viewAllDrivers();
                 break;
-            case 6:
+            case 5:
                 locationsHandler.viewAllLocations();
                 break;
-            case 7:
+            case 6:
                 shipmentsHandler.viewAllShipments();
                 break;
-            case 8:
+            case 7:
                 shipmentsHandler.trackShipment();
                 break;
-            case 9:
+            case 8:
                 shipmentsHandler.arrangeShipment();
                 break;
-            case 10:
+            case 9:
                 shipmentsHandler.approveShipments();
                 break;
-            case 11:
+            case 10:
                 shipmentsHandler.removeShipment();
                 break;
         }

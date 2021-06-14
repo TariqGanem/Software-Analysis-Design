@@ -248,7 +248,7 @@ public class OrdersMapper extends Mapper{
         System.out.println("Section 2\n");
         try{
             List<String> names = new LinkedList<>();
-            String sql = "SELECT name FROM (SELECT * FROM ItemsInOrders Natural JOIN items WHERE ItemsInOrders.ItemId = items.itemId)" +
+            String sql = "SELECT name FROM (SELECT * FROM ItemsInOrders Natural JOIN ItemsS WHERE ItemsInOrders.ItemId = ItemsS.itemId)" +
                     " Natural JOIN Orders " +
                     "WHERE Orders.ID = ItemsInOrders.OrderID";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
