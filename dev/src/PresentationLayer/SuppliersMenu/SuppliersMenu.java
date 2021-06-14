@@ -25,7 +25,7 @@ public class SuppliersMenu implements Menu {
             if(id == "q")
                 break;
             menu_options(id);
-            if(new EmployeesSuppliersAPI().hasRole(id,StoreKeeper) || new EmployeesSuppliersAPI().hasRole(id,ShiftManager)) {
+            if(new EmployeesSuppliersAPI().hasRole(id,StoreKeeper) || new EmployeesSuppliersAPI().hasRole(id,StoreManager)) {
                 opt = Integer.parseInt(sc.nextLine());
                 switch (opt) {
                     case 1:
@@ -119,7 +119,7 @@ public class SuppliersMenu implements Menu {
     }
 
     private void menu_options(String id) {
-        if(new EmployeesSuppliersAPI().hasRole(id,StoreKeeper) || new EmployeesSuppliersAPI().hasRole(id,ShiftManager)) {
+        if(new EmployeesSuppliersAPI().hasRole(id,StoreKeeper) || new EmployeesSuppliersAPI().hasRole(id,StoreManager)) {
             System.out.println("======Supplier Menu======" + "\n" +
                     "1.Add new Supplier" + "\n" +
                     "2.Delete a current Supplier" + "\n" +
