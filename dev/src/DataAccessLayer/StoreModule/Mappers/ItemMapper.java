@@ -35,7 +35,7 @@ public class ItemMapper {
             pstmt.setString(7, defectreason);
             pstmt.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            //throw new Exception(e.getMessage());
         }
 
 
@@ -50,7 +50,7 @@ public class ItemMapper {
             pStmt.setString(2, iname);
             pStmt.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            //throw new Exception(e.getMessage());
         }
     }
 
@@ -61,7 +61,7 @@ public class ItemMapper {
             pStmt.setInt(2, id);
             pStmt.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            //throw new Exception(e.getMessage());
         }
     }
 
@@ -72,7 +72,7 @@ public class ItemMapper {
             pStmt.setInt(2, id);
             pStmt.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            //throw new Exception(e.getMessage());
         }
     }
 
@@ -83,7 +83,7 @@ public class ItemMapper {
             pStmt.setInt(2, id);
             pStmt.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            //throw new Exception(e.getMessage());
         }
     }
 
@@ -94,7 +94,7 @@ public class ItemMapper {
             pStmt.setInt(2, id);
             pStmt.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            //throw new Exception(e.getMessage());
         }
     }
 
@@ -104,7 +104,7 @@ public class ItemMapper {
             pstmt.setString(1, iname);
             pstmt.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            //throw new Exception(e.getMessage());
         }
     }
 
@@ -125,7 +125,7 @@ public class ItemMapper {
             }
             memory.setItems(it);
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            //throw new Exception(e.getMessage());
         }
     }
 

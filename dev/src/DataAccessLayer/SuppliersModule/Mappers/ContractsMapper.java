@@ -312,9 +312,11 @@ public class ContractsMapper extends Mapper{
 
     public Map<Integer, ContractDTO> ContractsOfItem(String name) {
         try{
+            System.out.println("item's name: " + name);
             connection = connect();
             Map<Integer, ContractDTO> newContracts = new HashMap<>();
             String sql = "SELECT companyId FROM ItemsS WHERE name = '" + name + "'";
+            System.out.println(sql);
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()){
@@ -322,8 +324,6 @@ public class ContractsMapper extends Mapper{
             }
             //===============================================================
             stmt.close();
-            connection.close();
-            connection = null;
             return newContracts;
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -50,6 +50,7 @@ public class OrderController {
             Order orderToPlace = inPrepareOrders.remove(orderID);
             orderToPlace.setNewStatus(Status.Active);
             activeOrders.put(orderToPlace.getId(), orderToPlace);
+            mapper.updateStatus(orderID,Status.Active);
             SupplierCard supplier = SupplierController.getInstance().getSupplier(order_Vs_supplier.get(orderID));
             System.out.println("INSIDE 2");
             new ShipmentsSuppliersAPI().scheduleShipment(supplier.getManifactur(),supplier.getPhone(),supplier.getName(),new OrderDTO(orderToPlace));

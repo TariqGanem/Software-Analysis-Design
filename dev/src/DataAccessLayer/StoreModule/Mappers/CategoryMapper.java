@@ -34,7 +34,7 @@ public class CategoryMapper {
             pstmt.setString(4, uppercat);
             pstmt.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+//            throw new Exception(e.getMessage());
         }
     }
 
@@ -46,7 +46,7 @@ public class CategoryMapper {
             pStmt.setString(2, cname);
             pStmt.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+//            throw new Exception(e.getMessage());
         }
     }
 
@@ -57,7 +57,7 @@ public class CategoryMapper {
             pstmt.setString(1, cname);
             pstmt.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+//            throw new Exception(e.getMessage());
         }
     }
 
@@ -76,7 +76,7 @@ public class CategoryMapper {
             }
             memory.setCategories(rep);
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+//            throw new Exception(e.getMessage());
         }
     }
 

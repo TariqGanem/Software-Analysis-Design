@@ -39,7 +39,7 @@ public class ItemSpecsMapper {
             pstmt.setInt(9, finalprice);
             pstmt.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            //throw new Exception(e.getMessage());
         }
     }
 
@@ -52,7 +52,7 @@ public class ItemSpecsMapper {
             pStmt.setString(2, iname);
             pStmt.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+//            throw new Exception(e.getMessage());
         }
     }
 
@@ -63,7 +63,7 @@ public class ItemSpecsMapper {
             pStmt.setString(2, iname);
             pStmt.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+//            throw new Exception(e.getMessage());
         }
     }
 
@@ -74,7 +74,7 @@ public class ItemSpecsMapper {
             pStmt.setString(2, iname);
             pStmt.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+//            throw new Exception(e.getMessage());
         }
     }
 
@@ -84,7 +84,7 @@ public class ItemSpecsMapper {
             pstmt.setString(1, iname);
             pstmt.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+//            throw new Exception(e.getMessage());
         }
     }
 
@@ -108,7 +108,7 @@ public class ItemSpecsMapper {
             }
             memory.setItemspecs(it);
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+//            throw new Exception(e.getMessage());
         }
     }
 

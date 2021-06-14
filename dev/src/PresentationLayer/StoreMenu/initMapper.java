@@ -1,150 +1,32 @@
 package PresentationLayer.StoreMenu;
+import BusinessLayer.StoreModule.Application.Facade;
+
 import java.io.File;
 import java.sql.*;
 
 public class initMapper {
 
-    private static String dbName= "superLee.db";
-    public static String path= "jdbc:sqlite:superLee.db";
-    //tabels
-    public static String categorytbl = "Category";
-    public static String itemspecstbl = "ItemSpecs";
-    public static String itemstbl = "Items";
-    public static String reportstbl = "Reports";
-    public static String defectstbl = "Defects";
-
-
-    public initMapper(){
-        dbName = "superLee.db";
-        path = "jdbc:sqlite:superLee.db";
-    }
     public void initialize() {
-        if (!new File(dbName).exists()) {
-            createNewDatabase();
-            createCategoryTbl();
-            createItemSpecsTbl();
-            createItemsTbl();
-            createDefectsTbl();
-            createReportsTbl();
-        }
-    }
-
-    private void createNewDatabase() {
+        Facade facade = Facade.getInstance();
+        facade.addingCategory("Milk");
         try {
-            Class.forName("org.sqlite.JDBC");
-            Connection conn = DriverManager.getConnection("jdbc:sqlite:superLee.db");
-            if (conn != null) {
-                DatabaseMetaData meta = conn.getMetaData();
-                System.out.println("A new database has been created.");
-            }
-            else System.out.println("Connection is null!");
-        } catch (SQLException | ClassNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public static Connection connect() {
-        Connection conn = null;
-        try {
-            Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection(path);
+            facade.addsubCategory("Milk","tnuva0",1);
+            facade.addsubCategory("Milk","tnuva1",1);
+            facade.addsubCategory("Milk","tnuva2",1);
+            facade.addsubCategory("tnuva0","5per",2);
+            facade.addsubCategory("tnuva2","7per",2);
+            facade.addingCategory("fish");
+            facade.addingCategory("chocolate");
+            facade.addsubCategory("fish","fish1",1);
+            facade.addsubCategory("fish1","fish2",2);
+            facade.addItem("tuna","fish1",10,20,8,20,"30/05/2021",10,"starkest");
+            facade.addItem("tuna2","fish2",60,10,8,20,"08/05/2021",14,"starkest");
+            facade.addItem("kitkat","chocolate",50,10,8,10,"08/10/2021",13,"strauss");
+            facade.AddNewAmount("fish1","tuna",15,"08/05/2021");
+            facade.AddNewAmount("fish2","tuna2",55,"30/05/2021");
+            facade.addsubCategory("tnuva0","3per",2);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return conn;
-    }
-
-    private void createCategoryTbl(){
-        String sql ="CREATE TABLE IF NOT EXISTS \"Category\" (\n" +
-                "\t\"cname\"\tTEXT,\n" +
-                "\t\"level\"\tINTEGER,\n" +
-                "\t\"discount1\"\tINTEGER,\n" +
-                "\t\"uppercat\"\tTEXT,\n" +
-                "\tPRIMARY KEY(\"cname\")\n" +
-                ");";
-        try {
-            try {
-                Class.forName("org.sqlite.JDBC");
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            Statement stmt = connect().createStatement();
-            stmt.execute(sql);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
-    private void createItemSpecsTbl(){
-        String sql ="CREATE TABLE IF NOT EXISTS \"ItemSpecs\" (\n" +
-                "\t\"iname\"\tTEXT,\n" +
-                "\t\"cname\"\tTEXT,\n" +
-                "\t\"minamount\"\tINTEGER,\n" +
-                "\t\"totalamount\"\tINTEGER,\n" +
-                "\t\"manufacture\"\tTEXT,\n" +
-                "\t\"companyprice\"\tINTEGER,\n" +
-                "\t\"storeprice\"\tINTEGER,\n" +
-                "\t\"discount\"\tINTEGER,\n" +
-                "\t\"finalprice\"\tINTEGER,\n" +
-                "\tPRIMARY KEY(\"iname\")\n" +
-                ");";
-        try {
-            Statement stmt = connect().createStatement();
-            stmt.execute(sql);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-    private void createItemsTbl(){
-        String sql ="CREATE TABLE IF NOT EXISTS\"Items\" (\n" +
-                "\t\"iname\"\tTEXT,\n" +
-                "\t\"id\"\tINTEGER,\n" +
-                "\t\"expdate\"\tTEXT,\n" +
-                "\t\"shelveamount\"\tINTEGER,\n" +
-                "\t\"storageamount\"\tINTEGER,\n" +
-                "\t\"defectamount\"\tINTEGER,\n" +
-                "\t\"defectreason\"\tTEXT,\n" +
-                "\tPRIMARY KEY(\"id\")\n" +
-                ");";
-        try {
-            Statement stmt = connect().createStatement();
-            stmt.execute(sql);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-    private void createDefectsTbl(){
-        String sql ="CREATE TABLE IF NOT EXISTS \"Defects\" (\n" +
-                "\t\"id\"\tINTEGER,\n" +
-                "\t\"iname\"\tTEXT,\n" +
-                "\t\"cname\"\tTEXT,\n" +
-                "\t\"defectreason\"\tTEXT,\n" +
-                "\t\"amount\"\tINTEGER,\n" +
-                "\tPRIMARY KEY(\"id\")\n" +
-                ");";
-        try {
-            Statement stmt = connect().createStatement();
-            stmt.execute(sql);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-    private void createReportsTbl(){
-        String sql ="CREATE TABLE IF NOT EXISTS \"Reports\" (\n" +
-                "\t\"id\"\tINTEGER,\n" +
-                "\t\"title\"\tTEXT,\n" +
-                "\t\"description\"\tTEXT,\n" +
-                "\t\"cname\"\tTEXT,\n" +
-                "\t\"date\"\tTEXT,\n" +
-                "\t\"reportbudy\"\tTEXT,\n" +
-                "\tPRIMARY KEY(\"id\")\n" +
-                ");";
-        try {
-            Statement stmt = connect().createStatement();
-            stmt.execute(sql);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-
 }

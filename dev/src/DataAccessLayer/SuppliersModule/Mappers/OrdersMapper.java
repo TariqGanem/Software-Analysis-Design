@@ -82,8 +82,7 @@ public class OrdersMapper extends Mapper{
     public int storeSingleOrder(OrderDTO orderDTO){  // done
         int output = -1;
         try {
-            String sql = "INSERT INTO Orders (Status,PlacementDate,DueDate,Fixed) \" +\n" +
-                    "                    \"VALUES (?,?,?,?)";
+            String sql = "INSERT INTO Orders (Status,PlacementDate,DueDate,Fixed) VALUES (?,?,?,?)";
             connection = connect();
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);

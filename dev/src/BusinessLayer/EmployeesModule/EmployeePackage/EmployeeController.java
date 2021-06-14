@@ -204,6 +204,11 @@ public class EmployeeController {
     }
 
     public boolean hasRole(String ID, Role role) {
-        return employees.get(ID).hasSkill(role);
+        try {
+            return getEmployee(ID).hasSkill(role);
+        } catch(Exception ignored) {
+            return false;
+        }
+
     }
 }
