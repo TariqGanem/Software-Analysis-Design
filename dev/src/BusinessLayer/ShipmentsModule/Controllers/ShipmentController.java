@@ -2,14 +2,12 @@ package BusinessLayer.ShipmentsModule.Controllers;
 
 import BusinessLayer.ShipmentsModule.Builder;
 import BusinessLayer.ShipmentsModule.Objects.Item;
-import BusinessLayer.ShipmentsModule.Objects.Location;
 import BusinessLayer.ShipmentsModule.Objects.Shipment;
 import DTOPackage.ShipmentDTO;
 import DataAccessLayer.ShipmentsModule.Mappers.DocumentMapper;
 import DataAccessLayer.ShipmentsModule.Mappers.ShipmentMapper;
 
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 public class ShipmentController {
@@ -111,7 +109,9 @@ public class ShipmentController {
             if (shipmentDTO.getDate().equals(date)
                     && isMorning(shipmentDTO.getDepartureHour()) == isMorning
                     && shipmentDTO.getDriverId().equals(driverId)) {
+                mapper.deleteDriverTruck(driverId, date, isMorning);
                 mapper.deleteShipment(shipmentDTO.getShipmentId());
+
             }
         }
     }
@@ -127,6 +127,7 @@ public class ShipmentController {
             if (shipmentDTO.getDate().equals(date)
                     && isMorning(shipmentDTO.getDepartureHour()) == isMorning) {
                 mapper.deleteShipment(shipmentDTO.getShipmentId());
+                mapper.deleteDriverTruck(shipmentDTO.getDriverId(), date, isMorning);
             }
         }
     }

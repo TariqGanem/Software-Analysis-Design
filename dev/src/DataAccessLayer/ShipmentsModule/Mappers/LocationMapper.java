@@ -47,18 +47,19 @@ public class LocationMapper {
 
     public LocationDTO addLocation(int id, String address, String phone, String contactName) throws Exception {
         LocationDTO location;
-        for (LocationDTO loc : memory.getLocations()) {
-            if (loc.getAddress().equals(address) && loc.getPhoneNumber().equals(phone))
-                throw new Exception("Location already exists!");
-        }
+//        for (LocationDTO loc : memory.getLocations()) {
+//            if (loc.getAddress().equals(address) && loc.getPhoneNumber().equals(phone))
+//                throw new Exception("Location already exists!");
+//        }
         location = new LocationDTO(id, address, phone, contactName);
         if (locationExists(address, phone, contactName)) {
             memory.getLocations().add(location);
             //throw new Exception("Location already exists in the database!");
         } else {
             insertLocation(id, address, phone, contactName);
+            memory.getLocations().add(location);
         }
-        memory.getLocations().add(location);
+
         return location;
     }
 
@@ -113,14 +114,14 @@ public class LocationMapper {
         }
     }
 
-    private boolean locationExists(String address, String phone, String contactName) throws Exception {
+    public boolean locationExists(String address, String phone, String contactName) throws Exception {
         LocationDTO location = _selectLocationE(address, phone, contactName);
         if (location != null)
             return true;
         return false;
     }
 
-    private LocationDTO _selectLocationE(String address, String phone, String contactName) throws Exception {
+    public LocationDTO _selectLocationE(String address, String phone, String contactName) throws Exception {
         String sql = "SELECT * FROM " + dbMaker.locationsTbl + " WHERE address='" + address + "' AND phone='" + phone + "' AND contactName='" + contactName + "'";
         try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {

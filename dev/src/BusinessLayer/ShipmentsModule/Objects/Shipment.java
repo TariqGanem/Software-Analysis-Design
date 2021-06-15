@@ -1,6 +1,9 @@
 package BusinessLayer.ShipmentsModule.Objects;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Shipment {
     private int shipmentId;
@@ -11,7 +14,7 @@ public class Shipment {
     private Map<Integer, Document> documents;
     private Location source;
     private boolean approved;
-    private  boolean delivered;
+    private boolean delivered;
 
     public Shipment(int shipmentId, Date date, String departureHour, String truckPlateNumber, String driverId, Location source) {
         this.shipmentId = shipmentId;

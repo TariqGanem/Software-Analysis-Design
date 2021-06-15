@@ -20,7 +20,7 @@ public class SupplierDTO {
     private Map<String, ContactDTO> contacts;
 
     public SupplierDTO(String name, String manifactur, int company_id, String phone, int BankAccount,
-                        String paymentConditions, String orderType, boolean selfPickup, Map<String, ContactDTO> contacts) {
+                       String paymentConditions, String orderType, boolean selfPickup, Map<String, ContactDTO> contacts) {
         this.name = name;
         this.manifactur = manifactur;
         this.company_id = company_id;
@@ -32,7 +32,7 @@ public class SupplierDTO {
         this.contacts = contacts;
     }
 
-    public SupplierDTO(SupplierCard supplierCard){
+    public SupplierDTO(SupplierCard supplierCard) {
         name = supplierCard.getName();
         manifactur = supplierCard.getManifactur();
         company_id = supplierCard.getCompany_id();
@@ -43,13 +43,13 @@ public class SupplierDTO {
         paymentConditions = supplierCard.getPaymentConditions();
         this.contacts = new HashMap<>();
         for (Map.Entry<String, ContactPerson> contacts :
-             supplierCard.getContacts().entrySet()) {
+                supplierCard.getContacts().entrySet()) {
             this.contacts.put(contacts.getKey(), new ContactDTO(contacts.getValue()));
         }
 
     }
 
-    public SupplierDTO(Supplier supplier){
+    public SupplierDTO(Supplier supplier) {
         this.name = supplier.getName();
         this.manifactur = supplier.getManifactur();
         this.company_id = supplier.getCompany_id();
@@ -86,7 +86,7 @@ public class SupplierDTO {
         return output;
     }
 
-    public String AllContacts(){
+    public String AllContacts() {
         String output = "";
         for (String contact : contacts.keySet()) {
             output += contacts.get(contact).toString();

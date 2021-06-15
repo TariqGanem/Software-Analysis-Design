@@ -31,7 +31,7 @@ public class SupplierCard {
         this.contacts = new HashMap<>();
     }
 
-    public SupplierCard(SupplierDTO supplier){
+    public SupplierCard(SupplierDTO supplier) {
         name = supplier.getName();
         manifactur = supplier.getManifactur();
         company_id = supplier.getCompany_id();
@@ -40,8 +40,8 @@ public class SupplierCard {
         paymentConditions = supplier.getPaymentConditions();
         orderType = supplier.getOrderType();
         contacts = new HashMap<>();
-        for (Map.Entry<String, ContactDTO> pair: supplier.getContacts().entrySet()) {
-            contacts.put(pair.getKey(),new ContactPerson(pair.getValue()));
+        for (Map.Entry<String, ContactDTO> pair : supplier.getContacts().entrySet()) {
+            contacts.put(pair.getKey(), new ContactPerson(pair.getValue()));
         }
         selfPickup = supplier.isSelfPickup();
     }
@@ -58,7 +58,7 @@ public class SupplierCard {
         return company_id;
     }
 
-    public String getPhone(){
+    public String getPhone() {
         return phone;
     }
 

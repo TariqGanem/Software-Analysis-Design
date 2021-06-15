@@ -1,19 +1,20 @@
 package BusinessLayer.SuppliersModule.Response;
+
 public class Response<T> {
     private final T value;
     private final String errorMessage;
 
-    public Response(Exception exception){
+    public Response(Exception exception) {
         this.errorMessage = exception.getMessage();
         this.value = null;
     }
 
-    public Response(T value){
+    public Response(T value) {
         this.errorMessage = null;
         this.value = value;
     }
 
-    public Response(String errorMessage, T value){
+    public Response(String errorMessage, T value) {
         this.errorMessage = errorMessage;
         this.value = value;
     }
@@ -23,7 +24,7 @@ public class Response<T> {
         this.value = null;
     }
 
-    public boolean isError(){
+    public boolean isError() {
         return errorMessage != null;
     }
 
@@ -31,7 +32,7 @@ public class Response<T> {
         return errorMessage;
     }
 
-    public T getValue(){
+    public T getValue() {
         return value;
     }
 }

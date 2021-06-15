@@ -64,7 +64,6 @@ public class DriverController {
 //        }
 //        return availableDrivers;
 //    }
-
     public Driver getAvailableDriver(double weight, Date date, boolean isMorning) throws Exception {
         Driver driver = null;
         List<String> ids = new EmployeesShipmentsAPI().getScheduledDrivers(convertToLocalDateViaInstant(date), isMorning);

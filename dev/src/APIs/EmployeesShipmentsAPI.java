@@ -29,7 +29,7 @@ public class EmployeesShipmentsAPI {
         pController.API_alertHRManager(msg);
     }
 
-    public boolean hasRole(String ID, Role role){
+    public boolean hasRole(String ID, Role role) {
         return pController.hasRole(ID, role);
     }
 }

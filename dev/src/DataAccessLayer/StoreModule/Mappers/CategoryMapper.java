@@ -3,26 +3,30 @@ package DataAccessLayer.StoreModule.Mappers;
 import DataAccessLayer.StoreModule.objects.CategoryDl;
 import DataAccessLayer.dbMaker;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
+
 public class CategoryMapper {
 
     private static CategoryMapper instance = null;
     private Mapper memory;
 
 
-    private CategoryMapper()
-    {
-        memory=Mapper.getInstance() ;
+    private CategoryMapper() {
+        memory = Mapper.getInstance();
     }
+
     public static CategoryMapper getInstance() {
         if (instance == null)
             instance = new CategoryMapper();
         return instance;
     }
 
-    public void insertCategory(String cname,int level, int discount1,String uppercat) throws Exception {
+    public void insertCategory(String cname, int level, int discount1, String uppercat) throws Exception {
 
         try (Connection conn = dbMaker.connect()) {
             String sql = "INSERT INTO " + dbMaker.categorytbl + " (cname, level, discount1,uppercat) VALUES (?,?,?,?)";
@@ -68,7 +72,7 @@ public class CategoryMapper {
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                CategoryDl cat= new CategoryDl(rs.getString(1),
+                CategoryDl cat = new CategoryDl(rs.getString(1),
                         rs.getInt(2),
                         rs.getInt(3),
                         rs.getString(4));

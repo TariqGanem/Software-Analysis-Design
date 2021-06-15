@@ -87,6 +87,19 @@ public class ShipmentMapper {
         return shipments;
     }
 
+    public void deleteDriverTruck(String driverId, Date date, boolean isMorning) throws Exception {
+        String sql = "DELETE FROM " + dbMaker.truckSchedulerTbl + " WHERE shipmentDate = ?  AND isMorning=? AND driver = ?";
+        try (Connection conn = dbMaker.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, new SimpleDateFormat("dd/MM/yyyy").format(date));
+            pstmt.setBoolean(2, isMorning);
+            pstmt.setString(3, driverId);
+            pstmt.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
     public void deleteShipment(int shipmentId) throws Exception {
         _deleteShipment(shipmentId);
         for (ShipmentDTO shipment : memory.getShipments()) {
@@ -112,7 +125,7 @@ public class ShipmentMapper {
             pstmt.setBoolean(8, false);
             pstmt.executeUpdate();
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            throw new Exception("THIS IS IT: " + e.getMessage() + " " + truckPlateNumber + " " + driverId + " " + sourceId);
         }
     }
 

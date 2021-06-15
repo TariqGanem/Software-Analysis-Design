@@ -61,7 +61,7 @@ public class Builder {
     }
 
     public static Item build(ShippedItemDTO item) {
-        Item itemBO= new Item(item.getName(), item.getAmount(), item.getWeight());
+        Item itemBO = new Item(item.getName(), item.getAmount(), item.getWeight());
         itemBO.setDocumentId(item.getDocumentId());
         return itemBO;
     }
@@ -147,9 +147,9 @@ public class Builder {
         return locationDTOList;
     }
 
-    public static Map<Integer, List<Item>> buildItemsPerDestinations(Map<Integer, List<ShippedItemDTO>> itemsDTO){
+    public static Map<Integer, List<Item>> buildItemsPerDestinations(Map<Integer, List<ShippedItemDTO>> itemsDTO) {
         Map<Integer, List<Item>> items = new HashMap<>();
-        for(Integer i: itemsDTO.keySet()){
+        for (Integer i : itemsDTO.keySet()) {
             items.put(i, buildItemsList(itemsDTO.get(i)));
         }
         return items;

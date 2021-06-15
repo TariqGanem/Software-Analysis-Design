@@ -18,9 +18,9 @@ public class Contract {
     }
 
 
-    public Contract(ContractDTO contractDTO){
+    public Contract(ContractDTO contractDTO) {
         this.items = new HashMap<>();
-        for (Map.Entry<Integer, ItemDTO> item: contractDTO.getItems().entrySet()) {
+        for (Map.Entry<Integer, ItemDTO> item : contractDTO.getItems().entrySet()) {
             this.items.put(item.getKey(), new Item(item.getValue()));
         }
 
@@ -29,32 +29,32 @@ public class Contract {
     }
 
     public void addDiscount(int itemid, int quant, double disc) {
-        if(items.containsKey(itemid)) {
+        if (items.containsKey(itemid)) {
             report.addDiscount(itemid, quant, disc);
         }
     }
 
     public void addItem(int itemid, String name, double price, double weight) {
-        if(!items.containsKey(itemid)){
-            items.put(itemid,new Item(itemid,name,price,weight));
+        if (!items.containsKey(itemid)) {
+            items.put(itemid, new Item(itemid, name, price, weight));
         }
     }
 
     public void removeDiscount(int itemid, int quant) {
-        if(items.containsKey(itemid)){
-            report.removeDiscount(itemid,quant);
+        if (items.containsKey(itemid)) {
+            report.removeDiscount(itemid, quant);
         }
     }
 
     public void removeItem(int itemid) {
-        if(items.containsKey(itemid)){
+        if (items.containsKey(itemid)) {
             items.remove(itemid);
             report.removeDiscount(itemid);
         }
     }
 
     public void updatePrice(int itemid, double price) {
-        if(items.containsKey(itemid)){
+        if (items.containsKey(itemid)) {
             items.get(itemid).updatePrice(price);
         }
     }

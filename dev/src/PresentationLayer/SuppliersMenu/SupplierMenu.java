@@ -3,7 +3,6 @@ package PresentationLayer.SuppliersMenu;
 import BusinessLayer.SuppliersModule.Application.Facade;
 import Resources.ContactMethod;
 
-import java.time.LocalDate;
 import java.util.Scanner;
 
 public class SupplierMenu implements Menu {
@@ -40,8 +39,7 @@ public class SupplierMenu implements Menu {
                         System.out.println("Enter a number between 1 to 4.");
                 }
             }
-        }
-        catch (Exception exception){
+        } catch (Exception exception) {
             System.out.println("Wrong input, try again: ");
             Print_Menu();
         }
@@ -58,20 +56,20 @@ public class SupplierMenu implements Menu {
     }
 
 
-    public void init(){
+    public void init() {
         Facade facade = Facade.getInstance();
         //entering two suppliers
-        facade.AddSupplier("aaa","aa",12, "050342423", 123,"none","fixed",true);
-        facade.AddSupplier("abb","ab",13, "2342343", 1235,"none","single",false);
+        facade.AddSupplier("aaa", "aa", 12, "050342423", 123, "none", "fixed", true);
+        facade.AddSupplier("abb", "ab", 13, "2342343", 1235, "none", "single", false);
         //entering a contact persons
-        facade.AddContactPerson(12,"abc", ContactMethod.Phone,"05043423234");
-        facade.AddMethod(12,"asd", ContactMethod.Email,"mas@gmail.com");
+        facade.AddContactPerson(12, "abc", ContactMethod.Phone, "05043423234");
+        facade.AddMethod(12, "asd", ContactMethod.Email, "mas@gmail.com");
         //entering a quantity report
         //entering items
-        facade.AddItem(12,1,"kitkat",3.5,15.6);
-        facade.AddItem(12,2,"doritos",5,11);
+        facade.AddItem(12, 1, "kitkat", 3.5, 15.6);
+        facade.AddItem(12, 2, "doritos", 5, 11);
         //entering discounts
-        facade.AddDiscount(12,1,5,5);
+        facade.AddDiscount(12, 1, 5, 5);
     }
 
 }

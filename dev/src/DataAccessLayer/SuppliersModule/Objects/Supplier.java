@@ -42,17 +42,16 @@ public class Supplier {
         this.selfPickup = dto.isSelfPickup();
         this.contacts = new HashMap<>();
 
-        for (Map.Entry<String, ContactDTO> contactDTO: dto.getContacts().entrySet() ) {
+        for (Map.Entry<String, ContactDTO> contactDTO : dto.getContacts().entrySet()) {
             this.contacts.put(contactDTO.getKey(), new Contact(contactDTO.getValue()));
         }
     }
 
 
-
-    public Contact getContact(String name){
-        if(contacts.containsKey(name)){
+    public Contact getContact(String name) {
+        if (contacts.containsKey(name)) {
             return contacts.get(name);
-        }else{
+        } else {
             return null;
         }
     }
@@ -65,28 +64,28 @@ public class Supplier {
         bankAccount = data;
     }
 
-    public void addContact(String name, ContactMethod method, String data){
-        if(!contacts.containsKey(name)){
-            Map<ContactMethod,String> methods = new HashMap<>();
-            methods.putIfAbsent(method,data);
-            contacts.putIfAbsent(name,new Contact(name,methods));
+    public void addContact(String name, ContactMethod method, String data) {
+        if (!contacts.containsKey(name)) {
+            Map<ContactMethod, String> methods = new HashMap<>();
+            methods.putIfAbsent(method, data);
+            contacts.putIfAbsent(name, new Contact(name, methods));
         }
     }
 
     public void addMethod(String name, ContactMethod method, String data) {
-        if(contacts.containsKey(name)){
-           contacts.get(name).addMethod(method,data);
+        if (contacts.containsKey(name)) {
+            contacts.get(name).addMethod(method, data);
         }
     }
 
     public void removeContact(String name) {
-        if(contacts.containsKey(name)){
+        if (contacts.containsKey(name)) {
             contacts.remove(name);
         }
     }
 
     public void removeMethod(String name, ContactMethod method) {
-        if(contacts.containsKey(name)){
+        if (contacts.containsKey(name)) {
             contacts.get(name).removeMethod(method);
         }
     }
@@ -107,7 +106,7 @@ public class Supplier {
         return company_id;
     }
 
-    public String getPhone(){
+    public String getPhone() {
         return phone;
     }
 

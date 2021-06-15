@@ -1,7 +1,7 @@
 package ShipmentsTests;
 
-import BusinessLayer.ShipmentsModule.Facade;
 import BusinessLayer.Response;
+import BusinessLayer.ShipmentsModule.Facade;
 import DataAccessLayer.dbMaker;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,7 +51,7 @@ public class LocationTest {
     }
 
     @Test
-    public void testInvalidArgs(){
+    public void testInvalidArgs() {
         Response res1 = data.addLocation("  ", "0509991523", "asd");
         Response res2 = data.addLocation("lol_3", " ", "dsa");
         Response res3 = data.addLocation("lol_4", "Yazan", " ");

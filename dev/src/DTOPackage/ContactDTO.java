@@ -15,12 +15,12 @@ public class ContactDTO {
         this.contactMethods = contactMethods;
     }
 
-    public ContactDTO(ContactPerson contactPerson){
+    public ContactDTO(ContactPerson contactPerson) {
         name = contactPerson.getName();
         contactMethods = contactPerson.getContactMethods();
     }
 
-    public ContactDTO(Contact contract){
+    public ContactDTO(Contact contract) {
         this.name = contract.getName();
         this.contactMethods = contract.getContactMethods();
     }

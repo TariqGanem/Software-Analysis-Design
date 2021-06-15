@@ -5,7 +5,9 @@ package DataAccessLayer.StoreModule.Mappers;
 import DataAccessLayer.StoreModule.objects.ItemSpecsDl;
 import DataAccessLayer.dbMaker;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 

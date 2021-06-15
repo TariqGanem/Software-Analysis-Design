@@ -1,16 +1,16 @@
 package BusinessLayer.SuppliersModule.Application;
 
-import BusinessLayer.SuppliersModule.Response.Response;
 import BusinessLayer.SuppliersModule.Controllers.ContractController;
+import BusinessLayer.SuppliersModule.Controllers.OrderController;
+import BusinessLayer.SuppliersModule.Controllers.SupplierController;
 import BusinessLayer.SuppliersModule.Objects.FixedOrder;
 import BusinessLayer.SuppliersModule.Objects.Item;
 import BusinessLayer.SuppliersModule.Objects.SingleOrder;
+import BusinessLayer.SuppliersModule.Response.Response;
 import DTOPackage.ContractDTO;
 import DTOPackage.ItemDTO;
 import DTOPackage.OrderDTO;
 import DTOPackage.SupplierDTO;
-import BusinessLayer.SuppliersModule.Controllers.OrderController;
-import BusinessLayer.SuppliersModule.Controllers.SupplierController;
 import Resources.ContactMethod;
 
 import java.time.LocalDate;
@@ -335,8 +335,8 @@ public class Facade {
 
 
     /**
-     * @param orderID id of order to add item to.
-     * @param itemID  item to be added to the order
+     * @param orderID  id of order to add item to.
+     * @param itemID   item to be added to the order
      * @param quantity
      * @return response of the procedure
      */
@@ -412,14 +412,14 @@ public class Facade {
 
     /**
      * @param supplierID id of supplier to ask an order from
-     * @param dueDate due-date of the order
+     * @param dueDate    due-date of the order
      * @return response if opening single order succeeded or not.
      */
     public Response OpenSingleOrder(int supplierID, LocalDate dueDate) {
         try {
             if (sc.isSupplier(supplierID)) {
                 SingleOrder singleOrder = oc.openSingleOrder(supplierID, dueDate);
-                return new Response("Single order NO."+singleOrder.getId() + " was opened successfully!");
+                return new Response("Single order NO." + singleOrder.getId() + " was opened successfully!");
             } else throw new Exception("Supplier does not exist!");
 
         } catch (Exception exception) {
@@ -432,15 +432,13 @@ public class Facade {
      * @param orderID id of order to submit
      * @return response if order submission succeeded
      */
-    public Response submitOrder(int orderID){
-        try{
-            if(isOrder(orderID).getValue()) {
+    public Response submitOrder(int orderID) {
+        try {
+            if (isOrder(orderID).getValue()) {
                 oc.placeAnOrder(orderID);
-                return new Response("Order NO."+orderID + " was submitted successfully!");
-            }
-            else throw new Exception("non-valid order id!");
-        }
-        catch (Exception exception){
+                return new Response("Order NO." + orderID + " was submitted successfully!");
+            } else throw new Exception("non-valid order id!");
+        } catch (Exception exception) {
             return new Response(exception);
         }
     }
@@ -456,7 +454,7 @@ public class Facade {
             if (sc.isSupplier(supplierID)) {
                 FixedOrder fixedOrder = oc.openFixedOrder(supplierID, dueDate);
                 cc.getContract(supplierID).setFixedOrder(fixedOrder);
-                return new Response("Fixed order NO."+fixedOrder.getId() + " was opened successfully!");
+                return new Response("Fixed order NO." + fixedOrder.getId() + " was opened successfully!");
             } else throw new Exception("Supplier does not exist!");
 
         } catch (Exception exception) {

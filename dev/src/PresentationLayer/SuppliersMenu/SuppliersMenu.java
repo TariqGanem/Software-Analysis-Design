@@ -2,13 +2,14 @@ package PresentationLayer.SuppliersMenu;
 
 import APIs.EmployeesSuppliersAPI;
 import BusinessLayer.SuppliersModule.Application.Facade;
-import DTOPackage.SupplierDTO;
 import BusinessLayer.SuppliersModule.Response.Response;
+import DTOPackage.SupplierDTO;
 import Resources.ContactMethod;
 
 import java.util.Scanner;
 
-import static Resources.Role.*;
+import static Resources.Role.StoreKeeper;
+import static Resources.Role.StoreManager;
 
 public class SuppliersMenu implements Menu {
     private final Facade facade = Facade.getInstance();
@@ -22,10 +23,10 @@ public class SuppliersMenu implements Menu {
             System.out.println("Type \"q\" to quit. ");
             System.out.print("Please enter your employee ID: ");
             String id = sc.nextLine();
-            if(id == "q")
+            if (id == "q")
                 break;
             menu_options(id);
-            if(new EmployeesSuppliersAPI().hasRole(id,StoreKeeper) || new EmployeesSuppliersAPI().hasRole(id,StoreManager)) {
+            if (new EmployeesSuppliersAPI().hasRole(id, StoreKeeper) || new EmployeesSuppliersAPI().hasRole(id, StoreManager)) {
                 opt = Integer.parseInt(sc.nextLine());
                 switch (opt) {
                     case 1:
@@ -91,7 +92,7 @@ public class SuppliersMenu implements Menu {
                     default:
                         System.out.println("Enter a number between 1 to 5.");
                 }
-            }else {
+            } else {
                 opt = Integer.parseInt(sc.nextLine());
                 switch (opt) {
                     case 1:
@@ -119,14 +120,14 @@ public class SuppliersMenu implements Menu {
     }
 
     private void menu_options(String id) {
-        if(new EmployeesSuppliersAPI().hasRole(id,StoreKeeper) || new EmployeesSuppliersAPI().hasRole(id,StoreManager)) {
+        if (new EmployeesSuppliersAPI().hasRole(id, StoreKeeper) || new EmployeesSuppliersAPI().hasRole(id, StoreManager)) {
             System.out.println("======Supplier Menu======" + "\n" +
                     "1.Add new Supplier" + "\n" +
                     "2.Delete a current Supplier" + "\n" +
                     "3.Edit a current Supplier" + "\n" +
                     "4.Print Supplier card" + "\n" +
                     "5.Return to Suppliers menu" + "\n");
-        }else{
+        } else {
             System.out.println("======Supplier Menu======" + "\n" +
                     "1.Print Supplier card" + "\n" +
                     "2.Return to Suppliers menu" + "\n");
@@ -208,11 +209,11 @@ public class SuppliersMenu implements Menu {
                         System.out.print("Enter person's name: ");
                         String name = sc.nextLine();
                         ContactMethod method = null;
-                        while(true) {
+                        while (true) {
                             ContactMethods_options();
                             int choose = Integer.parseInt(sc.nextLine());
                             method = parse(choose);
-                            if(method != null)
+                            if (method != null)
                                 break;
                         }
                         System.out.print("Enter the method's data: ");
@@ -248,11 +249,11 @@ public class SuppliersMenu implements Menu {
                         System.out.print("Enter the person's name: ");
                         String person_name = sc.nextLine();
                         ContactMethod method = null;
-                        while(true) {
+                        while (true) {
                             ContactMethods_options();
                             int choose = Integer.parseInt(sc.nextLine());
                             method = parse(choose);
-                            if(method != null)
+                            if (method != null)
                                 break;
                         }
                         System.out.print("Enter the method's data: ");
@@ -273,11 +274,11 @@ public class SuppliersMenu implements Menu {
                         System.out.print("Enter the person's name: ");
                         String person_name = sc.nextLine();
                         ContactMethod method = null;
-                        while(true) {
+                        while (true) {
                             ContactMethods_options();
                             int choose = Integer.parseInt(sc.nextLine());
                             method = parse(choose);
-                            if(method != null)
+                            if (method != null)
                                 break;
                         }
                         Response supplier = facade.RemoveMethod(company_id, person_name, method);
@@ -296,11 +297,11 @@ public class SuppliersMenu implements Menu {
                         System.out.print("Enter the person's name: ");
                         String person_name = sc.nextLine();
                         ContactMethod method = null;
-                        while(true) {
+                        while (true) {
                             ContactMethods_options();
                             int choose = Integer.parseInt(sc.nextLine());
                             method = parse(choose);
-                            if(method != null)
+                            if (method != null)
                                 break;
                         }
                         System.out.print("Enter the method's data: ");

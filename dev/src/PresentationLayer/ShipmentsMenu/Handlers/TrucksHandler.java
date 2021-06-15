@@ -1,12 +1,10 @@
 package PresentationLayer.ShipmentsMenu.Handlers;
 
-import BusinessLayer.ShipmentsModule.Facade;
 import BusinessLayer.Response;
 import BusinessLayer.ResponseT;
+import BusinessLayer.ShipmentsModule.Facade;
 import DTOPackage.TruckDTO;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -46,7 +44,6 @@ public class TrucksHandler extends Handler {
             printer.viewAllTrucks(trucks);
         }
     }
-
 
 
 }

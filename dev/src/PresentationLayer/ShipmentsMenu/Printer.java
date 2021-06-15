@@ -92,7 +92,7 @@ public class Printer {
     }
 
     public void viewAllShipments(List<ShipmentDTO> shipments) {
-        if(shipments.isEmpty()){
+        if (shipments.isEmpty()) {
             System.out.println("There are no such shipments ...");
             return;
         }
@@ -105,8 +105,8 @@ public class Printer {
                     + "\t Truck Plate Number: " + shipments.get(i).getTruckPlateNumber()
                     + "\t Driver Id: " + shipments.get(i).getDriverId()
                     + "\t Shipment Weight: " + shipments.get(i).getShipmentWeight()
-                    + "\n\t Approved: " + (shipments.get(i).isApproved()?"YES":"NO")
-                    + "\t Delivered: " + (shipments.get(i).isDelivered()?"YES":"NO")
+                    + "\n\t Approved: " + (shipments.get(i).isApproved() ? "YES" : "NO")
+                    + "\t Delivered: " + (shipments.get(i).isDelivered() ? "YES" : "NO")
                     + "\t Source --> "
                     + "\t Address: " + shipments.get(i).getSource().getAddress()
                     + "\t Phone: " + shipments.get(i).getSource().getPhoneNumber()

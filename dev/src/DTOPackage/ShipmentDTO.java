@@ -11,7 +11,7 @@ public class ShipmentDTO {
     private Map<Integer, DocumentDTO> documents;
     private LocationDTO source;
     private boolean approved;
-    private  boolean delivered;
+    private boolean delivered;
 
     public ShipmentDTO(int shipmentId, Date date, String departureHour, String truckPlateNumber, String driverId, LocationDTO source) {
         this.shipmentId = shipmentId;

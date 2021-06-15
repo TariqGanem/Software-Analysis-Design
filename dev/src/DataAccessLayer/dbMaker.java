@@ -31,7 +31,7 @@ public class dbMaker {
     public static String categorytbl = "Category";
     public static String itemspecstbl = "ItemSpecs";
     public static String itemstbl = "Items";
-//    public static String itemsStbl = "ItemsS";
+    //    public static String itemsStbl = "ItemsS";
     public static String reportstbl = "Reports";
     public static String defectstbl = "Defects";
 
@@ -144,15 +144,15 @@ public class dbMaker {
                     "(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
                     "Status                 TEXT    NOT NULL, " +
                     "PlacementDate           TEXT    NOT NULL, " +
-                    "DueDate          TEXT     NOT NULL, "+
+                    "DueDate          TEXT     NOT NULL, " +
                     "Fixed  INT NOT NULL)";
             statement.executeUpdate(sql);
 
             statement = connect().createStatement();
-            sql = "CREATE TABLE IF NOT EXISTS ItemsInOrders "+
-                    "(OrderID INT,"+
+            sql = "CREATE TABLE IF NOT EXISTS ItemsInOrders " +
+                    "(OrderID INT," +
                     "ItemID INT,  " +
-                    "Amount INT NOT NULL,"+
+                    "Amount INT NOT NULL," +
                     "PRIMARY KEY(OrderID,ItemID)," +
                     "FOREIGN KEY(OrderID) REFERENCES Orders(Id))";
             statement.executeUpdate(sql);

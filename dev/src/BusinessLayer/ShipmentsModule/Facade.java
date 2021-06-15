@@ -11,7 +11,6 @@ import BusinessLayer.ShipmentsModule.Objects.*;
 import DTOPackage.*;
 import Resources.Role;
 
-
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.*;
@@ -161,11 +160,15 @@ public class Facade {
 
     private void addShipmentToBeApproved(Date date, String departureHour, String truckPlateNumber, String driverId, int sourceId, Map<Integer, List<Item>> items) throws Exception {
         int shipmentId = shipmentController.addShipment(date, departureHour, truckPlateNumber, driverId, sourceId);
-        for (Integer loc : items.keySet()) {
-            if (loc == sourceId) {
-                throw new Exception("Cannot deliver to destination as the same source!");
+        if (shipmentId > 0) {
+            for (Integer loc : items.keySet()) {
+                if (loc == sourceId) {
+                    throw new Exception("Cannot deliver to destination as the same source!");
+                }
+                System.out.println("BEFORE DOC");
+                shipmentController.addDocument(shipmentId, loc, items.get(loc));
+                System.out.println("AFTER DOC");
             }
-            shipmentController.addDocument(shipmentId, loc, items.get(loc));
         }
     }
 
@@ -189,9 +192,9 @@ public class Facade {
         Random rand = new Random();
         minutes = ((int) (Math.random() * 60)) + "";
         if (isMorning)
-            hours = (rand.nextInt((14 - 6) + 1) + 6) + "";
+            hours = (rand.nextInt((13 - 6) + 1) + 6) + "";
         else
-            hours = (rand.nextInt((22 - 14) + 1) + 14) + "";
+            hours = (rand.nextInt((21 - 14) + 1) + 14) + "";
         if (hours.length() == 1)
             hours = "0" + hours;
         if (minutes.length() == 1)

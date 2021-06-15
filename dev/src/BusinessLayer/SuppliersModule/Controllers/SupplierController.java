@@ -1,7 +1,7 @@
 package BusinessLayer.SuppliersModule.Controllers;
 
-import DTOPackage.SupplierDTO;
 import BusinessLayer.SuppliersModule.Objects.SupplierCard;
+import DTOPackage.SupplierDTO;
 import DataAccessLayer.SuppliersModule.Mappers.SuppliersMapper;
 import Resources.ContactMethod;
 
@@ -16,7 +16,7 @@ public class SupplierController {
     }
 
     public static SupplierController getInstance() {
-        if(instance == null)
+        if (instance == null)
             instance = new SupplierController();
         return instance;
     }
@@ -60,7 +60,7 @@ public class SupplierController {
     public void ChangePaymentConditions(int company_id, String paymentConditions) throws Exception {
         if (mapper.getSupplier(company_id) == null)
             throw new Exception("There's no supplier working with this company!!!");
-        mapper.update(company_id,"paymentConditions",paymentConditions);
+        mapper.update(company_id, "paymentConditions", paymentConditions);
     }
 
     /***
@@ -73,7 +73,8 @@ public class SupplierController {
     public void ChangeBankAccount(int company_id, int bankAccount) throws Exception {
         if (mapper.getSupplier(company_id) == null)
             throw new Exception("There's no supplier working with this company!!!");
-        mapper.update(company_id,"bankAccount",bankAccount);    }
+        mapper.update(company_id, "bankAccount", bankAccount);
+    }
 
     /***
      * Printing the Card of a current supplier.
@@ -117,7 +118,7 @@ public class SupplierController {
             throw new Exception("There's no supplier working with this company!!!");
         SupplierCard card = new SupplierCard(mapper.getSupplier(company_id));
         card.RemoveContact(name);
-        mapper.removeContact(company_id,name);
+        mapper.removeContact(company_id, name);
     }
 
     /***
@@ -187,7 +188,7 @@ public class SupplierController {
         return mapper.getSupplier(supplierID) != null;
     }
 
-    public SupplierCard getSupplier(int supplierId){
+    public SupplierCard getSupplier(int supplierId) {
         return new SupplierCard(mapper.getSupplier(supplierId));
     }
 }

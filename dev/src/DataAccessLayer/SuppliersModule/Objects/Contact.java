@@ -19,24 +19,24 @@ public class Contact {
         this.contactMethods = dto.getContactMethods();
     }
 
-    public ContactDTO DTO(){
+    public ContactDTO DTO() {
         return new ContactDTO(name, contactMethods);
     }
 
-    public void updateMethod(ContactMethod method, String data){
-        if(contactMethods.containsKey(method)){
-            contactMethods.put(method,data);
+    public void updateMethod(ContactMethod method, String data) {
+        if (contactMethods.containsKey(method)) {
+            contactMethods.put(method, data);
         }
     }
 
     public void addMethod(ContactMethod method, String data) {
-        if(!contactMethods.containsKey(method)){
-            contactMethods.putIfAbsent(method,data);
+        if (!contactMethods.containsKey(method)) {
+            contactMethods.putIfAbsent(method, data);
         }
     }
 
     public void removeMethod(ContactMethod method) {
-        if(contactMethods.containsKey(method)){
+        if (contactMethods.containsKey(method)) {
             contactMethods.remove(method);
         }
     }

@@ -13,16 +13,16 @@ public class ItemSpecsDl {
     private int finalprice;
 
     public ItemSpecsDl(String iname, String cname, int minamount, int totalamount, String manufacture,
-                       int companyprice, int storeprice, int discount, int finalprice){
-        this.cname=cname;
-        this.iname=iname;
-        this.manufacture=manufacture;
-        this.discount=discount;
-        this.companyprice=companyprice;
-        this.storeprice=storeprice;
-        this.finalprice=finalprice;
-        this.minamount=minamount;
-        this.totalamount=totalamount;
+                       int companyprice, int storeprice, int discount, int finalprice) {
+        this.cname = cname;
+        this.iname = iname;
+        this.manufacture = manufacture;
+        this.discount = discount;
+        this.companyprice = companyprice;
+        this.storeprice = storeprice;
+        this.finalprice = finalprice;
+        this.minamount = minamount;
+        this.totalamount = totalamount;
     }
 
     public int getCompanyprice() {

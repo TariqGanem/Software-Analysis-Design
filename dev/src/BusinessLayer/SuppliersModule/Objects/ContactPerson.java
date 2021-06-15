@@ -3,7 +3,8 @@ package BusinessLayer.SuppliersModule.Objects;
 import DTOPackage.ContactDTO;
 import Resources.ContactMethod;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ContactPerson {
     private final String name;
@@ -17,7 +18,7 @@ public class ContactPerson {
     }
 
 
-    public ContactPerson(ContactDTO contact){
+    public ContactPerson(ContactDTO contact) {
         if (contact == null)
             throw new NullPointerException();
         name = contact.getName();
@@ -33,7 +34,7 @@ public class ContactPerson {
     /***
      * @return a dto object that holds the same data of the the contact object.
      */
-    public ContactDTO DTO(){
+    public ContactDTO DTO() {
         return new ContactDTO(name, contactMethods);
     }
 

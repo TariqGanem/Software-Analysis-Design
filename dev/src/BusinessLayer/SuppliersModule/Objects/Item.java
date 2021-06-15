@@ -16,12 +16,13 @@ public class Item {
         this.weight = weight;
     }
 
-    public Item (ItemDTO item){
+    public Item(ItemDTO item) {
         id = item.getId();
         name = item.getName();
         price = item.getPrice();
         weight = item.getWeight();
     }
+
     public int getId() {
         return id;
     }

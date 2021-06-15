@@ -3,7 +3,8 @@ package BusinessLayer.SuppliersModule.Objects;
 import DTOPackage.ContractDTO;
 import DTOPackage.ItemDTO;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Contract {
     private Map<Integer, Item> items;
@@ -26,13 +27,10 @@ public class Contract {
     }
 
 
-
-
-
-    public Contract(ContractDTO contract){
+    public Contract(ContractDTO contract) {
         items = new HashMap<>();
-        for (Map.Entry<Integer, ItemDTO> item:
-             contract.getItems().entrySet()) {
+        for (Map.Entry<Integer, ItemDTO> item :
+                contract.getItems().entrySet()) {
             items.put(item.getKey(), new Item(item.getValue()));
         }
         report = new QuantityReport(contract.getReport());
@@ -79,7 +77,7 @@ public class Contract {
     public void AddItem(int item_id, String name, double price, double weight) throws Exception {
         if (items.containsKey(item_id))
             throw new Exception("The contract already have an item with this id!!!");
-        items.put(item_id, new Item(item_id, name, price,weight));
+        items.put(item_id, new Item(item_id, name, price, weight));
     }
 
     /***
@@ -124,25 +122,25 @@ public class Contract {
     }
 
 
-    public double finalPrice(String name, int quantity){
+    public double finalPrice(String name, int quantity) {
         int item_id = -1;
         double price = 0;
-        for (int id: items.keySet()) {
-            if(name == items.get(id).getName())
-                item_id  = id;
+        for (int id : items.keySet()) {
+            if (name == items.get(id).getName())
+                item_id = id;
         }
         int quant = quantity;
         int maxdisc = 0;
-        while(quant == 0){
-            for (int amount: report.getDiscounts().get(item_id).keySet()) {
-                if(amount <= quant){
+        while (quant == 0) {
+            for (int amount : report.getDiscounts().get(item_id).keySet()) {
+                if (amount <= quant) {
                     maxdisc = amount;
                 }
             }
-            if(maxdisc == 0)
-                price += maxdisc*report.getDiscounts().get(item_id).get(maxdisc);
+            if (maxdisc == 0)
+                price += maxdisc * report.getDiscounts().get(item_id).get(maxdisc);
             else
-                price += quant*items.get(item_id).getPrice();
+                price += quant * items.get(item_id).getPrice();
             quant -= maxdisc;
             maxdisc = 0;
         }

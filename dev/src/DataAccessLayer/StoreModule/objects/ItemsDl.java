@@ -10,15 +10,15 @@ public class ItemsDl {
     private int defectamount;
 
 
-    public ItemsDl(String iname, int id,String expdate, int shelveamount, int storageamount,
-                   int defectamount, String defectreason){
-        this.expdate=expdate;
-        this.iname=iname;
-        this.defectamount=defectamount;
-        this.id=id;
-        this.defectreason=defectreason;
-        this.storageamount=storageamount;
-        this.shelveamount=shelveamount;
+    public ItemsDl(String iname, int id, String expdate, int shelveamount, int storageamount,
+                   int defectamount, String defectreason) {
+        this.expdate = expdate;
+        this.iname = iname;
+        this.defectamount = defectamount;
+        this.id = id;
+        this.defectreason = defectreason;
+        this.storageamount = storageamount;
+        this.shelveamount = shelveamount;
     }
 
     public String getIname() {

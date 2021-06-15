@@ -159,7 +159,9 @@ public class Menu {
         return driversHandler;
     }
 
-    public ShipmentsHandler getShipmentsHandler(){return shipmentsHandler;}
+    public ShipmentsHandler getShipmentsHandler() {
+        return shipmentsHandler;
+    }
 
     public Facade getFacade() {
         return facade;

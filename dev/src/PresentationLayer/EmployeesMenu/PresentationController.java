@@ -237,7 +237,7 @@ public class PresentationController {
 
     public List<String> checkForAlerts() {
         ResponseT<List<String>> res = facade.checkForAlerts();
-        if(res.getErrorOccurred())
+        if (res.getErrorOccurred())
             return new ArrayList<>();
         else return res.getValue();
     }

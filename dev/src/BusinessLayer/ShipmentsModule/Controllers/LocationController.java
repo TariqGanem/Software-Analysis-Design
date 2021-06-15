@@ -35,9 +35,12 @@ public class LocationController {
     public int addLocation(String address, String phoneNumber, String contactName) throws Exception {
         if (address == null || address.trim().isEmpty() || phoneNumber == null || phoneNumber.trim().isEmpty() || contactName == null || contactName.trim().isEmpty())
             throw new Exception("Couldn't add new location - Invalid parameters");
-        mapper.addLocation(id, address, phoneNumber, contactName);
-        id++;
-        return id - 1;
+        if (!mapper.locationExists(address, phoneNumber, contactName)) {
+            mapper.addLocation(id, address, phoneNumber, contactName);
+            id++;
+            return id - 1;
+        }
+        return mapper._selectLocationE(address, phoneNumber, contactName).getId();
     }
 
     /**

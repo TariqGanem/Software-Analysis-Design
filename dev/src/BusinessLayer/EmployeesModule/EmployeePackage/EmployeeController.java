@@ -198,7 +198,7 @@ public class EmployeeController {
     }
 
     public ResponseT<List<String>> checkForAlerts() {
-        if(!activeEmployee.hasSkill(Role.HRManager))
+        if (!activeEmployee.hasSkill(Role.HRManager))
             return new ResponseT<>(new ArrayList<>());
         return dalController.checkForAlerts();
     }
@@ -206,7 +206,7 @@ public class EmployeeController {
     public boolean hasRole(String ID, Role role) {
         try {
             return getEmployee(ID).hasSkill(role);
-        } catch(Exception ignored) {
+        } catch (Exception ignored) {
             return false;
         }
     }

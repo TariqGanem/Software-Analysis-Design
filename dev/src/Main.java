@@ -1,5 +1,4 @@
 import DataAccessLayer.dbMaker;
-import PresentationLayer.EmployeesMenu.InitializeData;
 import PresentationLayer.MainMenu;
 
 import java.util.Scanner;
@@ -12,7 +11,8 @@ public class Main {
         int input = 0;
         try {
             input = Integer.parseInt(scanner.nextLine());
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         if (input == 1) {
             new dbMaker().initialize();
             new initializer().initialize();

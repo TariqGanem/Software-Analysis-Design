@@ -17,21 +17,19 @@ public class Order {
     private Map<Integer, Integer> amounts;
 
 
-
-
-    public Order (OrderDTO orderDTO){
+    public Order(OrderDTO orderDTO) {
         this.id = orderDTO.getId();
         this.status = orderDTO.getStatus();
         this.placementDate = orderDTO.getPlacementDate();
         this.duedate = orderDTO.getDueDate();
         this.items = new HashMap<>();
-        for (Map.Entry<Integer, ItemDTO> item: orderDTO.getItems().entrySet()) {
+        for (Map.Entry<Integer, ItemDTO> item : orderDTO.getItems().entrySet()) {
             this.items.put(item.getKey(), new Item(item.getValue()));
         }
         this.amounts = new HashMap<>();
-        for (Map.Entry<Integer, Integer> amounts:
+        for (Map.Entry<Integer, Integer> amounts :
                 orderDTO.getAmounts().entrySet()) {
-            this.amounts.put(amounts.getKey(),amounts.getValue());
+            this.amounts.put(amounts.getKey(), amounts.getValue());
         }
     }
 

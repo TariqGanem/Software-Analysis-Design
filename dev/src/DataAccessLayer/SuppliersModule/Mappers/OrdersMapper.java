@@ -3,6 +3,7 @@ package DataAccessLayer.SuppliersModule.Mappers;
 import DTOPackage.ItemDTO;
 import DTOPackage.OrderDTO;
 import DataAccessLayer.SuppliersModule.Objects.Order;
+import DataAccessLayer.dbMaker;
 import Resources.Status;
 
 import java.sql.*;
@@ -18,39 +19,13 @@ public class OrdersMapper extends Mapper {
     public OrdersMapper() {
         super();
         orders = new HashMap<>();
-        try {
-            Statement statement = connection.createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS Orders " +
-                    "(Id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "Status                 TEXT    NOT NULL, " +
-                    "PlacementDate           TEXT    NOT NULL, " +
-                    "DueDate          TEXT     NOT NULL, " +
-                    "Fixed  INT NOT NULL)";
-            statement.executeUpdate(sql);
-
-            statement = connection.createStatement();
-            sql = "CREATE TABLE IF NOT EXISTS ItemsInOrders " +
-                    "(OrderID INT," +
-                    "ItemID INT,  " +
-                    "Amount INT NOT NULL," +
-                    "PRIMARY KEY(OrderID,ItemID)," +
-                    "FOREIGN KEY(OrderID) REFERENCES Orders(Id))";
-            statement.executeUpdate(sql);
-
-
-            statement.close();
-            connection.close();
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
     }
 
     public int storeFixedOrder(OrderDTO orderDTO) {  // done
         int output = -1;
-        try {
+        try (Connection connection = connect();) {
             String sql = "INSERT INTO Orders (Status,PlacementDate,DueDate,Fixed) \" +\n" +
                     "                    \"VALUES (?,?,?,?)";
-            connection = connect();
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, orderDTO.getStatus().toString());
@@ -69,7 +44,6 @@ public class OrdersMapper extends Mapper {
             }
 
             preparedStatement.close();
-            connection.close();
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -79,9 +53,8 @@ public class OrdersMapper extends Mapper {
 
     public int storeSingleOrder(OrderDTO orderDTO) {  // done
         int output = -1;
-        try {
+        try (Connection connection = connect();) {
             String sql = "INSERT INTO Orders (Status,PlacementDate,DueDate,Fixed) VALUES (?,?,?,?)";
-            connection = connect();
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, orderDTO.getStatus().toString());
@@ -100,7 +73,6 @@ public class OrdersMapper extends Mapper {
             }
 
             preparedStatement.close();
-            connection.close();
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -123,8 +95,7 @@ public class OrdersMapper extends Mapper {
 
     public boolean orderExist(int orderId) {
         boolean found = false;
-        try {
-            connection = connect();
+        try (Connection connection = connect();) {
             String sql = "SELECT * FROM Orders WHERE Id = " + orderId;
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -137,24 +108,22 @@ public class OrdersMapper extends Mapper {
     }
 
     public int getNewOrderID() {
-        int output = -1;
-       /* try {
-            Statement statement = connection.createStatement();
-            String sql = "";
-
-
-            statement.close();
-            connection.close();
+        String sql = "SELECT MAX(OrderID) FROM ItemsInOrders";
+        try (Connection conn = dbMaker.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                return rs.getInt(1) + 1;
+            }
+        } catch (Exception e) {
+            //throw new Exception(e.getMessage());
         }
-        catch (SQLException exception) {
-            exception.printStackTrace();
-        }*/
-        return 1;
+        return -1;
+        //throw new Exception("Error in indexing!");
     }
 
     public void updateStatus(int orderID, Status newStatus) {   // done
-        try {
-            connection = connect();
+        try (Connection connection = connect();) {
             String sql = "UPDATE Orders " +
                     "SET    Status = ? " +
                     "WHERE  Id = ?";
@@ -164,14 +133,13 @@ public class OrdersMapper extends Mapper {
             preparedStatement.executeUpdate();
 
             preparedStatement.close();
-            connection.close();
         } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
 
     public void updateDueDate(int orderID, LocalDate newDueDate) {  // done
-        try {
+        try (Connection connection = connect();) {
             String sql = "UPDATE Orders " +
                     "SET    DueDate = ? " +
                     "WHERE  Id = ?";
@@ -181,14 +149,16 @@ public class OrdersMapper extends Mapper {
             preparedStatement.executeUpdate();
 
             preparedStatement.close();
-            connection.close();
         } catch (SQLException exception) {
             exception.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public void updateAmount(int orderID, int itemID, int newAmount) {  // done
         try {
+            connection = connect();
             String sql = "UPDATE ItemsInOrders " +
                     "SET    Amount = ? " +
                     "WHERE  OrderID = ? AND ItemID = ?";
@@ -200,14 +170,14 @@ public class OrdersMapper extends Mapper {
 
             preparedStatement.close();
             connection.close();
-        } catch (SQLException exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
 
 
     public void storeItemInOrder(int OrderID, int ItemID, int Amount) {  // done
-        try {
+        try (Connection connection = connect();) {
             String sql = "INSERT INTO ItemsInOrders (OrderID, ItemID, Amount) " +
                     "VALUES(?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -217,7 +187,6 @@ public class OrdersMapper extends Mapper {
             preparedStatement.executeUpdate();
 
             preparedStatement.close();
-            connection.close();
         } catch (Exception exception) {
             //exception.printStackTrace();
         }
@@ -225,7 +194,7 @@ public class OrdersMapper extends Mapper {
 
 
     public void removeItem(int orderID, int itemID) {   // done
-        try {
+        try (Connection connection = connect();) {
             String sql = "DELETE FROM ItemsInOrders " +
                     "WHERE OrderID = ? AND ItemID = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -235,10 +204,9 @@ public class OrdersMapper extends Mapper {
             preparedStatement.executeUpdate();
 
             preparedStatement.close();
-            connection.close();
 
-        } catch (SQLException exception) {
-           // exception.printStackTrace();
+        } catch (Exception exception) {
+            //exception.printStackTrace();
         }
 
     }
@@ -246,16 +214,15 @@ public class OrdersMapper extends Mapper {
 
     private Connection connect() throws Exception {
         try {
-            Class.forName("org.sqlite.JDBC");
-            return DriverManager.getConnection("jdbc:sqlite:superLee.db");
+            //Class.forName("org.sqlite.JDBC");
+            return dbMaker.connect();
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }
     }
 
     public List<String> getTodayOrders(LocalDate now) throws Exception {
-        System.out.println("Section 2\n");
-        try {
+        try (Connection connection = connect();) {
             List<String> names = new LinkedList<>();
             String sql = "SELECT name FROM (SELECT * FROM ItemsInOrders Natural JOIN ItemsS WHERE ItemsInOrders.ItemId = ItemsS.itemId)" +
                     " Natural JOIN Orders " +
@@ -266,7 +233,7 @@ public class OrdersMapper extends Mapper {
                 names.add(r.getString("name"));
             }
             preparedStatement.close();
-            connection.close();
+
             return names;
         } catch (Exception e) {
             return null;

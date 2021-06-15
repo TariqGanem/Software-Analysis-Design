@@ -4,83 +4,50 @@ import DTOPackage.ContractDTO;
 import DataAccessLayer.SuppliersModule.Objects.Contract;
 import DataAccessLayer.SuppliersModule.Objects.Item;
 import DataAccessLayer.SuppliersModule.Objects.QuantityReport;
+import DataAccessLayer.dbMaker;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ContractsMapper extends Mapper{
+public class ContractsMapper extends Mapper {
     private Map<Integer, Contract> contracts;
 
-    public ContractsMapper(){
+    public ContractsMapper() {
         super();
         contracts = new HashMap<>();
-        try {
-            Statement stmt = connection.createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS contracts" +
-                    "(companyId INT PRIMARY KEY    NOT NULL," +
-                    "selfPickup           INT     NOT NULL," +
-                    "FOREIGN KEY(companyId) REFERENCES suppliers(companyId))";
-            stmt.executeUpdate(sql);
-            //====================================================
-            stmt = connection.createStatement();
-            sql = "CREATE TABLE IF NOT EXISTS discounts " +
-                    "(itemId    INT NOT NULL," +
-                    "companyId INT NOT NULL," +
-                    "quantity  INT NOT NULL," +
-                    "discount  INT NOT NULL," +
-                    "FOREIGN KEY(companyId) REFERENCES suppliers(companyId)," +
-                    "FOREIGN KEY(itemId) REFERENCES ItemsS(id)," +
-                    "PRIMARY KEY (itemId,companyId,quantity))";
-            stmt.executeUpdate(sql);
-            //====================================================
-            stmt = connection.createStatement();
-            sql = "CREATE TABLE IF NOT EXISTS ItemsS " +
-                    "(companyId INT  NOT NULL," +
-                    "itemId    INT  NOT NULL," +
-                    "name      TEXT NOT NULL," +
-                    "price     REAL NOT NULL," +
-                    "weight    REAL NOT NULL," +
-                    "PRIMARY KEY (itemId,companyId)," +
-                    "FOREIGN KEY(companyId) REFERENCES suppliers(companyId))";
-            stmt.executeUpdate(sql);
-            //====================================================
-            stmt.close();
-            connection.close();
-            stmt = null;
-            connection = null;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     //==================================================================================================================
-    private Connection connect(){
+    private Connection connect() {
         try {
-            return DriverManager.getConnection("jdbc:sqlite:superLee.db");
+            return dbMaker.connect();
         } catch (Exception e) {
             return null;
         }
     }
     //==================================================================================================================
 
-    public ContractDTO getContract(int companyid){
+    public ContractDTO getContract(int companyid) {
         Contract contract = null;
         Map<Integer, Map<Integer, Double>> discounts = new HashMap<>();
         Map<Integer, Item> items = new HashMap<>();
-        if (!contracts.containsKey(companyid)){
+        if (!contracts.containsKey(companyid)) {
             try {
                 connection = connect();
                 String sql_discounts = "SELECT * FROM discounts WHERE companyId = " + companyid;
                 Statement stmt_discounts = connection.createStatement();
                 ResultSet rs_discounts = stmt_discounts.executeQuery(sql_discounts);
-                while(rs_discounts.next()){
-                    if(discounts.containsKey(rs_discounts.getInt("itemId"))){
+                while (rs_discounts.next()) {
+                    if (discounts.containsKey(rs_discounts.getInt("itemId"))) {
                         discounts.get(rs_discounts.getInt("itemId"))
                                 .putIfAbsent(rs_discounts.getInt("quantity"),
                                         rs_discounts.getDouble("discount"));
-                    }else{
-                        discounts.putIfAbsent(rs_discounts.getInt("itemId"),new HashMap<>());
+                    } else {
+                        discounts.putIfAbsent(rs_discounts.getInt("itemId"), new HashMap<>());
                         discounts.get(rs_discounts.getInt("itemId"))
                                 .putIfAbsent(rs_discounts.getInt("quantity"),
                                         rs_discounts.getDouble("discount"));
@@ -91,20 +58,20 @@ public class ContractsMapper extends Mapper{
                 String sql_items = "SELECT * FROM ItemsS WHERE companyId = " + companyid;
                 Statement stmt_items = connection.createStatement();
                 ResultSet rs_items = stmt_items.executeQuery(sql_items);
-                while(rs_items.next()){
+                while (rs_items.next()) {
                     items.putIfAbsent(rs_items.getInt("itemId"),
                             new Item(rs_items.getInt("itemId"),
-                                        rs_items.getString("name"),
-                                        rs_items.getDouble("price"),
-                                        rs_items.getDouble("weight")));
+                                    rs_items.getString("name"),
+                                    rs_items.getDouble("price"),
+                                    rs_items.getDouble("weight")));
                 }
                 //===============================================================
                 String sql = "SELECT * FROM contracts WHERE companyId = " + companyid;
                 Statement stmt = connection.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
-                while(rs.next()){
+                while (rs.next()) {
                     contracts.putIfAbsent(companyid,
-                            new Contract(items,report, rs.getInt("selfPickup") == 1));
+                            new Contract(items, report, rs.getInt("selfPickup") == 1));
                 }
                 contract = contracts.get(companyid);
                 //===============================================================
@@ -116,10 +83,10 @@ public class ContractsMapper extends Mapper{
             } catch (Exception e) {
                 contract = null;
             }
-        }else{
+        } else {
             contract = contracts.get(companyid);
         }
-        if(contract!=null)
+        if (contract != null)
             return new ContractDTO(contract);
         else
             return null;
@@ -127,7 +94,7 @@ public class ContractsMapper extends Mapper{
 
     //==================================================================================================================
 
-    public void addContract(int companyid, boolean selfPickup){
+    public void addContract(int companyid, boolean selfPickup) {
         try {
             String sql = "INSERT INTO contracts (companyId,selfPickup) " +
                     "VALUES (?,?)";
@@ -135,12 +102,12 @@ public class ContractsMapper extends Mapper{
             //====================================================
             //entering values
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1,companyid);
-            pstmt.setInt(2,selfPickup?1:0);
+            pstmt.setInt(1, companyid);
+            pstmt.setInt(2, selfPickup ? 1 : 0);
             pstmt.executeUpdate();
             //====================================================
             //updating in the HashMap
-            contracts.putIfAbsent(companyid,new Contract(new HashMap<>(),new QuantityReport(),selfPickup));
+            contracts.putIfAbsent(companyid, new Contract(new HashMap<>(), new QuantityReport(), selfPickup));
             //====================================================
             pstmt.close();
             connection.close();
@@ -152,7 +119,7 @@ public class ContractsMapper extends Mapper{
 
     //==================================================================================================================
 
-    public void addDiscount(int companyid, int itemid, int quant, double disc){
+    public void addDiscount(int companyid, int itemid, int quant, double disc) {
         try {
             String sql = "INSERT INTO discounts (companyId,itemid,quantity,discount) " +
                     "VALUES (?,?,?,?)";
@@ -160,15 +127,15 @@ public class ContractsMapper extends Mapper{
             //====================================================
             //entering values
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1,itemid);
-            pstmt.setInt(2,companyid);
-            pstmt.setInt(3,quant);
-            pstmt.setDouble(4,disc);
+            pstmt.setInt(1, itemid);
+            pstmt.setInt(2, companyid);
+            pstmt.setInt(3, quant);
+            pstmt.setDouble(4, disc);
             pstmt.executeUpdate();
             //====================================================
             //updating in the HashMap
-            if(contracts.containsKey(companyid)){
-                contracts.get(companyid).addDiscount(itemid,quant,disc);
+            if (contracts.containsKey(companyid)) {
+                contracts.get(companyid).addDiscount(itemid, quant, disc);
             }
             //====================================================
             pstmt.close();
@@ -179,7 +146,7 @@ public class ContractsMapper extends Mapper{
         }
     }
 
-    public void addItem(int companyid, int itemid, String name, double price, double weight){
+    public void addItem(int companyid, int itemid, String name, double price, double weight) {
         try {
             String sql = "INSERT INTO ItemsS (companyId,itemid,name,price,weight) " +
                     "VALUES (?,?,?,?,?)";
@@ -187,16 +154,16 @@ public class ContractsMapper extends Mapper{
             //====================================================
             //entering values
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1,companyid);
-            pstmt.setInt(2,itemid);
-            pstmt.setString(3,name);
-            pstmt.setDouble(4,price);
-            pstmt.setDouble(5,weight);
+            pstmt.setInt(1, companyid);
+            pstmt.setInt(2, itemid);
+            pstmt.setString(3, name);
+            pstmt.setDouble(4, price);
+            pstmt.setDouble(5, weight);
             pstmt.executeUpdate();
             //====================================================
             //updating in the HashMap
-            if(contracts.containsKey(companyid)){
-                contracts.get(companyid).addItem(itemid,name,price,weight);
+            if (contracts.containsKey(companyid)) {
+                contracts.get(companyid).addItem(itemid, name, price, weight);
             }
             //====================================================
             pstmt.close();
@@ -209,18 +176,18 @@ public class ContractsMapper extends Mapper{
 
     //==================================================================================================================
 
-    public void removeContract(int companyid){
+    public void removeContract(int companyid) {
         try {
             String sql = "DELETE FROM contracts WHERE companyId = ?";
             connection = connect();
             //====================================================
             //entering values
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1,companyid);
+            pstmt.setInt(1, companyid);
             pstmt.executeUpdate();
             //====================================================
             //updating in the HashMap
-            if(contracts.containsKey(companyid)){
+            if (contracts.containsKey(companyid)) {
                 contracts.remove(companyid);
             }
             //====================================================
@@ -232,21 +199,21 @@ public class ContractsMapper extends Mapper{
         }
     }
 
-    public void removeDiscount(int companyid, int itemid, int quant){
+    public void removeDiscount(int companyid, int itemid, int quant) {
         try {
             String sql = "DELETE FROM discounts WHERE companyId = ? AND itemId = ? AND quantity = ?";
             connection = connect();
             //====================================================
             //entering values
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1,companyid);
-            pstmt.setInt(2,itemid);
-            pstmt.setInt(3,quant);
+            pstmt.setInt(1, companyid);
+            pstmt.setInt(2, itemid);
+            pstmt.setInt(3, quant);
             pstmt.executeUpdate();
             //====================================================
             //updating in the HashMap
-            if(contracts.containsKey(companyid)){
-                contracts.get(companyid).removeDiscount(itemid,quant);
+            if (contracts.containsKey(companyid)) {
+                contracts.get(companyid).removeDiscount(itemid, quant);
             }
             //====================================================
             pstmt.close();
@@ -257,19 +224,19 @@ public class ContractsMapper extends Mapper{
         }
     }
 
-    public void removeItem(int companyid, int itemid){
+    public void removeItem(int companyid, int itemid) {
         try {
             String sql = "DELETE FROM ItemsS WHERE companyId = ? AND itemId = ?";
             connection = connect();
             //====================================================
             //entering values
             PreparedStatement pstmt = connection.prepareStatement(sql);
-            pstmt.setInt(1,companyid);
-            pstmt.setInt(2,itemid);
+            pstmt.setInt(1, companyid);
+            pstmt.setInt(2, itemid);
             pstmt.executeUpdate();
             //====================================================
             //updating in the HashMap
-            if(contracts.containsKey(companyid)){
+            if (contracts.containsKey(companyid)) {
                 contracts.get(companyid).removeItem(itemid);
             }
             //====================================================
@@ -283,8 +250,8 @@ public class ContractsMapper extends Mapper{
 
     //==================================================================================================================
 
-    public void updatePrice(int companyid, int itemid,double price){
-        try{
+    public void updatePrice(int companyid, int itemid, double price) {
+        try {
             String sql = "UPDATE ItemsS SET price = ?"
                     + "WHERE companyId = ? AND itemId = ?";
 
@@ -298,35 +265,33 @@ public class ContractsMapper extends Mapper{
             pstmt.executeUpdate();
             //====================================================
             //updating in the HashMap
-            if(contracts.containsKey(companyid)){
-                contracts.get(companyid).updatePrice(itemid,price);
+            if (contracts.containsKey(companyid)) {
+                contracts.get(companyid).updatePrice(itemid, price);
             }
             //====================================================
             pstmt.close();
             connection.close();
             connection = null;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
         }
     }
 
     public Map<Integer, ContractDTO> ContractsOfItem(String name) {
-        try{
-            System.out.println("item's name: " + name);
-            connection = connect();
+        try (Connection connection = connect();) {
             Map<Integer, ContractDTO> newContracts = new HashMap<>();
             String sql = "SELECT companyId FROM ItemsS WHERE name = '" + name + "'";
-            System.out.println(sql);
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
-            while(rs.next()){
+            while (rs.next()) {
                 newContracts.putIfAbsent(rs.getInt("companyId"), getContract(rs.getInt("companyId")));
             }
             //===============================================================
             stmt.close();
+            //connection.close();
             return newContracts;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
             return null;
         }
     }

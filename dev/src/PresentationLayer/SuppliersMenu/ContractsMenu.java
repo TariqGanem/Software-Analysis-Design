@@ -139,7 +139,7 @@ public class ContractsMenu implements Menu {
                         double price = Double.parseDouble(sc.nextLine());
                         System.out.print("Please enter Item's weight(grams): ");
                         double weight = Double.parseDouble(sc.nextLine());
-                        Response contract = facade.AddItem(company_id, item_id, name, price,weight);
+                        Response contract = facade.AddItem(company_id, item_id, name, price, weight);
                         if (contract.isError())
                             System.out.println(contract.getErrorMessage());
                         else
@@ -154,7 +154,7 @@ public class ContractsMenu implements Menu {
                         company_id = Integer.parseInt(sc.nextLine());
                         System.out.print("Please enter Item's id: ");
                         int item_id = Integer.parseInt(sc.nextLine());
-                        Response contract = facade.RemoveItem(company_id,item_id);
+                        Response contract = facade.RemoveItem(company_id, item_id);
                         if (contract.isError())
                             System.out.println(contract.getErrorMessage());
                         else
@@ -171,7 +171,7 @@ public class ContractsMenu implements Menu {
                         int item_id = Integer.parseInt(sc.nextLine());
                         System.out.print("Please enter a price: ");
                         double price = Double.parseDouble(sc.nextLine());
-                        Response contract = facade.ChangePrice(company_id,item_id,price);
+                        Response contract = facade.ChangePrice(company_id, item_id, price);
                         if (contract.isError())
                             System.out.println(contract.getErrorMessage());
                         else

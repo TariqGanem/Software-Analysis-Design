@@ -11,7 +11,8 @@ public class QuantityReport {
     public QuantityReport() {
         discounts = new HashMap<>();
     }
-    public QuantityReport(QuantityReportDTO quantityReport){
+
+    public QuantityReport(QuantityReportDTO quantityReport) {
         discounts = quantityReport.getDiscounts();
     }
 
@@ -25,9 +26,9 @@ public class QuantityReport {
     public void AddDiscount(int item_id, int quantity, double new_price) throws Exception {
         if (!discounts.containsKey(item_id))
             discounts.put(item_id, new HashMap<>());
-        if(discounts.get(item_id).containsKey(quantity))
+        if (discounts.get(item_id).containsKey(quantity))
             throw new Exception("There's already a discount with this id and quantity!!!");
-        discounts.get(item_id).put(quantity,new_price);
+        discounts.get(item_id).put(quantity, new_price);
     }
 
     /***
@@ -36,14 +37,15 @@ public class QuantityReport {
      * @throws Exception there is no discount for this item with this id so that's an error.
      */
     public void RemoveItemQuantity(int item_id) throws Exception {
-        if(!discounts.containsKey(item_id))
+        if (!discounts.containsKey(item_id))
             throw new Exception("The quantity report doesn't have this item!!!");
         discounts.remove(item_id);
     }
 
-    public boolean hasDiscount(int item_id){
+    public boolean hasDiscount(int item_id) {
         return discounts.containsKey(item_id);
     }
+
     public Map<Integer, Map<Integer, Double>> getDiscounts() {
         return discounts;
     }

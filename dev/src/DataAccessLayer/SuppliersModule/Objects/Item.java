@@ -15,7 +15,7 @@ public class Item {
         this.weight = weight;
     }
 
-    public Item (ItemDTO itemDTO){
+    public Item(ItemDTO itemDTO) {
         this.id = itemDTO.getId();
         this.name = itemDTO.getName(); // should delete
         this.price = itemDTO.getPrice(); // should delete

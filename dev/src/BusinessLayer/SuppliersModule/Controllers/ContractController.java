@@ -1,8 +1,8 @@
 package BusinessLayer.SuppliersModule.Controllers;
 
+import BusinessLayer.SuppliersModule.Objects.Contract;
 import BusinessLayer.SuppliersModule.Objects.Item;
 import DTOPackage.ContractDTO;
-import BusinessLayer.SuppliersModule.Objects.Contract;
 import DataAccessLayer.SuppliersModule.Mappers.ContractsMapper;
 
 import java.util.HashMap;
@@ -160,8 +160,11 @@ public class ContractController {
         try {
             Contract contract = getContract(supplierId);
             for (int id : contract.getItems().keySet()) {
-                if (name.equals(contract.getItems().get(id).getName()))
+                System.out.println("get item erorrrrrrrr");
+                if (name.equals(contract.getItems().get(id).getName())) {
+                    System.out.println("get item erorrrrrrrr111");
                     return contract.getItems().get(id);
+                }
             }
             return null;
         } catch (Exception e) {

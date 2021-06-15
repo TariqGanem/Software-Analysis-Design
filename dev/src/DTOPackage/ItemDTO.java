@@ -32,19 +32,20 @@ public class ItemDTO {
         this.weight = weight;
     }
 
-    public ItemDTO(Item item){
+    public ItemDTO(Item item) {
         id = item.getId();
         name = item.getName();
         price = item.getPrice();
         weight = item.getWeight();
     }
 
-    public ItemDTO(DataAccessLayer.SuppliersModule.Objects.Item item){
+    public ItemDTO(DataAccessLayer.SuppliersModule.Objects.Item item) {
         this.id = item.getId();
         this.price = item.getPrice();
         this.name = item.getName();
         this.weight = item.getWeight();
     }
+
     @Override
     public String toString() {
         return "Item's id: " + id + ", Item's name: " + name + ", Item's price: " + price + ", Item's weight: " + weight + "\n";
