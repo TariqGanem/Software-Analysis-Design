@@ -1,5 +1,6 @@
 package DataAccessLayer.ShipmentsModule.Mappers;
 
+import BusinessLayer.StoreModule.Objects.ItemSpecs;
 import DTOPackage.DocumentDTO;
 import DTOPackage.ShipmentDTO;
 import DataAccessLayer.ShipmentsModule.IdentityMap;
@@ -178,6 +179,34 @@ public class ShipmentMapper {
             throw new Exception(e.getMessage());
         }
         throw new Exception("There is no such shipment in the database!");
+    }
+
+    public List<ItemSpecs> getReceivedItems(int shipmentId) throws Exception {
+        String sql = "SELECT isp.iname, isp.cname, isp.minamount, isp.totalamount, isp.manufacture, isp.companyprice, isp.storeprice, isp.discount, isp.finalprice, si.amount FROM \n" +
+                "Shipments AS s JOIN Documents AS d ON s.id=d.shipmentId\n" +
+                "JOIN ShippedItems AS si ON d.trackingNumber=si.documentId\n" +
+                "JOIN ItemSpecs AS isp ON si.name=isp.iname WHERE s.id=" + shipmentId;
+        List<ItemSpecs> itemSpecsList = new LinkedList<>();
+        try (Connection conn = dbMaker.connect();
+             Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            while (rs.next()) {
+                ItemSpecs itemSpecs = new ItemSpecs(rs.getString(1),
+                        rs.getString(2),
+                        rs.getInt(10),
+                        rs.getInt(4),
+                        rs.getString(5),
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getInt(8));
+
+                itemSpecsList.add(itemSpecs);
+            }
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        // throw new Exception("There is no such shipment in the database!");
+        return itemSpecsList;
     }
 
     private List<ShipmentDTO> selectAllShipments() throws Exception {

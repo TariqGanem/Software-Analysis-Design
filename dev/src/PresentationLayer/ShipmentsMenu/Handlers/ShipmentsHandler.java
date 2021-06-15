@@ -1,5 +1,6 @@
 package PresentationLayer.ShipmentsMenu.Handlers;
 
+import APIs.StoreShipmentAPI;
 import BusinessLayer.Response;
 import BusinessLayer.ResponseT;
 import BusinessLayer.ShipmentsModule.Facade;
@@ -160,12 +161,15 @@ public class ShipmentsHandler extends Handler {
                         if (resEach.getErrorOccurred()) {
                             printer.error(resEach.getErrorMessage());
                         }
+
+                        new StoreShipmentAPI().updateAmounts(facade.getReceivedItems(shipment.getShipmentId()).getValue());
                     }
                     printer.success("All the shipment are now approved!");
                 } else {
                     resEach = facade.approveShipment(shipmentsList.get(index - 1).getDate(),
                             shipmentsList.get(index - 1).getDepartureHour(),
                             shipmentsList.get(index - 1).getDriverId());
+                    new StoreShipmentAPI().updateAmounts(facade.getReceivedItems(shipmentsList.get(index - 1).getShipmentId()).getValue());
                     if (resEach.getErrorOccurred()) {
                         printer.error(resEach.getErrorMessage());
                     } else {

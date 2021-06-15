@@ -3,6 +3,7 @@ package BusinessLayer.ShipmentsModule.Controllers;
 import BusinessLayer.ShipmentsModule.Builder;
 import BusinessLayer.ShipmentsModule.Objects.Item;
 import BusinessLayer.ShipmentsModule.Objects.Shipment;
+import BusinessLayer.StoreModule.Objects.ItemSpecs;
 import DTOPackage.ShipmentDTO;
 import DataAccessLayer.ShipmentsModule.Mappers.DocumentMapper;
 import DataAccessLayer.ShipmentsModule.Mappers.ShipmentMapper;
@@ -130,5 +131,10 @@ public class ShipmentController {
                 mapper.deleteDriverTruck(shipmentDTO.getDriverId(), date, isMorning);
             }
         }
+    }
+
+    public List<ItemSpecs> getReceivedItems(int shipmentId) throws Exception {
+        List<ItemSpecs> receivedItems = mapper.getReceivedItems(shipmentId);
+        return receivedItems;
     }
 }

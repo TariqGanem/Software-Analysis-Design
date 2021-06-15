@@ -194,4 +194,7 @@ public class ItemSpecs {
         this.finalprice = i;
     }
 
+    public String getCname() {
+        return cname;
+    }
 }

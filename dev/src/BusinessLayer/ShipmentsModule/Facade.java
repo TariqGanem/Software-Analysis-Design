@@ -8,6 +8,7 @@ import BusinessLayer.ShipmentsModule.Controllers.LocationController;
 import BusinessLayer.ShipmentsModule.Controllers.ShipmentController;
 import BusinessLayer.ShipmentsModule.Controllers.TruckController;
 import BusinessLayer.ShipmentsModule.Objects.*;
+import BusinessLayer.StoreModule.Objects.ItemSpecs;
 import DTOPackage.*;
 import Resources.Role;
 
@@ -331,4 +332,14 @@ public class Facade {
             return new Response(e.getMessage());
         }
     }
+
+    public ResponseT<List<ItemSpecs>> getReceivedItems(int shipmentId) {
+        try {
+            List<ItemSpecs> receivedItems = shipmentController.getReceivedItems(shipmentId);
+            return new ResponseT<>(receivedItems);
+        } catch (Exception e) {
+            return new ResponseT<>(e.getMessage());
+        }
+    }
+
 }

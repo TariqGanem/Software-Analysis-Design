@@ -82,7 +82,7 @@ public class BusinessController {
     }
 
     public void run() throws Exception {
-        makeMinOrder();
+        //makeMinOrder();
         updateShipments();
         try {
             cmapper.restoreAllCategories();
@@ -152,6 +152,8 @@ public class BusinessController {
             }
             this.defectID++;
 
+
+            makeMinOrder();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -680,29 +682,7 @@ public class BusinessController {
         for (Category category : allCategories) {
             for (ItemSpecs item : category.getItemSpecs()) {
                 if (item.getTotalAmount() <= item.getMinAmount()) {
-                    Map<Integer, Contract> map = ContractController.getInstance().ContractsOfItem(item.getName());
-                    double price = -1;
-                    int supplierId = 0;
-                    for (Map.Entry<Integer, Contract> entry : map.entrySet()) {
-                        if (price == -1) {
-                            price = entry.getValue().finalPrice(item.getName(), item.getMinAmount());
-                            supplierId = entry.getKey();
-                        } else {
-                            if (price > entry.getValue().finalPrice(item.getName(), item.getMinAmount())) {
-                                price = entry.getValue().finalPrice(item.getName(), item.getMinAmount());
-                                supplierId = entry.getKey();
-                            }
-                        }
-                    }
-
-                    int orderId = OrderController.getInstance().openSingleOrder(supplierId, LocalDate.now().plusDays(1)).getId();
-
-                    OrderController.getInstance().addItemToOrder(orderId, ContractController.getInstance().getItem(supplierId, item.getName()), item.getMinAmount());
-                    try {
-                        OrderController.getInstance().placeAnOrder(orderId);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    makingOrder(item.getName(), item.getMinAmount(), LocalDate.of(2021, 07, 04));
                 }
             }
         }
