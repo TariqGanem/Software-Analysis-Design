@@ -24,17 +24,12 @@ public class OrderDTO {
         placementDate = order.getPlacementDate();
         dueDate = order.getOrderDate();
         items = new HashMap<>();
-        System.out.println("order item in 1");
         for (Integer id :
                 order.getItems().keySet()) {
-            System.out.println("order item in2");
             this.items.put(id, new ItemDTO(order.getItems().get(id)));
         }
-        System.out.println("" + order.getAmounts().isEmpty() + "");
-        System.out.println("" + order.getAmounts() == null + "");
         this.amounts = new HashMap<>();
         for (Integer id : order.getAmounts().keySet()) {
-            System.out.println("order item in3");
             this.amounts.put(id, order.getAmounts().get(id));
         }
     }
@@ -103,11 +98,6 @@ public class OrderDTO {
     public List<ShippedItemDTO> getItemsForShipping() {
         List<ShippedItemDTO> returnedItems = new LinkedList<>();
         for (Integer itemID : items.keySet()) {
-            System.out.println("order item in 4");
-            System.out.println("" + items.get(itemID) == null + "");
-            System.out.println(items.get(itemID).getName());
-            System.out.println(items.get(itemID).getWeight());
-            System.out.println(amounts.get(itemID));
             returnedItems.add(new ShippedItemDTO(
                     items.get(itemID).getName(),
                     amounts.get(itemID),

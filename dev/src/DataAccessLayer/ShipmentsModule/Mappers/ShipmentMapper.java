@@ -125,7 +125,7 @@ public class ShipmentMapper {
             pstmt.setBoolean(8, false);
             pstmt.executeUpdate();
         } catch (Exception e) {
-            throw new Exception("THIS IS IT: " + e.getMessage() + " " + truckPlateNumber + " " + driverId + " " + sourceId);
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -156,7 +156,6 @@ public class ShipmentMapper {
         String sql = "SELECT * FROM " + dbMaker.shipmentsTbl + " WHERE Date='" +
                 new SimpleDateFormat("dd/MM/yyyy").format(date) + "' AND departureHour='"
                 + departureHour + "' AND driverId='" + driverId + "'";
-        System.out.println(sql);
         try (Connection conn = dbMaker.connect();
              Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);

@@ -47,7 +47,6 @@ public class OrderController {
     public void placeAnOrder(int orderID) throws Exception {
         if (inPrepareOrders.containsKey(orderID)) {
             Order orderToPlace = inPrepareOrders.remove(orderID);
-            System.out.println(orderToPlace.getItems().isEmpty());
             orderToPlace.setNewStatus(Status.Active);
             activeOrders.put(orderToPlace.getId(), orderToPlace);
             mapper.updateStatus(orderID, Status.Active);
@@ -131,7 +130,7 @@ public class OrderController {
     public void addItemToOrder(int orderID, Item item, int quantity) throws Exception {
         if (mapper.orderExist(orderID)) {
             mapper.storeItemInOrder(orderID, item.getId(), quantity);
-            //activeOrders.get(orderID).getItems().put(item.getId(), item);
+
             inPrepareOrders.get(orderID).getAmounts().put(item.getId(), quantity);
             inPrepareOrders.get(orderID).getItems().put(item.getId(), item);
         } else if (archivedOrders.containsKey(orderID))

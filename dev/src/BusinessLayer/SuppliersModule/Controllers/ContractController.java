@@ -160,9 +160,7 @@ public class ContractController {
         try {
             Contract contract = getContract(supplierId);
             for (int id : contract.getItems().keySet()) {
-                System.out.println("get item erorrrrrrrr");
                 if (name.equals(contract.getItems().get(id).getName())) {
-                    System.out.println("get item erorrrrrrrr111");
                     return contract.getItems().get(id);
                 }
             }

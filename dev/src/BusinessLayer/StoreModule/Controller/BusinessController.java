@@ -307,12 +307,10 @@ public class BusinessController {
             }
         }
         if (counterNum == categoryName.length()) { // does not have letters
-            System.out.println("Here1");
             throw new Exception("Does not have letters\n");
         }
         boolean result = true;
         if (allCategories.contains(c)) {
-            System.out.println("Here2");
             throw new Exception("Does not have letters\n");
         } else {
             for (Category cat : allCategories) {
@@ -699,9 +697,7 @@ public class BusinessController {
 
                     int orderId = OrderController.getInstance().openSingleOrder(supplierId, LocalDate.now().plusDays(1)).getId();
 
-                    System.out.println(item.getName() + " Buss CONTROLLER");
                     OrderController.getInstance().addItemToOrder(orderId, ContractController.getInstance().getItem(supplierId, item.getName()), item.getMinAmount());
-                    System.out.println("PASSED");
                     try {
                         OrderController.getInstance().placeAnOrder(orderId);
                     } catch (Exception e) {
@@ -744,7 +740,6 @@ public class BusinessController {
     }
 
     public void updateShipments() throws Exception {
-        System.out.println("Section 0\n");
         LocalDate local = LocalDate.now();
         String today = local.toString();
         /*uuuu-mm-dd*/
@@ -766,7 +761,7 @@ public class BusinessController {
             actualDate = day + "/" + month + "/" + year;
         }
         List<String> itemNames = new LinkedList<>();
-        System.out.println("Section 1\n");
+
         itemNames = OrderController.getInstance().todayOrders(LocalDate.now());
         for (Category category : allCategories) {
             for (ItemSpecs item : category.getItemSpecs()) {
