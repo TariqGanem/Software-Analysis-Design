@@ -1,25 +1,28 @@
 # ADSS_Group_A
 
-**עובדים**
-
-אבישי ממרוד 315746560
-
-הראל אפריאט 211980776
+* Working on a project called SuperLee within a team consists of 8 students.
+* Applyin Software Engineering techniques such as Design & DP, UseCases, Sequence/DFD/ERD/Class Diagrams and Requirements Specifications.
 
 **הובלות**
 
-טארק גאנם 315526640
+טארק גאנם
 
-יזן עבאס 208167684
+יזן עבאס
+
+**עובדים**
+
+אבישי ממרוד
+
+הראל אפריאט
 
 **מלאי**
 
-208035824 מוחמד עוראבי
+מוחמד עוראבי
 
-208041640 עאדל ותד
+עאדל ותד
 
 **ספקים**
 
-207951773 לואי עוקאשה
+לואי עוקאשה
 
-207979683 אחמד מסאלחה
+אחמד מסאלחה
